@@ -52,6 +52,16 @@ export default function HeaderLinks(props) {
       </ListItem>
       <ListItem className={classes.listItem}>
         <Button
+          href="#"
+          color="transparent"
+          target="_blank"
+          className={classes.navLink}
+        >
+          <Icon className={classes.icons}>login</Icon> Login
+        </Button>
+      </ListItem>
+      {/* <ListItem className={classes.listItem}>
+        <Button
           href="https://www.creative-tim.com/product/nextjs-material-kit-pro?ref=njsmk-navbar"
           color="transparent"
           target="_blank"
@@ -59,8 +69,8 @@ export default function HeaderLinks(props) {
         >
           <Icon className={classes.icons}>unarchive</Icon> Upgrade to PRO
         </Button>
-      </ListItem>
-      <ListItem className={classes.listItem}>
+      </ListItem> */}
+      {/* <ListItem className={classes.listItem}>
         <Button
           href="https://www.creative-tim.com/product/nextjs-material-kit?ref=njsmk-navbar"
           color="transparent"
@@ -69,14 +79,14 @@ export default function HeaderLinks(props) {
         >
           <CloudDownload className={classes.icons} /> Download
         </Button>
-      </ListItem>
-      <ListItem className={classes.listItem}>
+      </ListItem> */}
+      {/* <ListItem className={classes.listItem}> */}
         {/*<Tooltip title="Delete">
           <IconButton aria-label="Delete">
             <DeleteIcon />
           </IconButton>
         </Tooltip>*/}
-        <Tooltip
+        {/* <Tooltip
           id="instagram-twitter"
           title="Follow us on twitter"
           placement={"top"}
@@ -90,9 +100,9 @@ export default function HeaderLinks(props) {
           >
             <i className={classes.socialIcons + " fab fa-twitter"} />
           </Button>
-        </Tooltip>
-      </ListItem>
-      <ListItem className={classes.listItem}>
+        </Tooltip> */}
+      {/* </ListItem> */}
+      {/* <ListItem className={classes.listItem}>
         <Tooltip
           id="instagram-facebook"
           title="Follow us on facebook"
@@ -108,8 +118,8 @@ export default function HeaderLinks(props) {
             <i className={classes.socialIcons + " fab fa-facebook"} />
           </Button>
         </Tooltip>
-      </ListItem>
-      <ListItem className={classes.listItem}>
+      </ListItem> */}
+      {/* <ListItem className={classes.listItem}>
         <Tooltip
           id="instagram-tooltip"
           title="Follow us on instagram"
@@ -125,7 +135,7 @@ export default function HeaderLinks(props) {
             <i className={classes.socialIcons + " fab fa-instagram"} />
           </Button>
         </Tooltip>
-      </ListItem>
+      </ListItem> */}
     </List>
   );
 }
