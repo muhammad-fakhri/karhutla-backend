@@ -18,6 +18,8 @@
 # misc
 .DS_Store
 
+package-lock.json
+
 # debug
 npm-debug.log*
 yarn-debug.log*
@@ -28,3 +30,6 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+
+# package
+/dist
