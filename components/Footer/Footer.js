@@ -1,5 +1,4 @@
 /*eslint-disable*/
-import React from "react";
 // nodejs library to set properties for components
 import PropTypes from "prop-types";
 // nodejs library that concatenates classes
@@ -8,10 +7,9 @@ import classNames from "classnames";
 import { List, ListItem } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-// @material-ui/icons
-import Favorite from "@material-ui/icons/Favorite";
-
 import styles from "assets/jss/nextjs-material-kit/components/footerStyle.js";
+
+import Link from 'next/link'
 
 const useStyles = makeStyles(styles);
 
@@ -32,46 +30,37 @@ export default function Footer(props) {
         <div className={classes.left}>
           <List className={classes.list}>
             <ListItem className={classes.inlineBlock}>
-              <a
-                href="https://www.creative-tim.com/?ref=njsmk-footer"
-                className={classes.block}
-                target="_blank"
-              >
-                Creative Tim
+              <Link href={"/"}>
+                <a
+                  className={classes.block}
+                >
+                  SIMADU2
               </a>
+              </Link>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
-              <a
-                href="https://www.creative-tim.com/presentation?ref=njsmk-footer"
-                className={classes.block}
-                target="_blank"
-              >
-                About us
+              <Link href={'/'}>
+                <a
+                  className={classes.block}
+                >
+                  Tentang
               </a>
+              </Link>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
-              <a
-                href="http://blog.creative-tim.com/?ref=njsmk-footer"
-                className={classes.block}
-                target="_blank"
-              >
-                Blog
+              <Link href={'/login'}>
+                <a
+                  className={classes.block}
+                >
+                  Login
               </a>
-            </ListItem>
-            <ListItem className={classes.inlineBlock}>
-              <a
-                href="https://www.creative-tim.com/license?ref=njsmk-footer"
-                className={classes.block}
-                target="_blank"
-              >
-                Licenses
-              </a>
+              </Link>
             </ListItem>
           </List>
         </div>
         <div className={classes.right}>
-          &copy; {1900 + new Date().getYear()} , made with{" "}
-          <Favorite className={classes.icon} /> by{" "}
+          &copy; {1900 + new Date().getYear()} ,
+          made by{" "}
           <a
             href="https://cs.ipb.ac.id"
             className={aClasses}
