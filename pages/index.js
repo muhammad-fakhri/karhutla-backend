@@ -25,7 +25,7 @@ function FrontPage(props) {
     <div>
       <Header
         brand="SIMADU2"
-        rightLinks={<HeaderLinks />}
+        rightLinks={<HeaderLinks isLoginPage={false} />}
         fixed
         color="transparent"
         changeColorOnScroll={{
