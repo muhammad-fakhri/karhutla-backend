@@ -73,13 +73,12 @@ export default function Footer(props) {
           &copy; {1900 + new Date().getYear()} , made with{" "}
           <Favorite className={classes.icon} /> by{" "}
           <a
-            href="https://www.creative-tim.com?ref=njsmk-footer"
+            href="https://cs.ipb.ac.id"
             className={aClasses}
             target="_blank"
           >
-            Creative Tim
-          </a>{" "}
-          for a better web.
+            Departemen Ilmu Komputer FMIPA IPB.
+          </a>
         </div>
       </div>
     </footer>
