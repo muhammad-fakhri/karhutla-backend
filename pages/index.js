@@ -4,11 +4,13 @@ import classNames from "classnames"
 import { makeStyles } from "@material-ui/core/styles"
 // @material-ui/icons
 // core components
+import Icon from '@material-ui/core/Icon'
 import Header from "../components/Header/Header.js"
 import HeaderLinks from "../components/Header/HeaderLinks.js"
 import Footer from "../components/Footer/Footer.js"
-import GridContainer from "../components/Grid/GridContainer.js";
+import GridContainer from "../components/Grid/GridContainer.js"
 import GridItem from "../components/Grid/GridItem.js"
+import Map from "../components/Map/Map.js"
 // import Button from "../components/CustomButtons/Button.js";
 import Parallax from "../components/Parallax/Parallax.js"
 
@@ -46,30 +48,20 @@ function FrontPage(props) {
           </GridContainer>
         </div>
       </Parallax>
-
       <div className={classNames(classes.main, classes.mainRaised, classes.textCenter)}>
-        <h2>SIPONGI Live Update</h2>
-        {/* <SectionBasics />
-        <SectionNavbars />
-        <SectionTabs />
-        <SectionPills />
-        <SectionNotifications />
-        <SectionTypography />
-        <SectionJavascript />
-        <SectionCarousel />
-        <SectionCompletedExamples />
-        <SectionLogin />
-        <GridItem md={12} className={classes.textCenter}>
-          <Link href="/login">
-            <a className={classes.link}>
-              <Button color="primary" size="lg" simple>
-                View Login Page
-              </Button>
-            </a>
-          </Link>
-        </GridItem>
-        <SectionExamples />
-        <SectionDownload /> */}
+        <h2>
+          <Icon className={classes.icon} color={"error"}>fiber_manual_record</Icon>
+          SIPONGI Live Update
+        </h2>
+        <Map
+          center={
+            {
+              lat: -1.5,
+              lng: 117.384
+            }
+          }
+          zoom={5.2}
+        />
       </div>
       <Footer />
     </div>
