@@ -70,14 +70,16 @@ export default function Footer(props) {
           </List>
         </div>
         <div className={classes.right}>
-          &copy; {1900 + new Date().getYear()} , made by{" "}
+          &copy; {1900 + new Date().getYear()} , made with{" "}
+          <Favorite className={classes.icon} /> by{" "}
           <a
-            href="https://cs.ipb.ac.id/"
+            href="https://www.creative-tim.com?ref=njsmk-footer"
             className={aClasses}
             target="_blank"
           >
-            Departemen Ilmu Komputer FMIPA IPB.
+            Creative Tim
           </a>{" "}
+          for a better web.
         </div>
       </div>
     </footer>
