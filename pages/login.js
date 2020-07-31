@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
+const DashboardPage = dynamic(() => import("./dashboard"));
 import Router from 'next/router';
 import cookie from 'js-cookie';
 import fetch from 'isomorphic-unfetch';
@@ -27,14 +29,17 @@ import image from "assets/img/bg7.jpg";
 const useStyles = makeStyles(styles);
 
 export default function LoginPage(props) {
-  // Redirect to dashboard if already logged in
-  const token = cookie.get('token');
   useEffect(() => {
-    if (token) {
-      Router.push('/dashboard');
-    }
-  }, []);
+    if (!props.loggedIn) return; // do nothing if not logged in
+    Router.replace("/login", "/dashboard", { shallow: true });
+  }, [props.loggedIn]);
 
+  // Load dashboard page if already logged in
+  if (props.loggedIn != undefined) {
+    if (props.loggedIn) return <DashboardPage />;
+  }
+
+  // Load login page if not logged in
   const [loginError, setLoginError] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -42,8 +47,6 @@ export default function LoginPage(props) {
   function handleSubmit(e) {
     e.preventDefault();
     //call api
-    console.log("Email: " + email);
-    console.log("Password: " + password);
     fetch('http://103.129.223.216/api/auth/login', {
       method: 'POST',
       headers: {
@@ -58,10 +61,9 @@ export default function LoginPage(props) {
         return response.json();
       })
       .then((responseJson) => {
-        console.log("token: " + responseJson.data.token);
         if (responseJson && responseJson.status == 401) {
           setLoginError("Login gagal");
-          console.log(loginError);
+          console.log("Error Login: " + loginError);
         } else {
           if (responseJson && responseJson.data.token) {
             // set cookie
@@ -79,84 +81,96 @@ export default function LoginPage(props) {
   const classes = useStyles();
   const { ...rest } = props;
 
-  if (!token) {
-    return (
-      <div>
-        <Header
-          absolute
-          color="transparent"
-          brand="SIMADU2"
-          rightLinks={<HeaderLinks isLoginPage={true} />}
-          {...rest}
-        />
-        <div
-          className={classes.pageHeader}
-          style={{
-            backgroundImage: "url(" + image + ")",
-            backgroundSize: "cover",
-            backgroundPosition: "top center"
-          }}
-        >
-          <div className={classes.container}>
-            <GridContainer justify="center">
-              <GridItem xs={12} sm={6} md={4}>
-                <Card className={classes[cardAnimaton]}>
-                  <form className={classes.form}>
-                    <CardHeader color="primary" className={classes.cardHeader}>
-                      <h4>Login ke SIMADU2</h4>
-                    </CardHeader>
-                    <CardBody>
-                      <CustomInput
-                        labelText="Email"
-                        id="email"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          type: "email",
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <Email className={classes.inputIconsColor} />
-                            </InputAdornment>
-                          )
-                        }}
-                        onChangeFunction={(e) => setEmail(e.target.value)}
-                      />
-                      <CustomInput
-                        labelText="Password"
-                        id="pass"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          type: "password",
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <Icon className={classes.inputIconsColor}>
-                                lock_outline
+  return (
+    <div>
+      <Header
+        absolute
+        color="transparent"
+        brand="SIMADU2"
+        rightLinks={<HeaderLinks isLoginPage={true} />}
+        {...rest}
+      />
+      <div
+        className={classes.pageHeader}
+        style={{
+          backgroundImage: "url(" + image + ")",
+          backgroundSize: "cover",
+          backgroundPosition: "top center"
+        }}
+      >
+        <div className={classes.container}>
+          <GridContainer justify="center">
+            <GridItem xs={12} sm={6} md={4}>
+              <Card className={classes[cardAnimaton]}>
+                <form className={classes.form}>
+                  <CardHeader color="primary" className={classes.cardHeader}>
+                    <h4>Login ke SIMADU2</h4>
+                  </CardHeader>
+                  <CardBody>
+                    <CustomInput
+                      labelText="Email"
+                      id="email"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        type: "email",
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <Email className={classes.inputIconsColor} />
+                          </InputAdornment>
+                        )
+                      }}
+                      onChangeFunction={(e) => setEmail(e.target.value)}
+                    />
+                    <CustomInput
+                      labelText="Password"
+                      id="pass"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        type: "password",
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <Icon className={classes.inputIconsColor}>
+                              lock_outline
                             </Icon>
-                            </InputAdornment>
-                          ),
-                          autoComplete: "off"
-                        }}
-                        onChangeFunction={(e) => setPassword(e.target.value)}
-                      />
-                    </CardBody>
-                    <CardFooter className={classes.cardFooter}>
-                      <Button simple color="primary" size="lg" onClick={handleSubmit}>
-                        Login
+                          </InputAdornment>
+                        ),
+                        autoComplete: "off"
+                      }}
+                      onChangeFunction={(e) => setPassword(e.target.value)}
+                    />
+                  </CardBody>
+                  <CardFooter className={classes.cardFooter}>
+                    <Button simple color="primary" size="lg" onClick={handleSubmit}>
+                      Login
                     </Button>
-                    </CardFooter>
-                  </form>
-                </Card>
-              </GridItem>
-            </GridContainer>
-          </div>
-          <Footer whiteFont />
+                  </CardFooter>
+                </form>
+              </Card>
+            </GridItem>
+          </GridContainer>
         </div>
+        <Footer whiteFont />
       </div>
-    );
-  } else {
-    return null;
+    </div>
+  );
+}
+
+export async function getServerSideProps(context) {
+  const cookieList = {},
+    rc = context.req.headers.cookie;
+
+  rc && rc.split(';').forEach(function (cookie) {
+    let parts = cookie.split('=');
+    cookieList[parts.shift().trim()] = decodeURI(parts.join('='));
+  });
+  let loggedIn;
+  cookieList['token'] ? loggedIn = true : loggedIn = false;
+
+  return {
+    props: { loggedIn }
   }
 }
