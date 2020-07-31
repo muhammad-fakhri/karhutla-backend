@@ -1,39 +1,20 @@
-// nodejs library that concatenates classes
 import classNames from "classnames"
-// @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles"
-// @material-ui/icons
-// core components
 import Icon from '@material-ui/core/Icon'
-import Header from "../components/Header/Header.js"
-import HeaderLinks from "../components/Header/HeaderLinks.js"
-import Footer from "../components/Footer/Footer.js"
+import SiteLayout from '../components/Layout/SiteLayout';
+import Parallax from "../components/Parallax/Parallax.js"
 import GridContainer from "../components/Grid/GridContainer.js"
 import GridItem from "../components/Grid/GridItem.js"
 import Map from "../components/Map/Map.js"
-// import Button from "../components/CustomButtons/Button.js";
-import Parallax from "../components/Parallax/Parallax.js"
 
 import styles from "../assets/jss/nextjs-material-kit/pages/frontPage.js"
 
 const useStyles = makeStyles(styles)
 
 function FrontPage(props) {
-  const classes = useStyles()
-  const { ...rest } = props
+  const classes = useStyles();
   return (
-    <div>
-      <Header
-        brand="SIMADU2"
-        rightLinks={<HeaderLinks isLoginPage={false} />}
-        fixed
-        color="transparent"
-        changeColorOnScroll={{
-          height: 200,
-          color: "white"
-        }}
-        {...rest}
-      />
+    <SiteLayout>
       <Parallax image={require("assets/img/forest-fire.jpg")}>
         <div className={classes.container}>
           <GridContainer>
@@ -63,8 +44,7 @@ function FrontPage(props) {
           zoom={5.2}
         />
       </div>
-      <Footer />
-    </div>
+    </SiteLayout>
   );
 }
 

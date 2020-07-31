@@ -1,7 +1,6 @@
 import dynamic from "next/dynamic";
 const LoginPage = dynamic(() => import("./login"));
-import Header from "components/Header/Header.js";
-import HeaderLinks from "components/Header/HeaderLinks.js";
+import SiteLayout from '../components/Layout/SiteLayout';
 import Router from 'next/router';
 
 export default function DashboardPage(props) {
@@ -17,15 +16,9 @@ export default function DashboardPage(props) {
 
     // If logged in load dashboard page 
     return (
-        <div>
-            <Header
-                absolute
-                color="transparent"
-                brand="SIMADU2"
-                rightLinks={<HeaderLinks />}
-            />
-            <h1>Ini Dashboard</h1>
-        </div>
+        <SiteLayout>
+            <h1>Ini dashboard</h1>
+        </SiteLayout>
     );
 }
 
