@@ -6,6 +6,7 @@ import Parallax from "../components/Parallax/Parallax.js"
 import GridContainer from "../components/Grid/GridContainer.js"
 import GridItem from "../components/Grid/GridItem.js"
 import Map from "../components/Map/Map.js"
+import fetch from 'isomorphic-unfetch';
 
 import styles from "../assets/jss/nextjs-material-kit/pages/frontPage.js"
 
@@ -26,13 +27,9 @@ function getTodayDate() {
     "November",
     "Desember"];
   let hour = todayDateTime.getHours();
-  if (hour < 10) {
-    hour = '0' + hour;
-  }
   let minute = todayDateTime.getMinutes();
-  if (minute < 10) {
-    minute = '0' + minute;
-  }
+  if (hour < 10) hour = '0' + hour;
+  if (minute < 10) minute = '0' + minute;
   return {
     'date': `${todayDateTime.getDate()} ${months[todayDateTime.getMonth()]} ${todayDateTime.getFullYear()}`,
     'time': `${hour}:${minute}`
@@ -73,6 +70,7 @@ function FrontPage(props) {
               }
             }
             zoom={5.1}
+            hotspots={props.hotspots}
           />
           <GridContainer>
             <GridItem xs={12}>
@@ -84,7 +82,7 @@ function FrontPage(props) {
             </GridItem>
             <GridItem xs={4}>
               <h2>Titik Panas</h2>
-              <h3>2</h3>
+              <h3>{props.hotspots.length}</h3>
             </GridItem>
             <GridItem xs={4}>
               <h2>Rentang Data</h2>
@@ -102,10 +100,25 @@ function FrontPage(props) {
 }
 
 export async function getStaticProps() {
+  let hotspotResponses = new Array()
+  let hotspots = new Array();
+
+  try {
+    const url = 'http://103.129.223.216/siavipala/public/api/hotspot-sipongi/date-range?start_date=01-08-2020&end_date=01-08-2020&provinsi=a';
+    const res = await (await fetch(url)).json();
+    hotspotResponses = res.hostspot_sipongi;
+    hotspotResponses.forEach((item) => {
+      item.sebaran_hotspot.forEach((item) => {
+        hotspots.push(item);
+      });
+    });
+  } catch (error) {
+    console.log(error);
+  }
+
   return {
     props: {
-      // todayDate,
-      // time
+      hotspots
     }
   }
 }

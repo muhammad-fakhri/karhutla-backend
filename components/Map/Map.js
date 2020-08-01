@@ -1,7 +1,5 @@
 import GoogleMapReact from 'google-map-react';
 
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
-
 function createMapOptions(maps) {
     // next props are exposed at maps
     // "Animation", "ControlPosition", "MapTypeControlStyle", "MapTypeId",
@@ -17,6 +15,14 @@ function createMapOptions(maps) {
 }
 
 function Map(props) {
+    const renderMarkers = (map, maps, latitude, longitude) => {
+        let marker = new maps.Marker({
+            position: { lat: latitude, lng: longitude },
+            map,
+            title: 'Hotspot Marker'
+        });
+        return marker;
+    };
 
     return (
         // Important! Always set the container height explicitly
@@ -30,12 +36,13 @@ function Map(props) {
                 center={props.center}
                 zoom={props.zoom}
                 options={createMapOptions}
+                yesIWantToUseGoogleMapApiInternals
+                onGoogleApiLoaded={({ map, maps }) => {
+                    props.hotspots.forEach((hotspot) => {
+                        renderMarkers(map, maps, parseFloat(hotspot.latitude), parseFloat(hotspot.longitude));
+                    })
+                }}
             >
-                <AnyReactComponent
-                    lat={59.955413}
-                    lng={30.337844}
-                    text="My Marker"
-                />
             </GoogleMapReact>
         </div>
     );
