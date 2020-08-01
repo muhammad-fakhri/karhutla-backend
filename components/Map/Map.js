@@ -15,13 +15,30 @@ function createMapOptions(maps) {
 }
 
 function Map(props) {
-    const renderMarkers = (map, maps, latitude, longitude) => {
-        let marker = new maps.Marker({
-            position: { lat: latitude, lng: longitude },
-            map,
-            title: 'Hotspot Marker'
+
+    const handleApiLoaded = (map, maps, hotspots) => {
+        const markers = [];
+        const infowindows = [];
+
+        hotspots.forEach((hotspot) => {
+            markers.push(new maps.Marker({
+                position: {
+                    lat: parseFloat(hotspot.latitude),
+                    lng: parseFloat(hotspot.longitude)
+                },
+                map,
+            }));
+
+            infowindows.push(new maps.InfoWindow({
+                content: hotspot.html,
+            }));
         });
-        return marker;
+
+        markers.forEach((marker, i) => {
+            marker.addListener('click', () => {
+                infowindows[i].open(map, marker);
+            });
+        });
     };
 
     return (
@@ -37,11 +54,7 @@ function Map(props) {
                 zoom={props.zoom}
                 options={createMapOptions}
                 yesIWantToUseGoogleMapApiInternals
-                onGoogleApiLoaded={({ map, maps }) => {
-                    props.hotspots.forEach((hotspot) => {
-                        renderMarkers(map, maps, parseFloat(hotspot.latitude), parseFloat(hotspot.longitude));
-                    })
-                }}
+                onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps, props.hotspots)}
             >
             </GoogleMapReact>
         </div>
