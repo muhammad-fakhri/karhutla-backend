@@ -7,7 +7,7 @@ import image from "assets/img/login-bg.jpg";
 
 const useStyles = makeStyles(styles);
 
-export default function AuthLayout({ children }) {
+export default function AuthLayout(props) {
   const classes = useStyles();
   return (
     <div>
@@ -25,7 +25,7 @@ export default function AuthLayout({ children }) {
           backgroundPosition: "top center"
         }}
       >
-        {children}
+        {props.children}
         <Footer whiteFont />
       </div>
     </div>

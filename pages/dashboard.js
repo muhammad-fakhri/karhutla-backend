@@ -17,7 +17,10 @@ export default function DashboardPage(props) {
     // If logged in load dashboard page 
     return (
         <SiteLayout>
-            <h1>Ini dashboard</h1>
+            <div>
+                <h1>Ini dashboard</h1>
+                <h3>Nice</h3>
+            </div>
         </SiteLayout>
     );
 }

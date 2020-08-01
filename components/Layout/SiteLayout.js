@@ -4,7 +4,7 @@ import Header from "../Header/Header.js"
 import HeaderLinks from "../Header/HeaderLinks.js"
 import Footer from "../Footer/Footer.js"
 
-export default function SiteLayout({ children }) {
+export default function SiteLayout(props) {
     return (
         <div>
             <Header
@@ -18,7 +18,7 @@ export default function SiteLayout({ children }) {
                 }}
             // {...rest}
             />
-            {children}
+            {props.children}
             <Footer />
         </div >
     );
