@@ -22,49 +22,72 @@ export default function HeaderLinks(props) {
   const router = useRouter()
   const classes = useStyles();
   if (!props.isLoginPage) {
-    if (token) {
-      return (
-        <List className={classes.list}>
-          <ListItem className={classes.listItem}>
-            <Link href="/dashboard">
+    return (
+      token != null ?
+        (
+          <List className={classes.list}>
+            <ListItem className={classes.listItem}>
+              <Link href="/dashboard">
+                <Button
+                  color="transparent"
+                  className={classes.navLink} >
+                  Dashboard
+                </Button>
+              </Link>
+            </ListItem>
+            <ListItem className={classes.listItem}>
+              <Link href="/dashboard">
+                <Button
+                  color="transparent"
+                  className={classes.navLink} >
+                  Patroli
+                </Button>
+              </Link>
+            </ListItem>
+            <ListItem className={classes.listItem}>
+              <Link href="/dashboard">
+                <Button
+                  color="transparent"
+                  className={classes.navLink} >
+                  Surat Tugas
+                </Button>
+              </Link>
+            </ListItem>
+            <ListItem className={classes.listItem}>
+              <Link href="/dashboard">
+                <Button
+                  color="transparent"
+                  className={classes.navLink} >
+                  Pengguna
+                </Button>
+              </Link>
+            </ListItem>
+            <ListItem className={classes.listItem}>
               <Button
                 color="transparent"
                 className={classes.navLink}
-              >
-                Dashboard
+                onClick={() => {
+                  cookie.remove('token');
+                  router.push('/');
+                }} >
+                Logout
               </Button>
-            </Link>
-          </ListItem>
-          <ListItem className={classes.listItem}>
-            <Button
-              color="transparent"
-              className={classes.navLink}
-              onClick={() => {
-                cookie.remove('token');
-                router.push('/');
-              }}
-            >
-              Logout
-            </Button>
-          </ListItem>
-        </List>
-      );
-    } else {
-      return (
-        <List className={classes.list}>
-          <ListItem className={classes.listItem}>
-            <Link href="/login">
-              <Button
-                color="transparent"
-                className={classes.navLink}
-              >
-                <Icon className={classes.icons}>login</Icon> Login
-          </Button>
-            </Link>
-          </ListItem>
-        </List>
-      );
-    }
+            </ListItem>
+          </List>
+        ) : (
+          <List className={classes.list}>
+            <ListItem className={classes.listItem}>
+              <Link href="/login">
+                <Button
+                  color="transparent"
+                  className={classes.navLink} >
+                  <Icon className={classes.icons}>login</Icon> Login
+                </Button>
+              </Link>
+            </ListItem>
+          </List>
+        )
+    );
   } else {
     return null;
   }

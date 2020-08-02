@@ -11,12 +11,11 @@ export default function SiteLayout(props) {
                 brand="SIMADU2"
                 rightLinks={<HeaderLinks />}
                 fixed
-                color="transparent"
+                color={props.headerColor ? props.headerColor : "transparent"}
                 changeColorOnScroll={{
                     height: 200,
                     color: "white"
                 }}
-            // {...rest}
             />
             {props.children}
             <Footer />
