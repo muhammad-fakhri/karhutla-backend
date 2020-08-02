@@ -1,7 +1,14 @@
 import dynamic from "next/dynamic";
+import Router from 'next/router';
 const LoginPage = dynamic(() => import("./login"));
 import SiteLayout from '../components/Layout/SiteLayout';
-import Router from 'next/router';
+import GridContainer from "../components/Grid/GridContainer.js";
+import GridItem from "../components/Grid/GridItem.js";
+import Map from '../components/Map/Map';
+import classNames from "classnames";
+import styles from "../assets/jss/nextjs-material-kit/pages/dashboardPage";
+import { makeStyles } from "@material-ui/core/styles";
+const useStyles = makeStyles(styles);
 
 export default function DashboardPage(props) {
     React.useEffect(() => {
@@ -15,14 +22,61 @@ export default function DashboardPage(props) {
     }
 
     // If logged in load dashboard page 
+    const classes = useStyles();
     return (
-        <SiteLayout>
+        <SiteLayout headerColor='info'>
             <div>
-                <h1>Ini dashboard</h1>
-                <h3>Nice</h3>
+                <div className={classNames(classes.main, classes.mainRaised, classes.textCenter)}>
+                    <h2>Sebaran Patroli</h2>
+                    <Map
+                        center={
+                            {
+                                lat: -1.5,
+                                lng: 117.384
+                            }
+                        }
+                        zoom={5.1}
+                    />
+                    <GridContainer>
+                        <GridItem xs={12}>
+                            <h3>
+                                Tanggal: {props.todayDate}
+                            </h3>
+                        </GridItem>
+                        <GridItem xs={4}>
+                            <h2>Patroli Terpadu</h2>
+                            <h3>0</h3>
+                        </GridItem>
+                        <GridItem xs={4}>
+                            <h2>Patroli Mandiri</h2>
+                            <h3>0</h3>
+                        </GridItem>
+                        <GridItem xs={4}>
+                            <h2>Patroli Pencegahan</h2>
+                            <h3>0</h3>
+                        </GridItem>
+                    </GridContainer>
+                </div>
             </div>
         </SiteLayout>
     );
+}
+
+function getTodayDate() {
+    const todayDateTime = new Date();
+    const months = ["Januari",
+        "Februari",
+        "Maret",
+        "April",
+        "Mungkin",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "Oktober",
+        "November",
+        "Desember"];
+    return `${todayDateTime.getDate()} ${months[todayDateTime.getMonth()]} ${todayDateTime.getFullYear()}`;
 }
 
 export async function getServerSideProps(context) {
@@ -37,6 +91,9 @@ export async function getServerSideProps(context) {
     cookieList['token'] ? loggedIn = true : loggedIn = false;
 
     return {
-        props: { loggedIn }
+        props: {
+            loggedIn,
+            todayDate: getTodayDate()
+        }
     }
 }
