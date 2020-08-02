@@ -54,7 +54,7 @@ function Map(props) {
                 zoom={props.zoom}
                 options={createMapOptions}
                 yesIWantToUseGoogleMapApiInternals
-                onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps, props.hotspots)}
+                onGoogleApiLoaded={({ map, maps }) => props.hotspots != undefined ? handleApiLoaded(map, maps, props.hotspots) : ''}
             >
             </GoogleMapReact>
         </div>
