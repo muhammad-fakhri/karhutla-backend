@@ -1,16 +1,14 @@
-import classNames from "classnames"
-import { makeStyles } from "@material-ui/core/styles"
-import Icon from '@material-ui/core/Icon'
+import classNames from "classnames";
+import { makeStyles } from "@material-ui/core/styles";
+import Icon from '@material-ui/core/Icon';
 import SiteLayout from '../components/Layout/SiteLayout';
-import Parallax from "../components/Parallax/Parallax.js"
-import GridContainer from "../components/Grid/GridContainer.js"
-import GridItem from "../components/Grid/GridItem.js"
-import Map from "../components/Map/Map.js"
+import Parallax from "../components/Parallax/Parallax.js";
+import GridContainer from "../components/Grid/GridContainer.js";
+import GridItem from "../components/Grid/GridItem.js";
+import Map from "../components/Map/Map.js";
 import fetch from 'isomorphic-unfetch';
-
-import styles from "../assets/jss/nextjs-material-kit/pages/frontPage.js"
-
-const useStyles = makeStyles(styles)
+import styles from "../assets/jss/nextjs-material-kit/pages/frontPage.js";
+const useStyles = makeStyles(styles);
 
 function getTodayDate() {
   const todayDateTime = new Date();
