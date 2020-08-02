@@ -5,6 +5,16 @@ import HeaderLinks from "../Header/HeaderLinks.js"
 import Footer from "../Footer/Footer.js"
 
 export default function SiteLayout(props) {
+    let scrollChangeOption = null;
+    if (props.scrollChange) {
+        scrollChangeOption = {
+            height: 200,
+            color: "white"
+        };
+    } else {
+        scrollChangeOption = {};
+    }
+
     return (
         <div>
             <Header
@@ -12,10 +22,7 @@ export default function SiteLayout(props) {
                 rightLinks={<HeaderLinks />}
                 fixed
                 color={props.headerColor ? props.headerColor : "transparent"}
-                changeColorOnScroll={{
-                    height: 200,
-                    color: "white"
-                }}
+                changeColorOnScroll={scrollChangeOption}
             />
             {props.children}
             <Footer />
