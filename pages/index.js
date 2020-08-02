@@ -38,7 +38,7 @@ function getTodayDate() {
 function FrontPage(props) {
   const classes = useStyles();
   return (
-    <SiteLayout>
+    <SiteLayout scrollChange={true}>
       <div>
         <Parallax image={require("assets/img/forest-fire.jpg")}>
           <div className={classes.container}>

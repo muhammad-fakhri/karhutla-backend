@@ -38,6 +38,9 @@ const frontPageStyle = {
   },
   textCenter: {
     textAlign: "center"
+  },
+  formChooseDate: {
+    marginTop: '8px'
   }
 };
 

@@ -139,18 +139,18 @@ Header.propTypes = {
   // changeColorOnScroll.height and then when it is smaller than
   // changeColorOnScroll.height change it back to
   // props.color (see above)
-  changeColorOnScroll: PropTypes.shape({
-    height: PropTypes.number.isRequired,
-    color: PropTypes.oneOf([
-      "primary",
-      "info",
-      "success",
-      "warning",
-      "danger",
-      "transparent",
-      "white",
-      "rose",
-      "dark"
-    ]).isRequired
-  })
+  // changeColorOnScroll: PropTypes.shape({
+  //   height: PropTypes.number.isRequired,
+  //   color: PropTypes.oneOf([
+  //     "primary",
+  //     "info",
+  //     "success",
+  //     "warning",
+  //     "danger",
+  //     "transparent",
+  //     "white",
+  //     "rose",
+  //     "dark"
+  //   ]).isRequired
+  // })
 };

@@ -1,6 +1,8 @@
 import dynamic from "next/dynamic";
 import Router from 'next/router';
 const LoginPage = dynamic(() => import("./login"));
+import Datetime from "react-datetime";
+import FormControl from "@material-ui/core/FormControl";
 import SiteLayout from '../components/Layout/SiteLayout';
 import GridContainer from "../components/Grid/GridContainer.js";
 import GridItem from "../components/Grid/GridItem.js";
@@ -16,6 +18,7 @@ export default function DashboardPage(props) {
         Router.replace("/dashboard", "/login", { shallow: true });
     }, [props.loggedIn]);
 
+
     // Load login page if not logged in
     if (props.loggedIn != undefined) {
         if (!props.loggedIn) return <LoginPage />;
@@ -23,6 +26,9 @@ export default function DashboardPage(props) {
 
     // If logged in load dashboard page 
     const classes = useStyles();
+
+    const [date, setDate] = React.useState(props.todayDate);
+
     return (
         <SiteLayout headerColor='info'>
             <div>
@@ -40,7 +46,19 @@ export default function DashboardPage(props) {
                     <GridContainer>
                         <GridItem xs={12}>
                             <h3>
-                                Tanggal: {props.todayDate}
+                                Tanggal: {date}
+                                <br />
+                                <FormControl className={classNames(classes.formChooseDate, classes.textCenter)}>
+                                    <Datetime
+                                        timeFormat={false}
+                                        inputProps={{ placeholder: "Pilih tanggal patroli ..." }}
+                                        onChange={(date) => {
+                                            setDate(getTodayDate(date.format("YYYY-MM-DD")));
+                                        }}
+                                        closeOnSelect={true}
+                                        locale="id"
+                                    />
+                                </FormControl>
                             </h3>
                         </GridItem>
                         <GridItem xs={4}>
@@ -62,8 +80,12 @@ export default function DashboardPage(props) {
     );
 }
 
-function getTodayDate() {
-    const todayDateTime = new Date();
+function getTodayDate(date) {
+    let inputDate;
+    if (date) {
+        inputDate = Date.parse(date);
+    }
+    let todayDateTime = date ? new Date(inputDate) : new Date();
     const months = ["Januari",
         "Februari",
         "Maret",
