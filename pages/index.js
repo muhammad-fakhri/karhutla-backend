@@ -32,14 +32,13 @@ function getTodayDate() {
   if (minute < 10) minute = '0' + minute;
   return {
     'date': `${todayDateTime.getDate()} ${months[todayDateTime.getMonth()]} ${todayDateTime.getFullYear()}`,
-    'time': `${hour}:${minute}`
+    'time': `${hour}:${minute}`,
+    'plainDate': `${todayDateTime.getDate()}-${(todayDateTime.getMonth() + 1)}-${todayDateTime.getFullYear()}`
   }
 }
 
 function FrontPage(props) {
   const classes = useStyles();
-  const todayDate = getTodayDate();
-
   return (
     <SiteLayout>
       <div>
@@ -75,9 +74,9 @@ function FrontPage(props) {
           <GridContainer>
             <GridItem xs={12}>
               <h3>
-                Tanggal: {todayDate.date}
+                Tanggal: {props.todayDate.date}
                 <br />
-                Pukul: {todayDate.time}
+                Pukul: {props.todayDate.time}
               </h3>
             </GridItem>
             <GridItem xs={4}>
@@ -100,11 +99,13 @@ function FrontPage(props) {
 }
 
 export async function getStaticProps() {
-  let hotspotResponses = new Array()
+  let todayDate = getTodayDate();
+  let province = 'a';
+  let hotspotResponses = new Array();
   let hotspots = new Array();
 
   try {
-    const url = 'http://103.129.223.216/siavipala/public/api/hotspot-sipongi/date-range?start_date=01-08-2020&end_date=01-08-2020&provinsi=a';
+    const url = `http://103.129.223.216/siavipala/public/api/hotspot-sipongi/date-range?start_date=${todayDate.plainDate}&end_date=${todayDate.plainDate}&provinsi=${province}`;
     const res = await (await fetch(url)).json();
     hotspotResponses = res.hostspot_sipongi;
     hotspotResponses.forEach((item) => {
@@ -118,7 +119,8 @@ export async function getStaticProps() {
 
   return {
     props: {
-      hotspots
+      hotspots,
+      todayDate,
     }
   }
 }
