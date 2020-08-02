@@ -1,20 +1,15 @@
-/*eslint-disable*/
 import React from "react";
 import Link from "next/link";
 import cookie from 'js-cookie';
 import { useRouter } from 'next/router'
-
-// @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Icon from "@material-ui/core/Icon";
-
-// core components
+// import { Apps, CloudDownload } from "@material-ui/icons";
+import CustomDropdown from "components/CustomDropdown/CustomDropdown.js";
 import Button from "components/CustomButtons/Button.js";
-
 import styles from "assets/jss/nextjs-material-kit/components/headerLinksStyle.js";
-
 const useStyles = makeStyles(styles);
 
 export default function HeaderLinks(props) {
@@ -36,13 +31,27 @@ export default function HeaderLinks(props) {
               </Link>
             </ListItem>
             <ListItem className={classes.listItem}>
-              <Link href="/dashboard">
-                <Button
-                  color="transparent"
-                  className={classes.navLink} >
-                  Patroli
-                </Button>
-              </Link>
+              <CustomDropdown
+                noLiPadding
+                navDropdown
+                buttonText="Patroli"
+                buttonProps={{
+                  className: classes.navLink,
+                  color: "transparent"
+                }}
+                // buttonIcon={Apps}
+                dropdownList={[
+                  <Link href="/patroli/terpadu">
+                    <a className={classes.dropdownLink}>Patroli Terpadu</a>
+                  </Link>,
+                  <Link href="/patroli/mandiri">
+                    <a className={classes.dropdownLink}>Patroli Mandiri</a>
+                  </Link>,
+                  <Link href="/patroli/pencegahan">
+                    <a className={classes.dropdownLink}>Patroli Pencegahan</a>
+                  </Link>
+                ]}
+              />
             </ListItem>
             <ListItem className={classes.listItem}>
               <Link href="/dashboard">
