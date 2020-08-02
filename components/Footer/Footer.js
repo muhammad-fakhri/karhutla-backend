@@ -43,7 +43,7 @@ export default function Footer(props) {
                 <a
                   className={classes.block}
                 >
-                  Tentang
+                  About
               </a>
               </Link>
             </ListItem>
