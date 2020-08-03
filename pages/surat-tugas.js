@@ -1,3 +1,7 @@
+import dynamic from "next/dynamic";
+import Router from 'next/router';
+import { getTokenFromRequest } from '../context/auth';
+const LoginPage = dynamic(() => import("./login"));
 import { makeStyles } from "@material-ui/core/styles";
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Grid from '@material-ui/core/Grid';
@@ -12,6 +16,16 @@ const useStyles = makeStyles(styles);
 
 function SuratTugasPage(props) {
     const classes = useStyles();
+
+    // Load login page if not logged in
+    React.useEffect(() => {
+        if (props.loggedIn) return; // do nothing if already logged in
+        Router.replace("/surat-tugas", "/login", { shallow: true });
+    }, [props.loggedIn]);
+
+    if (props.loggedIn !== undefined) {
+        if (!props.loggedIn) return <LoginPage />;
+    }
 
     return (
         <SiteLayout headerColor="info">
@@ -70,6 +84,14 @@ function SuratTugasPage(props) {
             </Grid>
         </SiteLayout >
     );
+}
+
+export async function getServerSideProps(context) {
+    return {
+        props: {
+            loggedIn: getTokenFromRequest(context)
+        }
+    }
 }
 
 export default SuratTugasPage;

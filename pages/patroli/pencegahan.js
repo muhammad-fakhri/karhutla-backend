@@ -1,4 +1,7 @@
-import React from 'react';
+import dynamic from "next/dynamic";
+import Router from 'next/router';
+import { getTokenFromRequest } from '../../context/auth';
+const LoginPage = dynamic(() => import("../login"));
 import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -112,6 +115,16 @@ function PatroliPencegahanPage(props) {
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
+    // Load login page if not logged in
+    React.useEffect(() => {
+        if (props.loggedIn) return; // do nothing if already logged in
+        Router.replace("/patroli/pencegahan", "/login", { shallow: true });
+    }, [props.loggedIn]);
+
+    if (props.loggedIn !== undefined) {
+        if (!props.loggedIn) return <LoginPage />;
+    }
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -193,6 +206,14 @@ function PatroliPencegahanPage(props) {
             </div>
         </SiteLayout>
     );
+}
+
+export async function getServerSideProps(context) {
+    return {
+        props: {
+            loggedIn: getTokenFromRequest(context)
+        }
+    }
 }
 
 export default PatroliPencegahanPage;
