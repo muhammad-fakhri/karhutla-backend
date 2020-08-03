@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { getTokenFromRequest, login } from '../context/auth';
 import dynamic from "next/dynamic";
 const DashboardPage = dynamic(() => import("./dashboard"));
 import Router from 'next/router';
@@ -30,7 +31,7 @@ export default function LoginPage(props) {
   }, [props.loggedIn]);
 
   // Load dashboard page if already logged in
-  if (props.loggedIn != undefined) {
+  if (props.loggedIn !== undefined) {
     if (props.loggedIn) return <DashboardPage />;
   }
 
@@ -39,34 +40,8 @@ export default function LoginPage(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    //call api
-    fetch('http://103.129.223.216/api/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((responseJson) => {
-        if (responseJson && responseJson.status == 401) {
-          setLoginError("Login gagal");
-          console.log("Error Login: " + loginError);
-        } else {
-          if (responseJson && responseJson.data.token) {
-            // set cookie
-            cookie.set('token', responseJson.data.token, { expires: 2 });
-            Router.push('/dashboard');
-          }
-        }
-      });
+  const handleSubmit = (e) => {
+    login(email, password);
   };
 
   const [cardAnimaton, setCardAnimation] = useState("cardHidden");
@@ -138,17 +113,7 @@ export default function LoginPage(props) {
 }
 
 export async function getServerSideProps(context) {
-  const cookieList = {},
-    rc = context.req.headers.cookie;
-
-  rc && rc.split(';').forEach(function (cookie) {
-    let parts = cookie.split('=');
-    cookieList[parts.shift().trim()] = decodeURI(parts.join('='));
-  });
-  let loggedIn;
-  cookieList['token'] ? loggedIn = true : loggedIn = false;
-
   return {
-    props: { loggedIn }
+    props: { loggedIn: getTokenFromRequest(context) }
   }
 }

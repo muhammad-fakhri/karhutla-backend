@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 import Router from 'next/router';
 const LoginPage = dynamic(() => import("./login"));
+import { getTokenFromRequest } from '../context/auth';
 import Datetime from "react-datetime";
 import FormControl from "@material-ui/core/FormControl";
 import SiteLayout from '../components/Layout/SiteLayout';
@@ -13,22 +14,20 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles(styles);
 
 export default function DashboardPage(props) {
+    const classes = useStyles();
+    const [date, setDate] = React.useState(props.todayDate);
+
     React.useEffect(() => {
         if (props.loggedIn) return; // do nothing if already logged in
         Router.replace("/dashboard", "/login", { shallow: true });
     }, [props.loggedIn]);
 
-
     // Load login page if not logged in
-    if (props.loggedIn != undefined) {
+    if (props.loggedIn !== undefined) {
         if (!props.loggedIn) return <LoginPage />;
     }
 
     // If logged in load dashboard page 
-    const classes = useStyles();
-
-    const [date, setDate] = React.useState(props.todayDate);
-
     return (
         <SiteLayout headerColor='info'>
             <div>
@@ -102,19 +101,9 @@ function getTodayDate(date) {
 }
 
 export async function getServerSideProps(context) {
-    const cookieList = {},
-        rc = context.req.headers.cookie;
-
-    rc && rc.split(';').forEach(function (cookie) {
-        let parts = cookie.split('=');
-        cookieList[parts.shift().trim()] = decodeURI(parts.join('='));
-    });
-    let loggedIn;
-    cookieList['token'] ? loggedIn = true : loggedIn = false;
-
     return {
         props: {
-            loggedIn,
+            loggedIn: getTokenFromRequest(context),
             todayDate: getTodayDate()
         }
     }
