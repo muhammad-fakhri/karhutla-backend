@@ -1,16 +1,17 @@
 import dynamic from "next/dynamic";
 import Router from 'next/router';
-import { getTokenFromRequest } from '../context/auth';
-const LoginPage = dynamic(() => import("./login"));
+import { getTokenFromRequest } from '../../context/auth';
+const LoginPage = dynamic(() => import("../login"));
 import { makeStyles } from "@material-ui/core/styles";
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Grid from '@material-ui/core/Grid';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import CreateIcon from '@material-ui/icons/Create';
 import Link from 'next/link';
-import SiteLayout from "../components/Layout/SiteLayout";
+import SiteLayout from "../../components/Layout/SiteLayout";
+import Button from '../../components/CustomButtons/Button'
 import classNames from "classnames";
-import styles from "../assets/jss/nextjs-material-kit/pages/suratTugasPage";
+import styles from "../../assets/jss/nextjs-material-kit/pages/suratTugasPage";
 
 const useStyles = makeStyles(styles);
 
@@ -48,7 +49,7 @@ function SuratTugasPage(props) {
                     sm={4}
                     align="center"
                     className={classes.gridItem}>
-                    <Link href="/dashboard">
+                    <Link href="/surat-tugas/berkas">
                         <ButtonBase
                             className={classNames(classes.buttonBase, classes.textCenter)}
                             focusRipple={true}
@@ -60,6 +61,9 @@ function SuratTugasPage(props) {
                             </div>
                         </ButtonBase>
                     </Link>
+                    <a href="https://drive.google.com" target="_blank">
+                        <Button type="button" color="primary">Download Template Kosong</Button>
+                    </a>
                 </Grid>
                 <Grid
                     item
