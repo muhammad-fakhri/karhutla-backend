@@ -17,21 +17,22 @@ export const getTokenFromRequest = context => {
 export const getToken = () => Cookies.get('token');
 
 export const login = async (email, password) => {
-    const responseJson = await (await fetch('http://103.129.223.216/api/auth/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            email,
-            password,
-        }),
-    })).json();
+    // const responseJson = await (await fetch('http://103.129.223.216/api/auth/login', {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({
+    //         email,
+    //         password,
+    //     }),
+    // })).json();
 
-    if (responseJson.data.token) {
-        Cookies.set('token', responseJson.data.token, { expires: 2 });
-        redirectAfterLogin()
-    }
+    // if (responseJson.data.token) {
+    // Cookies.set('token', responseJson.data.token, { expires: 2 });
+    Cookies.set('token', 'iab213basdb21ebwqk', { expires: 2 });
+    redirectAfterLogin()
+    // }
 }
 
 export const logout = () => {
