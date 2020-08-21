@@ -6,8 +6,9 @@ import { getTokenFromRequest } from '../../context/auth';
 import DateFnsUtils from '@date-io/date-fns';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
+import Divider from '@material-ui/core/Divider';
+import Typography from '@material-ui/core/Typography';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import RemoveIcon from '@material-ui/icons/Remove';
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
@@ -18,7 +19,7 @@ import GridContainer from "../../components/Grid/GridContainer.js";
 import GridItem from "../../components/Grid/GridItem.js";
 import Button from "../../components/CustomButtons/Button";
 import classNames from "classnames";
-import styles from "../../assets/jss/nextjs-material-kit/pages/berkasPage";
+import styles from "../../assets/jss/nextjs-material-kit/pages/manualPage";
 import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles(styles);
 
@@ -86,7 +87,7 @@ export default function DashboardPage(props) {
     <SiteLayout headerColor='info'>
       <div>
         <div className={classNames(classes.main, classes.mainRaised, classes.textCenter)}>
-          <h2>Upload Berkas Surat Tugas</h2>
+          <h2>Input Surat Tugas Manual</h2>
           <form noValidate autoComplete="off" className={classes.form}>
             <GridContainer justify="center">
               <GridItem sm={3} xs={10}>
@@ -120,6 +121,13 @@ export default function DashboardPage(props) {
                   fullWidth
                   onChange={handleWorkNumberChange}
                   className={classes.textAlignLeft} />
+              </GridItem>
+            </GridContainer>
+            <GridContainer justify="center">
+              <GridItem sm={6} xs={10}>
+                <Typography variant="h5" className={classes.title}>
+                  Tanggal
+                </Typography>
               </GridItem>
             </GridContainer>
             <GridContainer justify="center" alignItems="center">
@@ -161,41 +169,286 @@ export default function DashboardPage(props) {
               </GridItem>
             </GridContainer>
             <GridContainer justify="center">
-              <GridItem sm={4} xs={10}>
+              <GridItem sm={6} xs={10}>
+                <Typography variant="h5" className={classes.title}>
+                  Lokasi
+                </Typography>
+              </GridItem>
+            </GridContainer>
+            <GridContainer justify="center" alignItems="center">
+              <GridItem sm={3} xs={10}>
                 <TextField
-                  id="outlined-number"
-                  margin="normal"
-                  label="Berkas Surat Tugas"
-                  type="file"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
+                  id="operation-region"
+                  select
+                  label="Daerah Operasi"
                   variant="outlined"
-                  required
                   fullWidth
-                  name="file"
-                  onChange={handleFileChange}
+                  margin="normal"
+                  required
                   className={classes.textAlignLeft}
-                />
+                >
+                  <MenuItem key={'a'} value={'a'}>
+                    A
+                  </MenuItem>
+                  <MenuItem key={'b'} value={'b'}>
+                    B
+                  </MenuItem>
+                  <MenuItem key={'c'} value={'c'}>
+                    C
+                  </MenuItem>
+                </TextField>
+              </GridItem>
+              <GridItem sm={3} xs={10}>
+                <TextField
+                  id="operation-region"
+                  select
+                  label="Daerah Patroli"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  required
+                  className={classes.textAlignLeft}
+                >
+                  <MenuItem key={'a'} value={'a'}>
+                    A
+                  </MenuItem>
+                  <MenuItem key={'b'} value={'b'}>
+                    B
+                  </MenuItem>
+                  <MenuItem key={'c'} value={'c'}>
+                    C
+                  </MenuItem>
+                </TextField>
+              </GridItem>
+            </GridContainer>
+            <GridContainer justify="center" alignItems="center">
+              <GridItem sm={3} xs={10}>
+                <TextField
+                  id="operation-region"
+                  select
+                  label="Provinsi"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  required
+                  className={classes.textAlignLeft}
+                >
+                  <MenuItem key={'a'} value={'a'}>
+                    A
+                  </MenuItem>
+                  <MenuItem key={'b'} value={'b'}>
+                    B
+                  </MenuItem>
+                  <MenuItem key={'c'} value={'c'}>
+                    C
+                  </MenuItem>
+                </TextField>
+              </GridItem>
+              <GridItem sm={3} xs={10}>
+                <TextField
+                  id="operation-region"
+                  select
+                  label="Kabupaten/Kota"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  required
+                  className={classes.textAlignLeft}
+                >
+                  <MenuItem key={'a'} value={'a'}>
+                    A
+                  </MenuItem>
+                  <MenuItem key={'b'} value={'b'}>
+                    B
+                  </MenuItem>
+                  <MenuItem key={'c'} value={'c'}>
+                    C
+                  </MenuItem>
+                </TextField>
+              </GridItem>
+            </GridContainer>
+            <GridContainer justify="center" alignItems="center">
+              <GridItem sm={3} xs={10}>
+                <TextField
+                  id="operation-region"
+                  select
+                  label="Kecamatan"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  required
+                  className={classes.textAlignLeft}
+                >
+                  <MenuItem key={'a'} value={'a'}>
+                    A
+                  </MenuItem>
+                  <MenuItem key={'b'} value={'b'}>
+                    B
+                  </MenuItem>
+                  <MenuItem key={'c'} value={'c'}>
+                    C
+                  </MenuItem>
+                </TextField>
+              </GridItem>
+              <GridItem sm={3} xs={10}>
+                <TextField
+                  id="operation-region"
+                  select
+                  label="Kelurahan/Desa"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  required
+                  className={classes.textAlignLeft}
+                >
+                  <MenuItem key={'a'} value={'a'}>
+                    A
+                  </MenuItem>
+                  <MenuItem key={'b'} value={'b'}>
+                    B
+                  </MenuItem>
+                  <MenuItem key={'c'} value={'c'}>
+                    C
+                  </MenuItem>
+                </TextField>
               </GridItem>
             </GridContainer>
             <GridContainer justify="center">
+              <GridItem sm={6} xs={10}>
+                <Typography variant="h5" className={classes.title}>
+                  Tim
+                </Typography>
+              </GridItem>
+            </GridContainer>
+            <GridContainer justify="center" alignItems="center">
+              <GridItem sm={3} xs={10}>
+                <TextField
+                  id="operation-region"
+                  select
+                  label="Ketua"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  required
+                  className={classes.textAlignLeft}
+                >
+                  <MenuItem key={'a'} value={'a'}>
+                    A
+                  </MenuItem>
+                  <MenuItem key={'b'} value={'b'}>
+                    B
+                  </MenuItem>
+                  <MenuItem key={'c'} value={'c'}>
+                    C
+                  </MenuItem>
+                </TextField>
+              </GridItem>
+            </GridContainer>
+            <GridContainer justify="center" alignItems="center">
+              <GridItem sm={3} xs={10}>
+                <TextField
+                  id="operation-region"
+                  select
+                  label="Anggota 1"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  required
+                  className={classes.textAlignLeft}
+                >
+                  <MenuItem key={'a'} value={'a'}>
+                    A
+                  </MenuItem>
+                  <MenuItem key={'b'} value={'b'}>
+                    B
+                  </MenuItem>
+                  <MenuItem key={'c'} value={'c'}>
+                    C
+                  </MenuItem>
+                </TextField>
+              </GridItem>
+              <GridItem sm={3} xs={10}>
+                <TextField
+                  id="operation-region"
+                  label="Anggota 2"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  required
+                  className={classes.textAlignLeft}
+                >
+                  <MenuItem key={'a'} value={'a'}>
+                    A
+                  </MenuItem>
+                  <MenuItem key={'b'} value={'b'}>
+                    B
+                  </MenuItem>
+                  <MenuItem key={'c'} value={'c'}>
+                    C
+                  </MenuItem>
+                </TextField>
+              </GridItem>
+            </GridContainer>
+            <GridContainer justify="center" alignItems="center">
+              <GridItem sm={3} xs={10}>
+                <TextField
+                  id="operation-region"
+                  label="Anggota 3"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  required
+                  className={classes.textAlignLeft}
+                >
+                  <MenuItem key={'a'} value={'a'}>
+                    A
+                  </MenuItem>
+                  <MenuItem key={'b'} value={'b'}>
+                    B
+                  </MenuItem>
+                  <MenuItem key={'c'} value={'c'}>
+                    C
+                  </MenuItem>
+                </TextField>
+              </GridItem>
+              <GridItem sm={3} xs={10}>
+                <TextField
+                  id="operation-region"
+                  label="Anggota 4"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  required
+                  className={classes.textAlignLeft}
+                >
+                  <MenuItem key={'a'} value={'a'}>
+                    A
+                  </MenuItem>
+                  <MenuItem key={'b'} value={'b'}>
+                    B
+                  </MenuItem>
+                  <MenuItem key={'c'} value={'c'}>
+                    C
+                  </MenuItem>
+                </TextField>
+              </GridItem>
+            </GridContainer>
+            <GridContainer justify="center" className={classes.submitButton}>
               <GridItem sm={3} xs={10}>
                 <Button
                   variant="contained"
                   color="primary"
-                  startIcon={<CloudUploadIcon />}
                   onClick={handleClick}
                   fullWidth
                 >
-                  Upload Surat Tugas
+                  Buat Surat Tugas
                 </Button>
               </GridItem>
             </GridContainer>
           </form>
         </div>
       </div>
-    </SiteLayout>
+    </SiteLayout >
   );
 }
 
