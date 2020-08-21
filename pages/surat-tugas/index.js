@@ -72,7 +72,7 @@ function SuratTugasPage(props) {
                     align="center"
                     className={classes.gridItem}
                 >
-                    <Link href="/dashboard">
+                    <Link href="/surat-tugas/manual">
                         <ButtonBase
                             className={classNames(classes.buttonBase, classes.textCenter)}
                             focusRipple={true}
