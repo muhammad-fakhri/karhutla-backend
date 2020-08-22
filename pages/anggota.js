@@ -4,29 +4,21 @@ import { getTokenFromRequest } from '../context/auth';
 const LoginPage = dynamic(() => import("./login"));
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from '@material-ui/core/Grid';
-import Modal from '@material-ui/core/Modal';
 import Dialog from '@material-ui/core/Dialog';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import TextField from '@material-ui/core/TextField';
-import MuiDialogActions from '@material-ui/core/DialogActions';
 import MenuItem from '@material-ui/core/MenuItem';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
 import AddBoxIcon from '@material-ui/icons/AddBox';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import MaterialTable from 'material-table';
-import Link from 'next/link';
 import SiteLayout from "../components/Layout/SiteLayout";
 import Button from '../components/CustomButtons/Button'
 import GridContainer from "../components/Grid/GridContainer.js";
 import GridItem from "../components/Grid/GridItem.js";
-import classNames from "classnames";
 import styles from "../assets/jss/nextjs-material-kit/pages/anggotaPage";
 
 const useStyles = makeStyles(styles);
@@ -44,20 +36,6 @@ const DialogTitle = props => {
         </MuiDialogTitle>
     );
 };
-
-// const DialogContent = withStyles((theme) => ({
-//     root: {
-//         padding: theme.spacing(2),
-//     },
-// }))(MuiDialogContent);
-
-// const DialogActions = withStyles((theme) => ({
-//     root: {
-//         margin: 0,
-//         padding: theme.spacing(1),
-//     },
-// }))(MuiDialogActions);
-
 
 function AnggotaPage(props) {
     const classes = useStyles();
@@ -214,16 +192,13 @@ function AnggotaPage(props) {
                             <Button variant="contained" color="primary" onClick={handleOpenManual}>
                                 Isi Manual
                             </Button>
-                            <Button variant="contained" color="grey">
-                                Download Template
+                            <a href="https://drive.google.com" target="_blank">
+                                <Button variant="contained" color="grey">
+                                    Download Template
                             </Button>
+                            </a>
                         </Box>
                     </MuiDialogContent>
-                    {/* <DialogActions>
-                        <Button autoFocus onClick={handleClose} color="primary">
-                            Save changes
-                        </Button>
-                    </DialogActions> */}
                 </Dialog>
                 <Dialog onClose={handleCloseOption} aria-labelledby="customized-dialog-title" open={openUpload}>
                     <DialogTitle id="customized-dialog-title" onClose={handleCloseOption} classes={classes}>
