@@ -128,7 +128,7 @@ function AnggotaPage(props) {
                     xs={10}
                     align="center"
                     className={classes.title}>
-                    <h2>Daftar Anggota</h2>
+                    <h2>Daftar Anggota Manggala Agni</h2>
                 </Grid>
                 <Grid
                     item
@@ -178,7 +178,7 @@ function AnggotaPage(props) {
                 </Grid>
                 <Dialog onClose={handleCloseOption} aria-labelledby="customized-dialog-title" open={openOption}>
                     <DialogTitle id="customized-dialog-title" onClose={handleCloseOption} classes={classes}>
-                        Tambah Anggota
+                        Tambah Anggota Manggala Agni
                     </DialogTitle>
                     <MuiDialogContent dividers>
                         <Typography gutterBottom align='justify'>
