@@ -10,11 +10,13 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
+import TextField from '@material-ui/core/TextField';
 import MuiDialogActions from '@material-ui/core/DialogActions';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import AddBoxIcon from '@material-ui/icons/AddBox';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import MaterialTable from 'material-table';
@@ -68,6 +70,9 @@ function AnggotaPage(props) {
     }
 
     const [openOption, setOpenOption] = React.useState(false);
+    const [openUpload, setOpenUpload] = React.useState(false);
+    const [openManual, setOpenManual] = React.useState(false);
+    const [workFile, setWorkFile] = React.useState();
     const [state, setState] = React.useState({
         columns: [
             { title: 'Daerah Operasi', field: 'region' },
@@ -93,10 +98,36 @@ function AnggotaPage(props) {
 
     const handleOpenOption = () => {
         setOpenOption(true);
+        setOpenUpload(false);
+        setOpenManual(false);
     };
 
     const handleCloseOption = () => {
         setOpenOption(false);
+        setOpenUpload(false);
+        setOpenManual(false);
+    };
+
+    const handleOpenUpload = () => {
+        setOpenOption(false);
+        setOpenUpload(true);
+        setOpenManual(false);
+    };
+
+    const handleOpenManual = () => {
+        setOpenOption(false);
+        setOpenUpload(false);
+        setOpenManual(true);
+    };
+
+    const handleFileChange = (event) => {
+        setWorkFile(event.target.files[0])
+        console.log(event.target.files[0])
+    };
+
+    const handleUploadFormSubmit = () => {
+        const data = new FormData();
+        data.append('file', workFile);
     };
 
     return (
@@ -169,7 +200,7 @@ function AnggotaPage(props) {
                             Anda bisa download templatenya dengan menekan tombol "Download Template"
                         </Typography>
                         <Box component="div" textAlign="center">
-                            <Button variant="contained" color="primary">
+                            <Button variant="contained" color="primary" onClick={handleOpenUpload}>
                                 Upload Template
                             </Button>
                             <Button variant="contained" color="primary">
@@ -185,6 +216,38 @@ function AnggotaPage(props) {
                             Save changes
                         </Button>
                     </DialogActions> */}
+                </Dialog>
+                <Dialog onClose={handleCloseOption} aria-labelledby="customized-dialog-title" open={openUpload}>
+                    <DialogTitle id="customized-dialog-title" onClose={handleCloseOption} classes={classes}>
+                        Upload Template
+                    </DialogTitle>
+                    <MuiDialogContent dividers>
+                        <form noValidate autoComplete="off">
+                            <TextField
+                                id="outlined-number"
+                                margin="normal"
+                                label="Berkas Template"
+                                type="file"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                variant="outlined"
+                                required
+                                fullWidth
+                                name="file"
+                                onChange={handleFileChange}
+                                className={classes.textAlignLeft}
+                            />
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleUploadFormSubmit}
+                                fullWidth
+                            >
+                                Upload
+                            </Button>
+                        </form>
+                    </MuiDialogContent>
                 </Dialog>
             </Grid>
         </SiteLayout >
