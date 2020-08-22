@@ -68,7 +68,7 @@ const AuthenticatedMenu = () => {
         </Link>
       </ListItem>
       <ListItem className={classes.listItem}>
-        <Link href="/dashboard">
+        <Link href="/pengguna">
           <Button
             color="transparent"
             className={classes.navLink} >
