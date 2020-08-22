@@ -1,6 +1,6 @@
 const suratTugasPageStyle = {
   title: {
-    // marginBottom: "8vh",
+    marginBottom: "8vh",
     color: "#000000"
   },
   textCenter: {
@@ -8,7 +8,7 @@ const suratTugasPageStyle = {
   },
   gridContainer: {
     width: "100%",
-    padding: "12vh 0 4vh 0",
+    padding: "16vh 0 16vh 0",
   },
   gridItem: {
     marginTop: "16px"
