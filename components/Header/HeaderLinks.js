@@ -36,7 +36,6 @@ const AuthenticatedMenu = () => {
             className: classes.navLink,
             color: "transparent"
           }}
-          // buttonIcon={Apps}
           dropdownList={[
             <Link href="/patroli/terpadu">
               <a className={classes.dropdownLink}>Patroli Terpadu</a>
@@ -49,6 +48,15 @@ const AuthenticatedMenu = () => {
             </Link>
           ]}
         />
+      </ListItem>
+      <ListItem className={classes.listItem}>
+        <Link href="/anggota">
+          <Button
+            color="transparent"
+            className={classes.navLink} >
+            Anggota
+          </Button>
+        </Link>
       </ListItem>
       <ListItem className={classes.listItem}>
         <Link href="/surat-tugas">
