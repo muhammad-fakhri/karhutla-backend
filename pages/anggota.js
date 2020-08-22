@@ -4,9 +4,20 @@ import { getTokenFromRequest } from '../context/auth';
 const LoginPage = dynamic(() => import("./login"));
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from '@material-ui/core/Grid';
+import Modal from '@material-ui/core/Modal';
+import Dialog from '@material-ui/core/Dialog';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import MuiDialogContent from '@material-ui/core/DialogContent';
+import MuiDialogActions from '@material-ui/core/DialogActions';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
 import AddBoxIcon from '@material-ui/icons/AddBox';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 import MaterialTable from 'material-table';
-import CreateIcon from '@material-ui/icons/Create';
 import Link from 'next/link';
 import SiteLayout from "../components/Layout/SiteLayout";
 import Button from '../components/CustomButtons/Button'
@@ -14,6 +25,34 @@ import classNames from "classnames";
 import styles from "../assets/jss/nextjs-material-kit/pages/anggotaPage";
 
 const useStyles = makeStyles(styles);
+
+const DialogTitle = props => {
+    const { children, classes, onClose, ...other } = props;
+    return (
+        <MuiDialogTitle disableTypography className={classes.root} {...other}>
+            <Typography variant="h6">{children}</Typography>
+            {onClose ? (
+                <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+                    <CloseIcon />
+                </IconButton>
+            ) : null}
+        </MuiDialogTitle>
+    );
+};
+
+// const DialogContent = withStyles((theme) => ({
+//     root: {
+//         padding: theme.spacing(2),
+//     },
+// }))(MuiDialogContent);
+
+// const DialogActions = withStyles((theme) => ({
+//     root: {
+//         margin: 0,
+//         padding: theme.spacing(1),
+//     },
+// }))(MuiDialogActions);
+
 
 function AnggotaPage(props) {
     const classes = useStyles();
@@ -28,27 +67,37 @@ function AnggotaPage(props) {
         if (!props.loggedIn) return <LoginPage />;
     }
 
+    const [openOption, setOpenOption] = React.useState(false);
     const [state, setState] = React.useState({
         columns: [
-            { title: 'Jenis', field: 'type' },
-            { title: 'Nomor Surat', field: 'number' },
-            { title: 'Tanggal Mulai', field: 'startDate' },
-            { title: 'Tanggal Selesai', field: 'finishDate' },
+            { title: 'Daerah Operasi', field: 'region' },
+            { title: 'Nomor Registrasi', field: 'registrationNumber' },
+            { title: 'Nama', field: 'name' },
+            { title: 'Email', field: 'email' },
+            { title: 'Nomor HP', field: 'phoneNumber' },
         ],
         data: [
-            { type: 'Terpadu', number: 'GADA213NASD1', startDate: '23-08-2020', finishDate: '31-08-2020' },
-            { type: 'Zerya Betül', number: 'GADA213NASD1', startDate: '23-08-2020', finishDate: '31-08-2020' },
-            { type: 'Terpadu', number: 'GADA213NASD1', startDate: '23-08-2020', finishDate: '31-08-2020' },
-            { type: 'Terpadu', number: 'GADA213NASD1', startDate: '23-08-2020', finishDate: '31-08-2020' },
-            { type: 'Mandiri', number: 'GADA213NASD1', startDate: '23-08-2020', finishDate: '31-08-2020' },
-            { type: 'Mandiri', number: 'GADA213NASD1', startDate: '23-08-2020', finishDate: '31-08-2020' },
-            { type: 'Mandiri', number: 'GADA213NASD1', startDate: '23-08-2020', finishDate: '29-08-2020' },
-            { type: 'Mandiri', number: 'GADA213NASD1', startDate: '23-08-2020', finishDate: '31-08-2020' },
-            { type: 'Pencegahan', number: 'GADA213NASD1', startDate: '23-08-2020', finishDate: '31-08-2020' },
-            { type: 'Pencegahan', number: 'GADA213NASD1', startDate: '23-08-2020', finishDate: '31-08-2020' },
-            { type: 'Pencegahan', number: 'GADA213NASD1', startDate: '23-08-2020', finishDate: '31-08-2020' },
+            { region: 'Terpadu', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { region: 'Zerya Betül', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { region: 'Terpadu', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { region: 'Terpadu', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { region: 'Mandiri', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { region: 'Mandiri', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { region: 'Mandiri', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { region: 'Mandiri', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { region: 'Pencegahan', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { region: 'Pencegahan', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { region: 'Pencegahan', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
         ],
     });
+
+    const handleOpenOption = () => {
+        setOpenOption(true);
+    };
+
+    const handleCloseOption = () => {
+        setOpenOption(false);
+    };
 
     return (
         <SiteLayout headerColor="info">
@@ -69,16 +118,15 @@ function AnggotaPage(props) {
                     xs={3}
                     align="center"
                 >
-                    <Link href="surat-tugas/input">
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            className={classes.button}
-                            startIcon={<AddBoxIcon />}
-                        >
-                            Buat Surat Tugas
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        className={classes.button}
+                        startIcon={<AddBoxIcon />}
+                        onClick={handleOpenOption}
+                    >
+                        Tambah Anggota
                     </Button>
-                    </Link>
                 </Grid>
                 <Grid
                     item
@@ -92,16 +140,16 @@ function AnggotaPage(props) {
                         actions={[
                             {
                                 icon: 'edit',
-                                tooltip: 'Edit Data',
+                                tooltip: 'Edit Anggota',
                                 onClick: (event, rowData) => {
-                                    alert("You edit " + rowData.type)
+                                    alert("You edit " + rowData.name)
                                 }
                             },
                             {
                                 icon: 'delete',
-                                tooltip: 'Delete Data',
+                                tooltip: 'Hapus Anggota',
                                 onClick: (event, rowData) => {
-                                    alert("You delete " + rowData.type)
+                                    alert("You delete " + rowData.name)
                                 }
                             }
                         ]}
@@ -111,6 +159,33 @@ function AnggotaPage(props) {
                         }}
                     />
                 </Grid>
+                <Dialog onClose={handleCloseOption} aria-labelledby="customized-dialog-title" open={openOption}>
+                    <DialogTitle id="customized-dialog-title" onClose={handleCloseOption} classes={classes}>
+                        Tambah Anggota
+                    </DialogTitle>
+                    <MuiDialogContent dividers>
+                        <Typography gutterBottom align='justify'>
+                            Silakan pilih cara menambah anggota, melalui <strong>upload template</strong> atau <strong>isi manual</strong>.
+                            Anda bisa download templatenya dengan menekan tombol "Download Template"
+                        </Typography>
+                        <Box component="div" textAlign="center">
+                            <Button variant="contained" color="primary">
+                                Upload Template
+                            </Button>
+                            <Button variant="contained" color="primary">
+                                Isi Manual
+                            </Button>
+                            <Button variant="contained" color="grey">
+                                Download Template
+                            </Button>
+                        </Box>
+                    </MuiDialogContent>
+                    {/* <DialogActions>
+                        <Button autoFocus onClick={handleClose} color="primary">
+                            Save changes
+                        </Button>
+                    </DialogActions> */}
+                </Dialog>
             </Grid>
         </SiteLayout >
     );
