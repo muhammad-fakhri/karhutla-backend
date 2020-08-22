@@ -12,6 +12,7 @@ import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import TextField from '@material-ui/core/TextField';
 import MuiDialogActions from '@material-ui/core/DialogActions';
+import MenuItem from '@material-ui/core/MenuItem';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
@@ -23,6 +24,8 @@ import MaterialTable from 'material-table';
 import Link from 'next/link';
 import SiteLayout from "../components/Layout/SiteLayout";
 import Button from '../components/CustomButtons/Button'
+import GridContainer from "../components/Grid/GridContainer.js";
+import GridItem from "../components/Grid/GridItem.js";
 import classNames from "classnames";
 import styles from "../assets/jss/nextjs-material-kit/pages/anggotaPage";
 
@@ -130,6 +133,11 @@ function AnggotaPage(props) {
         data.append('file', workFile);
     };
 
+    const handleManualFormSubmit = () => {
+        const data = new FormData();
+        data.append('file', workFile);
+    };
+
     return (
         <SiteLayout headerColor="info">
             <Grid
@@ -203,7 +211,7 @@ function AnggotaPage(props) {
                             <Button variant="contained" color="primary" onClick={handleOpenUpload}>
                                 Upload Template
                             </Button>
-                            <Button variant="contained" color="primary">
+                            <Button variant="contained" color="primary" onClick={handleOpenManual}>
                                 Isi Manual
                             </Button>
                             <Button variant="contained" color="grey">
@@ -246,6 +254,103 @@ function AnggotaPage(props) {
                             >
                                 Upload
                             </Button>
+                        </form>
+                    </MuiDialogContent>
+                </Dialog>
+                <Dialog onClose={handleCloseOption} aria-labelledby="customized-dialog-title" open={openManual}>
+                    <DialogTitle id="customized-dialog-title" onClose={handleCloseOption} classes={classes}>
+                        Isi Manual
+                    </DialogTitle>
+                    <MuiDialogContent dividers>
+                        <form noValidate autoComplete="off">
+                            <GridContainer justify="center">
+                                <GridItem sm={8}>
+                                    <TextField
+                                        id="operation-region"
+                                        select
+                                        label="Daerah Operasi"
+                                        variant="outlined"
+                                        fullWidth
+                                        disabled
+                                        margin="normal"
+                                        required
+                                        defaultValue='a'
+                                        className={classes.textAlignLeft}
+                                    >
+                                        <MenuItem key={'a'} value={'a'}>
+                                            Lahat
+                                        </MenuItem>
+                                        <MenuItem key={'b'} value={'b'}>
+                                            B
+                                        </MenuItem>
+                                        <MenuItem key={'c'} value={'c'}>
+                                            C
+                                        </MenuItem>
+                                    </TextField>
+                                    <TextField
+                                        id="operation-region"
+                                        label="Nomor Registrasi"
+                                        variant="outlined"
+                                        fullWidth
+                                        margin="normal"
+                                        required
+                                        className={classes.textAlignLeft}
+                                    />
+                                    <TextField
+                                        id="operation-region"
+                                        label="Nama"
+                                        variant="outlined"
+                                        fullWidth
+                                        margin="normal"
+                                        required
+                                        className={classes.textAlignLeft}
+                                    />
+                                    <TextField
+                                        id="operation-region"
+                                        label="Email"
+                                        variant="outlined"
+                                        fullWidth
+                                        margin="normal"
+                                        required
+                                        className={classes.textAlignLeft}
+                                    />
+                                    <TextField
+                                        id="operation-region"
+                                        label="Password"
+                                        variant="outlined"
+                                        fullWidth
+                                        margin="normal"
+                                        required
+                                        className={classes.textAlignLeft}
+                                    />
+                                    <TextField
+                                        id="operation-region"
+                                        label="Konfirmasi Password"
+                                        variant="outlined"
+                                        fullWidth
+                                        margin="normal"
+                                        required
+                                        className={classes.textAlignLeft}
+                                    />
+                                    <TextField
+                                        id="operation-region"
+                                        label="Nomor HP"
+                                        variant="outlined"
+                                        fullWidth
+                                        margin="normal"
+                                        required
+                                        className={classes.textAlignLeft}
+                                    />
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={handleManualFormSubmit}
+                                        fullWidth
+                                    >
+                                        Tambah Anggota
+                                    </Button>
+                                </GridItem>
+                            </GridContainer>
                         </form>
                     </MuiDialogContent>
                 </Dialog>
