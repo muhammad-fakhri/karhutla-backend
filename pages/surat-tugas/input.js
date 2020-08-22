@@ -11,7 +11,7 @@ import Link from 'next/link';
 import SiteLayout from "../../components/Layout/SiteLayout";
 import Button from '../../components/CustomButtons/Button'
 import classNames from "classnames";
-import styles from "../../assets/jss/nextjs-material-kit/pages/inputSuratTugasPage";
+import styles from "../../assets/jss/nextjs-material-kit/pages/suratTugas/inputPage";
 
 const useStyles = makeStyles(styles);
 
@@ -62,7 +62,7 @@ function SuratTugasPage(props) {
                         </ButtonBase>
                     </Link>
                     <a href="https://drive.google.com" target="_blank">
-                        <Button type="button" color="primary">Download Template Kosong</Button>
+                        <Button type="button" color="gray">Download Template Kosong</Button>
                     </a>
                 </Grid>
                 <Grid

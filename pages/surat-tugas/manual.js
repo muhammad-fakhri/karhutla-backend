@@ -19,7 +19,7 @@ import GridContainer from "../../components/Grid/GridContainer.js";
 import GridItem from "../../components/Grid/GridItem.js";
 import Button from "../../components/CustomButtons/Button";
 import classNames from "classnames";
-import styles from "../../assets/jss/nextjs-material-kit/pages/manualPage";
+import styles from "../../assets/jss/nextjs-material-kit/pages/suratTugas/manualPage";
 import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles(styles);
 

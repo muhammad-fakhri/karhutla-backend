@@ -1,4 +1,4 @@
-const suratTugasPageStyle = {
+const inputPageStyle = {
   title: {
     marginBottom: "8vh",
     color: "#000000"
@@ -25,4 +25,4 @@ const suratTugasPageStyle = {
   }
 };
 
-export default suratTugasPageStyle;
+export default inputPageStyle;

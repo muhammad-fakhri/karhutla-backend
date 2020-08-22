@@ -1,6 +1,4 @@
-import { container } from "assets/jss/nextjs-material-kit.js";
-
-const frontPageStyle = {
+const berkasPageStyle = {
   main: {
     background: "#FFFFFF",
     position: "relative",
@@ -26,12 +24,8 @@ const frontPageStyle = {
   form: {
     marginTop: '32px'
   },
-  title: {
-    marginTop: '24px'
-  },
-  submitButton: {
-    paddingTop: '16px'
+  gridItem: {
   }
 };
 
-export default frontPageStyle;
+export default berkasPageStyle;

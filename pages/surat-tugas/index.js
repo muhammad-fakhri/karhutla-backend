@@ -13,7 +13,7 @@ import Link from 'next/link';
 import SiteLayout from "../../components/Layout/SiteLayout";
 import Button from '../../components/CustomButtons/Button'
 import classNames from "classnames";
-import styles from "../../assets/jss/nextjs-material-kit/pages/suratTugasPage";
+import styles from "../../assets/jss/nextjs-material-kit/pages/suratTugas/index";
 
 const useStyles = makeStyles(styles);
 

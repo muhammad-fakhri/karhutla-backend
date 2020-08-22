@@ -1,6 +1,6 @@
 import { container } from "assets/jss/nextjs-material-kit.js";
 
-const frontPageStyle = {
+const manualPageStyle = {
   main: {
     background: "#FFFFFF",
     position: "relative",
@@ -26,8 +26,12 @@ const frontPageStyle = {
   form: {
     marginTop: '32px'
   },
-  gridItem: {
+  title: {
+    marginTop: '24px'
+  },
+  submitButton: {
+    paddingTop: '16px'
   }
 };
 
-export default frontPageStyle;
+export default manualPageStyle;
