@@ -7,10 +7,8 @@ import DateFnsUtils from '@date-io/date-fns';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import RemoveIcon from '@material-ui/icons/Remove';
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import SiteLayout from '../../components/Layout/SiteLayout';
@@ -41,7 +39,7 @@ export default function DashboardPage(props) {
   const classes = useStyles();
   React.useEffect(() => {
     if (props.loggedIn) return; // do nothing if already logged in
-    Router.replace("/dashboard", "/login", { shallow: true });
+    Router.replace("/surat-tugas/berkas", "/login", { shallow: true });
   }, [props.loggedIn]);
 
   // Load login page if not logged in
@@ -198,7 +196,6 @@ export default function DashboardPage(props) {
     </SiteLayout>
   );
 }
-
 
 export async function getServerSideProps(context) {
   return {

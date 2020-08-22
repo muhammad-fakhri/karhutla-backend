@@ -6,12 +6,9 @@ import { getTokenFromRequest } from '../../context/auth';
 import DateFnsUtils from '@date-io/date-fns';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
-import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import SiteLayout from '../../components/Layout/SiteLayout';
@@ -38,11 +35,11 @@ const workTypes = [
   },
 ];
 
-export default function DashboardPage(props) {
+export default function ManualSuratTugasPage(props) {
   const classes = useStyles();
   React.useEffect(() => {
     if (props.loggedIn) return; // do nothing if already logged in
-    Router.replace("/dashboard", "/login", { shallow: true });
+    Router.replace("/surat-tugas/manual", "/login", { shallow: true });
   }, [props.loggedIn]);
 
   // Load login page if not logged in
@@ -73,11 +70,6 @@ export default function DashboardPage(props) {
     setWorkType(event.target.value);
   };
 
-  const handleFileChange = (event) => {
-    setWorkFile(event.target.files[0])
-    console.log(event.target.files[0])
-  };
-
   const handleClick = () => {
     const data = new FormData();
     data.append('file', workFile);
@@ -87,7 +79,7 @@ export default function DashboardPage(props) {
     <SiteLayout headerColor='info'>
       <div>
         <div className={classNames(classes.main, classes.mainRaised, classes.textCenter)}>
-          <h2>Input Surat Tugas Manual</h2>
+          <h2>Input Manual Surat Tugas</h2>
           <form noValidate autoComplete="off" className={classes.form}>
             <GridContainer justify="center">
               <GridItem sm={3} xs={10}>
@@ -451,7 +443,6 @@ export default function DashboardPage(props) {
     </SiteLayout >
   );
 }
-
 
 export async function getServerSideProps(context) {
   return {

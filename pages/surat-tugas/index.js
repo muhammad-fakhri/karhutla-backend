@@ -3,16 +3,12 @@ import Router from 'next/router';
 import { getTokenFromRequest } from '../../context/auth';
 const LoginPage = dynamic(() => import("../login"));
 import { makeStyles } from "@material-ui/core/styles";
-import ButtonBase from '@material-ui/core/ButtonBase';
 import Grid from '@material-ui/core/Grid';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import MaterialTable from 'material-table';
-import CreateIcon from '@material-ui/icons/Create';
 import Link from 'next/link';
 import SiteLayout from "../../components/Layout/SiteLayout";
 import Button from '../../components/CustomButtons/Button'
-import classNames from "classnames";
 import styles from "../../assets/jss/nextjs-material-kit/pages/suratTugas/index";
 
 const useStyles = makeStyles(styles);
@@ -72,13 +68,13 @@ function SuratTugasPage(props) {
                     align="center"
                 >
                     <Link href="surat-tugas/input">
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        className={classes.button}
-                        startIcon={<AddBoxIcon />}
-                    >
-                        Buat Surat Tugas
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            className={classes.button}
+                            startIcon={<AddBoxIcon />}
+                        >
+                            Buat Surat Tugas
                     </Button>
                     </Link>
                 </Grid>

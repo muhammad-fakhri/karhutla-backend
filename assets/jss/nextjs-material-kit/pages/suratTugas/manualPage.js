@@ -1,5 +1,3 @@
-import { container } from "assets/jss/nextjs-material-kit.js";
-
 const manualPageStyle = {
   main: {
     background: "#FFFFFF",

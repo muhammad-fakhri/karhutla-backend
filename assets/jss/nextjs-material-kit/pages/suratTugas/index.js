@@ -1,6 +1,5 @@
 const suratTugasPageStyle = {
   title: {
-    // marginBottom: "8vh",
     color: "#000000"
   },
   textCenter: {

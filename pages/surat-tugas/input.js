@@ -15,13 +15,13 @@ import styles from "../../assets/jss/nextjs-material-kit/pages/suratTugas/inputP
 
 const useStyles = makeStyles(styles);
 
-function SuratTugasPage(props) {
+function InputSuratTugasPage(props) {
     const classes = useStyles();
 
     // Load login page if not logged in
     React.useEffect(() => {
         if (props.loggedIn) return; // do nothing if already logged in
-        Router.replace("/surat-tugas", "/login", { shallow: true });
+        Router.replace("/surat-tugas/input", "/login", { shallow: true });
     }, [props.loggedIn]);
 
     if (props.loggedIn !== undefined) {
@@ -98,4 +98,4 @@ export async function getServerSideProps(context) {
     }
 }
 
-export default SuratTugasPage;
+export default InputSuratTugasPage;
