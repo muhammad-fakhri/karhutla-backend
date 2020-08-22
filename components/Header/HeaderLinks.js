@@ -77,15 +77,6 @@ const AuthenticatedMenu = () => {
         </Link>
       </ListItem>
       <ListItem className={classes.listItem}>
-        <Link href="/dashboard">
-          <Button
-            color="transparent"
-            className={classes.navLink} >
-            About
-          </Button>
-        </Link>
-      </ListItem>
-      <ListItem className={classes.listItem}>
         <Button
           color="transparent"
           className={classes.navLink}
@@ -102,15 +93,6 @@ const UnauthenticatedMenu = () => {
 
   return (
     <List className={classes.list}>
-      <ListItem className={classes.listItem}>
-        <Link href="/">
-          <Button
-            color="transparent"
-            className={classes.navLink} >
-            <Icon className={classes.icons}>info</Icon> About
-        </Button>
-        </Link>
-      </ListItem>
       <ListItem className={classes.listItem}>
         <Link href="/login">
           <Button

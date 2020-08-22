@@ -43,7 +43,7 @@ function AnggotaPage(props) {
     // Load login page if not logged in
     React.useEffect(() => {
         if (props.loggedIn) return; // do nothing if already logged in
-        Router.replace("/surat-tugas", "/login", { shallow: true });
+        Router.replace("/anggota", "/login", { shallow: true });
     }, [props.loggedIn]);
 
     if (props.loggedIn !== undefined) {
