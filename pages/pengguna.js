@@ -43,72 +43,44 @@ function AnggotaPage(props) {
     // Load login page if not logged in
     React.useEffect(() => {
         if (props.loggedIn) return; // do nothing if already logged in
-        Router.replace("/anggota", "/login", { shallow: true });
+        Router.replace("/pengguna", "/login", { shallow: true });
     }, [props.loggedIn]);
 
     if (props.loggedIn !== undefined) {
         if (!props.loggedIn) return <LoginPage />;
     }
 
-    const [openOption, setOpenOption] = React.useState(false);
-    const [openUpload, setOpenUpload] = React.useState(false);
     const [openManual, setOpenManual] = React.useState(false);
-    const [workFile, setWorkFile] = React.useState();
     const [state, setState] = React.useState({
         columns: [
+            { title: 'Instansi', field: 'organization' },
             { title: 'Daerah Operasi', field: 'region' },
-            { title: 'Nomor Registrasi', field: 'registrationNumber' },
+            { title: 'NIP', field: 'nipNumber' },
             { title: 'Nama', field: 'name' },
             { title: 'Email', field: 'email' },
             { title: 'Nomor HP', field: 'phoneNumber' },
         ],
         data: [
-            { region: 'Terpadu', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
-            { region: 'Zerya Betül', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
-            { region: 'Terpadu', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
-            { region: 'Terpadu', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
-            { region: 'Mandiri', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
-            { region: 'Mandiri', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
-            { region: 'Mandiri', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
-            { region: 'Mandiri', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
-            { region: 'Pencegahan', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
-            { region: 'Pencegahan', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
-            { region: 'Pencegahan', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { organization: 'Daops', region: 'Terpadu', nipNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { organization: 'Daops', region: 'Zerya Betül', nipNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { organization: 'Daops', region: 'Terpadu', nipNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { organization: 'Daops', region: 'Terpadu', nipNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { organization: 'Daops', region: 'Mandiri', nipNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { organization: 'Daops', region: 'Mandiri', nipNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { organization: 'Balai', region: '-', nipNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { organization: 'Balai', region: '-', nipNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { organization: 'Balai', region: '-', nipNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { organization: 'Balai', region: '-', nipNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { organization: 'Balai', region: '-', nipNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
         ],
     });
 
-    const handleOpenOption = () => {
-        setOpenOption(true);
-        setOpenUpload(false);
-        setOpenManual(false);
-    };
-
-    const handleCloseOption = () => {
-        setOpenOption(false);
-        setOpenUpload(false);
-        setOpenManual(false);
-    };
-
-    const handleOpenUpload = () => {
-        setOpenOption(false);
-        setOpenUpload(true);
-        setOpenManual(false);
-    };
-
     const handleOpenManual = () => {
-        setOpenOption(false);
-        setOpenUpload(false);
         setOpenManual(true);
     };
 
-    const handleFileChange = (event) => {
-        setWorkFile(event.target.files[0])
-        console.log(event.target.files[0])
-    };
-
-    const handleUploadFormSubmit = () => {
-        const data = new FormData();
-        data.append('file', workFile);
+    const handleCloseManual = () => {
+        setOpenManual(false);
     };
 
     const handleManualFormSubmit = () => {
@@ -128,7 +100,7 @@ function AnggotaPage(props) {
                     xs={10}
                     align="center"
                     className={classes.title}>
-                    <h2>Daftar Anggota Manggala Agni</h2>
+                    <h2>Daftar Pengguna Daops/Balai</h2>
                 </Grid>
                 <Grid
                     item
@@ -140,9 +112,9 @@ function AnggotaPage(props) {
                         color="primary"
                         className={classes.button}
                         startIcon={<AddBoxIcon />}
-                        onClick={handleOpenOption}
+                        onClick={handleOpenManual}
                     >
-                        Tambah Anggota
+                        Tambah Pengguna
                     </Button>
                 </Grid>
                 <Grid
@@ -157,14 +129,14 @@ function AnggotaPage(props) {
                         actions={[
                             {
                                 icon: 'edit',
-                                tooltip: 'Edit Anggota',
+                                tooltip: 'Edit Pengguna',
                                 onClick: (event, rowData) => {
                                     alert("You edit " + rowData.name)
                                 }
                             },
                             {
                                 icon: 'delete',
-                                tooltip: 'Hapus Anggota',
+                                tooltip: 'Hapus Pengguna',
                                 onClick: (event, rowData) => {
                                     alert("You delete " + rowData.name)
                                 }
@@ -176,65 +148,9 @@ function AnggotaPage(props) {
                         }}
                     />
                 </Grid>
-                <Dialog onClose={handleCloseOption} aria-labelledby="customized-dialog-title" open={openOption}>
-                    <DialogTitle id="customized-dialog-title" onClose={handleCloseOption} classes={classes}>
-                        Tambah Anggota Manggala Agni
-                    </DialogTitle>
-                    <MuiDialogContent dividers>
-                        <Typography gutterBottom align='justify'>
-                            Silakan pilih cara menambah anggota, melalui <strong>upload template</strong> atau <strong>isi manual</strong>.
-                            Anda bisa download templatenya dengan menekan tombol "Download Template"
-                        </Typography>
-                        <Box component="div" textAlign="center">
-                            <Button variant="contained" color="primary" onClick={handleOpenUpload}>
-                                Upload Template
-                            </Button>
-                            <Button variant="contained" color="primary" onClick={handleOpenManual}>
-                                Isi Manual
-                            </Button>
-                            <a href="https://drive.google.com" target="_blank">
-                                <Button variant="contained" color="grey">
-                                    Download Template
-                            </Button>
-                            </a>
-                        </Box>
-                    </MuiDialogContent>
-                </Dialog>
-                <Dialog onClose={handleCloseOption} aria-labelledby="customized-dialog-title" open={openUpload}>
-                    <DialogTitle id="customized-dialog-title" onClose={handleCloseOption} classes={classes}>
-                        Upload Template
-                    </DialogTitle>
-                    <MuiDialogContent dividers>
-                        <form noValidate autoComplete="off">
-                            <TextField
-                                id="outlined-number"
-                                margin="normal"
-                                label="Berkas Template"
-                                type="file"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                variant="outlined"
-                                required
-                                fullWidth
-                                name="file"
-                                onChange={handleFileChange}
-                                className={classes.textAlignLeft}
-                            />
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={handleUploadFormSubmit}
-                                fullWidth
-                            >
-                                Upload
-                            </Button>
-                        </form>
-                    </MuiDialogContent>
-                </Dialog>
-                <Dialog onClose={handleCloseOption} aria-labelledby="customized-dialog-title" open={openManual}>
-                    <DialogTitle id="customized-dialog-title" onClose={handleCloseOption} classes={classes}>
-                        Isi Manual
+                <Dialog onClose={handleCloseManual} aria-labelledby="customized-dialog-title" open={openManual}>
+                    <DialogTitle id="customized-dialog-title" onClose={handleCloseManual} classes={classes}>
+                        Tambah Pengguna Daops/Balai
                     </DialogTitle>
                     <MuiDialogContent dividers>
                         <form noValidate autoComplete="off">
@@ -243,13 +159,28 @@ function AnggotaPage(props) {
                                     <TextField
                                         id="operation-region"
                                         select
+                                        label="Asal Instansi"
+                                        variant="outlined"
+                                        fullWidth
+                                        margin="normal"
+                                        required
+                                        className={classes.textAlignLeft}
+                                    >
+                                        <MenuItem key={'a'} value={'a'}>
+                                            Daops
+                                        </MenuItem>
+                                        <MenuItem key={'b'} value={'b'}>
+                                            Balai
+                                        </MenuItem>
+                                    </TextField>
+                                    <TextField
+                                        id="operation-region"
+                                        select
                                         label="Daerah Operasi"
                                         variant="outlined"
                                         fullWidth
-                                        disabled
                                         margin="normal"
                                         required
-                                        defaultValue='a'
                                         className={classes.textAlignLeft}
                                     >
                                         <MenuItem key={'a'} value={'a'}>
@@ -264,7 +195,7 @@ function AnggotaPage(props) {
                                     </TextField>
                                     <TextField
                                         id="operation-region"
-                                        label="Nomor Registrasi"
+                                        label="NIP"
                                         variant="outlined"
                                         fullWidth
                                         margin="normal"
@@ -280,6 +211,23 @@ function AnggotaPage(props) {
                                         required
                                         className={classes.textAlignLeft}
                                     />
+                                    <TextField
+                                        id="operation-region"
+                                        select
+                                        label="Jabatan"
+                                        variant="outlined"
+                                        fullWidth
+                                        margin="normal"
+                                        required
+                                        className={classes.textAlignLeft}
+                                    >
+                                        <MenuItem key={'a'} value={'a'}>
+                                            Kepala
+                                        </MenuItem>
+                                        <MenuItem key={'b'} value={'b'}>
+                                            Admin
+                                        </MenuItem>
+                                    </TextField>
                                     <TextField
                                         id="operation-region"
                                         label="Email"
@@ -322,7 +270,7 @@ function AnggotaPage(props) {
                                         onClick={handleManualFormSubmit}
                                         fullWidth
                                     >
-                                        Tambah Anggota
+                                        Tambah Pengguna
                                     </Button>
                                 </GridItem>
                             </GridContainer>
