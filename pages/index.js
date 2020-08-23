@@ -5,7 +5,7 @@ import SiteLayout from '../components/Layout/SiteLayout';
 import Parallax from "../components/Parallax/Parallax.js";
 import GridContainer from "../components/Grid/GridContainer.js";
 import GridItem from "../components/Grid/GridItem.js";
-import Map from "../components/Map/Map.js";
+import Map from "../components/Map/MapHotspot";
 import fetch from 'isomorphic-unfetch';
 import styles from "../assets/jss/nextjs-material-kit/pages/frontPage.js";
 const useStyles = makeStyles(styles);
