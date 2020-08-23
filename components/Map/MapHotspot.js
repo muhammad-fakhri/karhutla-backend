@@ -15,11 +15,10 @@ function createMapOptions(maps) {
 }
 
 function Map(props) {
-
     const handleApiLoaded = (map, maps, hotspots) => {
         const markers = [];
         const infowindows = [];
-
+        const defaultMarker = "http://maps.google.com/mapfiles/ms/icons/red-dot.png";
         hotspots.forEach((hotspot) => {
             markers.push(new maps.Marker({
                 position: {
@@ -27,6 +26,7 @@ function Map(props) {
                     lng: parseFloat(hotspot.longitude)
                 },
                 map,
+                icon: hotspot.marker ? hotspot.marker : defaultMarker
             }));
 
             infowindows.push(new maps.InfoWindow({
