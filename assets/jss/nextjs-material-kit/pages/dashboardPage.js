@@ -41,6 +41,15 @@ const frontPageStyle = {
   },
   formChooseDate: {
     marginTop: '8px'
+  },
+  terpaduBg: {
+    textDecoration: 'underline #fdf569 solid'
+  },
+  mandiriBg: {
+    textDecoration: 'underline #6991fd solid'
+  },
+  pencegahanBg: {
+    textDecoration: 'underline #00e64d solid'
   }
 };
 
