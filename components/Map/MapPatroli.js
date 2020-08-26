@@ -80,7 +80,7 @@ export class MapContainer extends React.Component {
         return (
             <Map
                 google={this.props.google}
-                center={this.props.center}
+                initialCenter={this.props.center}
                 zoom={this.props.zoom}
                 streetViewControl={true}
                 containerStyle={{

@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
+import { getTokenFromRequest } from '../context/auth';
 import Datetime from "react-datetime";
 import FormControl from "@material-ui/core/FormControl";
 import SiteLayout from '../components/Layout/SiteLayout';
@@ -119,7 +120,7 @@ export default function FrontPage(props) {
             }}
             zoom={5.1}
             spots={spots}
-            isLoggedin={false}
+            isLoggedin={props.loggedIn}
           />
           <GridContainer>
             <GridItem xs={12}>
@@ -157,4 +158,12 @@ export default function FrontPage(props) {
       </div>
     </SiteLayout>
   );
+}
+
+export async function getServerSideProps(context) {
+  return {
+      props: {
+          loggedIn: getTokenFromRequest(context),
+      }
+  }
 }
