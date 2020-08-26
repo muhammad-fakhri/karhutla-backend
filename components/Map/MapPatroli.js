@@ -24,6 +24,58 @@ export class MapContainer extends React.Component {
         }
     };
 
+    generateInfoWindowContent = () => {
+        return <div>
+            <center>
+                <b>{this.state.selectedPlace.patroli.id_daerah_patroli.nama_daerah_patroli}</b>
+            </center>
+            <center>Lat: {this.state.selectedPlace.patroli.laporanDarat[0].latitude} | Lng: {this.state.selectedPlace.patroli.laporanDarat[0].longitude} </center>
+            <br />
+            <table>
+                <tr>
+                    <td>Kategori</td>
+                    <td>:</td>
+                    <td>Patroli {this.state.selectedPlace.patroli.kategori_patroli}</td>
+                </tr>
+                <tr>
+                    <td>Regu/Tim </td>
+                    <td>:</td>
+                    <td>{this.state.selectedPlace.patroli.regu_patroli.daerah.nama_daops}</td>
+                </tr>
+                <tr>
+                    <td>Ketua Regu </td>
+                    <td>:</td>
+                    <td>{this.state.selectedPlace.patroli.regu_patroli.ketua.nama}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>{this.state.selectedPlace.patroli.regu_patroli.ketua.email}</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Wilayah </td>
+                    <td>:</td>
+                    <td>{this.state.selectedPlace.patroli.id_daerah_patroli.tipe_wilayah} {this.state.selectedPlace.patroli.id_daerah_patroli.nama_wilayah}</td>
+                </tr>
+            </table>
+            {
+                this.props.isLoggedin
+                    ? <>
+                        <br />
+                        <center>
+                            <a href='http://103.129.223.216/simadu2/app/downloader.php?id={this.props.patroli.id_laporan_header}' target='_blank'>Unduh Laporan</a>
+                        </center>
+                    </>
+                    : null
+            }
+        </div>
+    }
+
     render() {
         return (
             <Map
@@ -58,49 +110,7 @@ export class MapContainer extends React.Component {
                     marker={this.state.activeMarker}
                     visible={this.state.showingInfoWindow}>
                     {this.state.selectedPlace.patroli
-                        ? <div>
-                            <center>
-                                <b>{this.state.selectedPlace.patroli.id_daerah_patroli.nama_daerah_patroli}</b>
-                            </center>
-                            <center>Lat: {this.state.selectedPlace.patroli.laporanDarat[0].latitude} | Lng: {this.state.selectedPlace.patroli.laporanDarat[0].longitude} </center>
-                            <br />
-                            <table>
-                                <tr>
-                                    <td>Kategori</td>
-                                    <td>:</td>
-                                    <td>Patroli {this.state.selectedPlace.patroli.kategori_patroli}</td>
-                                </tr>
-                                <tr>
-                                    <td>Regu/Tim </td>
-                                    <td>:</td>
-                                    <td>{this.state.selectedPlace.patroli.regu_patroli.daerah.nama_daops}</td>
-                                </tr>
-                                <tr>
-                                    <td>Ketua Regu </td>
-                                    <td>:</td>
-                                    <td>{this.state.selectedPlace.patroli.regu_patroli.ketua.nama}</td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td>{this.state.selectedPlace.patroli.regu_patroli.ketua.email}</td>
-                                </tr>
-                                <tr>
-                                    <td>&nbsp;</td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>Wilayah </td>
-                                    <td>:</td>
-                                    <td>{this.state.selectedPlace.patroli.id_daerah_patroli.tipe_wilayah} {this.state.selectedPlace.patroli.id_daerah_patroli.nama_wilayah}</td>
-                                </tr>
-                            </table>
-                            <br />
-                            <center>
-                                <a href='http://103.129.223.216/simadu2/app/downloader.php?id={this.props.patroli.id_laporan_header}' target='_blank'>Unduh Laporan</a>
-                            </center>
-                        </div>
+                        ? this.generateInfoWindowContent()
                         : <h3>No Content</h3>}
                 </InfoWindow>
             </Map >
