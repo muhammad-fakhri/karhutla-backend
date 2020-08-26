@@ -77,6 +77,15 @@ const AuthenticatedMenu = () => {
         </Link>
       </ListItem>
       <ListItem className={classes.listItem}>
+        <Link href="/hotspot">
+          <Button
+            color="transparent"
+            className={classes.navLink} >
+            Hotspot
+          </Button>
+        </Link>
+      </ListItem>
+      <ListItem className={classes.listItem}>
         <Button
           color="transparent"
           className={classes.navLink}
