@@ -61,16 +61,6 @@ export default function HotspotPage(props) {
                         <Icon className={classes.icon} color={"error"}>fiber_manual_record</Icon>
                         SIPONGI Live Update
                     </h2>
-                    <Map
-                        center={
-                            {
-                                lat: -1.5,
-                                lng: 117.384
-                            }
-                        }
-                        zoom={5.1}
-                        hotspots={props.hotspots}
-                    />
                     <GridContainer>
                         <GridItem xs={12}>
                             <h3>
@@ -92,6 +82,16 @@ export default function HotspotPage(props) {
                             <h3>80%</h3>
                         </GridItem>
                     </GridContainer>
+                    <Map
+                        center={
+                            {
+                                lat: -1.5,
+                                lng: 117.384
+                            }
+                        }
+                        zoom={5.1}
+                        hotspots={props.hotspots}
+                    />
                 </div>
             </div>
         </SiteLayout>
