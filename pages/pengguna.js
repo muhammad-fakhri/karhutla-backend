@@ -5,8 +5,13 @@ const LoginPage = dynamic(() => import("./login"));
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from '@material-ui/core/Grid';
 import Dialog from '@material-ui/core/Dialog';
+import PropTypes from 'prop-types';
+import SwipeableViews from 'react-swipeable-views';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import TextField from '@material-ui/core/TextField';
@@ -37,6 +42,39 @@ const DialogTitle = props => {
     );
 };
 
+function a11yProps(index) {
+    return {
+        id: `full-width-tab-${index}`,
+        'aria-controls': `full-width-tabpanel-${index}`,
+    };
+}
+
+function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`full-width-tabpanel-${index}`}
+            aria-labelledby={`full-width-tab-${index}`}
+            {...other}
+        >
+            {value === index && (
+                <Box p={3}>
+                    <Typography>{children}</Typography>
+                </Box>
+            )}
+        </div>
+    );
+}
+
+TabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.any.isRequired,
+    value: PropTypes.any.isRequired,
+};
+
 function AnggotaPage(props) {
     const classes = useStyles();
 
@@ -51,7 +89,29 @@ function AnggotaPage(props) {
     }
 
     const [openManual, setOpenManual] = React.useState(false);
-    const [state, setState] = React.useState({
+    const [manggalaState, setManggalaState] = React.useState({
+        columns: [
+            { title: 'Daerah Operasi', field: 'region' },
+            { title: 'Nomor Registrasi', field: 'registrationNumber' },
+            { title: 'Nama', field: 'name' },
+            { title: 'Email', field: 'email' },
+            { title: 'Nomor HP', field: 'phoneNumber' },
+        ],
+        data: [
+            { region: 'Terpadu', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { region: 'Zerya Betül', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { region: 'Terpadu', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { region: 'Terpadu', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { region: 'Mandiri', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { region: 'Mandiri', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { region: 'Mandiri', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { region: 'Mandiri', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { region: 'Pencegahan', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { region: 'Pencegahan', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+            { region: 'Pencegahan', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+        ],
+    });
+    const [daopsState, setDaopsState] = React.useState({
         columns: [
             { title: 'Instansi', field: 'organization' },
             { title: 'Daerah Operasi', field: 'region' },
@@ -74,6 +134,7 @@ function AnggotaPage(props) {
             { organization: 'Balai', region: '-', nipNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
         ],
     });
+    const [value, setValue] = React.useState(0);
 
     const handleOpenManual = () => {
         setOpenManual(true);
@@ -88,6 +149,14 @@ function AnggotaPage(props) {
         data.append('file', workFile);
     };
 
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
+    const handleChangeIndex = (index) => {
+        setValue(index);
+    };
+
     return (
         <SiteLayout headerColor="info">
             <Grid
@@ -100,7 +169,7 @@ function AnggotaPage(props) {
                     xs={10}
                     align="center"
                     className={classes.title}>
-                    <h2>Daftar Pengguna Daops/Balai</h2>
+                    <h2>Manajemen Pengguna</h2>
                 </Grid>
                 <Grid
                     item
@@ -122,31 +191,79 @@ function AnggotaPage(props) {
                     xs={10}
                     align="center"
                     className={classes.gridItem}>
-                    <MaterialTable
-                        title=""
-                        columns={state.columns}
-                        data={state.data}
-                        actions={[
-                            {
-                                icon: 'edit',
-                                tooltip: 'Edit Pengguna',
-                                onClick: (event, rowData) => {
-                                    alert("You edit " + rowData.name)
-                                }
-                            },
-                            {
-                                icon: 'delete',
-                                tooltip: 'Hapus Pengguna',
-                                onClick: (event, rowData) => {
-                                    alert("You delete " + rowData.name)
-                                }
-                            }
-                        ]}
-                        options={{
-                            search: true,
-                            actionsColumnIndex: -1
-                        }}
-                    />
+                    <AppBar position="static" color="default">
+                        <Tabs
+                            value={value}
+                            onChange={handleChange}
+                            indicatorColor="primary"
+                            textColor="primary"
+                            variant="fullWidth"
+                            aria-label="full width tabs example"
+                        >
+                            <Tab label="Personil Manggala Agni" {...a11yProps(0)} />
+                            <Tab label="Daops/Balai" {...a11yProps(1)} />
+                        </Tabs>
+                    </AppBar>
+                    <SwipeableViews
+                        axis={'x'}
+                        index={value}
+                        onChangeIndex={handleChangeIndex}
+                    >
+                        <TabPanel value={value} index={0} dir={'right'}>
+                            <MaterialTable
+                                title=""
+                                columns={manggalaState.columns}
+                                data={manggalaState.data}
+                                actions={[
+                                    {
+                                        icon: 'edit',
+                                        tooltip: 'Edit Anggota',
+                                        onClick: (event, rowData) => {
+                                            alert("You edit " + rowData.name)
+                                        }
+                                    },
+                                    {
+                                        icon: 'delete',
+                                        tooltip: 'Hapus Anggota',
+                                        onClick: (event, rowData) => {
+                                            alert("You delete " + rowData.name)
+                                        }
+                                    }
+                                ]}
+                                options={{
+                                    search: true,
+                                    actionsColumnIndex: -1
+                                }}
+                            />
+                        </TabPanel>
+                        <TabPanel value={value} index={1} dir={'right'}>
+                            <MaterialTable
+                                title=""
+                                columns={daopsState.columns}
+                                data={daopsState.data}
+                                actions={[
+                                    {
+                                        icon: 'edit',
+                                        tooltip: 'Edit Pengguna',
+                                        onClick: (event, rowData) => {
+                                            alert("You edit " + rowData.name)
+                                        }
+                                    },
+                                    {
+                                        icon: 'delete',
+                                        tooltip: 'Hapus Pengguna',
+                                        onClick: (event, rowData) => {
+                                            alert("You delete " + rowData.name)
+                                        }
+                                    }
+                                ]}
+                                options={{
+                                    search: true,
+                                    actionsColumnIndex: -1
+                                }}
+                            />
+                        </TabPanel>
+                    </SwipeableViews>
                 </Grid>
                 <Dialog onClose={handleCloseManual} aria-labelledby="customized-dialog-title" open={openManual}>
                     <DialogTitle id="customized-dialog-title" onClose={handleCloseManual} classes={classes}>
