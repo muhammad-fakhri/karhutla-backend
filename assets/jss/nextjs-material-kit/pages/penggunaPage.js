@@ -10,6 +10,7 @@ const anggotaPageStyle = {
   },
   gridContainer: {
     width: "100%",
+    // border: '1px solid red',
     padding: "12vh 0 4vh 0",
   },
   gridItem: {
@@ -30,7 +31,7 @@ const anggotaPageStyle = {
     right: '8px',
     top: '8px',
     color: '#e6e1e1'
-  },
+  }
 };
 
 export default anggotaPageStyle;

@@ -50,15 +50,6 @@ const AuthenticatedMenu = () => {
         />
       </ListItem>
       <ListItem className={classes.listItem}>
-        <Link href="/anggota">
-          <Button
-            color="transparent"
-            className={classes.navLink} >
-            Anggota
-          </Button>
-        </Link>
-      </ListItem>
-      <ListItem className={classes.listItem}>
         <Link href="/surat-tugas">
           <Button
             color="transparent"

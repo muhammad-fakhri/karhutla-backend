@@ -24,7 +24,7 @@ import SiteLayout from "../components/Layout/SiteLayout";
 import Button from '../components/CustomButtons/Button'
 import GridContainer from "../components/Grid/GridContainer.js";
 import GridItem from "../components/Grid/GridItem.js";
-import styles from "../assets/jss/nextjs-material-kit/pages/anggotaPage";
+import styles from "../assets/jss/nextjs-material-kit/pages/penggunaPage";
 
 const useStyles = makeStyles(styles);
 
@@ -88,7 +88,10 @@ function AnggotaPage(props) {
         if (!props.loggedIn) return <LoginPage />;
     }
 
-    const [openManual, setOpenManual] = React.useState(false);
+    const [openDaops, setOpenDaops] = React.useState(false);
+    const [openManggala, setOpenManggala] = React.useState(false);
+    const [openUploadManggala, setOpenUploadManggala] = React.useState(false);
+    const [openManualManggala, setOpenManualManggala] = React.useState(false);
     const [manggalaState, setManggalaState] = React.useState({
         columns: [
             { title: 'Daerah Operasi', field: 'region' },
@@ -136,17 +139,56 @@ function AnggotaPage(props) {
     });
     const [value, setValue] = React.useState(0);
 
-    const handleOpenManual = () => {
-        setOpenManual(true);
+    const handleOpenDaops = () => {
+        setOpenDaops(true);
     };
 
-    const handleCloseManual = () => {
-        setOpenManual(false);
+    const handleCloseDaops = () => {
+        setOpenDaops(false);
     };
 
-    const handleManualFormSubmit = () => {
+    const handleOpenManggala = () => {
+        setOpenManggala(true);
+        setOpenUploadManggala(false);
+        setOpenManualManggala(false);
+    };
+
+    const handleCloseManggala = () => {
+        setOpenManggala(false);
+        setOpenUploadManggala(false);
+        setOpenManualManggala(false);
+    };
+
+    const handleOpenUploadManggala = () => {
+        setOpenManggala(false);
+        setOpenUploadManggala(true);
+        setOpenManualManggala(false);
+    };
+
+    const handleOpenManualManggala = () => {
+        setOpenManggala(false);
+        setOpenUploadManggala(false);
+        setOpenManualManggala(true);
+    };
+
+    const handleFileChange = (event) => {
+        setWorkFile(event.target.files[0])
+        console.log(event.target.files[0])
+    };
+
+    const handleUploadManggalaFormSubmit = () => {
         const data = new FormData();
-        data.append('file', workFile);
+        // data.append('file', workFile);
+    };
+
+    const handleManualManggalaFormSubmit = () => {
+        const data = new FormData();
+        // data.append('file', workFile);
+    };
+
+    const handleDaopsFormSubmit = () => {
+        const data = new FormData();
+        // data.append('file', workFile);
     };
 
     const handleChange = (event, newValue) => {
@@ -173,21 +215,6 @@ function AnggotaPage(props) {
                 </Grid>
                 <Grid
                     item
-                    xs={3}
-                    align="center"
-                >
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        className={classes.button}
-                        startIcon={<AddBoxIcon />}
-                        onClick={handleOpenManual}
-                    >
-                        Tambah Pengguna
-                    </Button>
-                </Grid>
-                <Grid
-                    item
                     xs={10}
                     align="center"
                     className={classes.gridItem}>
@@ -211,7 +238,7 @@ function AnggotaPage(props) {
                     >
                         <TabPanel value={value} index={0} dir={'right'}>
                             <MaterialTable
-                                title=""
+                                title="Personil Manggala Agni"
                                 columns={manggalaState.columns}
                                 data={manggalaState.data}
                                 actions={[
@@ -228,6 +255,15 @@ function AnggotaPage(props) {
                                         onClick: (event, rowData) => {
                                             alert("You delete " + rowData.name)
                                         }
+                                    },
+                                    {
+                                        icon: AddBoxIcon,
+                                        tooltip: 'Tambah Personil Manggala Agni',
+                                        isFreeAction: true,
+                                        onClick: (event) => {
+                                            handleOpenManggala();
+                                            // alert("You want to add a new manggala");
+                                        }
                                     }
                                 ]}
                                 options={{
@@ -238,7 +274,7 @@ function AnggotaPage(props) {
                         </TabPanel>
                         <TabPanel value={value} index={1} dir={'right'}>
                             <MaterialTable
-                                title=""
+                                title="Daops/Balai"
                                 columns={daopsState.columns}
                                 data={daopsState.data}
                                 actions={[
@@ -255,6 +291,15 @@ function AnggotaPage(props) {
                                         onClick: (event, rowData) => {
                                             alert("You delete " + rowData.name)
                                         }
+                                    },
+                                    {
+                                        icon: AddBoxIcon,
+                                        tooltip: 'Tambah Pengguna Daops/Balai',
+                                        isFreeAction: true,
+                                        onClick: (event) => {
+                                            handleOpenDaops();
+                                            // alert("You want to add a new manggala");
+                                        }
                                     }
                                 ]}
                                 options={{
@@ -265,8 +310,8 @@ function AnggotaPage(props) {
                         </TabPanel>
                     </SwipeableViews>
                 </Grid>
-                <Dialog onClose={handleCloseManual} aria-labelledby="customized-dialog-title" open={openManual}>
-                    <DialogTitle id="customized-dialog-title" onClose={handleCloseManual} classes={classes}>
+                <Dialog onClose={handleCloseDaops} aria-labelledby="customized-dialog-title" open={openDaops}>
+                    <DialogTitle id="customized-dialog-title" onClose={handleCloseDaops} classes={classes}>
                         Tambah Pengguna Daops/Balai
                     </DialogTitle>
                     <MuiDialogContent dividers>
@@ -384,7 +429,7 @@ function AnggotaPage(props) {
                                     <Button
                                         variant="contained"
                                         color="primary"
-                                        onClick={handleManualFormSubmit}
+                                        onClick={handleDaopsFormSubmit}
                                         fullWidth
                                     >
                                         Tambah Pengguna
@@ -394,6 +439,160 @@ function AnggotaPage(props) {
                         </form>
                     </MuiDialogContent>
                 </Dialog>
+                <Dialog onClose={handleCloseManggala} aria-labelledby="customized-dialog-title" open={openManggala}>
+                    <DialogTitle id="customized-dialog-title" onClose={handleCloseManggala} classes={classes}>
+                        Tambah Anggota Manggala Agni
+                    </DialogTitle>
+                    <MuiDialogContent dividers>
+                        <Typography gutterBottom align='justify'>
+                            Silakan pilih cara menambah anggota, melalui <strong>upload template</strong> atau <strong>isi manual</strong>.
+                            Anda bisa download templatenya dengan menekan tombol "Download Template"
+                        </Typography>
+                        <Box component="div" textAlign="center">
+                            <Button variant="contained" color="primary" onClick={handleOpenUploadManggala}>
+                                Upload Template
+                            </Button>
+                            <Button variant="contained" color="primary" onClick={handleOpenManualManggala}>
+                                Isi Manual
+                            </Button>
+                            <a href="https://drive.google.com" target="_blank">
+                                <Button variant="contained" color="grey">
+                                    Download Template
+                            </Button>
+                            </a>
+                        </Box>
+                    </MuiDialogContent>
+                </Dialog>
+                <Dialog onClose={handleCloseManggala} aria-labelledby="customized-dialog-title" open={openUploadManggala}>
+                    <DialogTitle id="customized-dialog-title" onClose={handleCloseManggala} classes={classes}>
+                        Upload Template Personil Manggala Agni
+                    </DialogTitle>
+                    <MuiDialogContent dividers>
+                        <form noValidate autoComplete="off">
+                            <TextField
+                                id="outlined-number"
+                                margin="normal"
+                                label="Berkas Template"
+                                type="file"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                variant="outlined"
+                                required
+                                fullWidth
+                                name="file"
+                                onChange={handleFileChange}
+                                className={classes.textAlignLeft}
+                            />
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleUploadManggalaFormSubmit}
+                                fullWidth
+                            >
+                                Upload
+                            </Button>
+                        </form>
+                    </MuiDialogContent>
+                </Dialog>
+                <Dialog onClose={handleCloseManggala} aria-labelledby="customized-dialog-title" open={openManualManggala}>
+                    <DialogTitle id="customized-dialog-title" onClose={handleCloseManggala} classes={classes}>
+                        Tambah Manual Personil Manggala Agni
+                    </DialogTitle>
+                    <MuiDialogContent dividers>
+                        <form noValidate autoComplete="off">
+                            <GridContainer justify="center">
+                                <GridItem sm={8}>
+                                    <TextField
+                                        id="operation-region"
+                                        select
+                                        label="Daerah Operasi"
+                                        variant="outlined"
+                                        fullWidth
+                                        disabled
+                                        margin="normal"
+                                        required
+                                        defaultValue='a'
+                                        className={classes.textAlignLeft}
+                                    >
+                                        <MenuItem key={'a'} value={'a'}>
+                                            Lahat
+                                        </MenuItem>
+                                        <MenuItem key={'b'} value={'b'}>
+                                            B
+                                        </MenuItem>
+                                        <MenuItem key={'c'} value={'c'}>
+                                            C
+                                        </MenuItem>
+                                    </TextField>
+                                    <TextField
+                                        id="operation-region"
+                                        label="Nomor Registrasi"
+                                        variant="outlined"
+                                        fullWidth
+                                        margin="normal"
+                                        required
+                                        className={classes.textAlignLeft}
+                                    />
+                                    <TextField
+                                        id="operation-region"
+                                        label="Nama"
+                                        variant="outlined"
+                                        fullWidth
+                                        margin="normal"
+                                        required
+                                        className={classes.textAlignLeft}
+                                    />
+                                    <TextField
+                                        id="operation-region"
+                                        label="Email"
+                                        variant="outlined"
+                                        fullWidth
+                                        margin="normal"
+                                        required
+                                        className={classes.textAlignLeft}
+                                    />
+                                    <TextField
+                                        id="operation-region"
+                                        label="Password"
+                                        variant="outlined"
+                                        fullWidth
+                                        margin="normal"
+                                        required
+                                        className={classes.textAlignLeft}
+                                    />
+                                    <TextField
+                                        id="operation-region"
+                                        label="Konfirmasi Password"
+                                        variant="outlined"
+                                        fullWidth
+                                        margin="normal"
+                                        required
+                                        className={classes.textAlignLeft}
+                                    />
+                                    <TextField
+                                        id="operation-region"
+                                        label="Nomor HP"
+                                        variant="outlined"
+                                        fullWidth
+                                        margin="normal"
+                                        required
+                                        className={classes.textAlignLeft}
+                                    />
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={handleManualManggalaFormSubmit}
+                                        fullWidth
+                                    >
+                                        Tambah Anggota
+                                    </Button>
+                                </GridItem>
+                            </GridContainer>
+                        </form>
+                    </MuiDialogContent>
+                </Dialog>
+
             </Grid>
         </SiteLayout >
     );
