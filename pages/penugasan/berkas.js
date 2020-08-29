@@ -39,7 +39,7 @@ export default function DashboardPage(props) {
   const classes = useStyles();
   React.useEffect(() => {
     if (props.loggedIn) return; // do nothing if already logged in
-    Router.replace("/surat-tugas/berkas", "/login", { shallow: true });
+    Router.replace("/penugasan/berkas", "/login", { shallow: true });
   }, [props.loggedIn]);
 
   // Load login page if not logged in
@@ -84,7 +84,7 @@ export default function DashboardPage(props) {
     <SiteLayout headerColor='info'>
       <div>
         <div className={classNames(classes.main, classes.mainRaised, classes.textCenter)}>
-          <h2>Upload Berkas Surat Tugas</h2>
+          <h2>Upload Berkas Excel Penugasan</h2>
           <form noValidate autoComplete="off" className={classes.form}>
             <GridContainer justify="center">
               <GridItem sm={3} xs={10}>
@@ -163,7 +163,7 @@ export default function DashboardPage(props) {
                 <TextField
                   id="outlined-number"
                   margin="normal"
-                  label="Berkas Surat Tugas"
+                  label="Berkas Excel"
                   type="file"
                   InputLabelProps={{
                     shrink: true,
@@ -186,7 +186,7 @@ export default function DashboardPage(props) {
                   onClick={handleClick}
                   fullWidth
                 >
-                  Upload Surat Tugas
+                  Upload
                 </Button>
               </GridItem>
             </GridContainer>

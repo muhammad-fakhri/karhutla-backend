@@ -50,11 +50,11 @@ const AuthenticatedMenu = () => {
         />
       </ListItem>
       <ListItem className={classes.listItem}>
-        <Link href="/surat-tugas">
+        <Link href="/penugasan">
           <Button
             color="transparent"
             className={classes.navLink} >
-            Surat Tugas
+            Penugasan
           </Button>
         </Link>
       </ListItem>

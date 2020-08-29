@@ -19,7 +19,7 @@ function SuratTugasPage(props) {
     // Load login page if not logged in
     React.useEffect(() => {
         if (props.loggedIn) return; // do nothing if already logged in
-        Router.replace("/surat-tugas", "/login", { shallow: true });
+        Router.replace("/penugasan", "/login", { shallow: true });
     }, [props.loggedIn]);
 
     if (props.loggedIn !== undefined) {
@@ -60,21 +60,21 @@ function SuratTugasPage(props) {
                     xs={10}
                     align="center"
                     className={classes.title}>
-                    <h2>Daftar Surat Tugas</h2>
+                    <h2>Daftar Penugasan</h2>
                 </Grid>
                 <Grid
                     item
                     xs={3}
                     align="center"
                 >
-                    <Link href="surat-tugas/input">
+                    <Link href="penugasan/input">
                         <Button
                             variant="contained"
                             color="primary"
                             className={classes.button}
                             startIcon={<AddBoxIcon />}
                         >
-                            Buat Surat Tugas
+                            Tambah Penugasan
                     </Button>
                     </Link>
                 </Grid>

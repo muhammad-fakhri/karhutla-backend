@@ -21,7 +21,7 @@ function InputSuratTugasPage(props) {
     // Load login page if not logged in
     React.useEffect(() => {
         if (props.loggedIn) return; // do nothing if already logged in
-        Router.replace("/surat-tugas/input", "/login", { shallow: true });
+        Router.replace("/penugasan/input", "/login", { shallow: true });
     }, [props.loggedIn]);
 
     if (props.loggedIn !== undefined) {
@@ -41,7 +41,7 @@ function InputSuratTugasPage(props) {
                     sm={10}
                     align="center"
                     className={classNames(classes.gridItem, classes.title)}>
-                    <h2>Input Surat Tugas</h2>
+                    <h2>Tambah Penugasan</h2>
                 </Grid>
                 <Grid
                     item
@@ -49,13 +49,13 @@ function InputSuratTugasPage(props) {
                     sm={4}
                     align="center"
                     className={classes.gridItem}>
-                    <Link href="/surat-tugas/berkas">
+                    <Link href="/penugasan/berkas">
                         <ButtonBase
                             className={classNames(classes.buttonBase, classes.textCenter)}
                             focusRipple={true}
                         >
                             <div>
-                                <h3>Upload Berkas</h3>
+                                <h3>Upload Berkas Excel</h3>
                                 <br />
                                 <CloudUploadIcon style={{ fontSize: "80px" }} />
                             </div>
@@ -72,13 +72,13 @@ function InputSuratTugasPage(props) {
                     align="center"
                     className={classes.gridItem}
                 >
-                    <Link href="/surat-tugas/manual">
+                    <Link href="/penugasan/manual">
                         <ButtonBase
                             className={classNames(classes.buttonBase, classes.textCenter)}
                             focusRipple={true}
                         >
                             <div>
-                                <h3>Input Manual</h3>
+                                <h3>Input Manual Penugasan</h3>
                                 <br />
                                 <CreateIcon style={{ fontSize: "80px" }} />
                             </div>

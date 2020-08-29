@@ -39,7 +39,7 @@ export default function ManualSuratTugasPage(props) {
   const classes = useStyles();
   React.useEffect(() => {
     if (props.loggedIn) return; // do nothing if already logged in
-    Router.replace("/surat-tugas/manual", "/login", { shallow: true });
+    Router.replace("/penugasan/manual", "/login", { shallow: true });
   }, [props.loggedIn]);
 
   // Load login page if not logged in
@@ -79,7 +79,7 @@ export default function ManualSuratTugasPage(props) {
     <SiteLayout headerColor='info'>
       <div>
         <div className={classNames(classes.main, classes.mainRaised, classes.textCenter)}>
-          <h2>Input Manual Surat Tugas</h2>
+          <h2>Input Manual Penugasan</h2>
           <form noValidate autoComplete="off" className={classes.form}>
             <GridContainer justify="center">
               <GridItem sm={3} xs={10}>
@@ -433,7 +433,7 @@ export default function ManualSuratTugasPage(props) {
                   onClick={handleClick}
                   fullWidth
                 >
-                  Buat Surat Tugas
+                  Tambah Penugasan
                 </Button>
               </GridItem>
             </GridContainer>
