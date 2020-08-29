@@ -7,6 +7,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
+import MaterialTable from 'material-table';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -53,6 +54,28 @@ export default function ManualSuratTugasPage(props) {
   const [finishDate, setFinishDate] = React.useState(new Date());
   const [workNumber, setWorkNumber] = React.useState();
   const [workFile, setWorkFile] = React.useState();
+  const [state, setState] = React.useState({
+    columns: [
+      {
+        title: 'Ketua',
+        field: 'ketua',
+        lookup: { 34: 'Rifki', 63: 'Herman', 89: 'Nikeilong' },
+      },
+      {
+        title: 'Anggota 1',
+        field: 'anggota1',
+        lookup: { 34: 'Rifki', 63: 'Herman', 89: 'Nikeilong' },
+      },
+      { title: 'Anggota 2', field: 'anggota2' },
+      { title: 'Anggota 3', field: 'anggota3' },
+      { title: 'Anggota 4', field: 'anggota4' },
+    ],
+    data: [
+      { ketua: 34, anggota1: 63, anggota2: 'Orang A', anggota3: 'Orang B', anggota4: 'Orang C' },
+      { ketua: 34, anggota1: 63, anggota2: 'Orang A', anggota3: 'Orang B', anggota4: 'Orang C' },
+      { ketua: 34, anggota1: 63, anggota2: 'Orang A', anggota3: 'Orang B', anggota4: 'Orang C' },
+    ],
+  });
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
@@ -307,122 +330,55 @@ export default function ManualSuratTugasPage(props) {
             </GridContainer>
             <GridContainer justify="center">
               <GridItem sm={6} xs={10}>
-                <Typography variant="h5" className={classes.title}>
+                <Typography variant="h5" className={classes.title} gutterBottom>
                   Tim
                 </Typography>
               </GridItem>
             </GridContainer>
             <GridContainer justify="center" alignItems="center">
-              <GridItem sm={3} xs={10}>
-                <TextField
-                  id="operation-region"
-                  select
-                  label="Ketua"
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  required
-                  className={classes.textAlignLeft}
-                >
-                  <MenuItem key={'a'} value={'a'}>
-                    A
-                  </MenuItem>
-                  <MenuItem key={'b'} value={'b'}>
-                    B
-                  </MenuItem>
-                  <MenuItem key={'c'} value={'c'}>
-                    C
-                  </MenuItem>
-                </TextField>
-              </GridItem>
-            </GridContainer>
-            <GridContainer justify="center" alignItems="center">
-              <GridItem sm={3} xs={10}>
-                <TextField
-                  id="operation-region"
-                  select
-                  label="Anggota 1"
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  required
-                  className={classes.textAlignLeft}
-                >
-                  <MenuItem key={'a'} value={'a'}>
-                    A
-                  </MenuItem>
-                  <MenuItem key={'b'} value={'b'}>
-                    B
-                  </MenuItem>
-                  <MenuItem key={'c'} value={'c'}>
-                    C
-                  </MenuItem>
-                </TextField>
-              </GridItem>
-              <GridItem sm={3} xs={10}>
-                <TextField
-                  id="operation-region"
-                  label="Anggota 2"
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  required
-                  className={classes.textAlignLeft}
-                >
-                  <MenuItem key={'a'} value={'a'}>
-                    A
-                  </MenuItem>
-                  <MenuItem key={'b'} value={'b'}>
-                    B
-                  </MenuItem>
-                  <MenuItem key={'c'} value={'c'}>
-                    C
-                  </MenuItem>
-                </TextField>
-              </GridItem>
-            </GridContainer>
-            <GridContainer justify="center" alignItems="center">
-              <GridItem sm={3} xs={10}>
-                <TextField
-                  id="operation-region"
-                  label="Anggota 3"
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  required
-                  className={classes.textAlignLeft}
-                >
-                  <MenuItem key={'a'} value={'a'}>
-                    A
-                  </MenuItem>
-                  <MenuItem key={'b'} value={'b'}>
-                    B
-                  </MenuItem>
-                  <MenuItem key={'c'} value={'c'}>
-                    C
-                  </MenuItem>
-                </TextField>
-              </GridItem>
-              <GridItem sm={3} xs={10}>
-                <TextField
-                  id="operation-region"
-                  label="Anggota 4"
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  required
-                  className={classes.textAlignLeft}
-                >
-                  <MenuItem key={'a'} value={'a'}>
-                    A
-                  </MenuItem>
-                  <MenuItem key={'b'} value={'b'}>
-                    B
-                  </MenuItem>
-                  <MenuItem key={'c'} value={'c'}>
-                    C
-                  </MenuItem>
-                </TextField>
+              <GridItem sm={11}>
+                <MaterialTable
+                  title="Daftar Tim"
+                  columns={state.columns}
+                  data={state.data}
+                  editable={{
+                    onRowAdd: (newData) =>
+                      new Promise((resolve) => {
+                        setTimeout(() => {
+                          resolve();
+                          setState((prevState) => {
+                            const data = [...prevState.data];
+                            data.push(newData);
+                            return { ...prevState, data };
+                          });
+                        }, 600);
+                      }),
+                    onRowUpdate: (newData, oldData) =>
+                      new Promise((resolve) => {
+                        setTimeout(() => {
+                          resolve();
+                          if (oldData) {
+                            setState((prevState) => {
+                              const data = [...prevState.data];
+                              data[data.indexOf(oldData)] = newData;
+                              return { ...prevState, data };
+                            });
+                          }
+                        }, 600);
+                      }),
+                    onRowDelete: (oldData) =>
+                      new Promise((resolve) => {
+                        setTimeout(() => {
+                          resolve();
+                          setState((prevState) => {
+                            const data = [...prevState.data];
+                            data.splice(data.indexOf(oldData), 1);
+                            return { ...prevState, data };
+                          });
+                        }, 600);
+                      }),
+                  }}
+                />
               </GridItem>
             </GridContainer>
             <GridContainer justify="center" className={classes.submitButton}>
