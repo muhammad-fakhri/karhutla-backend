@@ -119,6 +119,7 @@ export default function DashboardPage(props) {
                         }}
                         zoom={5.1}
                         spots={spots}
+                        isLoggedin={props.loggedIn}
                     />
                     <GridContainer>
                         <GridItem xs={12}>
@@ -139,15 +140,15 @@ export default function DashboardPage(props) {
                                 </FormControl>
                             </h3>
                         </GridItem>
-                        <GridItem xs={4}>
+                        <GridItem sm={10} md={4}>
                             <h2 className={classes.terpaduBg}>Patroli Terpadu</h2>
                             <h3>{terpadu}</h3>
                         </GridItem>
-                        <GridItem xs={4}>
+                        <GridItem sm={10} md={4}>
                             <h2 className={classes.mandiriBg}>Patroli Mandiri</h2>
                             <h3>{mandiri}</h3>
                         </GridItem>
-                        <GridItem xs={4}>
+                        <GridItem sm={10} md={4}>
                             <h2 className={classes.pencegahanBg}>Patroli Pencegahan</h2>
                             <h3>{pencegahan}</h3>
                         </GridItem>

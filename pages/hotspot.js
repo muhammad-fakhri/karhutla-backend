@@ -69,15 +69,15 @@ export default function HotspotPage(props) {
                                 Pukul: {props.todayDate.time}
                             </h3>
                         </GridItem>
-                        <GridItem xs={4}>
+                        <GridItem sm={10} md={4}>
                             <h2>Titik Panas</h2>
                             <h3>{props.hotspots.length}</h3>
                         </GridItem>
-                        <GridItem xs={4}>
+                        <GridItem sm={10} md={4}>
                             <h2>Rentang Data</h2>
                             <h3>24h</h3>
                         </GridItem>
-                        <GridItem xs={4}>
+                        <GridItem sm={10} md={4}>
                             <h2>Confidence Level</h2>
                             <h3>80%</h3>
                         </GridItem>
