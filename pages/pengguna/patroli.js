@@ -7,8 +7,6 @@ import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
 import SiteLayout from '../../components/Layout/SiteLayout';
-import GridContainer from "../../components/Grid/GridContainer.js";
-import GridItem from "../../components/Grid/GridItem.js";
 import Button from "../../components/CustomButtons/Button";
 import classNames from "classnames";
 import styles from "../../assets/jss/nextjs-material-kit/pages/pengguna/patroliPage";

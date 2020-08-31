@@ -1,7 +1,7 @@
 import { apiUrl } from '../../services/config';
 import dynamic from "next/dynamic";
 import Router, { useRouter } from 'next/router';
-import useSWR from 'swr'
+import useSWR from 'swr';
 import { getTokenFromRequest } from '../../context/auth';
 const LoginPage = dynamic(() => import("../login"));
 import { makeStyles } from "@material-ui/core/styles";
@@ -17,15 +17,12 @@ import Tab from '@material-ui/core/Tab';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import MaterialTable from 'material-table';
 import SiteLayout from "../../components/Layout/SiteLayout";
 import Button from '../../components/CustomButtons/Button'
-import GridContainer from "../../components/Grid/GridContainer.js";
-import GridItem from "../../components/Grid/GridItem.js";
 import styles from "../../assets/jss/nextjs-material-kit/pages/penggunaPage";
 import UserService from '../../services/UserService';
 
@@ -79,8 +76,7 @@ TabPanel.propTypes = {
 };
 
 const daopsColumn = [
-    { title: 'Instansi', field: 'organization' },
-    { title: 'Daerah Operasi', field: 'region' },
+    { title: 'Daerah Operasi/Balai', field: 'region' },
     { title: 'NIP', field: 'nipNumber' },
     { title: 'Nama', field: 'name' },
     { title: 'Email', field: 'email' },
@@ -127,7 +123,7 @@ function AnggotaPage(props) {
     const [daopsState, setDaopsState] = React.useState();
     const [value, setValue] = React.useState(0);
 
-    const { data, error } = useSWR(apiUrl + '/user/list', UserService.getUsers)
+    const { data, error } = useSWR(apiUrl + '/non_patroli/list', UserService.getNonPatroliUsers)
     React.useEffect(() => {
         setDaopsState(data);
     }, [data]);
