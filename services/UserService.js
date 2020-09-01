@@ -1,5 +1,4 @@
 import { apiUrl } from './config';
-import fetch from 'isomorphic-unfetch';
 import UserValidator from '../validators/UserValidator';
 
 class UserService {
@@ -8,26 +7,28 @@ class UserService {
         if (r.status == 200) {
             const daopsUsers = new Array();
             const balaiUsers = new Array();
-            r.data.forEach(user => {
-                if (user.r_role_id == 8 || user.r_role_id == 9) {
+            r.data.forEach(userAccess => {
+                if (userAccess.r_role_id == 8 || userAccess.r_role_id == 9) {
                     daopsUsers.push({
-                        id: user.m_user.id,
-                        role: user.r_role_id,
-                        organization: user.m_user.instansi,
-                        nip: user.m_user.no_registrasi,
-                        name: user.m_user.nama,
-                        email: user.m_user.email,
-                        phone: user.m_user.no_telepon
+                        id: userAccess.m_user.id,
+                        accessId: userAccess.id,
+                        role: userAccess.r_role_id,
+                        organization: userAccess.m_user.instansi,
+                        nip: userAccess.m_user.no_registrasi,
+                        name: userAccess.m_user.nama,
+                        email: userAccess.m_user.email,
+                        phone: userAccess.m_user.no_telepon
                     });
                 } else {
                     balaiUsers.push({
-                        id: user.m_user.id,
-                        role: user.r_role_id,
-                        organization: user.m_user.instansi,
-                        nip: user.m_user.no_registrasi,
-                        name: user.m_user.nama,
-                        email: user.m_user.email,
-                        phone: user.m_user.no_telepon
+                        id: userAccess.m_user.id,
+                        accessId: userAccess.id,
+                        role: userAccess.r_role_id,
+                        organization: userAccess.m_user.instansi,
+                        nip: userAccess.m_user.no_registrasi,
+                        name: userAccess.m_user.nama,
+                        email: userAccess.m_user.email,
+                        phone: userAccess.m_user.no_telepon
                     });
                 }
             });
@@ -103,7 +104,7 @@ class UserService {
         }
     }
 
-    static async updateDaopsUser(data) {
+    static async updateNonPatroliUser(data) {
         let validate = UserValidator.updateNonPatroli(data);
         if (!validate.pass) return { "success": false, "message": validate.message };
 
@@ -117,14 +118,11 @@ class UserService {
             method: 'POST',
             body: formData
         });
-        // return { "success": true };
 
         if (r.status == 200) {
-            console.log("update user data berhasil");
             // update user's role
-            console.log(data);
             let formData2 = new FormData();
-            formData2.append('id', data.id);
+            formData2.append('id', data.accessId);
             formData2.append('r_role_id', data.role);
             let r2 = await fetch(apiUrl + '/non_patroli/save', {
                 method: 'POST',
@@ -132,19 +130,32 @@ class UserService {
             });
 
             if (r2.status == 200) {
-                console.log("update role berhasil");
                 return { "success": true };
             } else {
-                console.log("update role gagal");
                 r2 = await r2.json();
-                console.log(r2);
                 return { "success": false, "message": [r2.message] };
             }
         } else {
-            console.log("update user data gagal");
-            r = r.json();
+            r = await r.json();
             return { "success": false, "message": [r.message] };
         }
+    }
+
+    static async deleteNonPatroliUser(data) {
+        let validate = UserValidator.deleteNonPatroli(data);
+        if (!validate.pass) return { "success": false, "message": validate.message };
+
+        // TODO: fix double hit that causing 404 response
+        // delete non patroli access
+        let r = await (await fetch(apiUrl + '/non_patroli/remove/' + data.accessId, {
+            method: 'DELETE'
+        })).json();
+
+        // delete user data
+        let r2 = await (await fetch(apiUrl + '/user/remove/' + data.id, {
+            method: 'DELETE'
+        })).json();
+        return { "success": true };
     }
 }
 export default UserService;

@@ -248,9 +248,9 @@ function AnggotaPage(props) {
                                 }}
                                 editable={{
                                     onRowUpdate: (newData, oldData) =>
-                                        new Promise((resolve) => {
-                                            console.log(newData);
-                                            UserService.updateDaopsUser(newData)
+                                        new Promise((resolve, reject) => {
+                                            resolve();
+                                            UserService.updateNonPatroliUser(newData)
                                                 .then(result => {
                                                     if (result.success) {
                                                         resolve();
@@ -262,31 +262,36 @@ function AnggotaPage(props) {
                                                             });
                                                         }
                                                     } else {
-                                                        resolve();
+                                                        reject();
                                                         // TODO: make alert for fail update
-                                                        console.log("update data Fail");
                                                         alert(result.message[0]);
                                                     };
                                                 });
                                         }),
-                                    // onRowDelete: oldData =>
-                                    //     new Promise((resolve, reject) => {
-                                    //         setTimeout(() => {
-                                    //             const dataDelete = [...data];
-                                    //             const index = oldData.tableData.id;
-                                    //             dataDelete.splice(index, 1);
-                                    //             setData([...dataDelete]);
-
-                                    //             resolve();
-                                    //         }, 1000);
-                                    //     })
+                                    onRowDelete: oldData =>
+                                        new Promise((resolve, reject) => {
+                                            UserService.deleteNonPatroliUser(oldData)
+                                                .then(result => {
+                                                    if (result.success) {
+                                                        const dataDelete = [...daopsState];
+                                                        const index = oldData.tableData.id;
+                                                        dataDelete.splice(index, 1);
+                                                        setDaopsState(dataDelete);
+                                                        resolve();
+                                                    } else {
+                                                        // TODO: make alert for fail delete
+                                                        alert(result.message[0]);
+                                                        reject();
+                                                    };
+                                                });
+                                        })
                                 }}
                             />
                         </TabPanel>
                         <TabPanel value={value} index={2} dir={'right'}>
                             <MaterialTable
                                 title="Pengguna Balai"
-                                columns={props.daopsColumn}
+                                columns={props.balaiColumn}
                                 data={balaiState}
                                 actions={[
                                     {
@@ -305,35 +310,43 @@ function AnggotaPage(props) {
                                 }}
                                 editable={{
                                     onRowUpdate: (newData, oldData) =>
-                                        new Promise((resolve) => {
-                                            UserService.updateDaopsUser(newData)
+                                        new Promise((resolve, reject) => {
+                                            resolve();
+                                            UserService.updateNonPatroliUser(newData)
                                                 .then(result => {
                                                     if (result.success) {
                                                         resolve();
                                                         if (oldData) {
-                                                            setDaopsState((prevState) => {
+                                                            setBalaiState((prevState) => {
                                                                 const data = [...prevState];
                                                                 data[data.indexOf(oldData)] = newData;
                                                                 return data;
                                                             });
                                                         }
                                                     } else {
+                                                        reject();
                                                         // TODO: make alert for fail update
-                                                        console.log("update data Fail")
+                                                        alert(result.message[0]);
                                                     };
                                                 });
                                         }),
-                                    // onRowDelete: oldData =>
-                                    //     new Promise((resolve, reject) => {
-                                    //         setTimeout(() => {
-                                    //             const dataDelete = [...data];
-                                    //             const index = oldData.tableData.id;
-                                    //             dataDelete.splice(index, 1);
-                                    //             setData([...dataDelete]);
-
-                                    //             resolve();
-                                    //         }, 1000);
-                                    //     })
+                                    onRowDelete: oldData =>
+                                        new Promise((resolve, reject) => {
+                                            UserService.deleteNonPatroliUser(oldData)
+                                                .then(result => {
+                                                    if (result.success) {
+                                                        const dataDelete = [...balaiState];
+                                                        const index = oldData.tableData.id;
+                                                        dataDelete.splice(index, 1);
+                                                        setBalaiState(dataDelete);
+                                                        resolve();
+                                                    } else {
+                                                        // TODO: make alert for fail delete
+                                                        alert(result.message[0]);
+                                                        reject();
+                                                    };
+                                                });
+                                        })
                                 }}
                             />
                         </TabPanel>
@@ -416,7 +429,6 @@ const generateRolesLookup = async () => {
     })
     return { daopsRoles, balaiRoles };
 }
-
 const generateDaopsLookup = async () => {
     let data = {};
     let daops = await DaopsService.getAllDaops();
@@ -425,13 +437,31 @@ const generateDaopsLookup = async () => {
     })
     return data;
 }
+const generateBalaiLookup = async () => {
+    let data = {};
+    let daops = await BalaiService.getAllBalai();
+    daops.forEach(item => {
+        data[item.code] = item.name + ' | ' + item.code;
+    })
+    data['KLHK'] = 'KLHK';
+    return data;
+}
 
 export async function getServerSideProps(context) {
     let nonPatroliRoles = await generateRolesLookup();
     let daopsLookup = await generateDaopsLookup();
+    let balaiLookup = await generateBalaiLookup();
     const daopsColumn = [
         { title: 'Jabatan', field: 'role', lookup: nonPatroliRoles.daopsRoles },
         { title: 'Daerah Operasi', field: 'organization', lookup: daopsLookup },
+        { title: 'NIP', field: 'nip', editable: 'never' },
+        { title: 'Nama', field: 'name' },
+        { title: 'Email', field: 'email', editable: 'never' },
+        { title: 'Nomor HP', field: 'phone' },
+    ];
+    const balaiColumn = [
+        { title: 'Jabatan', field: 'role', lookup: nonPatroliRoles.balaiRoles },
+        { title: 'Balai', field: 'organization', lookup: balaiLookup },
         { title: 'NIP', field: 'nip', editable: 'never' },
         { title: 'Nama', field: 'name' },
         { title: 'Email', field: 'email', editable: 'never' },
@@ -441,7 +471,8 @@ export async function getServerSideProps(context) {
     return {
         props: {
             loggedIn: getTokenFromRequest(context),
-            daopsColumn
+            daopsColumn,
+            balaiColumn
         }
     }
 }

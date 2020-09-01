@@ -33,5 +33,16 @@ class UserValidator {
             return { pass: false, message: errorMsg };
         }
     }
+
+    static deleteNonPatroli(inputData) {
+        let errorMsg = new Array();
+        if (digitLength(inputData.id) < 1) errorMsg.push("ID Pengguna tidak ada");
+        if (digitLength(inputData.accessId) < 1) errorMsg.push("ID Akses Pengguna tidak ada");
+        if (errorMsg.length == 0) {
+            return { pass: true };
+        } else {
+            return { pass: false, message: errorMsg };
+        }
+    }
 }
 export default UserValidator;
