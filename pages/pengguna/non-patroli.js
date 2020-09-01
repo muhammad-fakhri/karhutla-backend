@@ -56,7 +56,7 @@ export default function NonPatroliPage(props) {
   // If logged in load non-patroli page 
   const [values, setValues] = React.useState({
     role: '',
-    institution: '',
+    organization: '',
     name: '',
     nip: '',
     phone: '',
@@ -74,22 +74,13 @@ export default function NonPatroliPage(props) {
   };
   const handleRoleChange = (event) => {
     if (event.target.value == 4 || event.target.value == 5) {
-      setValues({ ...values, role: event.target.value, institution: 'KLHK', disabled: true });
+      setValues({ ...values, role: event.target.value, organization: 'KLHK', disabled: true });
     } else {
-      setValues({ ...values, role: event.target.value, institution: '', disabled: false });
+      setValues({ ...values, role: event.target.value, organization: '', disabled: false });
     }
   }
   const handleNonPatroliFormSubmit = async () => {
-    let result = await UserService.addNonPatroliUser({
-      "role": values.role,
-      "name": values.name,
-      "institution": values.institution,
-      "email": values.email,
-      "nip": values.nip,
-      "phone": values.phone,
-      "password": values.password,
-      "cPassword": values.cPassword
-    });
+    let result = await UserService.addNonPatroliUser(values);
     if (result.success) setValues({ ...values, successDialog: true, showDialog: true });
     else {
       setValues({
@@ -158,11 +149,11 @@ export default function NonPatroliPage(props) {
                 margin="normal"
                 required
                 disabled={values.disabled}
-                onChange={handleChange('institution')}
+                onChange={handleChange('organization')}
                 className={classes.textAlignLeft}
               >
                 {props.balai.map((balai) => (
-                  <MenuItem key={balai.code} value={balai.name}>
+                  <MenuItem key={balai.id} value={balai.code}>
                     {balai.name}
                   </MenuItem>
                 ))}
@@ -176,11 +167,11 @@ export default function NonPatroliPage(props) {
                 margin="normal"
                 required
                 disabled={values.disabled}
-                onChange={handleChange('institution')}
+                onChange={handleChange('organization')}
                 className={classes.textAlignLeft}
               >
                 {props.daops.map((daops) => (
-                  <MenuItem key={daops.code} value={daops.name}>
+                  <MenuItem key={daops.id} value={daops.code}>
                     {daops.name + ' | ' + daops.code}
                   </MenuItem>
                 ))}

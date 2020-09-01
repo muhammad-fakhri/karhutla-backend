@@ -6,18 +6,32 @@ class UserService {
     static async getNonPatroliUsers(url) {
         const r = await (await fetch(url)).json();
         if (r.status == 200) {
-            const data = new Array();
+            const daopsUsers = new Array();
+            const balaiUsers = new Array();
             r.data.forEach(user => {
-                data.push({
-                    id: user.m_user.id,
-                    region: user.m_user.instansi,
-                    nipNumber: user.m_user.no_registrasi,
-                    name: user.m_user.nama,
-                    email: user.m_user.email,
-                    phoneNumber: user.m_user.no_telepon
-                })
+                if (user.r_role_id == 8 || user.r_role_id == 9) {
+                    daopsUsers.push({
+                        id: user.m_user.id,
+                        role: user.r_role_id,
+                        organization: user.m_user.instansi,
+                        nip: user.m_user.no_registrasi,
+                        name: user.m_user.nama,
+                        email: user.m_user.email,
+                        phone: user.m_user.no_telepon
+                    });
+                } else {
+                    balaiUsers.push({
+                        id: user.m_user.id,
+                        role: user.r_role_id,
+                        organization: user.m_user.instansi,
+                        nip: user.m_user.no_registrasi,
+                        name: user.m_user.nama,
+                        email: user.m_user.email,
+                        phone: user.m_user.no_telepon
+                    });
+                }
             });
-            return data;
+            return { daopsUsers, balaiUsers };
         } else {
             return new Array();
         }
@@ -47,7 +61,6 @@ class UserService {
     }
 
     static async addNonPatroliUser(data) {
-        console.log(data);
         let validate = UserValidator.createNonPatroli(data);
         if (!validate.pass) return { "success": false, "message": validate.message };
 
@@ -57,7 +70,7 @@ class UserService {
         formData.append('email', data.email);
         formData.append('password', data.password);
         formData.append('no_telepon', data.phone);
-        formData.append('instansi', data.institution);
+        formData.append('instansi', data.organization);
         formData.append('aktif', true);
         const r = await (await fetch(apiUrl + '/user/add', {
             method: 'POST',
@@ -86,6 +99,50 @@ class UserService {
                 return { "success": false, "message": [r3.message] };
             }
         } else {
+            return { "success": false, "message": [r.message] };
+        }
+    }
+
+    static async updateDaopsUser(data) {
+        let validate = UserValidator.updateNonPatroli(data);
+        if (!validate.pass) return { "success": false, "message": validate.message };
+
+        // update user data 
+        let formData = new FormData();
+        formData.append('id', data.id);
+        formData.append('nama', data.name);
+        formData.append('no_telepon', data.phone);
+        formData.append('instansi', data.organization);
+        let r = await fetch(apiUrl + '/user/save', {
+            method: 'POST',
+            body: formData
+        });
+        // return { "success": true };
+
+        if (r.status == 200) {
+            console.log("update user data berhasil");
+            // update user's role
+            console.log(data);
+            let formData2 = new FormData();
+            formData2.append('id', data.id);
+            formData2.append('r_role_id', data.role);
+            let r2 = await fetch(apiUrl + '/non_patroli/save', {
+                method: 'POST',
+                body: formData2
+            });
+
+            if (r2.status == 200) {
+                console.log("update role berhasil");
+                return { "success": true };
+            } else {
+                console.log("update role gagal");
+                r2 = await r2.json();
+                console.log(r2);
+                return { "success": false, "message": [r2.message] };
+            }
+        } else {
+            console.log("update user data gagal");
+            r = r.json();
             return { "success": false, "message": [r.message] };
         }
     }
