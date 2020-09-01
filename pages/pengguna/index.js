@@ -34,7 +34,7 @@ const DialogTitle = props => {
     const { children, classes, onClose, ...other } = props;
     return (
         <MuiDialogTitle disableTypography className={classes.root} {...other}>
-            <Typography variant="h6">{children}</Typography>
+            <Typography variant="h6" className={classes.dialogTitle}>{children}</Typography>
             {onClose ? (
                 <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
                     <CloseIcon />
@@ -77,14 +77,6 @@ TabPanel.propTypes = {
     value: PropTypes.any.isRequired,
 };
 
-const manggalaColumn = [
-    { title: 'Daerah Operasi', field: 'region' },
-    { title: 'Nomor Registrasi', field: 'registrationNumber' },
-    { title: 'Nama', field: 'name' },
-    { title: 'Email', field: 'email' },
-    { title: 'Nomor HP', field: 'phoneNumber' },
-];
-
 function AnggotaPage(props) {
     const classes = useStyles();
     const router = useRouter();
@@ -101,8 +93,8 @@ function AnggotaPage(props) {
     const [openManggala, setOpenManggala] = React.useState(false);
     const [openUploadManggala, setOpenUploadManggala] = React.useState(false);
     const [manggalaState, setManggalaState] = React.useState([
-        { region: 'Terpadu', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
-        { region: 'Zerya Betül', registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phoneNumber: '08123456789' },
+        { role: 10, organization: 123, registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phone: '08123456789' },
+        { role: 10, organization: 123, registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phone: '08123456789' },
     ]);
     const [daopsState, setDaopsState] = React.useState();
     const [balaiState, setBalaiState] = React.useState();
@@ -119,19 +111,16 @@ function AnggotaPage(props) {
     const handleOpenManggala = () => {
         setOpenManggala(true);
         setOpenUploadManggala(false);
-        setOpenManualManggala(false);
     };
 
     const handleCloseManggala = () => {
         setOpenManggala(false);
         setOpenUploadManggala(false);
-        setOpenManualManggala(false);
     };
 
     const handleOpenUploadManggala = () => {
         setOpenManggala(false);
         setOpenUploadManggala(true);
-        setOpenManualManggala(false);
     };
 
     const handleFileChange = (event) => {
@@ -193,36 +182,46 @@ function AnggotaPage(props) {
                         <TabPanel value={value} index={0} dir={'right'}>
                             <MaterialTable
                                 title="Personil Manggala Agni"
-                                columns={manggalaColumn}
+                                columns={props.manggalaColumn}
                                 data={manggalaState}
                                 actions={[
-                                    {
-                                        icon: 'edit',
-                                        tooltip: 'Edit Anggota',
-                                        onClick: (event, rowData) => {
-                                            alert("You edit " + rowData.name)
-                                        }
-                                    },
-                                    {
-                                        icon: 'delete',
-                                        tooltip: 'Hapus Anggota',
-                                        onClick: (event, rowData) => {
-                                            alert("You delete " + rowData.name)
-                                        }
-                                    },
                                     {
                                         icon: AddBoxIcon,
                                         tooltip: 'Tambah Personil Manggala Agni',
                                         isFreeAction: true,
                                         onClick: (event) => {
                                             handleOpenManggala();
-                                            // alert("You want to add a new manggala");
                                         }
                                     }
                                 ]}
                                 options={{
                                     search: true,
                                     actionsColumnIndex: -1
+                                }}
+                                editable={{
+                                    onRowUpdate: (newData, oldData) =>
+                                        new Promise((resolve, reject) => {
+                                            setTimeout(() => {
+                                                if (oldData) {
+                                                    setManggalaState((prevState) => {
+                                                        const data = [...prevState];
+                                                        data[data.indexOf(oldData)] = newData;
+                                                        return data;
+                                                    });
+                                                }
+                                                resolve();
+                                            }, 1000);
+                                        }),
+                                    onRowDelete: oldData =>
+                                        new Promise((resolve, reject) => {
+                                            setTimeout(() => {
+                                                const dataDelete = [...daopsState];
+                                                const index = oldData.tableData.id;
+                                                dataDelete.splice(index, 1);
+                                                setDaopsState(dataDelete);
+                                                resolve();
+                                            }, 1000);
+                                        })
                                 }}
                             />
                         </TabPanel>
@@ -249,11 +248,9 @@ function AnggotaPage(props) {
                                 editable={{
                                     onRowUpdate: (newData, oldData) =>
                                         new Promise((resolve, reject) => {
-                                            resolve();
                                             UserService.updateNonPatroliUser(newData)
                                                 .then(result => {
                                                     if (result.success) {
-                                                        resolve();
                                                         if (oldData) {
                                                             setDaopsState((prevState) => {
                                                                 const data = [...prevState];
@@ -261,10 +258,11 @@ function AnggotaPage(props) {
                                                                 return data;
                                                             });
                                                         }
+                                                        resolve();
                                                     } else {
-                                                        reject();
                                                         // TODO: make alert for fail update
                                                         alert(result.message[0]);
+                                                        reject();
                                                     };
                                                 });
                                         }),
@@ -311,11 +309,9 @@ function AnggotaPage(props) {
                                 editable={{
                                     onRowUpdate: (newData, oldData) =>
                                         new Promise((resolve, reject) => {
-                                            resolve();
                                             UserService.updateNonPatroliUser(newData)
                                                 .then(result => {
                                                     if (result.success) {
-                                                        resolve();
                                                         if (oldData) {
                                                             setBalaiState((prevState) => {
                                                                 const data = [...prevState];
@@ -323,10 +319,11 @@ function AnggotaPage(props) {
                                                                 return data;
                                                             });
                                                         }
+                                                        resolve();
                                                     } else {
-                                                        reject();
                                                         // TODO: make alert for fail update
                                                         alert(result.message[0]);
+                                                        reject();
                                                     };
                                                 });
                                         }),
@@ -419,21 +416,26 @@ function AnggotaPage(props) {
 const generateRolesLookup = async () => {
     let daopsRoles = {};
     let balaiRoles = {};
-    let roles = await UserService.getNonPatroliRoles();
-    roles.forEach(role => {
+    let manggalaRoles = {};
+    let nonPatrolRoles = await UserService.getNonPatroliRoles();
+    let patrolRoles = await UserService.getPatroliRoles();
+    nonPatrolRoles.forEach(role => {
         if (role.id == 8 || role.id == 9) {
             daopsRoles[role.id] = role.name;
         } else {
             balaiRoles[role.id] = role.name;
         }
     })
-    return { daopsRoles, balaiRoles };
+    patrolRoles.forEach(role => {
+        manggalaRoles[role.id] = role.name;
+    })
+    return { daopsRoles, balaiRoles, manggalaRoles };
 }
 const generateDaopsLookup = async () => {
     let data = {};
     let daops = await DaopsService.getAllDaops();
     daops.forEach(item => {
-        data[item.code] = item.name + ' | ' + item.code;
+        data[item.code] = item.name;
     })
     return data;
 }
@@ -441,18 +443,18 @@ const generateBalaiLookup = async () => {
     let data = {};
     let daops = await BalaiService.getAllBalai();
     daops.forEach(item => {
-        data[item.code] = item.name + ' | ' + item.code;
+        data[item.code] = item.name;
     })
     data['KLHK'] = 'KLHK';
     return data;
 }
 
 export async function getServerSideProps(context) {
-    let nonPatroliRoles = await generateRolesLookup();
+    let roles = await generateRolesLookup();
     let daopsLookup = await generateDaopsLookup();
     let balaiLookup = await generateBalaiLookup();
     const daopsColumn = [
-        { title: 'Jabatan', field: 'role', lookup: nonPatroliRoles.daopsRoles },
+        { title: 'Jabatan', field: 'role', lookup: roles.daopsRoles },
         { title: 'Daerah Operasi', field: 'organization', lookup: daopsLookup },
         { title: 'NIP', field: 'nip', editable: 'never' },
         { title: 'Nama', field: 'name' },
@@ -460,9 +462,17 @@ export async function getServerSideProps(context) {
         { title: 'Nomor HP', field: 'phone' },
     ];
     const balaiColumn = [
-        { title: 'Jabatan', field: 'role', lookup: nonPatroliRoles.balaiRoles },
+        { title: 'Jabatan', field: 'role', lookup: roles.balaiRoles },
         { title: 'Balai', field: 'organization', lookup: balaiLookup },
         { title: 'NIP', field: 'nip', editable: 'never' },
+        { title: 'Nama', field: 'name' },
+        { title: 'Email', field: 'email', editable: 'never' },
+        { title: 'Nomor HP', field: 'phone' },
+    ];
+    const manggalaColumn = [
+        { title: 'Jabatan', field: 'role', lookup: roles.manggalaRoles },
+        { title: 'Daerah Operasi', field: 'organization', lookup: daopsLookup },
+        { title: 'Nomor Registrasi', field: 'registrationNumber', editable: 'never' },
         { title: 'Nama', field: 'name' },
         { title: 'Email', field: 'email', editable: 'never' },
         { title: 'Nomor HP', field: 'phone' },
@@ -472,7 +482,8 @@ export async function getServerSideProps(context) {
         props: {
             loggedIn: getTokenFromRequest(context),
             daopsColumn,
-            balaiColumn
+            balaiColumn,
+            manggalaColumn
         }
     }
 }

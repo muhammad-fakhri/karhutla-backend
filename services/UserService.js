@@ -61,6 +61,26 @@ class UserService {
         }
     }
 
+    static async getPatroliRoles() {
+        const r = await (await fetch(apiUrl + '/role/list')).json();
+        if (r.status == 200) {
+            const data = new Array();
+            r.data.forEach(role => {
+                if (role.id > 9) {
+                    data.push({
+                        id: role.id,
+                        name: role.nama,
+                        level: role.level,
+                        active: role.aktif
+                    });
+                }
+            });
+            return data;
+        } else {
+            return new Array();
+        }
+    }
+
     static async addNonPatroliUser(data) {
         let validate = UserValidator.createNonPatroli(data);
         if (!validate.pass) return { "success": false, "message": validate.message };
