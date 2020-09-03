@@ -3,112 +3,49 @@ import { makeStyles } from "@material-ui/core/styles";
 import { getTokenFromRequest } from '../context/auth';
 import Datetime from "react-datetime";
 import FormControl from "@material-ui/core/FormControl";
+import Grid from "@material-ui/core/Grid";
 import SiteLayout from '../components/Layout/SiteLayout';
 import Parallax from "../components/Parallax/Parallax.js";
-import GridContainer from "../components/Grid/GridContainer.js";
 import MapContainer from '../components/Map/MapPatroli';
-import GridItem from "../components/Grid/GridItem.js";
-import fetch from 'isomorphic-unfetch';
 import styles from "../assets/jss/nextjs-material-kit/pages/frontPage.js";
+import moment from 'moment';
+import PatroliService from '../services/PatroliService';
 const useStyles = makeStyles(styles);
-
-function getTodayDate() {
-  const todayDateTime = new Date();
-  const months = ["Januari",
-    "Februari",
-    "Maret",
-    "April",
-    "Mungkin",
-    "Juni",
-    "Juli",
-    "Agustus",
-    "September",
-    "Oktober",
-    "November",
-    "Desember"];
-  let hour = todayDateTime.getHours();
-  let minute = todayDateTime.getMinutes();
-  if (hour < 10) hour = '0' + hour;
-  if (minute < 10) minute = '0' + minute;
-  return {
-    'date': `${todayDateTime.getDate()} ${months[todayDateTime.getMonth()]} ${todayDateTime.getFullYear()}`,
-    'time': `${hour}:${minute}`,
-    'plainDate': `${todayDateTime.getDate()}-${(todayDateTime.getMonth() + 1)}-${todayDateTime.getFullYear()}`
-  }
-}
 
 export default function FrontPage(props) {
   const classes = useStyles();
-  const [date, setDate] = React.useState(getTodayDate().plainDate);
+  const [date, setDate] = React.useState(moment());
   const [mandiri, setMandiri] = React.useState(0);
   const [pencegahan, setPencegahan] = React.useState(0);
   const [terpadu, setTerpadu] = React.useState(0);
   const [spots, setSpots] = React.useState();
 
-  const getPatroli = async (date) => {
-    try {
-      let patroliSpots = new Array();
-      let counter = {
-        mandiri: 0,
-        pencegahan: 0,
-        terpadu: 0
-      };
-      const url = `http://103.129.223.216/api/simadu/list?tanggal_patroli=${date}`;
-      const res = await (await fetch(url)).json();
-      let patroliData = res.data;
-      patroliData.forEach((item) => {
-        item.forEach(patroli => {
-          let data = {};
-          data.latitude = patroli.laporanDarat[0].latitude;
-          data.longitude = patroli.laporanDarat[0].longitude;
-
-          const baseMarkerUrl = 'http://maps.google.com/mapfiles/ms/icons/';
-          if (patroli.kategori_patroli == 'Mandiri') {
-            data.marker = baseMarkerUrl + "blue-dot.png";
-            counter.mandiri++;
-          }
-          if (patroli.kategori_patroli == 'Pencegahan') {
-            data.marker = baseMarkerUrl + "green-dot.png";
-            counter.pencegahan++;
-          }
-          if (patroli.kategori_patroli == 'Terpadu') {
-            data.marker = baseMarkerUrl + "yellow-dot.png";
-            counter.terpadu++;
-          }
-          data.patroli = patroli;
-
-          patroliSpots.push(data);
-        });
-      });
-
-      setSpots(patroliSpots);
-      setMandiri(counter.mandiri);
-      setPencegahan(counter.pencegahan);
-      setTerpadu(counter.terpadu);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   React.useEffect(() => {
-    getPatroli(getTodayDate().plainDate);
-  }, []);
+    const updatePatroli = async () => {
+      let patroliData = await PatroliService.getPatroli(date.format('D-M-YYYY'));
+      setSpots(patroliData.patroliSpots);
+      setMandiri(patroliData.counter.mandiri);
+      setPencegahan(patroliData.counter.pencegahan);
+      setTerpadu(patroliData.counter.terpadu);
+    }
+    updatePatroli();
+  }, [date]);
 
   return (
     <SiteLayout scrollChange={true}>
       <div>
         <Parallax image={require("assets/img/forest-fire.jpg")}>
           <div className={classes.container}>
-            <GridContainer>
-              <GridItem>
+            <Grid container>
+              <Grid item>
                 <div className={classes.brand}>
                   <h1 className={classes.title}>SIMADU2</h1>
                   <h3 className={classes.subtitle}>
                     Website monitoring patroli kebakaran hutan di wilayah Pulau Sumatera, Indonesia.
                 </h3>
                 </div>
-              </GridItem>
-            </GridContainer>
+              </Grid >
+            </Grid>
           </div>
         </Parallax>
         <div className={classNames(classes.main, classes.mainRaised, classes.textCenter)}>
@@ -122,38 +59,37 @@ export default function FrontPage(props) {
             spots={spots}
             isLoggedin={props.loggedIn}
           />
-          <GridContainer>
-            <GridItem xs={12}>
+          <Grid container>
+            <Grid item xs={12}>
               <h3>
-                Tanggal: {date}
+                Tanggal: {date.format('D MMMM YYYY')}
                 <br />
                 <FormControl className={classNames(classes.formChooseDate, classes.textCenter)}>
                   <Datetime
                     timeFormat={false}
                     inputProps={{ placeholder: "Pilih tanggal patroli ..." }}
                     onChange={(date) => {
-                      getPatroli(date.format('YYYY-MM-DD'));
-                      setDate(date.format('D MMMM YYYY'));
+                      setDate(date);
                     }}
                     closeOnSelect={true}
                     locale="id"
                   />
                 </FormControl>
               </h3>
-            </GridItem>
-            <GridItem sm={10} md={4}>
+            </Grid>
+            <Grid item xs={12} md={4}>
               <h2 className={classes.terpaduBg}>Patroli Terpadu</h2>
               <h3>{terpadu}</h3>
-            </GridItem>
-            <GridItem sm={10} md={4}>
+            </Grid>
+            <Grid item xs={12} md={4}>
               <h2 className={classes.mandiriBg}>Patroli Mandiri</h2>
               <h3>{mandiri}</h3>
-            </GridItem>
-            <GridItem sm={10} md={4}>
+            </Grid>
+            <Grid item xs={12} md={4}>
               <h2 className={classes.pencegahanBg}>Patroli Pencegahan</h2>
               <h3>{pencegahan}</h3>
-            </GridItem>
-          </GridContainer>
+            </Grid>
+          </Grid>
         </div>
       </div>
     </SiteLayout>
@@ -162,8 +98,8 @@ export default function FrontPage(props) {
 
 export async function getServerSideProps(context) {
   return {
-      props: {
-          loggedIn: getTokenFromRequest(context),
-      }
+    props: {
+      loggedIn: getTokenFromRequest(context),
+    }
   }
 }

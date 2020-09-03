@@ -44,6 +44,15 @@ const frontPageStyle = {
     height: "20px",
     marginRight: "3px"
   },
+  terpaduBg: {
+    textDecoration: 'underline #fdf569 solid'
+  },
+  mandiriBg: {
+    textDecoration: 'underline #6991fd solid'
+  },
+  pencegahanBg: {
+    textDecoration: 'underline #00e64d solid'
+  },
 };
 
 export default frontPageStyle;
