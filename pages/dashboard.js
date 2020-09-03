@@ -6,9 +6,8 @@ import { getTokenFromRequest } from '../context/auth';
 import PatroliService from '../services/PatroliService';
 import Datetime from "react-datetime";
 import FormControl from "@material-ui/core/FormControl";
+import Grid from "@material-ui/core/Grid";
 import SiteLayout from '../components/Layout/SiteLayout';
-import GridContainer from "../components/Grid/GridContainer.js";
-import GridItem from "../components/Grid/GridItem.js";
 import MapContainer from '../components/Map/MapPatroli';
 import classNames from "classnames";
 import styles from "../assets/jss/nextjs-material-kit/pages/dashboardPage";
@@ -59,8 +58,8 @@ export default function DashboardPage(props) {
                         spots={spots}
                         isLoggedin={props.loggedIn}
                     />
-                    <GridContainer>
-                        <GridItem xs={12}>
+                    <Grid container>
+                        <Grid item xs={12}>
                             <h3>
                                 Tanggal: {date.format('D MMMM YYYY')}
                                 <br />
@@ -76,20 +75,20 @@ export default function DashboardPage(props) {
                                     />
                                 </FormControl>
                             </h3>
-                        </GridItem>
-                        <GridItem sm={10} md={4}>
+                        </Grid>
+                        <Grid item xs={12} md={4}>
                             <h2 className={classes.terpaduBg}>Patroli Terpadu</h2>
                             <h3>{terpadu}</h3>
-                        </GridItem>
-                        <GridItem sm={10} md={4}>
+                        </Grid>
+                        <Grid item xs={12} md={4}>
                             <h2 className={classes.mandiriBg}>Patroli Mandiri</h2>
                             <h3>{mandiri}</h3>
-                        </GridItem>
-                        <GridItem sm={10} md={4}>
+                        </Grid>
+                        <Grid item xs={12} md={4}>
                             <h2 className={classes.pencegahanBg}>Patroli Pencegahan</h2>
                             <h3>{pencegahan}</h3>
-                        </GridItem>
-                    </GridContainer>
+                        </Grid>
+                    </Grid>
                 </div>
             </div>
         </SiteLayout>

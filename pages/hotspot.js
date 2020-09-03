@@ -3,9 +3,8 @@ import Router from 'next/router';
 const LoginPage = dynamic(() => import("./login"));
 import { getTokenFromRequest } from '../context/auth';
 import SiteLayout from '../components/Layout/SiteLayout';
-import GridContainer from "../components/Grid/GridContainer.js";
-import GridItem from "../components/Grid/GridItem.js";
 import Icon from '@material-ui/core/Icon';
+import Grid from '@material-ui/core/Grid';
 import Map from "../components/Map/MapHotspot";
 import fetch from 'isomorphic-unfetch';
 import classNames from "classnames";
@@ -61,27 +60,27 @@ export default function HotspotPage(props) {
                         <Icon className={classes.icon} color={"error"}>fiber_manual_record</Icon>
                         SIPONGI Live Update
                     </h2>
-                    <GridContainer>
-                        <GridItem xs={12}>
+                    <Grid container>
+                        <Grid item xs={12}>
                             <h3>
                                 Tanggal: {props.todayDate.date}
                                 <br />
                                 Pukul: {props.todayDate.time}
                             </h3>
-                        </GridItem>
-                        <GridItem sm={10} md={4}>
+                        </Grid>
+                        <Grid item xs={12} md={4}>
                             <h2>Titik Panas</h2>
                             <h3>{props.hotspots.length}</h3>
-                        </GridItem>
-                        <GridItem sm={10} md={4}>
+                        </Grid>
+                        <Grid item xs={12} md={4}>
                             <h2>Rentang Data</h2>
                             <h3>24h</h3>
-                        </GridItem>
-                        <GridItem sm={10} md={4}>
+                        </Grid>
+                        <Grid item xs={12} md={4}>
                             <h2>Confidence Level</h2>
                             <h3>80%</h3>
-                        </GridItem>
-                    </GridContainer>
+                        </Grid>
+                    </Grid>
                     <Map
                         center={
                             {
