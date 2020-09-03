@@ -94,6 +94,7 @@ export class MapContainer extends React.Component {
                     this.props.spots
                         ? this.props.spots.map((spot, i) => {
                             return <Marker
+                                key={i}
                                 onClick={this.onMarkerClick}
                                 icon={spot.marker}
                                 patroli={spot.patroli}

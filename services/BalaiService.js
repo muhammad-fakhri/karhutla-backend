@@ -1,5 +1,4 @@
 import { apiUrl } from './config';
-import fetch from 'isomorphic-unfetch';
 
 class BalaiService {
     static async getAllBalai() {
