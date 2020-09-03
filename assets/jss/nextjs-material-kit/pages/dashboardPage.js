@@ -50,6 +50,12 @@ const frontPageStyle = {
   },
   pencegahanBg: {
     textDecoration: 'underline #00e64d solid'
+  },
+  divider: {
+    padding: '8vh 0'
+  },
+  table: {
+    padding: '0 16px 8vh 16px'
   }
 };
 

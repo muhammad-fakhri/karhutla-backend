@@ -25,6 +25,7 @@ export class MapContainer extends React.Component {
     };
 
     generateInfoWindowContent = () => {
+        let reportLink = `http://103.129.223.216/simadu2/app/downloader.php?id=${this.state.selectedPlace.patroli.id_laporan_header}`
         return <div>
             <center>
                 <b>{this.state.selectedPlace.patroli.id_daerah_patroli.nama_daerah_patroli}</b>
@@ -68,7 +69,7 @@ export class MapContainer extends React.Component {
                     ? <>
                         <br />
                         <center>
-                            <a href='http://103.129.223.216/simadu2/app/downloader.php?id={this.props.patroli.id_laporan_header}' target='_blank'>Unduh Laporan</a>
+                            <a href={reportLink} target='_blank'>Unduh Laporan</a>
                         </center>
                     </>
                     : null
