@@ -2,7 +2,6 @@ import { apiUrl } from '../../services/config';
 import dynamic from "next/dynamic";
 import Router, { useRouter } from 'next/router';
 import useSWR from 'swr';
-import { getTokenFromRequest } from '../../context/auth';
 const LoginPage = dynamic(() => import("../login"));
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from '@material-ui/core/Grid';
@@ -27,6 +26,7 @@ import styles from "../../assets/jss/nextjs-material-kit/pages/penggunaPage";
 import UserService from '../../services/UserService';
 import DaopsService from '../../services/DaopsService';
 import BalaiService from '../../services/BalaiService';
+import { ProtectRoute } from '../../context/auth';
 
 const useStyles = makeStyles(styles);
 
@@ -77,18 +77,45 @@ TabPanel.propTypes = {
     value: PropTypes.any.isRequired,
 };
 
+const generateRolesLookup = async () => {
+    let daopsRoles = {};
+    let balaiRoles = {};
+    let manggalaRoles = {};
+    let nonPatrolRoles = await UserService.getNonPatroliRoles();
+    let patrolRoles = await UserService.getPatroliRoles();
+    nonPatrolRoles.forEach(role => {
+        if (role.id == 8 || role.id == 9) {
+            daopsRoles[role.id] = role.name;
+        } else {
+            balaiRoles[role.id] = role.name;
+        }
+    })
+    patrolRoles.forEach(role => {
+        manggalaRoles[role.id] = role.name;
+    })
+    return { daopsRoles, balaiRoles, manggalaRoles };
+}
+const generateDaopsLookup = async () => {
+    let data = {};
+    let daops = await DaopsService.getAllDaops();
+    daops.forEach(item => {
+        data[item.code] = item.name;
+    })
+    return data;
+}
+const generateBalaiLookup = async () => {
+    let data = {};
+    let daops = await BalaiService.getAllBalai();
+    daops.forEach(item => {
+        data[item.code] = item.name;
+    })
+    data['KLHK'] = 'KLHK';
+    return data;
+}
+
 function AnggotaPage(props) {
     const classes = useStyles();
     const router = useRouter();
-    // Load login page if not logged in
-    React.useEffect(() => {
-        if (props.loggedIn) return; // do nothing if already logged in
-        Router.replace("/pengguna", "/login", { shallow: true });
-    }, [props.loggedIn]);
-
-    if (props.loggedIn !== undefined) {
-        if (!props.loggedIn) return <LoginPage />;
-    }
 
     const [openManggala, setOpenManggala] = React.useState(false);
     const [openUploadManggala, setOpenUploadManggala] = React.useState(false);
@@ -98,8 +125,46 @@ function AnggotaPage(props) {
     ]);
     const [daopsState, setDaopsState] = React.useState();
     const [balaiState, setBalaiState] = React.useState();
+    const [manggalaColumn, setManggalaColumn] = React.useState();
+    const [daopsColumn, setDaopsColumn] = React.useState();
+    const [balaiColumn, setBalaiColumn] = React.useState();
     const [value, setValue] = React.useState(0);
 
+    React.useEffect(() => {
+        const setLookup = async () => {
+            let roles = await generateRolesLookup();
+            let daopsLookup = await generateDaopsLookup();
+            let balaiLookup = await generateBalaiLookup();
+            const manggalaColumn = [
+                { title: 'Jabatan', field: 'role', lookup: roles.manggalaRoles },
+                { title: 'Daerah Operasi', field: 'organization', lookup: daopsLookup },
+                { title: 'Nomor Registrasi', field: 'registrationNumber', editable: 'never' },
+                { title: 'Nama', field: 'name' },
+                { title: 'Email', field: 'email', editable: 'never' },
+                { title: 'Nomor HP', field: 'phone' },
+            ];
+            const daopsColumn = [
+                { title: 'Jabatan', field: 'role', lookup: roles.daopsRoles },
+                { title: 'Daerah Operasi', field: 'organization', lookup: daopsLookup },
+                { title: 'NIP', field: 'nip', editable: 'never' },
+                { title: 'Nama', field: 'name' },
+                { title: 'Email', field: 'email', editable: 'never' },
+                { title: 'Nomor HP', field: 'phone' },
+            ];
+            const balaiColumn = [
+                { title: 'Jabatan', field: 'role', lookup: roles.balaiRoles },
+                { title: 'Balai', field: 'organization', lookup: balaiLookup },
+                { title: 'NIP', field: 'nip', editable: 'never' },
+                { title: 'Nama', field: 'name' },
+                { title: 'Email', field: 'email', editable: 'never' },
+                { title: 'Nomor HP', field: 'phone' },
+            ];
+            setManggalaColumn(manggalaColumn);
+            setDaopsColumn(daopsColumn);
+            setBalaiColumn(balaiColumn);
+        }
+        setLookup();
+    }, []);
     const { data, error } = useSWR(apiUrl + '/non_patroli/list', UserService.getNonPatroliUsers)
     React.useEffect(() => {
         if (data) {
@@ -107,6 +172,7 @@ function AnggotaPage(props) {
             setBalaiState(data.balaiUsers);
         }
     }, [data]);
+
 
     const handleOpenManggala = () => {
         setOpenManggala(true);
@@ -182,7 +248,7 @@ function AnggotaPage(props) {
                         <TabPanel value={value} index={0} dir={'right'}>
                             <MaterialTable
                                 title="Personil Manggala Agni"
-                                columns={props.manggalaColumn}
+                                columns={manggalaColumn}
                                 data={manggalaState}
                                 actions={[
                                     {
@@ -228,7 +294,7 @@ function AnggotaPage(props) {
                         <TabPanel value={value} index={1} dir={'right'}>
                             <MaterialTable
                                 title="Pengguna Daops"
-                                columns={props.daopsColumn}
+                                columns={daopsColumn}
                                 data={daopsState}
                                 actions={[
                                     {
@@ -289,7 +355,7 @@ function AnggotaPage(props) {
                         <TabPanel value={value} index={2} dir={'right'}>
                             <MaterialTable
                                 title="Pengguna Balai"
-                                columns={props.balaiColumn}
+                                columns={balaiColumn}
                                 data={balaiState}
                                 actions={[
                                     {
@@ -413,79 +479,4 @@ function AnggotaPage(props) {
     );
 }
 
-const generateRolesLookup = async () => {
-    let daopsRoles = {};
-    let balaiRoles = {};
-    let manggalaRoles = {};
-    let nonPatrolRoles = await UserService.getNonPatroliRoles();
-    let patrolRoles = await UserService.getPatroliRoles();
-    nonPatrolRoles.forEach(role => {
-        if (role.id == 8 || role.id == 9) {
-            daopsRoles[role.id] = role.name;
-        } else {
-            balaiRoles[role.id] = role.name;
-        }
-    })
-    patrolRoles.forEach(role => {
-        manggalaRoles[role.id] = role.name;
-    })
-    return { daopsRoles, balaiRoles, manggalaRoles };
-}
-const generateDaopsLookup = async () => {
-    let data = {};
-    let daops = await DaopsService.getAllDaops();
-    daops.forEach(item => {
-        data[item.code] = item.name;
-    })
-    return data;
-}
-const generateBalaiLookup = async () => {
-    let data = {};
-    let daops = await BalaiService.getAllBalai();
-    daops.forEach(item => {
-        data[item.code] = item.name;
-    })
-    data['KLHK'] = 'KLHK';
-    return data;
-}
-
-export async function getServerSideProps(context) {
-    let roles = await generateRolesLookup();
-    let daopsLookup = await generateDaopsLookup();
-    let balaiLookup = await generateBalaiLookup();
-    const daopsColumn = [
-        { title: 'Jabatan', field: 'role', lookup: roles.daopsRoles },
-        { title: 'Daerah Operasi', field: 'organization', lookup: daopsLookup },
-        { title: 'NIP', field: 'nip', editable: 'never' },
-        { title: 'Nama', field: 'name' },
-        { title: 'Email', field: 'email', editable: 'never' },
-        { title: 'Nomor HP', field: 'phone' },
-    ];
-    const balaiColumn = [
-        { title: 'Jabatan', field: 'role', lookup: roles.balaiRoles },
-        { title: 'Balai', field: 'organization', lookup: balaiLookup },
-        { title: 'NIP', field: 'nip', editable: 'never' },
-        { title: 'Nama', field: 'name' },
-        { title: 'Email', field: 'email', editable: 'never' },
-        { title: 'Nomor HP', field: 'phone' },
-    ];
-    const manggalaColumn = [
-        { title: 'Jabatan', field: 'role', lookup: roles.manggalaRoles },
-        { title: 'Daerah Operasi', field: 'organization', lookup: daopsLookup },
-        { title: 'Nomor Registrasi', field: 'registrationNumber', editable: 'never' },
-        { title: 'Nama', field: 'name' },
-        { title: 'Email', field: 'email', editable: 'never' },
-        { title: 'Nomor HP', field: 'phone' },
-    ];
-
-    return {
-        props: {
-            loggedIn: getTokenFromRequest(context),
-            daopsColumn,
-            balaiColumn,
-            manggalaColumn
-        }
-    }
-}
-
-export default AnggotaPage;
+export default ProtectRoute(AnggotaPage);

@@ -1,11 +1,6 @@
 import 'date-fns';
-import dynamic from "next/dynamic";
-import Router from 'next/router';
-const LoginPage = dynamic(() => import("../login"));
-import { getTokenFromRequest } from '../../context/auth';
 import DateFnsUtils from '@date-io/date-fns';
-import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
+import { TextField, MenuItem } from '@material-ui/core';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import {
   MuiPickersUtilsProvider,
@@ -18,6 +13,7 @@ import Button from "../../components/CustomButtons/Button";
 import classNames from "classnames";
 import styles from "../../assets/jss/nextjs-material-kit/pages/suratTugas/berkasPage";
 import { makeStyles } from "@material-ui/core/styles";
+import { ProtectRoute } from '../../context/auth';
 const useStyles = makeStyles(styles);
 
 const workTypes = [
@@ -35,19 +31,9 @@ const workTypes = [
   },
 ];
 
-export default function DashboardPage(props) {
+function BerkasPenugasanPage(props) {
   const classes = useStyles();
-  React.useEffect(() => {
-    if (props.loggedIn) return; // do nothing if already logged in
-    Router.replace("/penugasan/berkas", "/login", { shallow: true });
-  }, [props.loggedIn]);
 
-  // Load login page if not logged in
-  if (props.loggedIn !== undefined) {
-    if (!props.loggedIn) return <LoginPage />;
-  }
-
-  // If logged in load dashboard page 
   const [workType, setWorkType] = React.useState('terpadu');
   const [startDate, setStartDate] = React.useState(new Date());
   const [finishDate, setFinishDate] = React.useState(new Date());
@@ -197,10 +183,4 @@ export default function DashboardPage(props) {
   );
 }
 
-export async function getServerSideProps(context) {
-  return {
-    props: {
-      loggedIn: getTokenFromRequest(context)
-    }
-  }
-}
+export default ProtectRoute(BerkasPenugasanPage);

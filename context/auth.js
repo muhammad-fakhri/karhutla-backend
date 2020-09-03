@@ -1,49 +1,85 @@
-import Router from 'next/router'
-import fetch from 'isomorphic-unfetch'
+import React, { createContext, useState, useContext, useEffect } from 'react'
 import Cookies from 'js-cookie'
+import Router, { useRouter } from 'next/router'
 
-export const getTokenFromRequest = context => {
-    const cookieList = {},
-        rc = context.req.headers.cookie;
+//api here is an axios instance
+// import api from '../services/Api';
 
-    rc && rc.split(';').forEach(function (cookie) {
-        let parts = cookie.split('=');
-        cookieList[parts.shift().trim()] = decodeURI(parts.join('='));
-    });
 
-    return cookieList['token'] ? true : false;
+const AuthContext = createContext({});
+
+export const AuthProvider = ({ children }) => {
+
+    const [user, setUser] = useState(null)
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        async function loadUserFromCookies() {
+            const token = Cookies.get('token')
+            if (token) {
+                console.log("Got a token in the cookies, let's see if it is valid")
+                // api.defaults.headers.Authorization = `Bearer ${token}`
+                // const { data: user } = await api.get('users/me')
+                const user = {
+                    name: 'Muhammad Fakhri',
+                    email: 'muhammadfakhri301@gmail.com'
+                };
+                if (user) setUser(user);
+            }
+            setLoading(false)
+        }
+        loadUserFromCookies()
+    }, [])
+
+    const login = async (email, password) => {
+        // const { data: token } = await api.post('auth/login', { email, password })
+        let token = 'asdjbiu1e';
+        if (token) {
+            console.log("Got token")
+            Cookies.set('token', token, { expires: 60 })
+            // api.defaults.headers.Authorization = `Bearer ${token.token}`
+            // const { data: user } = await api.get('users/me')
+            let user = {
+                name: 'Muhammad Fakhri',
+                email: 'muhammadfakhri301@gmail.com'
+            }
+            setUser(user)
+            console.log("Got user", user)
+            window.location.pathname = '/dashboard'
+        }
+    }
+
+    const logout = (email, password) => {
+        Cookies.remove('token')
+        setUser(null)
+        window.location.pathname = '/login'
+    }
+
+
+    return (
+        <AuthContext.Provider value={{ isAuthenticated: !!user, user, login, loading, logout }}>
+            {children}
+        </AuthContext.Provider>
+    )
 }
 
-export const getToken = () => Cookies.get('token');
+export default function useAuth() {
+    const context = useContext(AuthContext)
 
-export const login = async (email, password) => {
-    // const responseJson = await (await fetch('http://103.129.223.216/api/auth/login', {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({
-    //         email,
-    //         password,
-    //     }),
-    // })).json();
+    return context
+};
 
-    // if (responseJson.data.token) {
-    // Cookies.set('token', responseJson.data.token, { expires: 2 });
-    Cookies.set('token', 'iab213basdb21ebwqk', { expires: 2 });
-    redirectAfterLogin()
-    // }
+export function ProtectRoute(Component) {
+    return () => {
+        const { user, isAuthenticated, loading } = useAuth();
+        const router = useRouter()
+
+        useEffect(() => {
+            if (!isAuthenticated && !loading) Router.push('/login')
+        }, [loading, isAuthenticated])
+
+        return (<Component {...arguments} />)
+    }
 }
 
-export const logout = () => {
-    Cookies.remove('token')
-    redirectAfterLogout();
-}
-
-const redirectAfterLogin = () => {
-    Router.push('/dashboard')
-}
-
-const redirectAfterLogout = () => {
-    Router.push('/')
-}
+// TODO: inverse protect route for login page

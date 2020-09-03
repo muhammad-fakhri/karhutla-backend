@@ -1,32 +1,17 @@
 import 'date-fns';
-import dynamic from "next/dynamic";
-import Router from 'next/router';
-const LoginPage = dynamic(() => import("../login"));
-import { getTokenFromRequest } from '../../context/auth';
-import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
-import Grid from '@material-ui/core/Grid';
+import { TextField, MenuItem, Grid } from '@material-ui/core';
 import SiteLayout from '../../components/Layout/SiteLayout';
 import Button from "../../components/CustomButtons/Button";
 import classNames from "classnames";
 import styles from "../../assets/jss/nextjs-material-kit/pages/pengguna/patroliPage";
 import { makeStyles } from "@material-ui/core/styles";
 import UserService from '../../services/UserService';
+import { ProtectRoute } from '../../context/auth';
 const useStyles = makeStyles(styles);
 
-export default function PatroliPage(props) {
+function PatroliPage(props) {
   const classes = useStyles();
-  React.useEffect(() => {
-    if (props.loggedIn) return; // do nothing if already logged in
-    Router.replace("/pengguna/patroli", "/login", { shallow: true });
-  }, [props.loggedIn]);
 
-  // Load login page if not logged in
-  if (props.loggedIn !== undefined) {
-    if (!props.loggedIn) return <LoginPage />;
-  }
-
-  // If logged in load non-patroli page 
   const handleManualManggalaFormSubmit = () => {
   };
   return (
@@ -150,12 +135,4 @@ export default function PatroliPage(props) {
   );
 }
 
-export async function getServerSideProps(context) {
-  const roles = await UserService.getNonPatroliRoles();
-  return {
-    props: {
-      loggedIn: getTokenFromRequest(context),
-      roles
-    }
-  }
-}
+export default ProtectRoute(PatroliPage);

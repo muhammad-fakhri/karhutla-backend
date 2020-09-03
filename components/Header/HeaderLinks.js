@@ -1,19 +1,14 @@
-import React from "react";
-import Link from "next/link";
-import cookie from 'js-cookie';
-import { useRouter } from 'next/router'
-import { logout, getToken } from '../../context/auth';
 import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import Icon from "@material-ui/core/Icon";
-// import { Apps, CloudDownload } from "@material-ui/icons";
+import { List, ListItem, Icon } from "@material-ui/core";
+import styles from "assets/jss/nextjs-material-kit/components/headerLinksStyle.js";
 import CustomDropdown from "components/CustomDropdown/CustomDropdown.js";
 import Button from "components/CustomButtons/Button.js";
-import styles from "assets/jss/nextjs-material-kit/components/headerLinksStyle.js";
+import Link from "next/link";
+import React from "react";
+import useAuth from '../../context/auth';
 const useStyles = makeStyles(styles);
 
-const AuthenticatedMenu = () => {
+const AuthenticatedMenu = (props) => {
   const classes = useStyles();
 
   return (
@@ -80,7 +75,7 @@ const AuthenticatedMenu = () => {
         <Button
           color="transparent"
           className={classes.navLink}
-          onClick={logout} >
+          onClick={props.logout} >
           Logout
         </Button>
       </ListItem>
@@ -107,10 +102,12 @@ const UnauthenticatedMenu = () => {
 }
 
 export default function HeaderLinks(props) {
+  const { isAuthenticated, logout } = useAuth();
+
   if (!props.isLoginPage) {
     return (
-      getToken() ?
-        <AuthenticatedMenu /> :
+      isAuthenticated ?
+        <AuthenticatedMenu logout={logout} /> :
         <UnauthenticatedMenu />
     );
   } else {

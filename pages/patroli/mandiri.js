@@ -3,15 +3,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import classNames from 'classnames';
 import MaterialTable from 'material-table';
-import dynamic from 'next/dynamic';
-import Router from 'next/router';
 import useSWR from 'swr';
 import styles from "../../assets/jss/nextjs-material-kit/pages/patroliMandiriPage";
 import SiteLayout from '../../components/Layout/SiteLayout';
-import { getTokenFromRequest } from '../../context/auth';
-const LoginPage = dynamic(() => import('../login'));
 import { simaduApiUrl } from '../../services/config';
 import PatroliService from '../../services/PatroliService';
+import { ProtectRoute } from '../../context/auth';
 
 const column = [
     { title: 'Tanggal', field: 'patrolDate' },
@@ -23,16 +20,6 @@ function PatroliMandiriPage(props) {
     const useStyles = makeStyles(styles);
     const classes = useStyles();
     const [mandiri, setMandiri] = React.useState();
-
-    // Load login page if not logged in
-    React.useEffect(() => {
-        if (props.loggedIn) return; // do nothing if already logged in
-        Router.replace("/patroli/mandiri", "/login", { shallow: true });
-    }, [props.loggedIn]);
-
-    if (props.loggedIn !== undefined) {
-        if (!props.loggedIn) return <LoginPage />;
-    }
 
     const { data, error } = useSWR(simaduApiUrl + '/list', PatroliService.getAllPatroliMandiri);
     // TODO: change endpoint with endpoint for fetching all mandiri patrol data
@@ -68,12 +55,4 @@ function PatroliMandiriPage(props) {
     );
 }
 
-export async function getServerSideProps(context) {
-    return {
-        props: {
-            loggedIn: getTokenFromRequest(context)
-        }
-    }
-}
-
-export default PatroliMandiriPage;
+export default ProtectRoute(PatroliMandiriPage);

@@ -1,18 +1,17 @@
 import 'date-fns';
-import dynamic from "next/dynamic";
-import Router, { useRouter } from 'next/router';
-const LoginPage = dynamic(() => import("../login"));
-import { getTokenFromRequest } from '../../context/auth';
-import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
-import Grid from '@material-ui/core/Grid';
-import Dialog from '@material-ui/core/Dialog';
-import Typography from '@material-ui/core/Typography';
+import { useRouter } from 'next/router';
+import {
+  IconButton,
+  InputAdornment,
+  TextField,
+  MenuItem,
+  Grid,
+  Dialog,
+  Typography,
+  Box
+} from '@material-ui/core';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
-import Box from '@material-ui/core/Box';
-import IconButton from '@material-ui/core/IconButton';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import CloseIcon from '@material-ui/icons/Close';
@@ -24,6 +23,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import UserService from '../../services/UserService';
 import BalaiService from '../../services/BalaiService';
 import DaopsService from '../../services/DaopsService';
+import { ProtectRoute } from '../../context/auth';
 const useStyles = makeStyles(styles);
 
 const DialogTitle = props => {
@@ -40,20 +40,24 @@ const DialogTitle = props => {
   );
 };
 
-export default function NonPatroliPage(props) {
+function NonPatroliPage(props) {
   const classes = useStyles();
   const router = useRouter();
+  const [roles, setRoles] = React.useState([]);
+  const [balai, setBalai] = React.useState([]);
+  const [daops, setDaops] = React.useState([]);
   React.useEffect(() => {
-    if (props.loggedIn) return; // do nothing if already logged in
-    Router.replace("/pengguna/non-patroli", "/login", { shallow: true });
-  }, [props.loggedIn]);
+    const getDropdownData = async () => {
+      const roles = await UserService.getNonPatroliRoles();
+      const balai = await BalaiService.getAllBalai();
+      const daops = await DaopsService.getAllDaops();
+      setRoles(roles);
+      setBalai(balai);
+      setDaops(daops);
+    }
+    getDropdownData();
+  }, []);
 
-  // Load login page if not logged in
-  if (props.loggedIn !== undefined) {
-    if (!props.loggedIn) return <LoginPage />;
-  }
-
-  // If logged in load non-patroli page 
   const [values, setValues] = React.useState({
     role: '',
     organization: '',
@@ -131,7 +135,7 @@ export default function NonPatroliPage(props) {
               onChange={handleRoleChange}
               className={classes.textAlignLeft}
             >
-              {props.roles.map((role) => (
+              {roles.map((role) => (
                 <MenuItem key={role.id} value={role.id}>
                   {role.name}
                 </MenuItem>
@@ -152,7 +156,7 @@ export default function NonPatroliPage(props) {
                 onChange={handleChange('organization')}
                 className={classes.textAlignLeft}
               >
-                {props.balai.map((balai) => (
+                {balai.map((balai) => (
                   <MenuItem key={balai.id} value={balai.code}>
                     {balai.name}
                   </MenuItem>
@@ -170,7 +174,7 @@ export default function NonPatroliPage(props) {
                 onChange={handleChange('organization')}
                 className={classes.textAlignLeft}
               >
-                {props.daops.map((daops) => (
+                {daops.map((daops) => (
                   <MenuItem key={daops.id} value={daops.code}>
                     {daops.name + ' | ' + daops.code}
                   </MenuItem>
@@ -334,16 +338,4 @@ export default function NonPatroliPage(props) {
   );
 }
 
-export async function getServerSideProps(context) {
-  const roles = await UserService.getNonPatroliRoles();
-  const balai = await BalaiService.getAllBalai();
-  const daops = await DaopsService.getAllDaops();
-  return {
-    props: {
-      loggedIn: getTokenFromRequest(context),
-      roles,
-      balai,
-      daops
-    }
-  }
-}
+export default ProtectRoute(NonPatroliPage);

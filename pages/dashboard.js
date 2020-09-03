@@ -1,18 +1,16 @@
-import dynamic from "next/dynamic";
-import Router from 'next/router';
 import moment from 'moment';
 import classNames from "classnames";
-const LoginPage = dynamic(() => import("./login"));
-import { getTokenFromRequest } from '../context/auth';
+import { ProtectRoute } from '../context/auth';
 import PatroliService from '../services/PatroliService';
 import MaterialTable from 'material-table';
 import Datetime from "react-datetime";
-import { Divider, FormControl, Grid, Paper, TablePagination } from "@material-ui/core";
+import { Divider, FormControl, Grid, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import SiteLayout from '../components/Layout/SiteLayout';
 import MapContainer from '../components/Map/MapPatroli';
 import styles from "../assets/jss/nextjs-material-kit/pages/dashboardPage";
+import useAuth from '../context/auth';
 const useStyles = makeStyles(styles);
 
 const column = [
@@ -21,8 +19,10 @@ const column = [
     { title: 'Daerah Patroli', field: 'patrolRegion' },
 ];
 
-export default function DashboardPage(props) {
+function DashboardPage(props) {
     const classes = useStyles();
+    const { isAuthenticated } = useAuth();
+
     const [date, setDate] = React.useState(moment());
     const [mandiriCounter, setMandiriCounter] = React.useState(0);
     const [pencegahanCounter, setPencegahanCounter] = React.useState(0);
@@ -32,17 +32,6 @@ export default function DashboardPage(props) {
     const [pencegahan, setPencegahan] = React.useState();
     const [spots, setSpots] = React.useState();
 
-    React.useEffect(() => {
-        if (props.loggedIn) return; // do nothing if already logged in
-        Router.replace("/dashboard", "/login", { shallow: true });
-    }, [props.loggedIn]);
-
-    // Load login page if not logged in
-    if (props.loggedIn !== undefined) {
-        if (!props.loggedIn) return <LoginPage />;
-    }
-
-    // If logged in, load dashboard page
     React.useEffect(() => {
         const updatePatroli = async () => {
             let patroliData = await PatroliService.getPatroli(date.format('D-M-YYYY'));
@@ -69,7 +58,7 @@ export default function DashboardPage(props) {
                         }}
                         zoom={5.1}
                         spots={spots}
-                        isLoggedin={props.loggedIn}
+                        isLoggedin={isAuthenticated}
                     />
                     <Grid container justify='center'>
                         <Grid item xs={12}>
@@ -174,10 +163,4 @@ export default function DashboardPage(props) {
     );
 }
 
-export async function getServerSideProps(context) {
-    return {
-        props: {
-            loggedIn: getTokenFromRequest(context),
-        }
-    }
-}
+export default ProtectRoute(DashboardPage);

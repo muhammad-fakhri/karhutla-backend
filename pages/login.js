@@ -1,41 +1,24 @@
-import { useState, useEffect } from "react";
-import { getTokenFromRequest, login } from '../context/auth';
-import dynamic from "next/dynamic";
-const DashboardPage = dynamic(() => import("./dashboard"));
-import Router from 'next/router';
-import cookie from 'js-cookie';
-import fetch from 'isomorphic-unfetch';
-import AuthLayout from '../components/Layout/AuthLayout';
-// @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import Icon from "@material-ui/core/Icon";
-// @material-ui/icons
+import { InputAdornment, Icon } from "@material-ui/core";
 import Email from "@material-ui/icons/Email";
-import GridContainer from "components/Grid/GridContainer.js";
-import GridItem from "components/Grid/GridItem.js";
-import Button from "components/CustomButtons/Button.js";
-import Card from "components/Card/Card.js";
-import CardBody from "components/Card/CardBody.js";
-import CardHeader from "components/Card/CardHeader.js";
-import CardFooter from "components/Card/CardFooter.js";
-import CustomInput from "components/CustomInput/CustomInput.js";
-import styles from "assets/jss/nextjs-material-kit/pages/loginPage.js";
+import { useState } from "react";
+import styles from "../assets/jss/nextjs-material-kit/pages/loginPage.js";
+import AuthLayout from '../components/Layout/AuthLayout';
+import GridContainer from "../components/Grid/GridContainer.js";
+import GridItem from "../components/Grid/GridItem.js";
+import Button from "../components/CustomButtons/Button.js";
+import Card from "../components/Card/Card.js";
+import CardBody from "../components/Card/CardBody.js";
+import CardHeader from "../components/Card/CardHeader.js";
+import CardFooter from "../components/Card/CardFooter.js";
+import CustomInput from "../components/CustomInput/CustomInput.js";
+import useAuth, { ProtectRoute } from '../context/auth';
 
 const useStyles = makeStyles(styles);
 
-export default function LoginPage(props) {
-  useEffect(() => {
-    if (!props.loggedIn) return; // do nothing if not logged in
-    Router.replace("/login", "/dashboard", { shallow: true });
-  }, [props.loggedIn]);
+function LoginPage(props) {
+  const { login, isAuthenticated } = useAuth();
 
-  // Load dashboard page if already logged in
-  if (props.loggedIn !== undefined) {
-    if (props.loggedIn) return <DashboardPage />;
-  }
-
-  // Load login page if not logged in
   const [loginError, setLoginError] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -112,8 +95,4 @@ export default function LoginPage(props) {
   );
 }
 
-export async function getServerSideProps(context) {
-  return {
-    props: { loggedIn: getTokenFromRequest(context) }
-  }
-}
+export default ProtectRoute(LoginPage);

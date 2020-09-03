@@ -1,57 +1,39 @@
-import dynamic from "next/dynamic";
-import Router from 'next/router';
-const LoginPage = dynamic(() => import("./login"));
-import { getTokenFromRequest } from '../context/auth';
 import SiteLayout from '../components/Layout/SiteLayout';
-import Icon from '@material-ui/core/Icon';
-import Grid from '@material-ui/core/Grid';
+import { Icon, Grid } from '@material-ui/core';
 import Map from "../components/Map/MapHotspot";
-import fetch from 'isomorphic-unfetch';
 import classNames from "classnames";
 import styles from "../assets/jss/nextjs-material-kit/pages/hotspotPage";
 import { makeStyles } from "@material-ui/core/styles";
+import { ProtectRoute } from '../context/auth';
+import moment from 'moment';
 const useStyles = makeStyles(styles);
 
-function getTodayDate() {
-    const todayDateTime = new Date();
-    const months = [
-        "Januari",
-        "Februari",
-        "Maret",
-        "April",
-        "Mungkin",
-        "Juni",
-        "Juli",
-        "Agustus",
-        "September",
-        "Oktober",
-        "November",
-        "Desember"];
-    let hour = todayDateTime.getHours();
-    let minute = todayDateTime.getMinutes();
-    if (hour < 10) hour = '0' + hour;
-    if (minute < 10) minute = '0' + minute;
-    return {
-        'date': `${todayDateTime.getDate()} ${months[todayDateTime.getMonth()]} ${todayDateTime.getFullYear()}`,
-        'time': `${hour}:${minute}`,
-        'plainDate': `${todayDateTime.getDate()}-${(todayDateTime.getMonth() + 1)}-${todayDateTime.getFullYear()}`
-    }
-}
-
-export default function HotspotPage(props) {
+function HotspotPage(props) {
     const classes = useStyles();
-
+    const [hotspot, setHotspot] = React.useState([]);
     React.useEffect(() => {
-        if (props.loggedIn) return; // do nothing if already logged in
-        Router.replace("/dashboard", "/login", { shallow: true });
-    }, [props.loggedIn]);
+        const getHotspot = async () => {
+            let todayDate = moment().format('D-MM-YYYY');
+            let province = 'a';
+            let responses = new Array();
+            let hotspots = new Array();
+            try {
+                const url = `http://103.129.223.216/siavipala/public/api/hotspot-sipongi/date-range?start_date=${todayDate}&end_date=${todayDate}&provinsi=${province}`;
+                const res = await (await fetch(url)).json();
+                responses = res.hostspot_sipongi;
+                responses.forEach((item) => {
+                    item.sebaran_hotspot.forEach((item) => {
+                        hotspots.push(item);
+                    });
+                });
+                setHotspot(hotspots);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getHotspot();
+    }, []);
 
-    // Load login page if not logged in
-    if (props.loggedIn !== undefined) {
-        if (!props.loggedIn) return <LoginPage />;
-    }
-
-    // If logged in, load dashboard page
     return (
         <SiteLayout headerColor='info'>
             <div>
@@ -63,14 +45,14 @@ export default function HotspotPage(props) {
                     <Grid container>
                         <Grid item xs={12}>
                             <h3>
-                                Tanggal: {props.todayDate.date}
+                                Tanggal: {moment().format('D MMMM YYYY')}
                                 <br />
-                                Pukul: {props.todayDate.time}
+                                Pukul: {moment().format('HH:mm')}
                             </h3>
                         </Grid>
                         <Grid item xs={12} md={4}>
                             <h2>Titik Panas</h2>
-                            <h3>{props.hotspots.length}</h3>
+                            <h3>{hotspot.length}</h3>
                         </Grid>
                         <Grid item xs={12} md={4}>
                             <h2>Rentang Data</h2>
@@ -89,7 +71,7 @@ export default function HotspotPage(props) {
                             }
                         }
                         zoom={5.1}
-                        hotspots={props.hotspots}
+                        hotspots={hotspot}
                     />
                 </div>
             </div>
@@ -97,28 +79,4 @@ export default function HotspotPage(props) {
     );
 }
 
-export async function getServerSideProps(context) {
-    let todayDate = getTodayDate();
-    let province = 'a';
-    let hotspotResponses = new Array();
-    let hotspots = new Array();
-    try {
-        const url = `http://103.129.223.216/siavipala/public/api/hotspot-sipongi/date-range?start_date=${todayDate.plainDate}&end_date=${todayDate.plainDate}&provinsi=${province}`;
-        const res = await (await fetch(url)).json();
-        hotspotResponses = res.hostspot_sipongi;
-        hotspotResponses.forEach((item) => {
-            item.sebaran_hotspot.forEach((item) => {
-                hotspots.push(item);
-            });
-        });
-    } catch (error) {
-        console.log(error);
-    }
-    return {
-        props: {
-            loggedIn: getTokenFromRequest(context),
-            hotspots,
-            todayDate,
-        }
-    }
-}
+export default ProtectRoute(HotspotPage);

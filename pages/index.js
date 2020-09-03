@@ -1,19 +1,19 @@
-import classNames from "classnames";
+import { FormControl, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { getTokenFromRequest } from '../context/auth';
-import Datetime from "react-datetime";
-import FormControl from "@material-ui/core/FormControl";
-import Grid from "@material-ui/core/Grid";
-import SiteLayout from '../components/Layout/SiteLayout';
-import Parallax from "../components/Parallax/Parallax.js";
-import MapContainer from '../components/Map/MapPatroli';
-import styles from "../assets/jss/nextjs-material-kit/pages/frontPage.js";
+import classNames from "classnames";
 import moment from 'moment';
+import Datetime from "react-datetime";
+import styles from "../assets/jss/nextjs-material-kit/pages/frontPage.js";
+import SiteLayout from '../components/Layout/SiteLayout';
+import MapContainer from '../components/Map/MapPatroli';
+import Parallax from "../components/Parallax/Parallax.js";
+import useAuth from '../context/auth';
 import PatroliService from '../services/PatroliService';
 const useStyles = makeStyles(styles);
 
 export default function FrontPage(props) {
   const classes = useStyles();
+  const { isAuthenticated } = useAuth();
   const [date, setDate] = React.useState(moment());
   const [mandiri, setMandiri] = React.useState(0);
   const [pencegahan, setPencegahan] = React.useState(0);
@@ -57,7 +57,7 @@ export default function FrontPage(props) {
             }}
             zoom={5.1}
             spots={spots}
-            isLoggedin={props.loggedIn}
+            isLoggedin={isAuthenticated}
           />
           <Grid container>
             <Grid item xs={12}>
@@ -94,12 +94,4 @@ export default function FrontPage(props) {
       </div>
     </SiteLayout>
   );
-}
-
-export async function getServerSideProps(context) {
-  return {
-    props: {
-      loggedIn: getTokenFromRequest(context),
-    }
-  }
 }

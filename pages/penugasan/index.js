@@ -1,7 +1,3 @@
-import dynamic from "next/dynamic";
-import Router from 'next/router';
-import { getTokenFromRequest } from '../../context/auth';
-const LoginPage = dynamic(() => import("../login"));
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from '@material-ui/core/Grid';
 import AddBoxIcon from '@material-ui/icons/AddBox';
@@ -10,21 +6,12 @@ import Link from 'next/link';
 import SiteLayout from "../../components/Layout/SiteLayout";
 import Button from '../../components/CustomButtons/Button'
 import styles from "../../assets/jss/nextjs-material-kit/pages/suratTugas/index";
+import { ProtectRoute } from '../../context/auth';
 
 const useStyles = makeStyles(styles);
 
-function SuratTugasPage(props) {
+function PenugasanPage(props) {
     const classes = useStyles();
-
-    // Load login page if not logged in
-    React.useEffect(() => {
-        if (props.loggedIn) return; // do nothing if already logged in
-        Router.replace("/penugasan", "/login", { shallow: true });
-    }, [props.loggedIn]);
-
-    if (props.loggedIn !== undefined) {
-        if (!props.loggedIn) return <LoginPage />;
-    }
 
     const [state, setState] = React.useState({
         columns: [
@@ -114,12 +101,4 @@ function SuratTugasPage(props) {
     );
 }
 
-export async function getServerSideProps(context) {
-    return {
-        props: {
-            loggedIn: getTokenFromRequest(context)
-        }
-    }
-}
-
-export default SuratTugasPage;
+export default ProtectRoute(PenugasanPage);
