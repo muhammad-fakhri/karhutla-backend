@@ -60,4 +60,73 @@ export default class PatroliService {
             console.log(error);
         }
     }
+
+    static async getAllPatroliTerpadu(url) {
+        try {
+            let patroliTerpadu = new Array();
+            const res = await (await fetch(url)).json();
+            let patroliData = res.data;
+            patroliData.forEach((item) => {
+                item.forEach(patroli => {
+                    if (patroli.kategori_patroli === 'Terpadu') {
+                        let data = {};
+                        data.reportLink = `${simadu2Url}/app/downloader.php?id=${patroli.id_laporan_header}`;
+                        data.patrolRegion = patroli.id_daerah_patroli.nama_daerah_patroli;
+                        data.operationRegion = patroli.id_daerah_patroli.nama_daops;
+                        data.patrolDate = patroli.tanggal_patroli;
+                        patroliTerpadu.push(data);
+                    }
+                });
+            });
+            return patroliTerpadu;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    static async getAllPatroliMandiri(url) {
+        try {
+            let patroliMandiri = new Array();
+            const res = await (await fetch(url)).json();
+            let patroliData = res.data;
+            patroliData.forEach((item) => {
+                item.forEach(patroli => {
+                    if (patroli.kategori_patroli === 'Mandiri') {
+                        let data = {};
+                        data.reportLink = `${simadu2Url}/app/downloader.php?id=${patroli.id_laporan_header}`;
+                        data.patrolRegion = patroli.id_daerah_patroli.nama_daerah_patroli;
+                        data.operationRegion = patroli.id_daerah_patroli.nama_daops;
+                        data.patrolDate = patroli.tanggal_patroli;
+                        patroliMandiri.push(data);
+                    }
+                });
+            });
+            return patroliMandiri;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    static async getAllPatroliPencegahan(url) {
+        try {
+            let patroliPencegahan = new Array();
+            const res = await (await fetch(url)).json();
+            let patroliData = res.data;
+            patroliData.forEach((item) => {
+                item.forEach(patroli => {
+                    if (patroli.kategori_patroli === 'Pencegahan') {
+                        let data = {};
+                        data.reportLink = `${simadu2Url}/app/downloader.php?id=${patroli.id_laporan_header}`;
+                        data.patrolRegion = patroli.id_daerah_patroli.nama_daerah_patroli;
+                        data.operationRegion = patroli.id_daerah_patroli.nama_daops;
+                        data.patrolDate = patroli.tanggal_patroli;
+                        patroliPencegahan.push(data);
+                    }
+                });
+            });
+            return patroliPencegahan;
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
