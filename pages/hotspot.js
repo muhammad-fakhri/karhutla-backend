@@ -6,33 +6,25 @@ import styles from "../assets/jss/nextjs-material-kit/pages/hotspotPage";
 import { makeStyles } from "@material-ui/core/styles";
 import { ProtectRoute } from '../context/auth';
 import moment from 'moment';
+import useSWR from 'swr';
+import HotspotService from '../services/HotspotService';
+import { siavipalaUrl } from '../services/config';
 const useStyles = makeStyles(styles);
 
 function HotspotPage(props) {
     const classes = useStyles();
     const [hotspot, setHotspot] = React.useState([]);
+    const [date, setDate] = React.useState(moment());
+    const { data, error } = useSWR(
+        `${siavipalaUrl}/public/api/hotspot-sipongi/date-range?start_date=${date.format('D-MM-YYYY')}&end_date=${date.format('D-MM-YYYY')}&provinsi=a`,
+        HotspotService.getHotspot
+    );
     React.useEffect(() => {
-        const getHotspot = async () => {
-            let todayDate = moment().format('D-MM-YYYY');
-            let province = 'a';
-            let responses = new Array();
-            let hotspots = new Array();
-            try {
-                const url = `http://103.129.223.216/siavipala/public/api/hotspot-sipongi/date-range?start_date=${todayDate}&end_date=${todayDate}&provinsi=${province}`;
-                const res = await (await fetch(url)).json();
-                responses = res.hostspot_sipongi;
-                responses.forEach((item) => {
-                    item.sebaran_hotspot.forEach((item) => {
-                        hotspots.push(item);
-                    });
-                });
-                setHotspot(hotspots);
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        getHotspot();
-    }, []);
+        if (data) {
+            setHotspot(data)
+            setDate(moment());
+        };
+    }, [data]);
 
     return (
         <SiteLayout headerColor='info'>
@@ -45,9 +37,9 @@ function HotspotPage(props) {
                     <Grid container>
                         <Grid item xs={12}>
                             <h3>
-                                Tanggal: {moment().format('D MMMM YYYY')}
+                                Tanggal: {date.format('D MMMM YYYY')}
                                 <br />
-                                Pukul: {moment().format('HH:mm')}
+                                Pukul: {date.format('HH:mm:ss')}
                             </h3>
                         </Grid>
                         <Grid item xs={12} md={4}>
