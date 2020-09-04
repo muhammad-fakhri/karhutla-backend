@@ -33,7 +33,7 @@ function PatroliPencegahanPage(props) {
                 <div className={classNames(classes.main, classes.mainRaised, classes.textCenter)}>
                     <h2>Data Patroli Pencegahan</h2>
                     <MaterialTable
-                        title=''
+                        title='10 Hari Terakhir'
                         columns={column}
                         components={{
                             Container: props => <Paper {...props} elevation={0} />

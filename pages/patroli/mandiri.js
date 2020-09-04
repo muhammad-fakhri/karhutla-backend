@@ -19,7 +19,7 @@ const column = [
 function PatroliMandiriPage(props) {
     const useStyles = makeStyles(styles);
     const classes = useStyles();
-    const [mandiri, setMandiri] = React.useState();
+    const [mandiri, setMandiri] = React.useState({});
 
     const { data, error } = useSWR(simaduApiUrl + '/list', PatroliService.getAllPatroliMandiri);
     // TODO: change endpoint with endpoint for fetching all mandiri patrol data
@@ -32,7 +32,7 @@ function PatroliMandiriPage(props) {
             <div className={classNames(classes.main, classes.mainRaised, classes.textCenter)}>
                 <h2>Data Patroli Mandiri</h2>
                 <MaterialTable
-                    title=''
+                    title='10 Hari Terakhir'
                     columns={column}
                     components={{
                         Container: props => <Paper {...props} elevation={0} />
