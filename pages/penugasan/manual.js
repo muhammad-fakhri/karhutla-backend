@@ -1,6 +1,6 @@
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
-import { TextField, MenuItem, Typography } from '@material-ui/core';
+import { TextField, MenuItem, Typography, Paper } from '@material-ui/core';
 import MaterialTable from 'material-table';
 import {
   MuiPickersUtilsProvider,
@@ -326,6 +326,11 @@ function ManualPenugasanPage(props) {
                   title="Daftar Tim"
                   columns={state.columns}
                   data={state.data}
+                  components={{
+                    Container: (props) => (
+                      <Paper {...props} elevation={0} />
+                    ),
+                  }}
                   editable={{
                     onRowAdd: (newData) =>
                       new Promise((resolve) => {

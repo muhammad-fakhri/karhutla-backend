@@ -7,33 +7,29 @@ import SiteLayout from "../../components/Layout/SiteLayout";
 import Button from '../../components/CustomButtons/Button'
 import styles from "../../assets/jss/nextjs-material-kit/pages/suratTugas/index";
 import { ProtectRoute } from '../../context/auth';
+import useSWR from 'swr';
+import PenugasanService from '../../services/PenugasanService';
+import { apiUrl } from '../../services/config';
 
 const useStyles = makeStyles(styles);
 
+const columns = [
+    { title: 'Jenis', field: 'type' },
+    { title: 'Nomor Surat', field: 'number' },
+    { title: 'Tanggal Mulai', field: 'startDate' },
+    { title: 'Tanggal Selesai', field: 'finishDate' },
+];
+
 function PenugasanPage(props) {
     const classes = useStyles();
-
-    const [state, setState] = React.useState({
-        columns: [
-            { title: 'Jenis', field: 'type' },
-            { title: 'Nomor Surat', field: 'number' },
-            { title: 'Tanggal Mulai', field: 'startDate' },
-            { title: 'Tanggal Selesai', field: 'finishDate' },
-        ],
-        data: [
-            { type: 'Terpadu', number: 'GADA213NASD1', startDate: '23-08-2020', finishDate: '31-08-2020' },
-            { type: 'Zerya Betül', number: 'GADA213NASD1', startDate: '23-08-2020', finishDate: '31-08-2020' },
-            { type: 'Terpadu', number: 'GADA213NASD1', startDate: '23-08-2020', finishDate: '31-08-2020' },
-            { type: 'Terpadu', number: 'GADA213NASD1', startDate: '23-08-2020', finishDate: '31-08-2020' },
-            { type: 'Mandiri', number: 'GADA213NASD1', startDate: '23-08-2020', finishDate: '31-08-2020' },
-            { type: 'Mandiri', number: 'GADA213NASD1', startDate: '23-08-2020', finishDate: '31-08-2020' },
-            { type: 'Mandiri', number: 'GADA213NASD1', startDate: '23-08-2020', finishDate: '29-08-2020' },
-            { type: 'Mandiri', number: 'GADA213NASD1', startDate: '23-08-2020', finishDate: '31-08-2020' },
-            { type: 'Pencegahan', number: 'GADA213NASD1', startDate: '23-08-2020', finishDate: '31-08-2020' },
-            { type: 'Pencegahan', number: 'GADA213NASD1', startDate: '23-08-2020', finishDate: '31-08-2020' },
-            { type: 'Pencegahan', number: 'GADA213NASD1', startDate: '23-08-2020', finishDate: '31-08-2020' },
-        ],
-    });
+    const [penugasan, setPenugasan] = React.useState([]);
+    const { data, error } = useSWR(
+        apiUrl + "/penugasan/list",
+        PenugasanService.getAllPenugasan
+    );
+    React.useEffect(() => {
+        setPenugasan(data);
+    }, [data]);
 
     return (
         <SiteLayout headerColor="info">
@@ -72,8 +68,8 @@ function PenugasanPage(props) {
                     className={classes.gridItem}>
                     <MaterialTable
                         title=""
-                        columns={state.columns}
-                        data={state.data}
+                        columns={columns}
+                        data={penugasan}
                         actions={[
                             {
                                 icon: 'edit',
