@@ -83,14 +83,12 @@ function WilayahPage(props) {
                         onRowAdd: (newData) =>
                             new Promise((resolve, reject) => {
                                 WilayahService.addWilayah(newData).then(
-                                    (result) => {
+                                    async (result) => {
                                         if (result.success) {
+                                            let data = await WilayahService.getAllWilayah();
                                             setValues({
                                                 ...values,
-                                                wilayah: [
-                                                    ...values.wilayah,
-                                                    newData,
-                                                ],
+                                                wilayah: data,
                                                 alertMessage:
                                                     "Tambah Wilayah Berhasil",
                                                 successAlert: true,

@@ -44,7 +44,7 @@ class BalaiService {
     static async updateBalai(newData, oldData) {
         let validate = BalaiValidator.updateBalai(newData);
         if (!validate.pass) return { "success": false, "message": validate.message };
-        // return { "success": true };
+        
         let formData = new FormData();
         formData.append('id', newData.id);
         formData.append('nama', newData.name);

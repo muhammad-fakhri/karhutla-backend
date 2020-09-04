@@ -97,14 +97,12 @@ function BalaiPage(props) {
                         onRowAdd: (newData) =>
                             new Promise((resolve, reject) => {
                                 BalaiService.addBalai(newData).then(
-                                    (result) => {
+                                    async (result) => {
                                         if (result.success) {
+                                            let data = await BalaiService.getAllBalai();
                                             setValues({
                                                 ...values,
-                                                balai: [
-                                                    ...values.balai,
-                                                    newData,
-                                                ],
+                                                balai: data,
                                                 alertMessage:
                                                     "Tambah Balai Berhasil",
                                                 successAlert: true,

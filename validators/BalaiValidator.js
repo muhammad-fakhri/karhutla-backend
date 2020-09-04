@@ -1,5 +1,3 @@
-import { isEmail, isNumeric, isPhoneNumber, digitLength } from './ValidatorHelper';
-
 class BalaiValidator {
     static createBalai(inputData) {
         let errorMsg = new Array();

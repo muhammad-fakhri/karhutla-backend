@@ -1,5 +1,3 @@
-import { isEmail, isNumeric, isPhoneNumber, digitLength } from './ValidatorHelper';
-
 class WilayahValidator {
     static createWilayah(inputData) {
         let errorMsg = new Array();
