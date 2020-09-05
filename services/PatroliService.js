@@ -66,7 +66,7 @@ export default class PatroliService {
         try {
             let patroliTerpadu = new Array();
             let date = new moment();
-            for (let index = 0; index < 10; index++) {
+            for (let index = 0; index < 5; index++) {
                 if (index !== 0) date.subtract(1, 'days');
                 const res = await (await fetch(`${url}?tanggal_patroli=${date.format('D-MM-YYYY')}`)).json();
                 let patroliData = res.data;
@@ -93,7 +93,7 @@ export default class PatroliService {
         try {
             let patroliMandiri = new Array();
             let date = new moment();
-            for (let index = 0; index < 10; index++) {
+            for (let index = 0; index < 5; index++) {
                 if (index !== 0) date.subtract(1, 'days');
                 const res = await (await fetch(`${url}?tanggal_patroli=${date.format('D-MM-YYYY')}`)).json();
                 let patroliData = res.data;
@@ -120,7 +120,7 @@ export default class PatroliService {
         try {
             let patroliPencegahan = new Array();
             let date = new moment();
-            for (let index = 0; index < 10; index++) {
+            for (let index = 0; index < 5; index++) {
                 if (index !== 0) date.subtract(1, 'days');
                 const res = await (await fetch(`${url}?tanggal_patroli=${date.format('D-MM-YYYY')}`)).json();
                 let patroliData = res.data;
