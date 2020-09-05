@@ -26,6 +26,7 @@ import PageChange from "components/PageChange/PageChange.js";
 
 import "assets/scss/nextjs-material-kit.scss?v=1.1.0";
 
+// * Page change when route change
 // Router.events.on("routeChangeStart", url => {
 //   console.log(`Loading: ${url}`);
 //   document.body.classList.add("body-page-transition");
@@ -38,10 +39,10 @@ import "assets/scss/nextjs-material-kit.scss?v=1.1.0";
 //   ReactDOM.unmountComponentAtNode(document.getElementById("page-transition"));
 //   document.body.classList.remove("body-page-transition");
 // });
-Router.events.on("routeChangeError", () => {
-  ReactDOM.unmountComponentAtNode(document.getElementById("page-transition"));
-  document.body.classList.remove("body-page-transition");
-});
+// Router.events.on("routeChangeError", () => {
+//   ReactDOM.unmountComponentAtNode(document.getElementById("page-transition"));
+//   document.body.classList.remove("body-page-transition");
+// });
 
 export default class MyApp extends App {
   componentDidMount() {
@@ -68,6 +69,7 @@ export default class MyApp extends App {
   //   let pageProps = {};
 
   //   if (Component.getInitialProps) {
+
   //     pageProps = await Component.getInitialProps(ctx);
   //   }
 
