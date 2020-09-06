@@ -84,7 +84,7 @@ const AuthenticatedMenu = (props) => {
           ]}
         />
       </ListItem>
-      
+
       <ListItem className={classes.listItem}>
         <Link href="/hotspot">
           <Button
@@ -95,12 +95,21 @@ const AuthenticatedMenu = (props) => {
         </Link>
       </ListItem>
       <ListItem className={classes.listItem}>
-        <Button
-          color="transparent"
-          className={classes.navLink}
-          onClick={props.logout} >
-          Logout
-        </Button>
+        <CustomDropdown
+          noLiPadding
+          navDropdown
+          buttonText="Akun"
+          buttonProps={{
+            className: classes.navLink,
+            color: "transparent"
+          }}
+          dropdownList={[
+            // <Link href="/profile">
+            <a className={classes.dropdownLink} onClick={() => alert('Masih dalam pengembangan')}>Profil</a>,
+            // </Link>,
+            <a className={classes.dropdownLink} onClick={props.logout}>Logout</a>
+          ]}
+        />
       </ListItem>
     </List>
   )
