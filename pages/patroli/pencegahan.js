@@ -1,4 +1,4 @@
-import { Paper } from '@material-ui/core';
+import { Paper, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import classNames from 'classnames';
@@ -19,43 +19,48 @@ const column = [
 
 function PatroliPencegahanPage(props) {
     const useStyles = makeStyles(styles);
-    const { loading } = useAuth();
+    const { isAuthenticated } = useAuth();
     const classes = useStyles();
     const [pencegahan, setPencegahan] = React.useState();
-    const { data, isValidating } = useSWR(simaduApiUrl + '/list', PatroliService.getAllPatroliPencegahan);
-    const showLoader = loading || isValidating;
+    const { data, isValidating } = useSWR(
+        isAuthenticated ? simaduApiUrl + '/list' : null,
+        PatroliService.getAllPatroliPencegahan);
     // TODO: change endpoint with endpoint for fetching all pencegahan patrol data
     React.useEffect(() => {
         setPencegahan(data);
     }, [data]);
 
     return (
-        showLoader ? (
+        !isAuthenticated ? (
             <Loader />
         ) : (
                 <SiteLayout headerColor="info">
                     <div>
                         <div className={classNames(classes.main, classes.mainRaised, classes.textCenter)}>
                             <h2>Data Patroli Pencegahan</h2>
-                            <MaterialTable
-                                title='5 Hari Terakhir'
-                                columns={column}
-                                components={{
-                                    Container: props => <Paper {...props} elevation={0} />
-                                }}
-                                data={pencegahan}
-                                options={{
-                                    search: true,
-                                    actionsColumnIndex: -1
-                                }}
-                                actions={[
-                                    {
-                                        icon: CloudDownloadIcon,
-                                        tooltip: 'Download Laporan',
-                                        onClick: (event, rowData) => window.open(rowData.reportLink)
-                                    }
-                                ]}
-                            />
+                            {isValidating ? (
+                                <CircularProgress />
+                            ) : (
+                                    <MaterialTable
+                                        title='5 Hari Terakhir'
+                                        columns={column}
+                                        components={{
+                                            Container: props => <Paper {...props} elevation={0} />
+                                        }}
+                                        data={pencegahan}
+                                        options={{
+                                            search: true,
+                                            actionsColumnIndex: -1
+                                        }}
+                                        actions={[
+                                            {
+                                                icon: CloudDownloadIcon,
+                                                tooltip: 'Download Laporan',
+                                                onClick: (event, rowData) => window.open(rowData.reportLink)
+                                            }
+                                        ]}
+                                    />
+                                )}
                         </div>
                     </div>
                 </SiteLayout>
