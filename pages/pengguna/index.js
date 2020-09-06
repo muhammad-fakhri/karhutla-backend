@@ -287,7 +287,8 @@ function AnggotaPage(props) {
                                                         tooltip: 'Tambah Personil Manggala Agni',
                                                         isFreeAction: true,
                                                         onClick: (event) => {
-                                                            handleOpenManggala();
+                                                            // handleOpenManggala();
+                                                            alert("Masih dalam pengembangan");
                                                         }
                                                     }
                                                 ]}
@@ -298,26 +299,30 @@ function AnggotaPage(props) {
                                                 editable={{
                                                     onRowUpdate: (newData, oldData) =>
                                                         new Promise((resolve, reject) => {
-                                                            setTimeout(() => {
-                                                                if (oldData) {
-                                                                    setManggalaState((prevState) => {
-                                                                        const data = [...prevState];
-                                                                        data[data.indexOf(oldData)] = newData;
-                                                                        return data;
-                                                                    });
-                                                                }
-                                                                resolve();
-                                                            }, 1000);
+                                                            // setTimeout(() => {
+                                                            //     if (oldData) {
+                                                            //         setManggalaState((prevState) => {
+                                                            //             const data = [...prevState];
+                                                            //             data[data.indexOf(oldData)] = newData;
+                                                            //             return data;
+                                                            //         });
+                                                            //     }
+                                                            //     resolve();
+                                                            // }, 1000);
+                                                            alert('Masih dalam pengembangan');
+                                                            resolve();
                                                         }),
                                                     onRowDelete: oldData =>
                                                         new Promise((resolve, reject) => {
-                                                            setTimeout(() => {
-                                                                const dataDelete = [...daopsState];
-                                                                const index = oldData.tableData.id;
-                                                                dataDelete.splice(index, 1);
-                                                                setDaopsState(dataDelete);
-                                                                resolve();
-                                                            }, 1000);
+                                                            // setTimeout(() => {
+                                                            //     const dataDelete = [...daopsState];
+                                                            //     const index = oldData.tableData.id;
+                                                            //     dataDelete.splice(index, 1);
+                                                            //     setDaopsState(dataDelete);
+                                                            //     resolve();
+                                                            // }, 1000);
+                                                            alert('Masih dalam pengembangan');
+                                                            resolve();
                                                         })
                                                 }}
                                             />

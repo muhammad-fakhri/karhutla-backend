@@ -85,14 +85,14 @@ function PenugasanPage(props) {
                                                 icon: 'edit',
                                                 tooltip: 'Edit Data',
                                                 onClick: (event, rowData) => {
-                                                    alert("You edit " + rowData.type)
+                                                    alert("Masih dalam pengembangan");
                                                 }
                                             },
                                             {
                                                 icon: 'delete',
                                                 tooltip: 'Delete Data',
                                                 onClick: (event, rowData) => {
-                                                    alert("You delete " + rowData.type)
+                                                    alert("Masih dalam pengembangan");
                                                 }
                                             }
                                         ]}

@@ -39,8 +39,10 @@ function InputSuratTugasPage(props) {
                             sm={4}
                             align="center"
                             className={classes.gridItem}>
-                            <Link href="/penugasan/berkas">
+                            {/* <Link href="/penugasan/berkas"> */}
+                            <Link href="#">
                                 <ButtonBase
+                                    onClick={() => alert("Masih dalam pengembangan")}
                                     className={classNames(classes.buttonBase, classes.textCenter)}
                                     focusRipple={true}
                                 >
@@ -62,8 +64,10 @@ function InputSuratTugasPage(props) {
                             align="center"
                             className={classes.gridItem}
                         >
-                            <Link href="/penugasan/manual">
+                            {/* <Link href="/penugasan/manual"> */}
+                            <Link href="#">
                                 <ButtonBase
+                                    onClick={() => alert("Masih dalam pengembangan")}
                                     className={classNames(classes.buttonBase, classes.textCenter)}
                                     focusRipple={true}
                                 >
