@@ -10,10 +10,11 @@ import SiteLayout from '../../components/Layout/SiteLayout';
 import GridContainer from "../../components/Grid/GridContainer.js";
 import GridItem from "../../components/Grid/GridItem.js";
 import Button from "../../components/CustomButtons/Button";
+import Loader from "../../components/Loader/Loader";
 import classNames from "classnames";
 import styles from "../../assets/jss/nextjs-material-kit/pages/suratTugas/berkasPage";
 import { makeStyles } from "@material-ui/core/styles";
-import { ProtectRoute } from '../../context/auth';
+import useAuth, { ProtectRoute } from '../../context/auth';
 const useStyles = makeStyles(styles);
 
 const workTypes = [
@@ -33,7 +34,7 @@ const workTypes = [
 
 function BerkasPenugasanPage(props) {
   const classes = useStyles();
-
+  const { isAuthenticated } = useAuth();
   const [workType, setWorkType] = React.useState('terpadu');
   const [startDate, setStartDate] = React.useState(new Date());
   const [finishDate, setFinishDate] = React.useState(new Date());
@@ -67,119 +68,121 @@ function BerkasPenugasanPage(props) {
   };
 
   return (
-    <SiteLayout headerColor='info'>
-      <div>
-        <div className={classNames(classes.main, classes.mainRaised, classes.textCenter)}>
-          <h2>Upload Berkas Excel Penugasan</h2>
-          <form noValidate autoComplete="off" className={classes.form}>
-            <GridContainer justify="center">
-              <GridItem sm={3} xs={10}>
-                <TextField
-                  id="work-paper-type"
-                  select
-                  label="Jenis Surat Tugas"
-                  value={workType}
-                  onChange={handleWorkTypeChange}
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  required
-                  className={classes.textAlignLeft}
-                >
-                  {workTypes.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </GridItem>
-              <GridItem sm={5} xs={10}>
-                <TextField
-                  id="work-paper-number"
-                  label="Nomor Surat Tugas"
-                  variant="outlined"
-                  margin="normal"
-                  value={workNumber}
-                  required
-                  fullWidth
-                  onChange={handleWorkNumberChange}
-                  className={classes.textAlignLeft} />
-              </GridItem>
-            </GridContainer>
-            <GridContainer justify="center" alignItems="center">
-              <GridItem sm={3} xs={10}>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDatePicker
-                    id="start-date-picker"
-                    margin="normal"
-                    label="Tanggal Mulai"
-                    format="dd/MM/yyyy"
-                    value={startDate}
-                    required
-                    onChange={handleStartDateChange}
+    !isAuthenticated ? (
+      <Loader />
+    ) : (
+        <SiteLayout headerColor='info'>
+          <div className={classNames(classes.main, classes.mainRaised, classes.textCenter)}>
+            <h2>Upload Berkas Excel Penugasan</h2>
+            <form noValidate autoComplete="off" className={classes.form}>
+              <GridContainer justify="center">
+                <GridItem sm={3} xs={10}>
+                  <TextField
+                    id="work-paper-type"
+                    select
+                    label="Jenis Surat Tugas"
+                    value={workType}
+                    onChange={handleWorkTypeChange}
+                    variant="outlined"
                     fullWidth
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
-                    className={classes.textAlignLeft}
-                  />
-                </MuiPickersUtilsProvider>
-              </GridItem>
-              <GridItem sm={3} xs={10}>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDatePicker
-                    id="finish-date-picker"
                     margin="normal"
-                    label="Tanggal Selesai"
-                    format="dd/MM/yyyy"
-                    value={finishDate}
+                    required
+                    className={classes.textAlignLeft}
+                  >
+                    {workTypes.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </GridItem>
+                <GridItem sm={5} xs={10}>
+                  <TextField
+                    id="work-paper-number"
+                    label="Nomor Surat Tugas"
+                    variant="outlined"
+                    margin="normal"
+                    value={workNumber}
                     required
                     fullWidth
-                    onChange={handleFinishDateChange}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
+                    onChange={handleWorkNumberChange}
+                    className={classes.textAlignLeft} />
+                </GridItem>
+              </GridContainer>
+              <GridContainer justify="center" alignItems="center">
+                <GridItem sm={3} xs={10}>
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDatePicker
+                      id="start-date-picker"
+                      margin="normal"
+                      label="Tanggal Mulai"
+                      format="dd/MM/yyyy"
+                      value={startDate}
+                      required
+                      onChange={handleStartDateChange}
+                      fullWidth
+                      KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                      }}
+                      className={classes.textAlignLeft}
+                    />
+                  </MuiPickersUtilsProvider>
+                </GridItem>
+                <GridItem sm={3} xs={10}>
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDatePicker
+                      id="finish-date-picker"
+                      margin="normal"
+                      label="Tanggal Selesai"
+                      format="dd/MM/yyyy"
+                      value={finishDate}
+                      required
+                      fullWidth
+                      onChange={handleFinishDateChange}
+                      KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                      }}
+                      className={classes.textAlignLeft}
+                    />
+                  </MuiPickersUtilsProvider>
+                </GridItem>
+              </GridContainer>
+              <GridContainer justify="center">
+                <GridItem sm={4} xs={10}>
+                  <TextField
+                    id="outlined-number"
+                    margin="normal"
+                    label="Berkas Excel"
+                    type="file"
+                    InputLabelProps={{
+                      shrink: true,
                     }}
+                    variant="outlined"
+                    required
+                    fullWidth
+                    name="file"
+                    onChange={handleFileChange}
                     className={classes.textAlignLeft}
                   />
-                </MuiPickersUtilsProvider>
-              </GridItem>
-            </GridContainer>
-            <GridContainer justify="center">
-              <GridItem sm={4} xs={10}>
-                <TextField
-                  id="outlined-number"
-                  margin="normal"
-                  label="Berkas Excel"
-                  type="file"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  variant="outlined"
-                  required
-                  fullWidth
-                  name="file"
-                  onChange={handleFileChange}
-                  className={classes.textAlignLeft}
-                />
-              </GridItem>
-            </GridContainer>
-            <GridContainer justify="center">
-              <GridItem sm={3} xs={10}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<CloudUploadIcon />}
-                  onClick={handleClick}
-                  fullWidth
-                >
-                  Upload
+                </GridItem>
+              </GridContainer>
+              <GridContainer justify="center">
+                <GridItem sm={3} xs={10}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<CloudUploadIcon />}
+                    onClick={handleClick}
+                    fullWidth
+                  >
+                    Upload
                 </Button>
-              </GridItem>
-            </GridContainer>
-          </form>
-        </div>
-      </div>
-    </SiteLayout>
+                </GridItem>
+              </GridContainer>
+            </form>
+          </div>
+        </SiteLayout>
+      )
   );
 }
 
