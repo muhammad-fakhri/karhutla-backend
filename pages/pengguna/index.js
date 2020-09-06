@@ -14,6 +14,7 @@ import {
     IconButton,
     CircularProgress
 } from '@material-ui/core';
+import { Alert } from "@material-ui/lab";
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -131,7 +132,12 @@ function AnggotaPage(props) {
     const [manggalaColumn, setManggalaColumn] = React.useState();
     const [daopsColumn, setDaopsColumn] = React.useState();
     const [balaiColumn, setBalaiColumn] = React.useState();
-    const [value, setValue] = React.useState(0);
+    const [swipeValue, setSwipeValue] = React.useState(0);
+    const [show, setShow] = React.useState(false);
+    const [values, setValues] = React.useState({
+        alertMessage: "",
+        successAlert: true,
+    });
 
     React.useEffect(() => {
         const setLookup = async () => {
@@ -182,33 +188,39 @@ function AnggotaPage(props) {
         setOpenManggala(true);
         setOpenUploadManggala(false);
     };
-
     const handleCloseManggala = () => {
         setOpenManggala(false);
         setOpenUploadManggala(false);
     };
-
     const handleOpenUploadManggala = () => {
         setOpenManggala(false);
         setOpenUploadManggala(true);
     };
-
     const handleFileChange = (event) => {
         setWorkFile(event.target.files[0])
         console.log(event.target.files[0])
     };
-
     const handleUploadManggalaFormSubmit = () => {
         const data = new FormData();
         // data.append('file', workFile);
     };
-
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
+    const handleSwipeChange = (event, newValue) => {
+        setSwipeValue(newValue);
     };
-
     const handleChangeIndex = (index) => {
-        setValue(index);
+        setSwipeValue(index);
+    };
+    const closeAlert = () => setShow(false);
+    const showAlert = (isSuccess, message) => {
+        setValues({
+            ...values,
+            alertMessage: message,
+            successAlert: isSuccess ? true : false,
+        });
+        setShow(true);
+        setTimeout(() => {
+            setShow(false);
+        }, 3000);
     };
 
     return (
@@ -235,8 +247,8 @@ function AnggotaPage(props) {
                             className={classes.gridItem}>
                             <AppBar position="static" color="default">
                                 <Tabs
-                                    value={value}
-                                    onChange={handleChange}
+                                    value={swipeValue}
+                                    onChange={handleSwipeChange}
                                     indicatorColor="primary"
                                     textColor="primary"
                                     variant="fullWidth"
@@ -244,15 +256,24 @@ function AnggotaPage(props) {
                                 >
                                     <Tab label="Personil Manggala Agni" {...a11yProps(0)} />
                                     <Tab label="Daops" {...a11yProps(1)} />
-                                    <Tab label="Balai" {...a11yProps(2)} />
+                                    <Tab label="Balai/Pusat" {...a11yProps(2)} />
                                 </Tabs>
                             </AppBar>
+                            {show ? (
+                                <Alert
+                                    severity={values.successAlert ? "success" : "error"}
+                                    onClose={closeAlert}
+                                    style={{ marginTop: '16px' }}
+                                >
+                                    {values.alertMessage}
+                                </Alert>
+                            ) : null}
                             <SwipeableViews
                                 axis={'x'}
-                                index={value}
+                                index={swipeValue}
                                 onChangeIndex={handleChangeIndex}
                             >
-                                <TabPanel value={value} index={0} dir={'right'}>
+                                <TabPanel value={swipeValue} index={0} dir={'right'}>
                                     {isValidating ? (
                                         <CircularProgress />
                                     ) : (
@@ -302,7 +323,7 @@ function AnggotaPage(props) {
                                             />
                                         )}
                                 </TabPanel>
-                                <TabPanel value={value} index={1} dir={'right'}>
+                                <TabPanel value={swipeValue} index={1} dir={'right'}>
                                     {isValidating ? (
                                         <CircularProgress />
                                     ) : (
@@ -338,10 +359,10 @@ function AnggotaPage(props) {
                                                                                 return data;
                                                                             });
                                                                         }
+                                                                        showAlert(true, 'Update pengguna daops Berhasil');
                                                                         resolve();
                                                                     } else {
-                                                                        // TODO: make alert for fail update
-                                                                        alert(result.message[0]);
+                                                                        showAlert(false, result.message[0]);
                                                                         reject();
                                                                     };
                                                                 });
@@ -355,10 +376,10 @@ function AnggotaPage(props) {
                                                                         const index = oldData.tableData.id;
                                                                         dataDelete.splice(index, 1);
                                                                         setDaopsState(dataDelete);
+                                                                        showAlert(true, 'Hapus pengguna daops Berhasil');
                                                                         resolve();
                                                                     } else {
-                                                                        // TODO: make alert for fail delete
-                                                                        alert(result.message[0]);
+                                                                        showAlert(false, result.message[0]);
                                                                         reject();
                                                                     };
                                                                 });
@@ -367,12 +388,12 @@ function AnggotaPage(props) {
                                             />
                                         )}
                                 </TabPanel>
-                                <TabPanel value={value} index={2} dir={'right'}>
+                                <TabPanel value={swipeValue} index={2} dir={'right'}>
                                     {isValidating ? (
                                         <CircularProgress />
                                     ) : (
                                             <MaterialTable
-                                                title="Pengguna Balai"
+                                                title="Pengguna Balai/Pusat"
                                                 columns={balaiColumn}
                                                 data={balaiState}
                                                 actions={[
@@ -403,10 +424,10 @@ function AnggotaPage(props) {
                                                                                 return data;
                                                                             });
                                                                         }
+                                                                        showAlert(true, 'Update pengguna balai/pusat Berhasil');
                                                                         resolve();
                                                                     } else {
-                                                                        // TODO: make alert for fail update
-                                                                        alert(result.message[0]);
+                                                                        showAlert(false, result.message[0]);
                                                                         reject();
                                                                     };
                                                                 });
@@ -420,10 +441,10 @@ function AnggotaPage(props) {
                                                                         const index = oldData.tableData.id;
                                                                         dataDelete.splice(index, 1);
                                                                         setBalaiState(dataDelete);
+                                                                        showAlert(true, 'Hapus pengguna balai/pusat Berhasil');
                                                                         resolve();
                                                                     } else {
-                                                                        // TODO: make alert for fail delete
-                                                                        alert(result.message[0]);
+                                                                        showAlert(false, result.message[0]);
                                                                         reject();
                                                                     };
                                                                 });
