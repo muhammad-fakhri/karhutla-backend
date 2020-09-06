@@ -24,7 +24,7 @@ const column = [
 function DashboardPage(props) {
     const classes = useStyles();
     const { isAuthenticated } = useAuth();
-    const [load, setLoad] = React.useState(terpaduCounter);
+    const [load, setLoad] = React.useState(true);
     const [date, setDate] = React.useState(moment());
     const [mandiriCounter, setMandiriCounter] = React.useState(0);
     const [pencegahanCounter, setPencegahanCounter] = React.useState(0);
