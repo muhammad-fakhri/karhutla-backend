@@ -69,13 +69,14 @@ export default function useAuth() {
     return context
 };
 
-export function ProtectRoute(Component) {
+export function ProtectRoute(Component, isAuthRoute = false) {
     return () => {
         const { user, isAuthenticated, loading } = useAuth();
         const router = useRouter()
 
         useEffect(() => {
             if (!isAuthenticated && !loading) Router.push('/login')
+            if (isAuthRoute && isAuthenticated) Router.push('/dashboard')
         }, [loading, isAuthenticated])
 
         return (<Component {...arguments} />)
