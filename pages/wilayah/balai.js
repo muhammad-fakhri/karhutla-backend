@@ -1,4 +1,4 @@
-import { Paper } from "@material-ui/core";
+import { Paper, CircularProgress } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import classNames from "classnames";
 import MaterialTable from "material-table";
@@ -22,7 +22,7 @@ const generateWilayahLookup = async () => {
 }
 
 function BalaiPage(props) {
-    const { loading } = useAuth();
+    const { isAuthenticated } = useAuth();
     const useStyles = makeStyles(styles);
     const classes = useStyles();
     const [show, setShow] = React.useState(false);
@@ -32,11 +32,10 @@ function BalaiPage(props) {
         alertMessage: "",
         successAlert: true,
     });
-    const { data, isValidating } = useSWR(
-        apiUrl + "/balai/list",
+    const { data: dataBalai, isValidating } = useSWR(
+        isAuthenticated ? apiUrl + "/balai/list" : null,
         BalaiService.getAllBalai
     );
-    const showLoader = isValidating || loading;
     const closeAlert = () => setShow(false);
     const showAlert = () => {
         setShow(true);
@@ -58,14 +57,14 @@ function BalaiPage(props) {
             ];
             setColumn(column);
         }
-        setLookup();
+        if (isAuthenticated) setLookup();
     }, []);
     React.useEffect(() => {
-        setValues({ ...values, balai: data });
-    }, [data]);
+        setValues({ ...values, balai: dataBalai });
+    }, [dataBalai]);
 
     return (
-        showLoader ? (
+        !isAuthenticated ? (
             <Loader />
         ) : (
                 <SiteLayout headerColor="info">
@@ -85,111 +84,115 @@ function BalaiPage(props) {
                                 {values.alertMessage}
                             </Alert>
                         ) : null}
-                        <MaterialTable
-                            title=""
-                            columns={column}
-                            components={{
-                                Container: (props) => (
-                                    <Paper {...props} elevation={0} />
-                                ),
-                            }}
-                            data={values.balai}
-                            options={{
-                                search: true,
-                                actionsColumnIndex: -1,
-                            }}
-                            editable={{
-                                onRowAdd: (newData) =>
-                                    new Promise((resolve, reject) => {
-                                        BalaiService.addBalai(newData).then(
-                                            async (result) => {
-                                                if (result.success) {
-                                                    let data = await BalaiService.getAllBalai();
-                                                    setValues({
-                                                        ...values,
-                                                        balai: data,
-                                                        alertMessage:
-                                                            "Tambah Balai Berhasil",
-                                                        successAlert: true,
-                                                    });
-                                                    resolve();
-                                                } else {
-                                                    setValues({
-                                                        ...values,
-                                                        alertMessage:
-                                                            "Tambah Balai Gagal, " +
-                                                            result.message[0],
-                                                        successAlert: false,
-                                                    });
-                                                    reject();
-                                                }
-                                                showAlert();
-                                            }
-                                        );
-                                    }),
-                                onRowUpdate: (newData, oldData) =>
-                                    new Promise((resolve, reject) => {
-                                        BalaiService.updateBalai(
-                                            newData,
-                                            oldData
-                                        ).then((result) => {
-                                            if (result.success) {
-                                                const dataUpdate = [...values.balai];
-                                                const index = oldData.tableData.id;
-                                                dataUpdate[index] = newData;
-                                                setValues({
-                                                    balai: [...dataUpdate],
-                                                    alertMessage:
-                                                        "Update Balai Berhasil",
-                                                    successAlert: true,
+                        {isValidating ? (
+                            <CircularProgress />
+                        ) : (
+                                <MaterialTable
+                                    title=""
+                                    columns={column}
+                                    components={{
+                                        Container: (props) => (
+                                            <Paper {...props} elevation={0} />
+                                        ),
+                                    }}
+                                    data={values.balai}
+                                    options={{
+                                        search: true,
+                                        actionsColumnIndex: -1,
+                                    }}
+                                    editable={{
+                                        onRowAdd: (newData) =>
+                                            new Promise((resolve, reject) => {
+                                                BalaiService.addBalai(newData).then(
+                                                    async (result) => {
+                                                        if (result.success) {
+                                                            let data = await BalaiService.getAllBalai();
+                                                            setValues({
+                                                                ...values,
+                                                                balai: data,
+                                                                alertMessage:
+                                                                    "Tambah Balai Berhasil",
+                                                                successAlert: true,
+                                                            });
+                                                            resolve();
+                                                        } else {
+                                                            setValues({
+                                                                ...values,
+                                                                alertMessage:
+                                                                    "Tambah Balai Gagal, " +
+                                                                    result.message[0],
+                                                                successAlert: false,
+                                                            });
+                                                            reject();
+                                                        }
+                                                        showAlert();
+                                                    }
+                                                );
+                                            }),
+                                        onRowUpdate: (newData, oldData) =>
+                                            new Promise((resolve, reject) => {
+                                                BalaiService.updateBalai(
+                                                    newData,
+                                                    oldData
+                                                ).then((result) => {
+                                                    if (result.success) {
+                                                        const dataUpdate = [...values.balai];
+                                                        const index = oldData.tableData.id;
+                                                        dataUpdate[index] = newData;
+                                                        setValues({
+                                                            balai: [...dataUpdate],
+                                                            alertMessage:
+                                                                "Update Balai Berhasil",
+                                                            successAlert: true,
+                                                        });
+                                                        resolve();
+                                                    } else {
+                                                        setValues({
+                                                            ...values,
+                                                            alertMessage:
+                                                                "Update Balai Gagal, " +
+                                                                result.message[0],
+                                                            successAlert: false,
+                                                        });
+                                                        reject();
+                                                    }
+                                                    showAlert();
                                                 });
-                                                resolve();
-                                            } else {
-                                                setValues({
-                                                    ...values,
-                                                    alertMessage:
-                                                        "Update Balai Gagal, " +
-                                                        result.message[0],
-                                                    successAlert: false,
-                                                });
-                                                reject();
-                                            }
-                                            showAlert();
-                                        });
-                                    }),
-                                onRowDelete: (oldData) =>
-                                    new Promise((resolve, reject) => {
-                                        BalaiService.deleteBalai(oldData).then(
-                                            (result) => {
-                                                if (result.success) {
-                                                    const dataDelete = [
-                                                        ...values.balai,
-                                                    ];
-                                                    const index = oldData.tableData.id;
-                                                    dataDelete.splice(index, 1);
-                                                    setValues({
-                                                        ...values,
-                                                        balai: [...dataDelete],
-                                                        alertMessage:
-                                                            "Hapus Balai Berhasil",
-                                                        successAlert: true,
-                                                    });
-                                                } else {
-                                                    setValues({
-                                                        ...values,
-                                                        alertMessage:
-                                                            "Hapus Balai Gagal, " +
-                                                            result.message[0],
-                                                        successAlert: false,
-                                                    });
-                                                }
-                                                showAlert();
-                                                resolve();
-                                            }
-                                        );
-                                    }),
-                            }}
-                        />
+                                            }),
+                                        onRowDelete: (oldData) =>
+                                            new Promise((resolve, reject) => {
+                                                BalaiService.deleteBalai(oldData).then(
+                                                    (result) => {
+                                                        if (result.success) {
+                                                            const dataDelete = [
+                                                                ...values.balai,
+                                                            ];
+                                                            const index = oldData.tableData.id;
+                                                            dataDelete.splice(index, 1);
+                                                            setValues({
+                                                                ...values,
+                                                                balai: [...dataDelete],
+                                                                alertMessage:
+                                                                    "Hapus Balai Berhasil",
+                                                                successAlert: true,
+                                                            });
+                                                        } else {
+                                                            setValues({
+                                                                ...values,
+                                                                alertMessage:
+                                                                    "Hapus Balai Gagal, " +
+                                                                    result.message[0],
+                                                                successAlert: false,
+                                                            });
+                                                        }
+                                                        showAlert();
+                                                        resolve();
+                                                    }
+                                                );
+                                            }),
+                                    }}
+                                />
+                            )}
                     </div>
                 </SiteLayout>
             )

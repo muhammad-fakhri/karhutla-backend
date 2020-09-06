@@ -26,8 +26,7 @@ const column = [
 ];
 
 function WilayahPage(props) {
-    const { loading } = useAuth();
-
+    const { isAuthenticated, loading } = useAuth();
     const useStyles = makeStyles(styles);
     const classes = useStyles();
     const [show, setShow] = React.useState(false);
@@ -36,11 +35,10 @@ function WilayahPage(props) {
         alertMessage: "",
         successAlert: true,
     });
-    const { data, isValidating } = useSWR(
-        loading ? false : apiUrl + "/wilayah/list",
+    const { data: dataWilayah, isValidating } = useSWR(
+        isAuthenticated ? apiUrl + "/wilayah/list" : null,
         WilayahService.getAllWilayah
     );
-    const showLoader = isValidating || loading;
     const closeAlert = () => setShow(false);
     const showAlert = () => {
         setShow(true);
@@ -49,11 +47,11 @@ function WilayahPage(props) {
         }, 3000);
     };
     React.useEffect(() => {
-        setValues({ ...values, wilayah: data });
-    }, [data]);
+        setValues({ ...values, wilayah: dataWilayah });
+    }, [dataWilayah]);
 
     return (
-        showLoader ? (
+        !isAuthenticated ? (
             <Loader />
         ) : (
                 <SiteLayout headerColor="info">
@@ -73,111 +71,115 @@ function WilayahPage(props) {
                                 {values.alertMessage}
                             </Alert>
                         ) : null}
-                        <MaterialTable
-                            title=""
-                            columns={column}
-                            components={{
-                                Container: (props) => (
-                                    <Paper {...props} elevation={0} />
-                                ),
-                            }}
-                            data={values.wilayah}
-                            options={{
-                                search: true,
-                                actionsColumnIndex: -1,
-                            }}
-                            editable={{
-                                onRowAdd: (newData) =>
-                                    new Promise((resolve, reject) => {
-                                        WilayahService.addWilayah(newData).then(
-                                            async (result) => {
-                                                if (result.success) {
-                                                    let data = await WilayahService.getAllWilayah();
-                                                    setValues({
-                                                        ...values,
-                                                        wilayah: data,
-                                                        alertMessage:
-                                                            "Tambah Wilayah Berhasil",
-                                                        successAlert: true,
-                                                    });
-                                                    resolve();
-                                                } else {
-                                                    setValues({
-                                                        ...values,
-                                                        alertMessage:
-                                                            "Tambah Wilayah Gagal, " +
-                                                            result.message[0],
-                                                        successAlert: false,
-                                                    });
-                                                    reject();
-                                                }
-                                                showAlert();
-                                            }
-                                        );
-                                    }),
-                                onRowUpdate: (newData, oldData) =>
-                                    new Promise((resolve, reject) => {
-                                        WilayahService.updateWilayah(
-                                            newData,
-                                            oldData
-                                        ).then((result) => {
-                                            if (result.success) {
-                                                const dataUpdate = [...values.wilayah];
-                                                const index = oldData.tableData.id;
-                                                dataUpdate[index] = newData;
-                                                setValues({
-                                                    wilayah: [...dataUpdate],
-                                                    alertMessage:
-                                                        "Update Wilayah Berhasil",
-                                                    successAlert: true,
+                        {isValidating ? (
+                            <CircularProgress />
+                        ) : (
+                                <MaterialTable
+                                    title=""
+                                    columns={column}
+                                    components={{
+                                        Container: (props) => (
+                                            <Paper {...props} elevation={0} />
+                                        ),
+                                    }}
+                                    data={values.wilayah}
+                                    options={{
+                                        search: true,
+                                        actionsColumnIndex: -1,
+                                    }}
+                                    editable={{
+                                        onRowAdd: (newData) =>
+                                            new Promise((resolve, reject) => {
+                                                WilayahService.addWilayah(newData).then(
+                                                    async (result) => {
+                                                        if (result.success) {
+                                                            let data = await WilayahService.getAllWilayah();
+                                                            setValues({
+                                                                ...values,
+                                                                wilayah: data,
+                                                                alertMessage:
+                                                                    "Tambah Wilayah Berhasil",
+                                                                successAlert: true,
+                                                            });
+                                                            resolve();
+                                                        } else {
+                                                            setValues({
+                                                                ...values,
+                                                                alertMessage:
+                                                                    "Tambah Wilayah Gagal, " +
+                                                                    result.message[0],
+                                                                successAlert: false,
+                                                            });
+                                                            reject();
+                                                        }
+                                                        showAlert();
+                                                    }
+                                                );
+                                            }),
+                                        onRowUpdate: (newData, oldData) =>
+                                            new Promise((resolve, reject) => {
+                                                WilayahService.updateWilayah(
+                                                    newData,
+                                                    oldData
+                                                ).then((result) => {
+                                                    if (result.success) {
+                                                        const dataUpdate = [...values.wilayah];
+                                                        const index = oldData.tableData.id;
+                                                        dataUpdate[index] = newData;
+                                                        setValues({
+                                                            wilayah: [...dataUpdate],
+                                                            alertMessage:
+                                                                "Update Wilayah Berhasil",
+                                                            successAlert: true,
+                                                        });
+                                                        resolve();
+                                                    } else {
+                                                        setValues({
+                                                            ...values,
+                                                            alertMessage:
+                                                                "Update Wilayah Gagal, " +
+                                                                result.message[0],
+                                                            successAlert: false,
+                                                        });
+                                                        reject();
+                                                    }
+                                                    showAlert();
                                                 });
-                                                resolve();
-                                            } else {
-                                                setValues({
-                                                    ...values,
-                                                    alertMessage:
-                                                        "Update Wilayah Gagal, " +
-                                                        result.message[0],
-                                                    successAlert: false,
-                                                });
-                                                reject();
-                                            }
-                                            showAlert();
-                                        });
-                                    }),
-                                onRowDelete: (oldData) =>
-                                    new Promise((resolve, reject) => {
-                                        WilayahService.deleteWilayah(oldData).then(
-                                            (result) => {
-                                                if (result.success) {
-                                                    const dataDelete = [
-                                                        ...values.wilayah,
-                                                    ];
-                                                    const index = oldData.tableData.id;
-                                                    dataDelete.splice(index, 1);
-                                                    setValues({
-                                                        ...values,
-                                                        wilayah: [...dataDelete],
-                                                        alertMessage:
-                                                            "Hapus Wilayah Berhasil",
-                                                        successAlert: true,
-                                                    });
-                                                } else {
-                                                    setValues({
-                                                        ...values,
-                                                        alertMessage:
-                                                            "Hapus Wilayah Gagal, " +
-                                                            result.message[0],
-                                                        successAlert: false,
-                                                    });
-                                                }
-                                                showAlert();
-                                                resolve();
-                                            }
-                                        );
-                                    }),
-                            }}
-                        />
+                                            }),
+                                        onRowDelete: (oldData) =>
+                                            new Promise((resolve, reject) => {
+                                                WilayahService.deleteWilayah(oldData).then(
+                                                    (result) => {
+                                                        if (result.success) {
+                                                            const dataDelete = [
+                                                                ...values.wilayah,
+                                                            ];
+                                                            const index = oldData.tableData.id;
+                                                            dataDelete.splice(index, 1);
+                                                            setValues({
+                                                                ...values,
+                                                                wilayah: [...dataDelete],
+                                                                alertMessage:
+                                                                    "Hapus Wilayah Berhasil",
+                                                                successAlert: true,
+                                                            });
+                                                        } else {
+                                                            setValues({
+                                                                ...values,
+                                                                alertMessage:
+                                                                    "Hapus Wilayah Gagal, " +
+                                                                    result.message[0],
+                                                                successAlert: false,
+                                                            });
+                                                        }
+                                                        showAlert();
+                                                        resolve();
+                                                    }
+                                                );
+                                            }),
+                                    }}
+                                />
+                            )}
                     </div>
                 </SiteLayout >
             )
