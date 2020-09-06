@@ -82,5 +82,3 @@ export function ProtectRoute(Component, isAuthRoute = false) {
         return (<Component {...arguments} />)
     }
 }
-
-// TODO: inverse protect route for login page
