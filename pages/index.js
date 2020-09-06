@@ -1,4 +1,4 @@
-import { FormControl, Grid } from "@material-ui/core";
+import { FormControl, Grid, CircularProgress } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import classNames from "classnames";
 import moment from "moment";
@@ -15,6 +15,7 @@ export default function FrontPage(props) {
   const classes = useStyles();
   const { isAuthenticated } = useAuth();
   const [date, setDate] = React.useState(moment());
+  const [loading, setLoading] = React.useState(true);
   const [mandiri, setMandiri] = React.useState(0);
   const [pencegahan, setPencegahan] = React.useState(0);
   const [terpadu, setTerpadu] = React.useState(0);
@@ -23,12 +24,13 @@ export default function FrontPage(props) {
   React.useEffect(() => {
     const updatePatroli = async () => {
       let patroliData = await PatroliService.getPatroli(
-        date.format("D-M-YYYY")
+        false, date.format("D-M-YYYY")
       );
       setSpots(patroliData.patroliSpots);
       setMandiri(patroliData.counter.mandiri);
       setPencegahan(patroliData.counter.pencegahan);
       setTerpadu(patroliData.counter.terpadu);
+      setLoading(false);
     };
     updatePatroli();
   }, [date]);
@@ -84,6 +86,7 @@ export default function FrontPage(props) {
                     inputProps={{ placeholder: "Pilih tanggal patroli ..." }}
                     onChange={(date) => {
                       setDate(date);
+                      setLoading(true);
                     }}
                     closeOnSelect={true}
                     locale="id"
@@ -93,15 +96,15 @@ export default function FrontPage(props) {
             </Grid>
             <Grid item xs={12} md={4}>
               <h2 className={classes.terpaduBg}>Patroli Terpadu</h2>
-              <h3>{terpadu}</h3>
+              {loading ? (<CircularProgress />) : (<h3>{terpadu}</h3>)}
             </Grid>
             <Grid item xs={12} md={4}>
               <h2 className={classes.mandiriBg}>Patroli Mandiri</h2>
-              <h3>{mandiri}</h3>
+              {loading ? (<CircularProgress />) : (<h3>{mandiri}</h3>)}
             </Grid>
             <Grid item xs={12} md={4}>
               <h2 className={classes.pencegahanBg}>Patroli Pencegahan</h2>
-              <h3>{pencegahan}</h3>
+              {loading ? (<CircularProgress />) : (<h3>{pencegahan}</h3>)}
             </Grid>
           </Grid>
         </div>
