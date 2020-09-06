@@ -24,6 +24,7 @@ const column = [
 function DashboardPage(props) {
     const classes = useStyles();
     const { isAuthenticated } = useAuth();
+    const [load, setLoad] = React.useState(terpaduCounter);
     const [date, setDate] = React.useState(moment());
     const [mandiriCounter, setMandiriCounter] = React.useState(0);
     const [pencegahanCounter, setPencegahanCounter] = React.useState(0);
@@ -48,6 +49,7 @@ function DashboardPage(props) {
             setTerpadu(patroliData.patroliTerpadu);
             setMandiri(patroliData.patroliMandiri);
             setPencegahan(patroliData.patroliPencegahan)
+            setLoad(false);
         }
         if (isAuthenticated) updatePatroli();
     }, [date, isAuthenticated, patroliData]);
@@ -80,6 +82,7 @@ function DashboardPage(props) {
                                                 inputProps={{ placeholder: "Pilih tanggal patroli ..." }}
                                                 onChange={(date) => {
                                                     setDate(date);
+                                                    setLoad(true);
                                                 }}
                                                 closeOnSelect={true}
                                                 locale="id"
@@ -89,15 +92,15 @@ function DashboardPage(props) {
                                 </Grid>
                                 <Grid item xs={12} md={4}>
                                     <h2 className={classes.terpaduBg}>Patroli Terpadu</h2>
-                                    {isValidating ? (<CircularProgress />) : (<h3>{terpaduCounter}</h3>)}
+                                    {isValidating || load ? (<CircularProgress />) : (<h3>{terpaduCounter}</h3>)}
                                 </Grid>
                                 <Grid item xs={12} md={4}>
                                     <h2 className={classes.mandiriBg}>Patroli Mandiri</h2>
-                                    {isValidating ? (<CircularProgress />) : (<h3>{mandiriCounter}</h3>)}
+                                    {isValidating || load ? (<CircularProgress />) : (<h3>{mandiriCounter}</h3>)}
                                 </Grid>
                                 <Grid item xs={12} md={4}>
                                     <h2 className={classes.pencegahanBg}>Patroli Pencegahan</h2>
-                                    {isValidating ? (<CircularProgress />) : (<h3>{pencegahanCounter}</h3>)}
+                                    {isValidating || load ? (<CircularProgress />) : (<h3>{pencegahanCounter}</h3>)}
                                 </Grid>
                                 <Grid item xs={12} className={classes.divider}>
                                     <Divider variant='middle' />
