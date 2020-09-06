@@ -9,13 +9,13 @@ const useStyles = makeStyles(styles);
 
 export default function AuthLayout(props) {
   const classes = useStyles();
+  // TODO: remove burger button when in md breakpoint
   return (
     <div>
       <Header
         fixed
         color="transparent"
         brand="SIMADU2"
-        rightLinks={<HeaderLinks isLoginPage={true} />}
       />
       <div
         className={classes.pageHeader}

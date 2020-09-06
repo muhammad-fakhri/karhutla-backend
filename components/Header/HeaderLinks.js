@@ -136,13 +136,9 @@ const UnauthenticatedMenu = () => {
 export default function HeaderLinks(props) {
   const { isAuthenticated, logout } = useAuth();
 
-  if (!props.isLoginPage) {
-    return (
-      isAuthenticated ?
-        <AuthenticatedMenu logout={logout} /> :
-        <UnauthenticatedMenu />
-    );
-  } else {
-    return null;
-  }
+  return (
+    isAuthenticated ?
+      <AuthenticatedMenu logout={logout} /> :
+      <UnauthenticatedMenu />
+  );
 }
