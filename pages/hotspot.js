@@ -1,5 +1,5 @@
 import SiteLayout from '../components/Layout/SiteLayout';
-import { Icon, Grid } from '@material-ui/core';
+import { Icon, Grid, CircularProgress } from '@material-ui/core';
 import Map from "../components/Map/MapHotspot";
 import Loader from "../components/Loader/Loader";
 import classNames from "classnames";
@@ -14,14 +14,13 @@ const useStyles = makeStyles(styles);
 
 function HotspotPage(props) {
     const classes = useStyles();
-    const { loading } = useAuth();
+    const { isAuthenticated } = useAuth();
     const [hotspot, setHotspot] = React.useState([]);
     const [date, setDate] = React.useState(moment());
     const { data, isValidating } = useSWR(
-        `${siavipalaUrl}/public/api/hotspot-sipongi/date-range?start_date=${date.format('D-MM-YYYY')}&end_date=${date.format('D-MM-YYYY')}&provinsi=a`,
+        isAuthenticated ? `${siavipalaUrl}/public/api/hotspot-sipongi/date-range?start_date=${date.format('D-MM-YYYY')}&end_date=${date.format('D-MM-YYYY')}&provinsi=a` : null,
         HotspotService.getHotspot
     );
-    const showLoader = loading || isValidating;
     React.useEffect(() => {
         if (data) {
             setHotspot(data)
@@ -30,7 +29,7 @@ function HotspotPage(props) {
     }, [data]);
 
     return (
-        showLoader ? (
+        !isAuthenticated ? (
             <Loader />
         ) : (
                 <SiteLayout headerColor='info'>
@@ -45,12 +44,12 @@ function HotspotPage(props) {
                                     <h3>
                                         Tanggal: {date.format('D MMMM YYYY')}
                                         <br />
-                                        Pukul: {date.format('HH:mm:ss')}
+                                        Pukul: {date.format('HH:mm')}
                                     </h3>
                                 </Grid>
                                 <Grid item xs={12} md={4}>
                                     <h2>Titik Panas</h2>
-                                    <h3>{hotspot.length}</h3>
+                                    {isValidating ? (<CircularProgress />) : (<h3>{hotspot.length}</h3>)}
                                 </Grid>
                                 <Grid item xs={12} md={4}>
                                     <h2>Rentang Data</h2>
