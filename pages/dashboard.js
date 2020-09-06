@@ -1,16 +1,18 @@
 import moment from 'moment';
 import classNames from "classnames";
-import { ProtectRoute } from '../context/auth';
+import useAuth, { ProtectRoute } from '../context/auth';
 import PatroliService from '../services/PatroliService';
+import { simaduApiUrl } from '../services/config';
 import MaterialTable from 'material-table';
 import Datetime from "react-datetime";
-import { Divider, FormControl, Grid, Paper } from "@material-ui/core";
+import { Divider, FormControl, Grid, Paper, CircularProgress } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import SiteLayout from '../components/Layout/SiteLayout';
 import MapContainer from '../components/Map/MapPatroli';
+import Loader from '../components/Loader/Loader';
 import styles from "../assets/jss/nextjs-material-kit/pages/dashboardPage";
-import useAuth from '../context/auth';
+import useSWR from 'swr';
 const useStyles = makeStyles(styles);
 
 const column = [
@@ -22,7 +24,6 @@ const column = [
 function DashboardPage(props) {
     const classes = useStyles();
     const { isAuthenticated } = useAuth();
-
     const [date, setDate] = React.useState(moment());
     const [mandiriCounter, setMandiriCounter] = React.useState(0);
     const [pencegahanCounter, setPencegahanCounter] = React.useState(0);
@@ -31,10 +32,15 @@ function DashboardPage(props) {
     const [mandiri, setMandiri] = React.useState();
     const [pencegahan, setPencegahan] = React.useState();
     const [spots, setSpots] = React.useState();
-
+    const { data: patroliData, isValidating } = useSWR(
+        isAuthenticated && date.format('D-M-YYYY') === moment().format('D-M-YYYY')
+            ? `${simaduApiUrl}/list?tanggal_patroli=${date.format('D-M-YYYY')}`
+            : null,
+        PatroliService.getPatroli
+    );
     React.useEffect(() => {
         const updatePatroli = async () => {
-            let patroliData = await PatroliService.getPatroli(date.format('D-M-YYYY'));
+            let patroliData = await PatroliService.getPatroli(null, date.format('D-M-YYYY'));
             setSpots(patroliData.patroliSpots);
             setMandiriCounter(patroliData.counter.mandiri);
             setPencegahanCounter(patroliData.counter.pencegahan);
@@ -43,123 +49,127 @@ function DashboardPage(props) {
             setMandiri(patroliData.patroliMandiri);
             setPencegahan(patroliData.patroliPencegahan)
         }
-        updatePatroli();
-    }, [date]);
+        if (isAuthenticated) updatePatroli();
+    }, [date, isAuthenticated, patroliData]);
 
     return (
-        <SiteLayout headerColor='info'>
-            <div>
-                <div className={classNames(classes.main, classes.mainRaised, classes.textCenter)}>
-                    <h2>Sebaran Patroli</h2>
-                    <MapContainer
-                        center={{
-                            lat: -1.5,
-                            lng: 117.384
-                        }}
-                        zoom={5.1}
-                        spots={spots}
-                        isLoggedin={isAuthenticated}
-                    />
-                    <Grid container justify='center'>
-                        <Grid item xs={12}>
-                            <h3>
-                                Tanggal: {date.format('D MMMM YYYY')}
-                                <br />
-                                <FormControl className={classNames(classes.formChooseDate, classes.textCenter)}>
-                                    <Datetime
-                                        timeFormat={false}
-                                        inputProps={{ placeholder: "Pilih tanggal patroli ..." }}
-                                        onChange={(date) => {
-                                            setDate(date);
+        !isAuthenticated ? (
+            <Loader />
+        ) : (
+                <SiteLayout headerColor='info'>
+                    <div>
+                        <div className={classNames(classes.main, classes.mainRaised, classes.textCenter)}>
+                            <h2>Sebaran Patroli</h2>
+                            <MapContainer
+                                center={{
+                                    lat: -1.5,
+                                    lng: 117.384
+                                }}
+                                zoom={5.1}
+                                spots={spots}
+                                isLoggedin={isAuthenticated}
+                            />
+                            <Grid container justify='center'>
+                                <Grid item xs={12}>
+                                    <h3>
+                                        Tanggal: {date.format('D MMMM YYYY')}
+                                        <br />
+                                        <FormControl className={classNames(classes.formChooseDate, classes.textCenter)}>
+                                            <Datetime
+                                                timeFormat={false}
+                                                inputProps={{ placeholder: "Pilih tanggal patroli ..." }}
+                                                onChange={(date) => {
+                                                    setDate(date);
+                                                }}
+                                                closeOnSelect={true}
+                                                locale="id"
+                                            />
+                                        </FormControl>
+                                    </h3>
+                                </Grid>
+                                <Grid item xs={12} md={4}>
+                                    <h2 className={classes.terpaduBg}>Patroli Terpadu</h2>
+                                    {isValidating ? (<CircularProgress />) : (<h3>{terpaduCounter}</h3>)}
+                                </Grid>
+                                <Grid item xs={12} md={4}>
+                                    <h2 className={classes.mandiriBg}>Patroli Mandiri</h2>
+                                    {isValidating ? (<CircularProgress />) : (<h3>{mandiriCounter}</h3>)}
+                                </Grid>
+                                <Grid item xs={12} md={4}>
+                                    <h2 className={classes.pencegahanBg}>Patroli Pencegahan</h2>
+                                    {isValidating ? (<CircularProgress />) : (<h3>{pencegahanCounter}</h3>)}
+                                </Grid>
+                                <Grid item xs={12} className={classes.divider}>
+                                    <Divider variant='middle' />
+                                </Grid>
+                                <Grid item xs={12} className={classes.table}>
+                                    <MaterialTable
+                                        title="Data Patroli Terpadu"
+                                        components={{
+                                            Container: props => <Paper {...props} elevation={0} />
                                         }}
-                                        closeOnSelect={true}
-                                        locale="id"
+                                        columns={column}
+                                        data={terpadu}
+                                        options={{
+                                            search: true,
+                                            actionsColumnIndex: -1
+                                        }}
+                                        actions={[
+                                            {
+                                                icon: CloudDownloadIcon,
+                                                tooltip: 'Download Laporan',
+                                                onClick: (event, rowData) => window.open(rowData.reportLink)
+                                            }
+                                        ]}
                                     />
-                                </FormControl>
-                            </h3>
-                        </Grid>
-                        <Grid item xs={12} md={4}>
-                            <h2 className={classes.terpaduBg}>Patroli Terpadu</h2>
-                            <h3>{terpaduCounter}</h3>
-                        </Grid>
-                        <Grid item xs={12} md={4}>
-                            <h2 className={classes.mandiriBg}>Patroli Mandiri</h2>
-                            <h3>{mandiriCounter}</h3>
-                        </Grid>
-                        <Grid item xs={12} md={4}>
-                            <h2 className={classes.pencegahanBg}>Patroli Pencegahan</h2>
-                            <h3>{pencegahanCounter}</h3>
-                        </Grid>
-                        <Grid item xs={12} className={classes.divider}>
-                            <Divider variant='middle' />
-                        </Grid>
-                        <Grid item xs={12} className={classes.table}>
-                            <MaterialTable
-                                title="Data Patroli Terpadu"
-                                components={{
-                                    Container: props => <Paper {...props} elevation={0} />
-                                }}
-                                columns={column}
-                                data={terpadu}
-                                options={{
-                                    search: true,
-                                    actionsColumnIndex: -1
-                                }}
-                                actions={[
-                                    {
-                                        icon: CloudDownloadIcon,
-                                        tooltip: 'Download Laporan',
-                                        onClick: (event, rowData) => window.open(rowData.reportLink)
-                                    }
-                                ]}
-                            />
-                        </Grid>
-                        <Grid item xs={12} className={classes.table}>
-                            <MaterialTable
-                                title="Data Patroli Mandiri"
-                                components={{
-                                    Container: props => <Paper {...props} elevation={0} />
-                                }}
-                                columns={column}
-                                data={mandiri}
-                                options={{
-                                    search: true,
-                                    actionsColumnIndex: -1
-                                }}
-                                actions={[
-                                    {
-                                        icon: CloudDownloadIcon,
-                                        tooltip: 'Download Laporan',
-                                        onClick: (event, rowData) => window.open(rowData.reportLink)
-                                    }
-                                ]}
-                            />
-                        </Grid>
-                        <Grid item xs={12} className={classes.table}>
-                            <MaterialTable
-                                title="Data Patroli Pencegahan"
-                                components={{
-                                    Container: props => <Paper {...props} elevation={0} />
-                                }}
-                                columns={column}
-                                data={pencegahan}
-                                options={{
-                                    search: true,
-                                    actionsColumnIndex: -1
-                                }}
-                                actions={[
-                                    {
-                                        icon: CloudDownloadIcon,
-                                        tooltip: 'Download Laporan',
-                                        onClick: (event, rowData) => window.open(rowData.reportLink)
-                                    }
-                                ]}
-                            />
-                        </Grid>
-                    </Grid>
-                </div>
-            </div>
-        </SiteLayout>
+                                </Grid>
+                                <Grid item xs={12} className={classes.table}>
+                                    <MaterialTable
+                                        title="Data Patroli Mandiri"
+                                        components={{
+                                            Container: props => <Paper {...props} elevation={0} />
+                                        }}
+                                        columns={column}
+                                        data={mandiri}
+                                        options={{
+                                            search: true,
+                                            actionsColumnIndex: -1
+                                        }}
+                                        actions={[
+                                            {
+                                                icon: CloudDownloadIcon,
+                                                tooltip: 'Download Laporan',
+                                                onClick: (event, rowData) => window.open(rowData.reportLink)
+                                            }
+                                        ]}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} className={classes.table}>
+                                    <MaterialTable
+                                        title="Data Patroli Pencegahan"
+                                        components={{
+                                            Container: props => <Paper {...props} elevation={0} />
+                                        }}
+                                        columns={column}
+                                        data={pencegahan}
+                                        options={{
+                                            search: true,
+                                            actionsColumnIndex: -1
+                                        }}
+                                        actions={[
+                                            {
+                                                icon: CloudDownloadIcon,
+                                                tooltip: 'Download Laporan',
+                                                onClick: (event, rowData) => window.open(rowData.reportLink)
+                                            }
+                                        ]}
+                                    />
+                                </Grid>
+                            </Grid>
+                        </div>
+                    </div>
+                </SiteLayout>
+            )
     );
 }
 
