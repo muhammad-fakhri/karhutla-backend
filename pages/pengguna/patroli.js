@@ -11,16 +11,11 @@ const useStyles = makeStyles(styles);
 
 function PatroliPage(props) {
   const classes = useStyles();
-  const { loading } = useAuth();
-  const [loadData, setLoadData] = React.useState(true);
-  const showLoader = loading || loadData;
-  React.useEffect(() => {
-    setTimeout(() => setLoadData(false), 3000);
-  }, []);
+  const { isAuthenticated } = useAuth();
   const handleManualManggalaFormSubmit = () => {
   };
   return (
-    showLoader ? (
+    !isAuthenticated ? (
       <Loader />
     ) : (
         <SiteLayout headerColor='info'>

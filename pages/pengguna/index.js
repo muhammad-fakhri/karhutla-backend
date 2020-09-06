@@ -2,7 +2,18 @@ import { apiUrl } from '../../services/config';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
 import { makeStyles } from "@material-ui/core/styles";
-import { Dialog, Grid, Typography, Box, AppBar, Tabs, Tab, TextField, IconButton } from '@material-ui/core';
+import {
+    Dialog,
+    Grid,
+    Typography,
+    Box,
+    AppBar,
+    Tabs,
+    Tab,
+    TextField,
+    IconButton,
+    CircularProgress
+} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -105,7 +116,7 @@ const generateBalaiLookup = async () => {
 }
 
 function AnggotaPage(props) {
-    const { loading } = useAuth();
+    const { isAuthenticated } = useAuth();
     const classes = useStyles();
     const router = useRouter();
 
@@ -155,16 +166,17 @@ function AnggotaPage(props) {
             setDaopsColumn(daopsColumn);
             setBalaiColumn(balaiColumn);
         }
-        setLookup();
-    }, []);
-    const { data, isValidating } = useSWR(apiUrl + '/non_patroli/list', UserService.getNonPatroliUsers)
-    const showLoader = loading || isValidating;
+        if (isAuthenticated) setLookup();
+    }, [isAuthenticated]);
+    const { data: dataNonPatroli, isValidating } = useSWR(
+        isAuthenticated ? apiUrl + '/non_patroli/list' : null,
+        UserService.getNonPatroliUsers)
     React.useEffect(() => {
-        if (data) {
-            setDaopsState(data.daopsUsers);
-            setBalaiState(data.balaiUsers);
+        if (dataNonPatroli && isAuthenticated) {
+            setDaopsState(dataNonPatroli.daopsUsers);
+            setBalaiState(dataNonPatroli.balaiUsers);
         }
-    }, [data]);
+    }, [dataNonPatroli]);
 
     const handleOpenManggala = () => {
         setOpenManggala(true);
@@ -200,7 +212,7 @@ function AnggotaPage(props) {
     };
 
     return (
-        showLoader ? (
+        !isAuthenticated ? (
             <Loader />
         ) : (
                 <SiteLayout headerColor="info">
@@ -241,172 +253,184 @@ function AnggotaPage(props) {
                                 onChangeIndex={handleChangeIndex}
                             >
                                 <TabPanel value={value} index={0} dir={'right'}>
-                                    <MaterialTable
-                                        title="Personil Manggala Agni"
-                                        columns={manggalaColumn}
-                                        data={manggalaState}
-                                        actions={[
-                                            {
-                                                icon: AddBoxIcon,
-                                                tooltip: 'Tambah Personil Manggala Agni',
-                                                isFreeAction: true,
-                                                onClick: (event) => {
-                                                    handleOpenManggala();
-                                                }
-                                            }
-                                        ]}
-                                        options={{
-                                            search: true,
-                                            actionsColumnIndex: -1
-                                        }}
-                                        editable={{
-                                            onRowUpdate: (newData, oldData) =>
-                                                new Promise((resolve, reject) => {
-                                                    setTimeout(() => {
-                                                        if (oldData) {
-                                                            setManggalaState((prevState) => {
-                                                                const data = [...prevState];
-                                                                data[data.indexOf(oldData)] = newData;
-                                                                return data;
-                                                            });
+                                    {isValidating ? (
+                                        <CircularProgress />
+                                    ) : (
+                                            <MaterialTable
+                                                title="Personil Manggala Agni"
+                                                columns={manggalaColumn}
+                                                data={manggalaState}
+                                                actions={[
+                                                    {
+                                                        icon: AddBoxIcon,
+                                                        tooltip: 'Tambah Personil Manggala Agni',
+                                                        isFreeAction: true,
+                                                        onClick: (event) => {
+                                                            handleOpenManggala();
                                                         }
-                                                        resolve();
-                                                    }, 1000);
-                                                }),
-                                            onRowDelete: oldData =>
-                                                new Promise((resolve, reject) => {
-                                                    setTimeout(() => {
-                                                        const dataDelete = [...daopsState];
-                                                        const index = oldData.tableData.id;
-                                                        dataDelete.splice(index, 1);
-                                                        setDaopsState(dataDelete);
-                                                        resolve();
-                                                    }, 1000);
-                                                })
-                                        }}
-                                    />
-                                </TabPanel>
-                                <TabPanel value={value} index={1} dir={'right'}>
-                                    <MaterialTable
-                                        title="Pengguna Daops"
-                                        columns={daopsColumn}
-                                        data={daopsState}
-                                        actions={[
-                                            {
-                                                icon: AddBoxIcon,
-                                                tooltip: 'Tambah Pengguna Daops',
-                                                isFreeAction: true,
-                                                onClick: (event) => {
-                                                    event.preventDefault()
-                                                    router.push('/pengguna/non-patroli');
-                                                }
-                                            }
-                                        ]}
-                                        options={{
-                                            search: true,
-                                            actionsColumnIndex: -1
-                                        }}
-                                        editable={{
-                                            onRowUpdate: (newData, oldData) =>
-                                                new Promise((resolve, reject) => {
-                                                    UserService.updateNonPatroliUser(newData)
-                                                        .then(result => {
-                                                            if (result.success) {
+                                                    }
+                                                ]}
+                                                options={{
+                                                    search: true,
+                                                    actionsColumnIndex: -1
+                                                }}
+                                                editable={{
+                                                    onRowUpdate: (newData, oldData) =>
+                                                        new Promise((resolve, reject) => {
+                                                            setTimeout(() => {
                                                                 if (oldData) {
-                                                                    setDaopsState((prevState) => {
+                                                                    setManggalaState((prevState) => {
                                                                         const data = [...prevState];
                                                                         data[data.indexOf(oldData)] = newData;
                                                                         return data;
                                                                     });
                                                                 }
                                                                 resolve();
-                                                            } else {
-                                                                // TODO: make alert for fail update
-                                                                alert(result.message[0]);
-                                                                reject();
-                                                            };
-                                                        });
-                                                }),
-                                            onRowDelete: oldData =>
-                                                new Promise((resolve, reject) => {
-                                                    UserService.deleteNonPatroliUser(oldData)
-                                                        .then(result => {
-                                                            if (result.success) {
+                                                            }, 1000);
+                                                        }),
+                                                    onRowDelete: oldData =>
+                                                        new Promise((resolve, reject) => {
+                                                            setTimeout(() => {
                                                                 const dataDelete = [...daopsState];
                                                                 const index = oldData.tableData.id;
                                                                 dataDelete.splice(index, 1);
                                                                 setDaopsState(dataDelete);
                                                                 resolve();
-                                                            } else {
-                                                                // TODO: make alert for fail delete
-                                                                alert(result.message[0]);
-                                                                reject();
-                                                            };
-                                                        });
-                                                })
-                                        }}
-                                    />
+                                                            }, 1000);
+                                                        })
+                                                }}
+                                            />
+                                        )}
+                                </TabPanel>
+                                <TabPanel value={value} index={1} dir={'right'}>
+                                    {isValidating ? (
+                                        <CircularProgress />
+                                    ) : (
+                                            <MaterialTable
+                                                title="Pengguna Daops"
+                                                columns={daopsColumn}
+                                                data={daopsState}
+                                                actions={[
+                                                    {
+                                                        icon: AddBoxIcon,
+                                                        tooltip: 'Tambah Pengguna Daops',
+                                                        isFreeAction: true,
+                                                        onClick: (event) => {
+                                                            event.preventDefault()
+                                                            router.push('/pengguna/non-patroli');
+                                                        }
+                                                    }
+                                                ]}
+                                                options={{
+                                                    search: true,
+                                                    actionsColumnIndex: -1
+                                                }}
+                                                editable={{
+                                                    onRowUpdate: (newData, oldData) =>
+                                                        new Promise((resolve, reject) => {
+                                                            UserService.updateNonPatroliUser(newData)
+                                                                .then(result => {
+                                                                    if (result.success) {
+                                                                        if (oldData) {
+                                                                            setDaopsState((prevState) => {
+                                                                                const data = [...prevState];
+                                                                                data[data.indexOf(oldData)] = newData;
+                                                                                return data;
+                                                                            });
+                                                                        }
+                                                                        resolve();
+                                                                    } else {
+                                                                        // TODO: make alert for fail update
+                                                                        alert(result.message[0]);
+                                                                        reject();
+                                                                    };
+                                                                });
+                                                        }),
+                                                    onRowDelete: oldData =>
+                                                        new Promise((resolve, reject) => {
+                                                            UserService.deleteNonPatroliUser(oldData)
+                                                                .then(result => {
+                                                                    if (result.success) {
+                                                                        const dataDelete = [...daopsState];
+                                                                        const index = oldData.tableData.id;
+                                                                        dataDelete.splice(index, 1);
+                                                                        setDaopsState(dataDelete);
+                                                                        resolve();
+                                                                    } else {
+                                                                        // TODO: make alert for fail delete
+                                                                        alert(result.message[0]);
+                                                                        reject();
+                                                                    };
+                                                                });
+                                                        })
+                                                }}
+                                            />
+                                        )}
                                 </TabPanel>
                                 <TabPanel value={value} index={2} dir={'right'}>
-                                    <MaterialTable
-                                        title="Pengguna Balai"
-                                        columns={balaiColumn}
-                                        data={balaiState}
-                                        actions={[
-                                            {
-                                                icon: AddBoxIcon,
-                                                tooltip: 'Tambah Pengguna Balai',
-                                                isFreeAction: true,
-                                                onClick: (event) => {
-                                                    event.preventDefault()
-                                                    router.push('/pengguna/non-patroli');
-                                                }
-                                            }
-                                        ]}
-                                        options={{
-                                            search: true,
-                                            actionsColumnIndex: -1
-                                        }}
-                                        editable={{
-                                            onRowUpdate: (newData, oldData) =>
-                                                new Promise((resolve, reject) => {
-                                                    UserService.updateNonPatroliUser(newData)
-                                                        .then(result => {
-                                                            if (result.success) {
-                                                                if (oldData) {
-                                                                    setBalaiState((prevState) => {
-                                                                        const data = [...prevState];
-                                                                        data[data.indexOf(oldData)] = newData;
-                                                                        return data;
-                                                                    });
-                                                                }
-                                                                resolve();
-                                                            } else {
-                                                                // TODO: make alert for fail update
-                                                                alert(result.message[0]);
-                                                                reject();
-                                                            };
-                                                        });
-                                                }),
-                                            onRowDelete: oldData =>
-                                                new Promise((resolve, reject) => {
-                                                    UserService.deleteNonPatroliUser(oldData)
-                                                        .then(result => {
-                                                            if (result.success) {
-                                                                const dataDelete = [...balaiState];
-                                                                const index = oldData.tableData.id;
-                                                                dataDelete.splice(index, 1);
-                                                                setBalaiState(dataDelete);
-                                                                resolve();
-                                                            } else {
-                                                                // TODO: make alert for fail delete
-                                                                alert(result.message[0]);
-                                                                reject();
-                                                            };
-                                                        });
-                                                })
-                                        }}
-                                    />
+                                    {isValidating ? (
+                                        <CircularProgress />
+                                    ) : (
+                                            <MaterialTable
+                                                title="Pengguna Balai"
+                                                columns={balaiColumn}
+                                                data={balaiState}
+                                                actions={[
+                                                    {
+                                                        icon: AddBoxIcon,
+                                                        tooltip: 'Tambah Pengguna Balai',
+                                                        isFreeAction: true,
+                                                        onClick: (event) => {
+                                                            event.preventDefault()
+                                                            router.push('/pengguna/non-patroli');
+                                                        }
+                                                    }
+                                                ]}
+                                                options={{
+                                                    search: true,
+                                                    actionsColumnIndex: -1
+                                                }}
+                                                editable={{
+                                                    onRowUpdate: (newData, oldData) =>
+                                                        new Promise((resolve, reject) => {
+                                                            UserService.updateNonPatroliUser(newData)
+                                                                .then(result => {
+                                                                    if (result.success) {
+                                                                        if (oldData) {
+                                                                            setBalaiState((prevState) => {
+                                                                                const data = [...prevState];
+                                                                                data[data.indexOf(oldData)] = newData;
+                                                                                return data;
+                                                                            });
+                                                                        }
+                                                                        resolve();
+                                                                    } else {
+                                                                        // TODO: make alert for fail update
+                                                                        alert(result.message[0]);
+                                                                        reject();
+                                                                    };
+                                                                });
+                                                        }),
+                                                    onRowDelete: oldData =>
+                                                        new Promise((resolve, reject) => {
+                                                            UserService.deleteNonPatroliUser(oldData)
+                                                                .then(result => {
+                                                                    if (result.success) {
+                                                                        const dataDelete = [...balaiState];
+                                                                        const index = oldData.tableData.id;
+                                                                        dataDelete.splice(index, 1);
+                                                                        setBalaiState(dataDelete);
+                                                                        resolve();
+                                                                    } else {
+                                                                        // TODO: make alert for fail delete
+                                                                        alert(result.message[0]);
+                                                                        reject();
+                                                                    };
+                                                                });
+                                                        })
+                                                }}
+                                            />
+                                        )}
                                 </TabPanel>
                             </SwipeableViews>
                         </Grid>

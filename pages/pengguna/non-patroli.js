@@ -42,14 +42,12 @@ const DialogTitle = props => {
 };
 
 function NonPatroliPage(props) {
-  const { loading } = useAuth();
+  const { isAuthenticated } = useAuth();
   const classes = useStyles();
   const router = useRouter();
-  const [loadData, setLoadData] = React.useState(true);
   const [roles, setRoles] = React.useState([]);
   const [balai, setBalai] = React.useState([]);
   const [daops, setDaops] = React.useState([]);
-  const showLoader = loading || loadData;
   React.useEffect(() => {
     const getDropdownData = async () => {
       const roles = await UserService.getNonPatroliRoles();
@@ -58,10 +56,9 @@ function NonPatroliPage(props) {
       setRoles(roles);
       setBalai(balai);
       setDaops(daops);
-      setLoadData(false);
     }
-    getDropdownData();
-  }, []);
+    if (isAuthenticated) getDropdownData();
+  }, [isAuthenticated]);
 
   const [values, setValues] = React.useState({
     role: '',
@@ -124,7 +121,7 @@ function NonPatroliPage(props) {
   const handleMouseDownPassword = (event) => event.preventDefault();
 
   return (
-    showLoader ? (
+    !isAuthenticated ? (
       <Loader />
     ) : (
         <SiteLayout headerColor='info'>
