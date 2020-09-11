@@ -6,7 +6,6 @@ import useSWR from "swr";
 import { Alert } from "@material-ui/lab";
 import styles from "../../assets/jss/nextjs-material-kit/pages/wilayahPage";
 import SiteLayout from "../../components/Layout/SiteLayout";
-import { apiUrl } from "../../services/config";
 import WilayahService from "../../services/WilayahService";
 import useAuth, { ProtectRoute } from "../../context/auth";
 import Loader from '../../components/Loader/Loader';
@@ -36,7 +35,7 @@ function WilayahPage(props) {
         successAlert: true,
     });
     const { data: dataWilayah, isValidating } = useSWR(
-        isAuthenticated ? apiUrl + "/wilayah/list" : null,
+        isAuthenticated ? "/wilayah/list" : null,
         WilayahService.getAllWilayah
     );
     const closeAlert = () => setShow(false);

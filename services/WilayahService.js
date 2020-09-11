@@ -1,9 +1,9 @@
-import { apiUrl } from './config';
+import API from '../api';
 import WilayahValidator from '../validators/WilayahValidator';
 
 class WilayahService {
     static async getAllWilayah() {
-        const r = await (await fetch(apiUrl + '/wilayah/list')).json();
+        const r = await API.get('wilayah/list');
         if (r.status == 200) {
             const data = new Array();
             r.data.forEach(wilayah => {
@@ -29,15 +29,11 @@ class WilayahService {
         formData.append('nama', wilayah.name);
         formData.append('tipe', wilayah.type);
 
-        let r = await fetch(apiUrl + '/wilayah/add', {
-            method: 'POST',
-            body: formData
-        });
+        let r = await API.post('wilayah/add', formData);
 
         if (r.status == 200) {
             return { "success": true };
         } else {
-            r = await r.json();
             return { "success": false, "message": [r.message] };
         }
     }
@@ -54,15 +50,11 @@ class WilayahService {
             formData.append('kode', newData.code);
         }
 
-        let r = await fetch(apiUrl + '/wilayah/save', {
-            method: 'POST',
-            body: formData
-        });
+        let r = await API.post('/wilayah/save', formData);
 
         if (r.status == 200) {
             return { "success": true };
         } else {
-            r = await r.json();
             return { "success": false, "message": [r.message] };
         }
     }
@@ -71,9 +63,7 @@ class WilayahService {
         let validate = WilayahValidator.deleteWilayah(wilayah);
         if (!validate.pass) return { "success": false, "message": validate.message };
 
-        let r = await fetch(`${apiUrl}/wilayah/remove/${wilayah.id}`, {
-            method: 'DELETE'
-        });
+        let r = await API.delete(`/wilayah/remove/${wilayah.id}`);
 
         // TODO: Fix backend, because delete method always 404
         // if (r.status == 200) {
