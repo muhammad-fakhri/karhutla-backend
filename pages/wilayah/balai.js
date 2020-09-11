@@ -7,7 +7,6 @@ import { Alert } from "@material-ui/lab";
 import styles from "../../assets/jss/nextjs-material-kit/pages/patroliTerpaduPage";
 import SiteLayout from "../../components/Layout/SiteLayout";
 import Loader from "../../components/Loader/Loader";
-import { apiUrl } from "../../services/config";
 import BalaiService from "../../services/BalaiService";
 import WilayahService from "../../services/WilayahService";
 import useAuth, { ProtectRoute } from "../../context/auth";
@@ -33,7 +32,7 @@ function BalaiPage(props) {
         successAlert: true,
     });
     const { data: dataBalai, isValidating } = useSWR(
-        isAuthenticated ? apiUrl + "/balai/list" : null,
+        isAuthenticated ? "/balai/list" : null,
         BalaiService.getAllBalai
     );
     const closeAlert = () => setShow(false);
@@ -58,7 +57,7 @@ function BalaiPage(props) {
             setColumn(column);
         }
         if (isAuthenticated) setLookup();
-    }, []);
+    }, [isAuthenticated]);
     React.useEffect(() => {
         setValues({ ...values, balai: dataBalai });
     }, [dataBalai]);
