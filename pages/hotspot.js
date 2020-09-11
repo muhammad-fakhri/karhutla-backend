@@ -9,7 +9,6 @@ import useAuth, { ProtectRoute } from '../context/auth';
 import moment from 'moment';
 import useSWR from 'swr';
 import HotspotService from '../services/HotspotService';
-import { siavipalaUrl } from '../services/config';
 const useStyles = makeStyles(styles);
 
 function HotspotPage(props) {
@@ -18,7 +17,7 @@ function HotspotPage(props) {
     const [hotspot, setHotspot] = React.useState([]);
     const [date, setDate] = React.useState(moment());
     const { data, isValidating } = useSWR(
-        isAuthenticated ? `${siavipalaUrl}/public/api/hotspot-sipongi/date-range?start_date=${date.format('D-MM-YYYY')}&end_date=${date.format('D-MM-YYYY')}&provinsi=a` : null,
+        isAuthenticated ? `/public/api/hotspot-sipongi/date-range?start_date=${date.format('D-MM-YYYY')}&end_date=${date.format('D-MM-YYYY')}&provinsi=a` : null,
         HotspotService.getHotspot
     );
     React.useEffect(() => {
@@ -37,7 +36,7 @@ function HotspotPage(props) {
                         <div className={classNames(classes.main, classes.mainRaised, classes.textCenter)}>
                             <h2>
                                 <Icon className={classes.icon} color={"error"}>fiber_manual_record</Icon>
-                        SIPONGI Live Update
+                                SIPONGI Live Update
                             </h2>
                             <Grid container>
                                 <Grid item xs={12}>

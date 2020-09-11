@@ -1,12 +1,11 @@
-import moment from 'moment';
-import { siavipalaUrl } from './config';
+import { SiavipalaAPI } from '../api';
 
 export default class HotspotService {
     static async getHotspot(url) {
         let responses = new Array();
         let hotspots = new Array();
         try {
-            const res = await (await fetch(url)).json();
+            const res = await SiavipalaAPI.get(url);
             responses = res.hostspot_sipongi;
             responses.forEach((item) => {
                 item.sebaran_hotspot.forEach((item) => {
