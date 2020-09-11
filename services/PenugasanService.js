@@ -1,8 +1,9 @@
 import { apiUrl } from './config';
+import API from '../api';
 
 class PenugasanService {
     static async getAllPenugasan(url) {
-        const r = await (await fetch(url)).json();
+        const r = await API.get(url);
         if (r.status == 200) {
             const data = new Array();
             r.data.forEach(work => {

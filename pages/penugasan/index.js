@@ -10,7 +10,6 @@ import styles from "../../assets/jss/nextjs-material-kit/pages/suratTugas/index"
 import useAuth, { ProtectRoute } from '../../context/auth';
 import useSWR from 'swr';
 import PenugasanService from '../../services/PenugasanService';
-import { apiUrl } from '../../services/config';
 
 const useStyles = makeStyles(styles);
 
@@ -27,7 +26,7 @@ function PenugasanPage(props) {
     const [penugasan, setPenugasan] = React.useState([]);
     const { data: penugasanData, error, isValidating } = useSWR(
         isAuthenticated
-            ? apiUrl + "/penugasan/list"
+            ? "/penugasan/list"
             : null,
         PenugasanService.getAllPenugasan
     );
