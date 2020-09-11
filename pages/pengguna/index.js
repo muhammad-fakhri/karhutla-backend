@@ -1,4 +1,3 @@
-import { apiUrl } from '../../services/config';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
 import { makeStyles } from "@material-ui/core/styles";
@@ -171,11 +170,12 @@ function AnggotaPage(props) {
             setManggalaColumn(manggalaColumn);
             setDaopsColumn(daopsColumn);
             setBalaiColumn(balaiColumn);
+            // TODO: make NIP and email updateable
         }
         if (isAuthenticated) setLookup();
     }, [isAuthenticated]);
     const { data: dataNonPatroli, isValidating } = useSWR(
-        isAuthenticated ? apiUrl + '/non_patroli/list' : null,
+        isAuthenticated ? '/non_patroli/list' : null,
         UserService.getNonPatroliUsers)
     React.useEffect(() => {
         if (dataNonPatroli && isAuthenticated) {

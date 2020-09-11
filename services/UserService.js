@@ -1,9 +1,9 @@
-import { apiUrl } from './config';
+import API from '../api';
 import UserValidator from '../validators/UserValidator';
 
 class UserService {
     static async getNonPatroliUsers(url) {
-        const r = await (await fetch(url)).json();
+        const r = await API.get(url);
         if (r.status == 200) {
             const daopsUsers = new Array();
             const balaiUsers = new Array();
@@ -39,22 +39,19 @@ class UserService {
     }
 
     static async getNonPatroliRoles() {
-        const r = await (await fetch(apiUrl + '/role/list')).json();
+        const r = await API.get('/role/list');
         if (r.status == 200) {
             const data = new Array();
             r.data.forEach(role => {
-                data.push({
-                    id: role.id,
-                    name: role.nama,
-                    level: role.level,
-                    active: role.aktif
-                })
+                if (role.id <= 9) {
+                    data.push({
+                        id: role.id,
+                        name: role.nama,
+                        level: role.level,
+                        active: role.aktif
+                    })
+                }
             });
-            data.pop();
-            data.pop();
-            data.pop();
-            data.pop();
-            data.pop();
             return data;
         } else {
             return new Array();
@@ -62,7 +59,7 @@ class UserService {
     }
 
     static async getPatroliRoles() {
-        const r = await (await fetch(apiUrl + '/role/list')).json();
+        const r = await API.get('/role/list');
         if (r.status == 200) {
             const data = new Array();
             r.data.forEach(role => {
@@ -93,13 +90,11 @@ class UserService {
         formData.append('no_telepon', data.phone);
         formData.append('instansi', data.organization);
         formData.append('aktif', true);
-        const r = await (await fetch(apiUrl + '/user/add', {
-            method: 'POST',
-            body: formData
-        })).json();
+
+        const r = await API.post('/user/add', formData);
 
         if (r.status == 200) {
-            const r2 = await (await fetch(apiUrl + '/user/list')).json();
+            const r2 = await API.get('/user/list');
             let id = null;
             r2.data.forEach(user => {
                 if (user.email === data.email) {
@@ -109,10 +104,8 @@ class UserService {
             let formData2 = new FormData();
             formData2.append('m_user_id', id);
             formData2.append('r_role_id', data.role);
-            const r3 = await (await fetch(apiUrl + '/non_patroli/add', {
-                method: 'POST',
-                body: formData2
-            })).json();
+
+            const r3 = await API.post('/non_patroli/add', formData2);
 
             if (r3.status == 200) {
                 return { "success": true };
@@ -134,29 +127,23 @@ class UserService {
         formData.append('nama', data.name);
         formData.append('no_telepon', data.phone);
         formData.append('instansi', data.organization);
-        let r = await fetch(apiUrl + '/user/save', {
-            method: 'POST',
-            body: formData
-        });
+
+        const r = await API.post('/user/save', formData);
 
         if (r.status == 200) {
             // update user's role
             let formData2 = new FormData();
             formData2.append('id', data.accessId);
             formData2.append('r_role_id', data.role);
-            let r2 = await fetch(apiUrl + '/non_patroli/save', {
-                method: 'POST',
-                body: formData2
-            });
+
+            const r2 = await API.post('non_patroli/save', formData2);
 
             if (r2.status == 200) {
                 return { "success": true };
             } else {
-                r2 = await r2.json();
                 return { "success": false, "message": [r2.message] };
             }
         } else {
-            r = await r.json();
             return { "success": false, "message": [r.message] };
         }
     }
@@ -167,14 +154,11 @@ class UserService {
 
         // TODO: fix double hit that causing 404 response
         // delete non patroli access
-        let r = await (await fetch(apiUrl + '/non_patroli/remove/' + data.accessId, {
-            method: 'DELETE'
-        })).json();
+        const r = await API.delete(`/non_patroli/remove/${data.accessId}`);
 
         // delete user data
-        let r2 = await (await fetch(apiUrl + '/user/remove/' + data.id, {
-            method: 'DELETE'
-        })).json();
+        const r2 = await API.delete(`/user/remove/${data.id}`);
+
         return { "success": true };
     }
 }
