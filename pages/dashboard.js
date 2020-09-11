@@ -2,7 +2,6 @@ import moment from 'moment';
 import classNames from "classnames";
 import useAuth, { ProtectRoute } from '../context/auth';
 import PatroliService from '../services/PatroliService';
-import { simaduApiUrl } from '../services/config';
 import MaterialTable from 'material-table';
 import Datetime from "react-datetime";
 import { Divider, FormControl, Grid, Paper, CircularProgress } from "@material-ui/core";
@@ -35,7 +34,7 @@ function DashboardPage(props) {
     const [spots, setSpots] = React.useState();
     const { data: patroliData, isValidating } = useSWR(
         isAuthenticated && date.format('D-M-YYYY') === moment().format('D-M-YYYY')
-            ? `${simaduApiUrl}/list?tanggal_patroli=${date.format('D-M-YYYY')}`
+            ? `/list?tanggal_patroli=${date.format('D-M-YYYY')}`
             : null,
         PatroliService.getPatroli
     );
