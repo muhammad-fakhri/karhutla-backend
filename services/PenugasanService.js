@@ -1,4 +1,3 @@
-import { apiUrl } from './config';
 import API from '../api';
 
 class PenugasanService {
