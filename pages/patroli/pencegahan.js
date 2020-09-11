@@ -7,7 +7,6 @@ import useSWR from 'swr';
 import styles from '../../assets/jss/nextjs-material-kit/pages/patroliPencegahanPage';
 import SiteLayout from '../../components/Layout/SiteLayout';
 import Loader from '../../components/Loader/Loader';
-import { simaduApiUrl } from '../../services/config';
 import PatroliService from '../../services/PatroliService';
 import useAuth, { ProtectRoute } from '../../context/auth';
 
@@ -23,7 +22,7 @@ function PatroliPencegahanPage(props) {
     const classes = useStyles();
     const [pencegahan, setPencegahan] = React.useState();
     const { data, isValidating } = useSWR(
-        isAuthenticated ? simaduApiUrl + '/list' : null,
+        isAuthenticated ? '/list' : null,
         PatroliService.getAllPatroliPencegahan);
     // TODO: change endpoint with endpoint for fetching all pencegahan patrol data
     React.useEffect(() => {

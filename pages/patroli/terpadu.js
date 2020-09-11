@@ -7,7 +7,6 @@ import useSWR from 'swr';
 import styles from "../../assets/jss/nextjs-material-kit/pages/patroliTerpaduPage";
 import SiteLayout from '../../components/Layout/SiteLayout';
 import Loader from '../../components/Loader/Loader';
-import { simaduApiUrl } from '../../services/config';
 import PatroliService from '../../services/PatroliService';
 import useAuth, { ProtectRoute } from '../../context/auth';
 
@@ -23,7 +22,7 @@ function PatroliTerpaduPage(props) {
     const classes = useStyles();
     const [terpadu, setTerpadu] = React.useState();
     const { data, isValidating } = useSWR(
-        isAuthenticated ? simaduApiUrl + '/list' : null,
+        isAuthenticated ? '/list' : null,
         PatroliService.getAllPatroliTerpadu);
     // TODO: change endpoint with endpoint for fetching all terpadu patrol data
     React.useEffect(() => {

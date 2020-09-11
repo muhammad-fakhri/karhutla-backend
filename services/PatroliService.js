@@ -1,4 +1,4 @@
-import { simaduApiUrl, simadu2Url } from './config';
+import { SimaduAPI, simadu2Url } from '../api';
 import moment from 'moment';
 
 export default class PatroliService {
@@ -13,10 +13,9 @@ export default class PatroliService {
                 pencegahan: 0,
                 terpadu: 0
             };
-            const res = await (await fetch(url
-                ? url
-                : `${simaduApiUrl}/list?tanggal_patroli=${date}`
-            )).json();
+            const res = await SimaduAPI.get(url ? url
+                : `/list?tanggal_patroli=${date}`
+            );
             let patroliData = res.data;
             patroliData.forEach((item) => {
                 item.forEach(patroli => {
@@ -70,7 +69,11 @@ export default class PatroliService {
             let date = new moment();
             for (let index = 0; index < 5; index++) {
                 if (index !== 0) date.subtract(1, 'days');
-                const res = await (await fetch(`${url}?tanggal_patroli=${date.format('D-MM-YYYY')}`)).json();
+                const res = await SimaduAPI.get(url, {
+                    params: {
+                        tanggal_patroli: date.format('D-MM-YYYY')
+                    }
+                });
                 let patroliData = res.data;
                 patroliData.forEach((item) => {
                     item.forEach(patroli => {
@@ -97,7 +100,11 @@ export default class PatroliService {
             let date = new moment();
             for (let index = 0; index < 5; index++) {
                 if (index !== 0) date.subtract(1, 'days');
-                const res = await (await fetch(`${url}?tanggal_patroli=${date.format('D-MM-YYYY')}`)).json();
+                const res = await SimaduAPI.get(url, {
+                    params: {
+                        tanggal_patroli: date.format('D-MM-YYYY')
+                    }
+                });
                 let patroliData = res.data;
                 patroliData.forEach((item) => {
                     item.forEach(patroli => {
@@ -124,7 +131,11 @@ export default class PatroliService {
             let date = new moment();
             for (let index = 0; index < 5; index++) {
                 if (index !== 0) date.subtract(1, 'days');
-                const res = await (await fetch(`${url}?tanggal_patroli=${date.format('D-MM-YYYY')}`)).json();
+                const res = await SimaduAPI.get(url, {
+                    params: {
+                        tanggal_patroli: date.format('D-MM-YYYY')
+                    }
+                });
                 let patroliData = res.data;
                 patroliData.forEach((item) => {
                     item.forEach(patroli => {

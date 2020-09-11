@@ -32,7 +32,15 @@ const API = axios.create({
     headers: { Accept: "application/json" },
 });
 
+export const SimaduAPI = axios.create({
+    baseURL: simaduApiUrl,
+    headers: { Accept: "application/json" },
+});
+
 API.interceptors.request.use(handleRequestSend, handleRequestError);
 API.interceptors.response.use(handleResponseReceive, handleResponseError);
+
+SimaduAPI.interceptors.request.use(handleRequestSend, handleRequestError);
+SimaduAPI.interceptors.response.use(handleResponseReceive, handleResponseError);
 
 export default API;
