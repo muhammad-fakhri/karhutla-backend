@@ -1,9 +1,9 @@
-import { apiUrl } from './config';
 import DaopsValidator from '../validators/DaopsValidator';
+import API from '../api';
 
 class DaopsService {
     static async getAllDaops() {
-        const r = await (await fetch(apiUrl + '/daops/list')).json();
+        const r = await API.get('/daops/list');
         if (r.status == 200) {
             const data = new Array();
             r.data.forEach(daops => {
@@ -23,21 +23,17 @@ class DaopsService {
     static async addDaops(daops) {
         let validate = DaopsValidator.createDaops(daops);
         if (!validate.pass) return { "success": false, "message": validate.message };
-        
+
         let formData = new FormData();
         formData.append('kode', daops.code);
         formData.append('nama', daops.name);
         formData.append('r_balai_id', daops.balaiId);
 
-        let r = await fetch(apiUrl + '/daops/add', {
-            method: 'POST',
-            body: formData
-        });
+        let r = await API.post('/daops/add', formData);
 
         if (r.status == 200) {
             return { "success": true };
         } else {
-            r = await r.json();
             return { "success": false, "message": [r.message] };
         }
     }
@@ -54,15 +50,11 @@ class DaopsService {
             formData.append('kode', newData.code);
         }
 
-        let r = await fetch(apiUrl + '/daops/save', {
-            method: 'POST',
-            body: formData
-        });
+        let r = await API.post('/daops/save', formData);
 
         if (r.status == 200) {
             return { "success": true };
         } else {
-            r = await r.json();
             return { "success": false, "message": [r.message] };
         }
     }
@@ -70,10 +62,8 @@ class DaopsService {
     static async deleteDaops(daops) {
         let validate = DaopsValidator.deleteDaops(daops);
         if (!validate.pass) return { "success": false, "message": validate.message };
-        
-        let r = await fetch(`${apiUrl}/daops/remove/${daops.id}`, {
-            method: 'DELETE'
-        });
+
+        let r = await API.delete(`/daops/remove/${daops.id}`);
 
         // TODO: Fix backend, because delete method always 404
         // if (r.status == 200) {

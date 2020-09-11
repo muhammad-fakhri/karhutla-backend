@@ -6,7 +6,6 @@ import useSWR from "swr";
 import { Alert } from "@material-ui/lab";
 import styles from "../../assets/jss/nextjs-material-kit/pages/patroliTerpaduPage";
 import SiteLayout from "../../components/Layout/SiteLayout";
-import { apiUrl } from "../../services/config";
 import DaopsService from "../../services/DaopsService";
 import BalaiService from "../../services/BalaiService";
 import useAuth, { ProtectRoute } from "../../context/auth";
@@ -33,7 +32,7 @@ function DaopsPage(props) {
         successAlert: true,
     });
     const { data, isValidating } = useSWR(
-        isAuthenticated ? apiUrl + "/daops/list" : null,
+        isAuthenticated ? "/daops/list" : null,
         DaopsService.getAllDaops
     );
     const closeAlert = () => setShow(false);
@@ -58,7 +57,7 @@ function DaopsPage(props) {
             setColumn(column);
         }
         if (isAuthenticated) setLookup();
-    }, []);
+    }, [isAuthenticated]);
     React.useEffect(() => {
         setValues({ ...values, daops: data });
     }, [data]);
