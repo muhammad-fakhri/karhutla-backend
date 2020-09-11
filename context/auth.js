@@ -1,10 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react'
-import Cookies from 'js-cookie'
 import Router, { useRouter } from 'next/router'
-
-//api here is an axios instance
-// import api from '../services/Api';
-
+import CookieService from '../services/CookieService';
 
 const AuthContext = createContext({});
 
@@ -15,10 +11,10 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         async function loadUserFromCookies() {
-            const token = Cookies.get('token')
+            const token = CookieService.getToken();
             if (token) {
                 console.log("Got a token in the cookies, let's see if it is valid")
-                // api.defaults.headers.Authorization = `Bearer ${token}`
+                // TODO: fetch user data from api
                 // const { data: user } = await api.get('users/me')
                 const user = {
                     name: 'Muhammad Fakhri',
@@ -32,17 +28,16 @@ export const AuthProvider = ({ children }) => {
     }, [])
 
     const login = async (email, password) => {
-        // const { data: token } = await api.post('auth/login', { email, password })
+        // TODO: login user and get user data from api
+        // const { data } = await api.post('auth/login', { email, password })
+        let user = {
+            name: 'Muhammad Fakhri',
+            email: 'muhammadfakhri301@gmail.com'
+        }
         let token = 'asdjbiu1e';
         if (token) {
             console.log("Got token")
-            Cookies.set('token', token, { expires: 60 })
-            // api.defaults.headers.Authorization = `Bearer ${token.token}`
-            // const { data: user } = await api.get('users/me')
-            let user = {
-                name: 'Muhammad Fakhri',
-                email: 'muhammadfakhri301@gmail.com'
-            }
+            CookieService.setToken(token);
             setUser(user)
             console.log("Got user", user)
             window.location.pathname = '/dashboard'
@@ -50,7 +45,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     const logout = (email, password) => {
-        Cookies.remove('token')
+        CookieService.removeToken();
         setUser(null)
         window.location.pathname = '/login'
     }
