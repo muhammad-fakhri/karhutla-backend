@@ -3,7 +3,7 @@ import WilayahValidator from '../validators/WilayahValidator';
 
 class WilayahService {
     static async getAllWilayah() {
-        const r = await API.get('wilayah/list');
+        const r = await API.get('/wilayah/list');
         if (r.status == 200) {
             const data = new Array();
             r.data.forEach(wilayah => {
@@ -29,7 +29,7 @@ class WilayahService {
         formData.append('nama', wilayah.name);
         formData.append('tipe', wilayah.type);
 
-        let r = await API.post('wilayah/add', formData);
+        let r = await API.post('/wilayah/add', formData);
 
         if (r.status == 200) {
             return { "success": true };
