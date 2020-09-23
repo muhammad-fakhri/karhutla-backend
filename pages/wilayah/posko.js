@@ -94,6 +94,10 @@ function PoskoPage(props) {
               search: true,
               actionsColumnIndex: -1,
             }}
+            localization={{
+              body: { editRow: { deleteText: "Yakin hapus data ini ?" } },
+              header: { actions: "Aksi" },
+            }}
             editable={{
               onRowAdd: (newData) =>
                 new Promise((resolve, reject) => {

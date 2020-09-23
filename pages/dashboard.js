@@ -151,6 +151,9 @@ function DashboardPage(props) {
                 style={{
                   textTransform: "capitalize",
                 }}
+                localization={{
+                  header: { actions: "Aksi" },
+                }}
                 actions={[
                   {
                     icon: CloudDownloadIcon,
@@ -174,6 +177,9 @@ function DashboardPage(props) {
                   search: true,
                   actionsColumnIndex: -1,
                 }}
+                localization={{
+                  header: { actions: "Aksi" },
+                }}
                 actions={[
                   {
                     icon: CloudDownloadIcon,
@@ -196,6 +202,9 @@ function DashboardPage(props) {
                 options={{
                   search: true,
                   actionsColumnIndex: -1,
+                }}
+                localization={{
+                  header: { actions: "Aksi" },
                 }}
                 actions={[
                   {

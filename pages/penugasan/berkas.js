@@ -178,7 +178,7 @@ function BerkasPenugasanPage(props) {
                 variant="contained"
                 color="primary"
                 startIcon={<CloudUploadIcon />}
-                onClick={handleClick}
+                onClick={() => alert("Masih dalam pengembangan")}
                 fullWidth
               >
                 Upload
