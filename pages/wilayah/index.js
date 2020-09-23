@@ -85,6 +85,7 @@ function WilayahPage(props) {
             options={{
               search: true,
               actionsColumnIndex: -1,
+              addRowPosition: "first",
             }}
             localization={{
               body: { editRow: { deleteText: "Yakin hapus data ini ?" } },
