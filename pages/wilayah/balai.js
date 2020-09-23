@@ -46,8 +46,8 @@ function BalaiPage(props) {
         const setLookup = async () => {
             let wilayahLookup = await generateWilayahLookup();
             const column = [
-                { title: "Nama", field: "name" },
-                { title: "Kode", field: "code" },
+                { title: "Nama Balai", field: "name" },
+                { title: "Kode Balai", field: "code" },
                 {
                     title: "Wilayah",
                     field: "region",

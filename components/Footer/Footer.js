@@ -4,12 +4,11 @@ import PropTypes from "prop-types";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // material-ui core components
-import { List, ListItem } from "@material-ui/core";
+import { Avatar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import styles from "assets/jss/nextjs-material-kit/components/footerStyle.js";
-
-import Link from 'next/link'
+import logoIPB from "assets/img/logo-ipb.png";
 
 const useStyles = makeStyles(styles);
 
@@ -18,37 +17,20 @@ export default function Footer(props) {
   const { whiteFont } = props;
   const footerClasses = classNames({
     [classes.footer]: true,
-    [classes.footerWhiteFont]: whiteFont
+    [classes.footerWhiteFont]: whiteFont,
   });
   const aClasses = classNames({
     [classes.a]: true,
-    [classes.footerWhiteFont]: whiteFont
+    [classes.footerWhiteFont]: whiteFont,
   });
   return (
     <footer className={footerClasses}>
       <div className={classes.container}>
-        <div className={classes.left}>
-          <List className={classes.list}>
-            <ListItem className={classes.inlineBlock}>
-              <Link href="/">
-                <a
-                  className={classes.block}
-                >
-                  SIMADU2
-              </a>
-              </Link>
-            </ListItem>
-          </List>
-        </div>
-        <div className={classes.right}>
-          &copy; {1900 + new Date().getYear()} ,
-          made by{" "}
-          <a
-            href="https://cs.ipb.ac.id"
-            className={aClasses}
-            target="_blank"
-          >
-            Departemen Ilmu Komputer FMIPA IPB.
+        <div className={classes.center}>
+          <Avatar alt="Logo IPB" src={logoIPB} className={classes.logo} />
+          Copyright &copy; {1900 + new Date().getYear()}{" "}
+          <a href="https://cs.ipb.ac.id" className={aClasses} target="_blank">
+            Departemen Ilmu Komputer FMIPA IPB
           </a>
         </div>
       </div>
@@ -57,5 +39,5 @@ export default function Footer(props) {
 }
 
 Footer.propTypes = {
-  whiteFont: PropTypes.bool
+  whiteFont: PropTypes.bool,
 };

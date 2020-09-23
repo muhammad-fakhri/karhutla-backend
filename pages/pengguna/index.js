@@ -122,10 +122,7 @@ function AnggotaPage(props) {
 
     const [openManggala, setOpenManggala] = React.useState(false);
     const [openUploadManggala, setOpenUploadManggala] = React.useState(false);
-    const [manggalaState, setManggalaState] = React.useState([
-        { role: 10, organization: 123, registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phone: '08123456789' },
-        { role: 10, organization: 123, registrationNumber: 'GADA213NASD1', name: 'Muhammad Fakhri', email: 'fakhri@mail.com', phone: '08123456789' },
-    ]);
+    const [manggalaState, setManggalaState] = React.useState([]);
     const [daopsState, setDaopsState] = React.useState();
     const [balaiState, setBalaiState] = React.useState();
     const [manggalaColumn, setManggalaColumn] = React.useState();
@@ -144,28 +141,28 @@ function AnggotaPage(props) {
             let daopsLookup = await generateDaopsLookup();
             let balaiLookup = await generateBalaiLookup();
             const manggalaColumn = [
-                { title: 'Jabatan', field: 'role', lookup: roles.manggalaRoles },
-                { title: 'Daerah Operasi', field: 'organization', lookup: daopsLookup },
-                { title: 'Nomor Registrasi', field: 'registrationNumber', editable: 'never' },
                 { title: 'Nama', field: 'name' },
+                { title: 'No Registrasi/NIP', field: 'registrationNumber', editable: 'never' },
                 { title: 'Email', field: 'email', editable: 'never' },
                 { title: 'Nomor HP', field: 'phone' },
+                { title: 'Organisasi', field: 'organization', lookup: daopsLookup },
+                { title: 'Hak Akses', field: 'role', lookup: roles.manggalaRoles },
             ];
             const daopsColumn = [
-                { title: 'Jabatan', field: 'role', lookup: roles.daopsRoles },
-                { title: 'Daerah Operasi', field: 'organization', lookup: daopsLookup },
-                { title: 'NIP', field: 'nip', editable: 'never' },
                 { title: 'Nama', field: 'name' },
+                { title: 'No Registrasi/NIP', field: 'nip', editable: 'never' },
                 { title: 'Email', field: 'email', editable: 'never' },
                 { title: 'Nomor HP', field: 'phone' },
+                { title: 'Organisasi', field: 'organization', lookup: daopsLookup },
+                { title: 'Hak Akses', field: 'role', lookup: roles.daopsRoles },
             ];
             const balaiColumn = [
-                { title: 'Jabatan', field: 'role', lookup: roles.balaiRoles },
-                { title: 'Balai', field: 'organization', lookup: balaiLookup },
-                { title: 'NIP', field: 'nip', editable: 'never' },
                 { title: 'Nama', field: 'name' },
+                { title: 'No Registrasi/NIP', field: 'nip', editable: 'never' },
                 { title: 'Email', field: 'email', editable: 'never' },
                 { title: 'Nomor HP', field: 'phone' },
+                { title: 'Organisasi', field: 'organization', lookup: balaiLookup },
+                { title: 'Hak Akses', field: 'role', lookup: roles.balaiRoles },
             ];
             setManggalaColumn(manggalaColumn);
             setDaopsColumn(daopsColumn);

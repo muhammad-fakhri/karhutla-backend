@@ -17,18 +17,19 @@ export default function FrontPage(props) {
   const [date, setDate] = React.useState(moment());
   const [loading, setLoading] = React.useState(true);
   const [mandiri, setMandiri] = React.useState(0);
-  const [pencegahan, setPencegahan] = React.useState(0);
+  const [rutin, setRutin] = React.useState(0);
   const [terpadu, setTerpadu] = React.useState(0);
   const [spots, setSpots] = React.useState();
 
   React.useEffect(() => {
     const updatePatroli = async () => {
       let patroliData = await PatroliService.getPatroli(
-        false, date.format("D-M-YYYY")
+        false,
+        date.format("D-M-YYYY")
       );
       setSpots(patroliData.patroliSpots);
       setMandiri(patroliData.counter.mandiri);
-      setPencegahan(patroliData.counter.pencegahan);
+      setRutin(patroliData.counter.rutin);
       setTerpadu(patroliData.counter.terpadu);
       setLoading(false);
     };
@@ -45,8 +46,8 @@ export default function FrontPage(props) {
                 <div className={classes.brand}>
                   <h1 className={classes.title}>SIMADU2</h1>
                   <h3 className={classes.subtitle}>
-                    Website monitoring patroli kebakaran hutan di wilayah Pulau
-                    Sumatera, Indonesia.
+                    Sistem Informasi Patroli Pencegahan Kebakaran Hutan dan
+                    Lahan
                   </h3>
                 </div>
               </Grid>
@@ -60,7 +61,7 @@ export default function FrontPage(props) {
             classes.textCenter
           )}
         >
-          <h2>Sebaran Patroli</h2>
+          <h2>Sebaran Data Patroli Karhutla</h2>
           <MapContainer
             center={{
               lat: -1.5,
@@ -95,16 +96,16 @@ export default function FrontPage(props) {
               </h3>
             </Grid>
             <Grid item xs={12} md={4}>
-              <h2 className={classes.terpaduBg}>Patroli Terpadu</h2>
-              {loading ? (<CircularProgress />) : (<h3>{terpadu}</h3>)}
-            </Grid>
-            <Grid item xs={12} md={4}>
               <h2 className={classes.mandiriBg}>Patroli Mandiri</h2>
-              {loading ? (<CircularProgress />) : (<h3>{mandiri}</h3>)}
+              {loading ? <CircularProgress /> : <h3>{mandiri}</h3>}
             </Grid>
             <Grid item xs={12} md={4}>
-              <h2 className={classes.pencegahanBg}>Patroli Pencegahan</h2>
-              {loading ? (<CircularProgress />) : (<h3>{pencegahan}</h3>)}
+              <h2 className={classes.pencegahanBg}>Patroli Rutin</h2>
+              {loading ? <CircularProgress /> : <h3>{rutin}</h3>}
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <h2 className={classes.terpaduBg}>Patroli Terpadu</h2>
+              {loading ? <CircularProgress /> : <h3>{terpadu}</h3>}
             </Grid>
           </Grid>
         </div>

@@ -14,8 +14,8 @@ import PenugasanService from '../../services/PenugasanService';
 const useStyles = makeStyles(styles);
 
 const columns = [
-    { title: 'Jenis', field: 'type' },
-    { title: 'Nomor Surat', field: 'number' },
+    { title: 'Jenis Patroli', field: 'type' },
+    { title: 'Nomor Surat Tugas', field: 'number' },
     { title: 'Tanggal Mulai', field: 'startDate' },
     { title: 'Tanggal Selesai', field: 'finishDate' },
 ];
@@ -56,8 +56,10 @@ function PenugasanPage(props) {
                             xs={3}
                             align="center"
                         >
-                            <Link href="penugasan/input">
-                                <Button
+                            {/* //TODO: Uncomment this when create penugasan API is available */}
+                            {/* <Link href="penugasan/berkas"></Link> */}
+                            <Button
+                                    onClick={()=>alert("Masih dalam pengembangan")}
                                     variant="contained"
                                     color="primary"
                                     className={classes.button}
@@ -65,7 +67,6 @@ function PenugasanPage(props) {
                                 >
                                     Tambah Penugasan
                                 </Button>
-                            </Link>
                         </Grid>
                         <Grid
                             item

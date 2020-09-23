@@ -46,8 +46,8 @@ function DaopsPage(props) {
         const setLookup = async () => {
             let balaiLookup = await generateBalaiLookup();
             const column = [
-                { title: "Nama", field: "name" },
-                { title: "Kode", field: "code" },
+                { title: "Daerah Operasi", field: "name" },
+                { title: "Kodefikasi", field: "code" },
                 {
                     title: "Balai",
                     field: "balaiId",

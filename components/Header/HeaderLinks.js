@@ -32,15 +32,15 @@ const AuthenticatedMenu = (props) => {
             color: "transparent"
           }}
           dropdownList={[
-            <Link href="/patroli/terpadu">
-              <a className={classes.dropdownLink}>Patroli Terpadu</a>
-            </Link>,
             <Link href="/patroli/mandiri">
               <a className={classes.dropdownLink}>Patroli Mandiri</a>
             </Link>,
-            <Link href="/patroli/pencegahan">
-              <a className={classes.dropdownLink}>Patroli Pencegahan</a>
-            </Link>
+            <Link href="/patroli/rutin">
+              <a className={classes.dropdownLink}>Patroli Rutin</a>
+            </Link>,
+            <Link href="/patroli/terpadu">
+            <a className={classes.dropdownLink}>Patroli Terpadu</a>
+          </Link>,
           ]}
         />
       </ListItem>
@@ -80,6 +80,9 @@ const AuthenticatedMenu = (props) => {
             </Link>,
             <Link href="/wilayah/daops">
               <a className={classes.dropdownLink}>Daerah Operasi</a>
+            </Link>,
+            <Link href="/wilayah/posko">
+              <a className={classes.dropdownLink}>Posko</a>
             </Link>
           ]}
         />

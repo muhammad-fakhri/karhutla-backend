@@ -11,12 +11,15 @@ import useAuth, { ProtectRoute } from "../../context/auth";
 import Loader from '../../components/Loader/Loader';
 
 const column = [
-    { title: "Nama", field: "name" },
-    { title: "Kode", field: "code" },
+    { title: "Wilayah", field: "name" },
+    { title: "Kode Wilayah", field: "code" },
     {
-        title: "Tipe",
+        title: "Unit Wilayah",
         field: "type",
         lookup: {
+            Pulau: "Pulau",
+            Provinsi: "Provinsi",
+            Kabupaten: "Kabupaten",
             Kecamatan: "Kecamatan",
             Kelurahan: "Kelurahan",
             Desa: "Desa",
