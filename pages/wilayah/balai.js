@@ -4,7 +4,7 @@ import classNames from "classnames";
 import MaterialTable from "material-table";
 import useSWR from "swr";
 import { Alert } from "@material-ui/lab";
-import styles from "../../assets/jss/nextjs-material-kit/pages/patroliTerpaduPage";
+import styles from "../../assets/jss/nextjs-material-kit/pages/wilayahKerjaPage";
 import SiteLayout from "../../components/Layout/SiteLayout";
 import Loader from "../../components/Loader/Loader";
 import BalaiService from "../../services/BalaiService";

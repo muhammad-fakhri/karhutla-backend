@@ -4,7 +4,7 @@ import classNames from "classnames";
 import MaterialTable from "material-table";
 import useSWR from "swr";
 import { Alert } from "@material-ui/lab";
-import styles from "../../assets/jss/nextjs-material-kit/pages/poskoPage";
+import styles from "../../assets/jss/nextjs-material-kit/pages/wilayahKerjaPage";
 import SiteLayout from "../../components/Layout/SiteLayout";
 import PoskoService from "../../services/PoskoService";
 import DaopsService from "../../services/DaopsService";

@@ -1,20 +1,19 @@
-const anggotaPageStyle = {
+import basePage from "./basePage";
+
+const penggunaPageStyle = {
   root: {
     margin: 0,
   },
   title: {
-    color: "#000000"
+    color: "#000000",
   },
-  textCenter: {
-    textAlign: "center"
-  },
+  textCenter: basePage.textCenter,
   gridContainer: {
     width: "100%",
-    // border: '1px solid red',
     padding: "12vh 0 4vh 0",
   },
   gridItem: {
-    marginTop: "16px"
+    marginTop: "16px",
   },
   buttonBase: {
     width: "60%",
@@ -27,14 +26,14 @@ const anggotaPageStyle = {
       "0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)",
   },
   closeButton: {
-    position: 'absolute',
-    right: '8px',
-    top: '8px',
-    color: '#e6e1e1'
+    position: "absolute",
+    right: "8px",
+    top: "8px",
+    color: "#e6e1e1",
   },
   dialogTitle: {
-    marginRight: '32px'
-  }
+    marginRight: "32px",
+  },
 };
 
-export default anggotaPageStyle;
+export default penggunaPageStyle;

@@ -12,7 +12,7 @@ import GridItem from "../../components/Grid/GridItem.js";
 import Button from "../../components/CustomButtons/Button";
 import Loader from "../../components/Loader/Loader";
 import classNames from "classnames";
-import styles from "../../assets/jss/nextjs-material-kit/pages/suratTugas/berkasPage";
+import styles from "../../assets/jss/nextjs-material-kit/pages/penugasan/createPenugasanPage";
 import { makeStyles } from "@material-ui/core/styles";
 import useAuth, { ProtectRoute } from "../../context/auth";
 const useStyles = makeStyles(styles);

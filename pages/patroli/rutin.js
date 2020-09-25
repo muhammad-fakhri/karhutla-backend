@@ -4,7 +4,7 @@ import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import classNames from "classnames";
 import MaterialTable from "material-table";
 import useSWR from "swr";
-import styles from "../../assets/jss/nextjs-material-kit/pages/patroliRutinPage";
+import styles from "../../assets/jss/nextjs-material-kit/pages/patrolReportPage";
 import SiteLayout from "../../components/Layout/SiteLayout";
 import Loader from "../../components/Loader/Loader";
 import PatroliService from "../../services/PatroliService";

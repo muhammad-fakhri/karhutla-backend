@@ -171,7 +171,11 @@ function AnggotaPage(props) {
         { title: "No Registrasi/NIP", field: "nip", editable: "never" },
         { title: "Email", field: "email", editable: "never" },
         { title: "Nomor HP", field: "phone" },
-        { title: "Organisasi", field: "organization", lookup: balaiLookup },
+        {
+          title: "Balai/Organisasi",
+          field: "organization",
+          lookup: balaiLookup,
+        },
         { title: "Hak Akses", field: "role", lookup: roles.balaiRoles },
       ];
       setManggalaColumn(manggalaColumn);
@@ -282,8 +286,8 @@ function AnggotaPage(props) {
                       tooltip: "Tambah Personil Manggala Agni",
                       isFreeAction: true,
                       onClick: (event) => {
-                        // handleOpenManggala();
-                        alert("Masih dalam pengembangan");
+                        event.preventDefault();
+                        router.push("/pengguna/patroli");
                       },
                     },
                   ]}

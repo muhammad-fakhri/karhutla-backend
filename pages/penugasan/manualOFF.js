@@ -12,7 +12,7 @@ import GridContainer from "../../components/Grid/GridContainer.js";
 import GridItem from "../../components/Grid/GridItem.js";
 import Button from "../../components/CustomButtons/Button";
 import classNames from "classnames";
-import styles from "../../assets/jss/nextjs-material-kit/pages/suratTugas/manualPage";
+import styles from "../../assets/jss/nextjs-material-kit/pages/penugasan/manualPage";
 import { makeStyles } from "@material-ui/core/styles";
 import useAuth, { ProtectRoute } from "../../context/auth";
 const useStyles = makeStyles(styles);

@@ -19,7 +19,7 @@ import SiteLayout from '../../components/Layout/SiteLayout';
 import Button from "../../components/CustomButtons/Button";
 import Loader from "../../components/Loader/Loader";
 import classNames from "classnames";
-import styles from "../../assets/jss/nextjs-material-kit/pages/pengguna/nonPatroliPage";
+import styles from "../../assets/jss/nextjs-material-kit/pages/createPenggunaPage";
 import { makeStyles } from "@material-ui/core/styles";
 import UserService from '../../services/UserService';
 import BalaiService from '../../services/BalaiService';
@@ -70,7 +70,7 @@ function NonPatroliPage(props) {
     password: '',
     cPassword: '',
     errorMessage: '',
-    disabled: false,
+    disabled: true,
     showDialog: false,
     showPassword: false,
     successDialog: true
@@ -107,7 +107,7 @@ function NonPatroliPage(props) {
       password: '',
       cPassword: '',
       errorMessage: '',
-      disabled: false,
+      disabled: true,
       showDialog: false,
       showPassword: false,
       successDialog: true
@@ -132,7 +132,7 @@ function NonPatroliPage(props) {
                 <TextField
                   id="role"
                   select
-                  label="Jabatan"
+                  label="Hak Akses"
                   variant="outlined"
                   fullWidth
                   margin="normal"

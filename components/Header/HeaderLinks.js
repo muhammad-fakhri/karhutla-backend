@@ -5,7 +5,7 @@ import CustomDropdown from "components/CustomDropdown/CustomDropdown.js";
 import Button from "components/CustomButtons/Button.js";
 import Link from "next/link";
 import React from "react";
-import useAuth from '../../context/auth';
+import useAuth from "../../context/auth";
 const useStyles = makeStyles(styles);
 
 const AuthenticatedMenu = (props) => {
@@ -15,9 +15,7 @@ const AuthenticatedMenu = (props) => {
     <List className={classes.list}>
       <ListItem className={classes.listItem}>
         <Link href="/dashboard">
-          <Button
-            color="transparent"
-            className={classes.navLink} >
+          <Button color="transparent" className={classes.navLink}>
             Dashboard
           </Button>
         </Link>
@@ -29,7 +27,7 @@ const AuthenticatedMenu = (props) => {
           buttonText="Patroli"
           buttonProps={{
             className: classes.navLink,
-            color: "transparent"
+            color: "transparent",
           }}
           dropdownList={[
             <Link href="/patroli/mandiri">
@@ -39,25 +37,21 @@ const AuthenticatedMenu = (props) => {
               <a className={classes.dropdownLink}>Patroli Rutin</a>
             </Link>,
             <Link href="/patroli/terpadu">
-            <a className={classes.dropdownLink}>Patroli Terpadu</a>
-          </Link>,
+              <a className={classes.dropdownLink}>Patroli Terpadu</a>
+            </Link>,
           ]}
         />
       </ListItem>
       <ListItem className={classes.listItem}>
         <Link href="/penugasan">
-          <Button
-            color="transparent"
-            className={classes.navLink} >
+          <Button color="transparent" className={classes.navLink}>
             Penugasan
           </Button>
         </Link>
       </ListItem>
       <ListItem className={classes.listItem}>
         <Link href="/pengguna">
-          <Button
-            color="transparent"
-            className={classes.navLink} >
+          <Button color="transparent" className={classes.navLink}>
             Pengguna
           </Button>
         </Link>
@@ -69,7 +63,7 @@ const AuthenticatedMenu = (props) => {
           buttonText="Wilayah Kerja"
           buttonProps={{
             className: classes.navLink,
-            color: "transparent"
+            color: "transparent",
           }}
           dropdownList={[
             <Link href="/wilayah">
@@ -83,16 +77,14 @@ const AuthenticatedMenu = (props) => {
             </Link>,
             <Link href="/wilayah/posko">
               <a className={classes.dropdownLink}>Posko</a>
-            </Link>
+            </Link>,
           ]}
         />
       </ListItem>
 
       <ListItem className={classes.listItem}>
         <Link href="/hotspot">
-          <Button
-            color="transparent"
-            className={classes.navLink} >
+          <Button color="transparent" className={classes.navLink}>
             Hotspot
           </Button>
         </Link>
@@ -104,19 +96,21 @@ const AuthenticatedMenu = (props) => {
           buttonText="Akun"
           buttonProps={{
             className: classes.navLink,
-            color: "transparent"
+            color: "transparent",
           }}
           dropdownList={[
-            // <Link href="/profile">
-            <a className={classes.dropdownLink} onClick={() => alert('Masih dalam pengembangan')}>Profil</a>,
-            // </Link>,
-            <a className={classes.dropdownLink} onClick={props.logout}>Logout</a>
+            <Link href="/profile">
+              <a className={classes.dropdownLink}>Profil</a>
+            </Link>,
+            <a className={classes.dropdownLink} onClick={props.logout}>
+              Logout
+            </a>,
           ]}
         />
       </ListItem>
     </List>
-  )
-}
+  );
+};
 
 const UnauthenticatedMenu = () => {
   const classes = useStyles();
@@ -125,23 +119,21 @@ const UnauthenticatedMenu = () => {
     <List className={classes.list}>
       <ListItem className={classes.listItem}>
         <Link href="/login">
-          <Button
-            color="transparent"
-            className={classes.navLink} >
+          <Button color="transparent" className={classes.navLink}>
             <Icon className={classes.icons}>login</Icon> Login
-        </Button>
+          </Button>
         </Link>
       </ListItem>
     </List>
-  )
-}
+  );
+};
 
 export default function HeaderLinks(props) {
   const { isAuthenticated, logout } = useAuth();
 
-  return (
-    isAuthenticated ?
-      <AuthenticatedMenu logout={logout} /> :
-      <UnauthenticatedMenu />
+  return isAuthenticated ? (
+    <AuthenticatedMenu logout={logout} />
+  ) : (
+    <UnauthenticatedMenu />
   );
 }

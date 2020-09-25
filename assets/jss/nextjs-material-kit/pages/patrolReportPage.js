@@ -1,6 +1,6 @@
 import { container } from "assets/jss/nextjs-material-kit.js";
 
-const patroliRutinStyle = {
+const patrolReportStyle = {
   container,
   brand: {
     color: "#FFFFFF",
@@ -47,4 +47,4 @@ const patroliRutinStyle = {
   },
 };
 
-export default patroliRutinStyle;
+export default patrolReportStyle;

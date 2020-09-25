@@ -6,7 +6,7 @@ import Link from "next/link";
 import SiteLayout from "../../components/Layout/SiteLayout";
 import Button from "../../components/CustomButtons/Button";
 import Loader from "../../components/Loader/Loader";
-import styles from "../../assets/jss/nextjs-material-kit/pages/suratTugas/index";
+import styles from "../../assets/jss/nextjs-material-kit/pages/penugasan/penugasanPage";
 import useAuth, { ProtectRoute } from "../../context/auth";
 import useSWR from "swr";
 import PenugasanService from "../../services/PenugasanService";

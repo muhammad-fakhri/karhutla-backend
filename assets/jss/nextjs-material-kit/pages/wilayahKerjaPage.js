@@ -1,6 +1,6 @@
 import { container } from "assets/jss/nextjs-material-kit.js";
 
-const poskoPageStyle = {
+const wilayahKerjaPageStyle = {
   container,
   brand: {
     color: "#FFFFFF",
@@ -47,4 +47,4 @@ const poskoPageStyle = {
   }
 };
 
-export default poskoPageStyle;
+export default wilayahKerjaPageStyle;
