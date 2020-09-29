@@ -25,7 +25,7 @@ const handleResponseReceive = (response) => {
 };
 
 const handleResponseError = (error) => {
-  return error.response.data;
+  return error.response ? error.response.data : error;
 };
 
 const API = axios.create({
