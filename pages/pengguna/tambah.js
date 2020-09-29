@@ -1,10 +1,9 @@
-import "date-fns";
 import { useRouter } from "next/router";
 import {
+  CircularProgress,
   IconButton,
   TextField,
   InputAdornment,
-  MenuItem,
   Grid,
   Dialog,
   Typography,
@@ -22,7 +21,6 @@ import classNames from "classnames";
 import styles from "../../assets/jss/nextjs-material-kit/pages/createPenggunaPage";
 import { makeStyles } from "@material-ui/core/styles";
 import useAuth, { ProtectRoute } from "../../context/auth";
-import DaopsService from "../../services/DaopsService";
 import UserService from "../../services/UserService";
 const useStyles = makeStyles(styles);
 
@@ -47,24 +45,16 @@ const DialogTitle = (props) => {
   );
 };
 
-function PatroliPage(props) {
+function TambahPenggunaPage(props) {
   const classes = useStyles();
   const { isAuthenticated } = useAuth();
   const router = useRouter();
-  const [daops, setDaops] = React.useState([]);
-  React.useEffect(() => {
-    const getDropdownData = async () => {
-      const daops = await DaopsService.getAllDaops();
-      setDaops(daops);
-    };
-    if (isAuthenticated) getDropdownData();
-  }, [isAuthenticated]);
+  const [loading, setLoading] = React.useState(false);
   const [values, setValues] = React.useState({
-    organization: "",
-    name: "",
     registrationNumber: "",
-    phone: "",
+    name: "",
     email: "",
+    phone: "",
     password: "",
     cPassword: "",
     errorMessage: "",
@@ -75,9 +65,9 @@ function PatroliPage(props) {
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
-  const handleManualManggalaFormSubmit = async () => {
-    console.log(values);
-    let result = await UserService.addPatroliUser(values);
+  const handleFormSubmit = async () => {
+    setLoading(true);
+    let result = await UserService.addUser(values);
     if (result.success)
       setValues({ ...values, successDialog: true, showDialog: true });
     else {
@@ -88,15 +78,15 @@ function PatroliPage(props) {
         showDialog: true,
       });
     }
+    setLoading(false);
   };
   const resetForm = () => {
     setValues({
       ...values,
-      organization: "",
-      name: "",
       registrationNumber: "",
-      phone: "",
+      name: "",
       email: "",
+      phone: "",
       password: "",
       cPassword: "",
       errorMessage: "",
@@ -125,33 +115,13 @@ function PatroliPage(props) {
           classes.textCenter
         )}
       >
-        <h2>Tambah Personil Manggala Agni</h2>
+        <h2>Tambah Pengguna</h2>
         <form noValidate autoComplete="off">
           <Grid container justify="center" spacing={2}>
             <Grid item xs={10} md={4}>
               <TextField
-                id="operation-region"
-                select
-                label="Daerah Operasi"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-                required
-                value={values.organization}
-                className={classes.textAlignLeft}
-                onChange={handleChange("organization")}
-              >
-                {daops.map((daops) => (
-                  <MenuItem key={daops.id} value={daops.code}>
-                    {daops.name}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid item xs={10} md={4}>
-              <TextField
                 id="registration-number"
-                label="Nomor Registrasi"
+                label="Nomor Registrasi/NIP"
                 variant="outlined"
                 fullWidth
                 margin="normal"
@@ -161,8 +131,6 @@ function PatroliPage(props) {
                 value={values.registrationNumber}
               />
             </Grid>
-          </Grid>
-          <Grid container justify="center" spacing={2}>
             <Grid item xs={10} md={4}>
               <TextField
                 id="name"
@@ -176,6 +144,8 @@ function PatroliPage(props) {
                 value={values.name}
               />
             </Grid>
+          </Grid>
+          <Grid container justify="center" spacing={2}>
             <Grid item xs={10} md={4}>
               <TextField
                 id="email"
@@ -187,6 +157,20 @@ function PatroliPage(props) {
                 className={classes.textAlignLeft}
                 onChange={handleChange("email")}
                 value={values.email}
+              />
+            </Grid>
+            <Grid item xs={10} md={4}>
+              <TextField
+                id="phone-number"
+                label="Nomor HP"
+                variant="outlined"
+                helperText="Format nomor HP: 08xxxxxxxxxx / +62xxxxxxxxxxx"
+                fullWidth
+                margin="normal"
+                required
+                className={classes.textAlignLeft}
+                onChange={handleChange("phone")}
+                value={values.phone}
               />
             </Grid>
           </Grid>
@@ -258,30 +242,18 @@ function PatroliPage(props) {
           </Grid>
           <Grid container justify="center" spacing={2}>
             <Grid item xs={10} md={4}>
-              <TextField
-                id="phone-number"
-                label="Nomor HP"
-                variant="outlined"
-                helperText="Format nomor HP: 08xx-xxxx-xxxx / +62xxx-xxxx-xxxx"
-                fullWidth
-                margin="normal"
-                required
-                className={classes.textAlignLeft}
-                onChange={handleChange("phone")}
-                value={values.phone}
-              />
-            </Grid>
-          </Grid>
-          <Grid container justify="center" spacing={2}>
-            <Grid item xs={10} md={4}>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleManualManggalaFormSubmit}
-                fullWidth
-              >
-                Tambah Anggota
-              </Button>
+              {loading ? (
+                <CircularProgress />
+              ) : (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleFormSubmit}
+                  fullWidth
+                >
+                  Tambah Pengguna
+                </Button>
+              )}
             </Grid>
           </Grid>
         </form>
@@ -318,7 +290,7 @@ function PatroliPage(props) {
                       router.push("/pengguna");
                     }}
                   >
-                    Kembali ke Halaman Pengguna
+                    Kembali ke Halaman Manajemen Data Pengguna
                   </Button>
                 </>
               ) : (
@@ -334,4 +306,4 @@ function PatroliPage(props) {
   );
 }
 
-export default ProtectRoute(PatroliPage);
+export default ProtectRoute(TambahPenggunaPage);

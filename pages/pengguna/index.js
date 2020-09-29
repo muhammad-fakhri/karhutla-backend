@@ -1,574 +1,360 @@
 import { useRouter } from "next/router";
-import useSWR from "swr";
-import { makeStyles } from "@material-ui/core/styles";
 import {
-  Dialog,
-  Grid,
-  Typography,
-  Box,
-  AppBar,
-  Tabs,
-  Tab,
-  TextField,
-  IconButton,
+  Paper,
   CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  DialogContent,
+  IconButton,
+  TextField,
+  MenuItem,
+  Slide,
 } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
-import PropTypes from "prop-types";
-import SwipeableViews from "react-swipeable-views";
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
-import MuiDialogContent from "@material-ui/core/DialogContent";
-import AddBoxIcon from "@material-ui/icons/AddBox";
-import CloseIcon from "@material-ui/icons/Close";
+import Alert from "@material-ui/lab/Alert";
+import { makeStyles } from "@material-ui/core/styles";
+import classNames from "classnames";
 import MaterialTable from "material-table";
+import useSWR from "swr";
+import AddBoxIcon from "@material-ui/icons/AddBox";
+import Close from "@material-ui/icons/Close";
+import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
+import styles from "../../assets/jss/nextjs-material-kit/pages/penggunaPage";
 import SiteLayout from "../../components/Layout/SiteLayout";
 import Button from "../../components/CustomButtons/Button";
-import Loader from "../../components/Loader/Loader";
-import styles from "../../assets/jss/nextjs-material-kit/pages/penggunaPage";
 import UserService from "../../services/UserService";
 import DaopsService from "../../services/DaopsService";
 import BalaiService from "../../services/BalaiService";
 import useAuth, { ProtectRoute } from "../../context/auth";
+import Loader from "../../components/Loader/Loader";
+import modalStyle from "../../assets/jss/nextjs-material-kit/modalStyle";
 
-const useStyles = makeStyles(styles);
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="down" ref={ref} {...props} />;
+});
 
-const DialogTitle = (props) => {
-  const { children, classes, onClose, ...other } = props;
-  return (
-    <MuiDialogTitle disableTypography className={classes.root} {...other}>
-      <Typography variant="h6" className={classes.dialogTitle}>
-        {children}
-      </Typography>
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          className={classes.closeButton}
-          onClick={onClose}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </MuiDialogTitle>
-  );
-};
+const column = [
+  { title: "Nama", field: "name" },
+  { title: "No Registrasi/NIP", field: "registrationNumber" },
+  { title: "Email", field: "email" },
+  { title: "Nomor HP", field: "phone" },
+];
 
-function a11yProps(index) {
-  return {
-    id: `full-width-tab-${index}`,
-    "aria-controls": `full-width-tabpanel-${index}`,
-  };
-}
-
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`full-width-tabpanel-${index}`}
-      aria-labelledby={`full-width-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
-
-const generateRolesLookup = async () => {
-  let daopsRoles = {};
-  let balaiRoles = {};
-  let manggalaRoles = {};
-  let nonPatrolRoles = await UserService.getNonPatroliRoles();
-  let patrolRoles = await UserService.getPatroliRoles();
-  nonPatrolRoles.forEach((role) => {
-    if (role.id == 8 || role.id == 9) {
-      daopsRoles[role.id] = role.name;
-    } else {
-      balaiRoles[role.id] = role.name;
-    }
-  });
-  patrolRoles.forEach((role) => {
-    manggalaRoles[role.id] = role.name;
-  });
-  return { daopsRoles, balaiRoles, manggalaRoles };
-};
-const generateDaopsLookup = async () => {
-  let data = {};
-  let daops = await DaopsService.getAllDaops();
-  daops.forEach((item) => {
-    data[item.code] = item.name;
-  });
-  return data;
-};
-const generateBalaiLookup = async () => {
-  let data = {};
-  let daops = await BalaiService.getAllBalai();
-  daops.forEach((item) => {
-    data[item.code] = item.name;
-  });
-  data["KLHK"] = "KLHK";
-  return data;
-};
-
-function AnggotaPage(props) {
+function PenggunaPage(props) {
   const { isAuthenticated } = useAuth();
-  const classes = useStyles();
   const router = useRouter();
-
-  const [openManggala, setOpenManggala] = React.useState(false);
-  const [openUploadManggala, setOpenUploadManggala] = React.useState(false);
-  const [manggalaState, setManggalaState] = React.useState([]);
-  const [daopsState, setDaopsState] = React.useState();
-  const [balaiState, setBalaiState] = React.useState();
-  const [manggalaColumn, setManggalaColumn] = React.useState();
-  const [daopsColumn, setDaopsColumn] = React.useState();
-  const [balaiColumn, setBalaiColumn] = React.useState();
-  const [swipeValue, setSwipeValue] = React.useState(0);
-  const [show, setShow] = React.useState(false);
-  const [values, setValues] = React.useState({
-    alertMessage: "",
-    successAlert: true,
+  const { alert } = router.query;
+  const useStyles = makeStyles(styles);
+  const useModalStyles = makeStyles(modalStyle);
+  const classes = useStyles();
+  const modalClasses = useModalStyles();
+  const [roleType, setRoleType] = React.useState("pusat");
+  const [openModal, setOpenModal] = React.useState(false);
+  const [modalUser, setModalUser] = React.useState({
+    id: "",
+    name: "",
+    email: "",
+    role: "",
+    organization: "",
   });
-
-  React.useEffect(() => {
-    const setLookup = async () => {
-      let roles = await generateRolesLookup();
-      let daopsLookup = await generateDaopsLookup();
-      let balaiLookup = await generateBalaiLookup();
-      const manggalaColumn = [
-        { title: "Nama", field: "name" },
-        {
-          title: "No Registrasi/NIP",
-          field: "registrationNumber",
-          editable: "never",
-        },
-        { title: "Email", field: "email", editable: "never" },
-        { title: "Nomor HP", field: "phone" },
-        { title: "Organisasi", field: "organization", lookup: daopsLookup },
-        { title: "Hak Akses", field: "role", lookup: roles.manggalaRoles },
-      ];
-      const daopsColumn = [
-        { title: "Nama", field: "name" },
-        { title: "No Registrasi/NIP", field: "nip", editable: "never" },
-        { title: "Email", field: "email", editable: "never" },
-        { title: "Nomor HP", field: "phone" },
-        { title: "Organisasi", field: "organization", lookup: daopsLookup },
-        { title: "Hak Akses", field: "role", lookup: roles.daopsRoles },
-      ];
-      const balaiColumn = [
-        { title: "Nama", field: "name" },
-        { title: "No Registrasi/NIP", field: "nip", editable: "never" },
-        { title: "Email", field: "email", editable: "never" },
-        { title: "Nomor HP", field: "phone" },
-        {
-          title: "Balai/Organisasi",
-          field: "organization",
-          lookup: balaiLookup,
-        },
-        { title: "Hak Akses", field: "role", lookup: roles.balaiRoles },
-      ];
-      setManggalaColumn(manggalaColumn);
-      setDaopsColumn(daopsColumn);
-      setBalaiColumn(balaiColumn);
-      // TODO: make NIP and email updateable
-    };
-    if (isAuthenticated) setLookup();
-  }, [isAuthenticated]);
-  const { data: dataNonPatroli, isValidating } = useSWR(
-    isAuthenticated ? "/non_patroli/list" : null,
-    UserService.getNonPatroliUsers
+  const [daops, setDaops] = React.useState([]);
+  const [balai, setBalai] = React.useState([]);
+  const [roles, setRoles] = React.useState([]);
+  const [users, setUsers] = React.useState([]);
+  const [showAlert, setShowAlert] = React.useState(false);
+  const [alertType, setAlertType] = React.useState("success");
+  const [alertMessage, setAlertMessage] = React.useState();
+  const { data: dataUsers, isValidating } = useSWR(
+    isAuthenticated ? "/user/list" : null,
+    UserService.getAllUsers
   );
-  React.useEffect(() => {
-    if (dataNonPatroli && isAuthenticated) {
-      setDaopsState(dataNonPatroli.daopsUsers);
-      setBalaiState(dataNonPatroli.balaiUsers);
+  const handleRoleChange = (event) => {
+    if (event.target.value == 4 || event.target.value == 5) {
+      setRoleType("pusat");
+      setModalUser({
+        ...modalUser,
+        role: event.target.value,
+        organization: "KLHK",
+      });
+    } else {
+      if (event.target.value == 6 || event.target.value == 7) {
+        setRoleType("balai");
+      } else if (event.target.value == 8 || event.target.value == 9) {
+        setRoleType("daops");
+      }
+      setModalUser({
+        ...modalUser,
+        role: event.target.value,
+        organization: "",
+      });
     }
-  }, [dataNonPatroli]);
-
-  const handleOpenManggala = () => {
-    setOpenManggala(true);
-    setOpenUploadManggala(false);
   };
-  const handleCloseManggala = () => {
-    setOpenManggala(false);
-    setOpenUploadManggala(false);
+  const handleChange = (prop) => (event) => {
+    setModalUser({ ...modalUser, [prop]: event.target.value });
   };
-  const handleOpenUploadManggala = () => {
-    setOpenManggala(false);
-    setOpenUploadManggala(true);
-  };
-  const handleFileChange = (event) => {
-    setWorkFile(event.target.files[0]);
-    console.log(event.target.files[0]);
-  };
-  const handleUploadManggalaFormSubmit = () => {
-    const data = new FormData();
-    // data.append('file', workFile);
-  };
-  const handleSwipeChange = (event, newValue) => {
-    setSwipeValue(newValue);
-  };
-  const handleChangeIndex = (index) => {
-    setSwipeValue(index);
-  };
-  const closeAlert = () => setShow(false);
-  const showAlert = (isSuccess, message) => {
-    setValues({
-      ...values,
-      alertMessage: message,
-      successAlert: isSuccess ? true : false,
+  const handleFormSubmit = async () => {
+    const result = await UserService.addNonPatroliUser(modalUser);
+    if (result.success) {
+      // Show success alert
+      setAlertType("success");
+      setAlertMessage("Tambah hak akses pengguna berhasil");
+      setShowAlert(true);
+    } else {
+      // Show fail alert
+      setAlertType("error");
+      setAlertMessage(result.message[0]);
+      setShowAlert(true);
+    }
+    setOpenModal(false);
+    setModalUser({
+      id: "",
+      name: "",
+      email: "",
+      role: "",
+      organization: "",
     });
-    setShow(true);
-    setTimeout(() => {
-      setShow(false);
-    }, 3000);
+    setRoleType("pusat");
   };
+  React.useEffect(() => {
+    setUsers(dataUsers);
+  }, [dataUsers]);
+  React.useEffect(() => {
+    if (alert) {
+      setAlertMessage(alert);
+      setShowAlert(true);
+      setAlertType("success");
+    }
+  }, []);
+  React.useEffect(() => {
+    const setOptionData = async () => {
+      const roles = await UserService.getNonPatroliRoles();
+      const daops = await DaopsService.getAllDaops();
+      const balai = await BalaiService.getAllBalai();
+      setRoles(roles);
+      setDaops(daops);
+      setBalai(balai);
+    };
+    if (isAuthenticated) setOptionData();
+  }, [isAuthenticated]);
 
   return !isAuthenticated ? (
     <Loader />
   ) : (
     <SiteLayout headerColor="info">
-      <Grid container justify="center" className={classes.gridContainer}>
-        <Grid item xs={10} align="center" className={classes.title}>
-          <h2>Manajemen Pengguna</h2>
-        </Grid>
-        <Grid item xs={10} align="center" className={classes.gridItem}>
-          <AppBar position="static" color="default">
-            <Tabs
-              value={swipeValue}
-              onChange={handleSwipeChange}
-              indicatorColor="primary"
-              textColor="primary"
-              variant="fullWidth"
-              aria-label="full width tabs example"
-            >
-              <Tab label="Personil Manggala Agni" {...a11yProps(0)} />
-              <Tab label="Daops" {...a11yProps(1)} />
-              <Tab label="Balai/Pusat" {...a11yProps(2)} />
-            </Tabs>
-          </AppBar>
-          {show ? (
-            <Alert
-              severity={values.successAlert ? "success" : "error"}
-              onClose={closeAlert}
-              style={{ marginTop: "16px" }}
-            >
-              {values.alertMessage}
-            </Alert>
-          ) : null}
-          <SwipeableViews
-            axis={"x"}
-            index={swipeValue}
-            onChangeIndex={handleChangeIndex}
+      <div
+        className={classNames(
+          classes.main,
+          classes.mainRaised,
+          classes.textCenter
+        )}
+      >
+        <h2>Manajemen Data Pengguna</h2>
+        {showAlert ? (
+          <Alert
+            severity={alertType}
+            onClose={() => {
+              setShowAlert(false);
+              setAlertMessage("");
+            }}
           >
-            <TabPanel value={swipeValue} index={0} dir={"right"}>
-              {isValidating ? (
-                <CircularProgress />
-              ) : (
-                <MaterialTable
-                  title="Personil Manggala Agni"
-                  columns={manggalaColumn}
-                  data={manggalaState}
-                  actions={[
-                    {
-                      icon: AddBoxIcon,
-                      tooltip: "Tambah Personil Manggala Agni",
-                      isFreeAction: true,
-                      onClick: (event) => {
-                        event.preventDefault();
-                        router.push("/pengguna/patroli");
-                      },
-                    },
-                  ]}
-                  options={{
-                    search: true,
-                    actionsColumnIndex: -1,
-                  }}
-                  localization={{
-                    body: { editRow: { deleteText: "Yakin hapus data ini ?" } },
-                    header: { actions: "Aksi" },
-                  }}
-                  editable={{
-                    onRowUpdate: (newData, oldData) =>
-                      new Promise((resolve, reject) => {
-                        // setTimeout(() => {
-                        //     if (oldData) {
-                        //         setManggalaState((prevState) => {
-                        //             const data = [...prevState];
-                        //             data[data.indexOf(oldData)] = newData;
-                        //             return data;
-                        //         });
-                        //     }
-                        //     resolve();
-                        // }, 1000);
-                        alert("Masih dalam pengembangan");
-                        resolve();
-                      }),
-                    onRowDelete: (oldData) =>
-                      new Promise((resolve, reject) => {
-                        // setTimeout(() => {
-                        //     const dataDelete = [...daopsState];
-                        //     const index = oldData.tableData.id;
-                        //     dataDelete.splice(index, 1);
-                        //     setDaopsState(dataDelete);
-                        //     resolve();
-                        // }, 1000);
-                        alert("Masih dalam pengembangan");
-                        resolve();
-                      }),
-                  }}
-                />
-              )}
-            </TabPanel>
-            <TabPanel value={swipeValue} index={1} dir={"right"}>
-              {isValidating ? (
-                <CircularProgress />
-              ) : (
-                <MaterialTable
-                  title="Pengguna Daops"
-                  columns={daopsColumn}
-                  data={daopsState}
-                  actions={[
-                    {
-                      icon: AddBoxIcon,
-                      tooltip: "Tambah Pengguna Daops",
-                      isFreeAction: true,
-                      onClick: (event) => {
-                        event.preventDefault();
-                        router.push("/pengguna/non-patroli");
-                      },
-                    },
-                  ]}
-                  options={{
-                    search: true,
-                    actionsColumnIndex: -1,
-                  }}
-                  localization={{
-                    body: { editRow: { deleteText: "Yakin hapus data ini ?" } },
-                    header: { actions: "Aksi" },
-                  }}
-                  editable={{
-                    onRowUpdate: (newData, oldData) =>
-                      new Promise((resolve, reject) => {
-                        UserService.updateNonPatroliUser(newData).then(
-                          (result) => {
-                            if (result.success) {
-                              if (oldData) {
-                                setDaopsState((prevState) => {
-                                  const data = [...prevState];
-                                  data[data.indexOf(oldData)] = newData;
-                                  return data;
-                                });
-                              }
-                              showAlert(true, "Update pengguna daops Berhasil");
-                              resolve();
-                            } else {
-                              showAlert(false, result.message[0]);
-                              reject();
-                            }
-                          }
-                        );
-                      }),
-                    onRowDelete: (oldData) =>
-                      new Promise((resolve, reject) => {
-                        UserService.deleteNonPatroliUser(oldData).then(
-                          (result) => {
-                            if (result.success) {
-                              const dataDelete = [...daopsState];
-                              const index = oldData.tableData.id;
-                              dataDelete.splice(index, 1);
-                              setDaopsState(dataDelete);
-                              showAlert(true, "Hapus pengguna daops Berhasil");
-                              resolve();
-                            } else {
-                              showAlert(false, result.message[0]);
-                              reject();
-                            }
-                          }
-                        );
-                      }),
-                  }}
-                />
-              )}
-            </TabPanel>
-            <TabPanel value={swipeValue} index={2} dir={"right"}>
-              {isValidating ? (
-                <CircularProgress />
-              ) : (
-                <MaterialTable
-                  title="Pengguna Balai/Pusat"
-                  columns={balaiColumn}
-                  data={balaiState}
-                  actions={[
-                    {
-                      icon: AddBoxIcon,
-                      tooltip: "Tambah Pengguna Balai",
-                      isFreeAction: true,
-                      onClick: (event) => {
-                        event.preventDefault();
-                        router.push("/pengguna/non-patroli");
-                      },
-                    },
-                  ]}
-                  options={{
-                    search: true,
-                    actionsColumnIndex: -1,
-                  }}
-                  localization={{
-                    body: { editRow: { deleteText: "Yakin hapus data ini ?" } },
-                    header: { actions: "Aksi" },
-                  }}
-                  editable={{
-                    onRowUpdate: (newData, oldData) =>
-                      new Promise((resolve, reject) => {
-                        UserService.updateNonPatroliUser(newData).then(
-                          (result) => {
-                            if (result.success) {
-                              if (oldData) {
-                                setBalaiState((prevState) => {
-                                  const data = [...prevState];
-                                  data[data.indexOf(oldData)] = newData;
-                                  return data;
-                                });
-                              }
-                              showAlert(
-                                true,
-                                "Update pengguna balai/pusat Berhasil"
-                              );
-                              resolve();
-                            } else {
-                              showAlert(false, result.message[0]);
-                              reject();
-                            }
-                          }
-                        );
-                      }),
-                    onRowDelete: (oldData) =>
-                      new Promise((resolve, reject) => {
-                        UserService.deleteNonPatroliUser(oldData).then(
-                          (result) => {
-                            if (result.success) {
-                              const dataDelete = [...balaiState];
-                              const index = oldData.tableData.id;
-                              dataDelete.splice(index, 1);
-                              setBalaiState(dataDelete);
-                              showAlert(
-                                true,
-                                "Hapus pengguna balai/pusat Berhasil"
-                              );
-                              resolve();
-                            } else {
-                              showAlert(false, result.message[0]);
-                              reject();
-                            }
-                          }
-                        );
-                      }),
-                  }}
-                />
-              )}
-            </TabPanel>
-          </SwipeableViews>
-        </Grid>
-        <Dialog
-          onClose={handleCloseManggala}
-          aria-labelledby="customized-dialog-title"
-          open={openManggala}
-        >
-          <DialogTitle
-            id="customized-dialog-title"
-            onClose={handleCloseManggala}
-            classes={classes}
-          >
-            Tambah Anggota Manggala Agni
-          </DialogTitle>
-          <MuiDialogContent dividers>
-            <Typography gutterBottom align="justify">
-              Silakan pilih cara menambah anggota, melalui{" "}
-              <strong>upload template</strong> atau <strong>isi manual</strong>.
-              Anda bisa download templatenya dengan menekan tombol "Download
-              Template"
-            </Typography>
-            <Box component="div" textAlign="center">
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleOpenUploadManggala}
-              >
-                Upload Template
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={(event) => {
+            {alertMessage}
+          </Alert>
+        ) : null}
+        {isValidating ? (
+          <CircularProgress />
+        ) : (
+          <MaterialTable
+            title=""
+            columns={column}
+            components={{
+              Container: (props) => <Paper {...props} elevation={0} />,
+            }}
+            data={users}
+            actions={[
+              {
+                icon: AddBoxIcon,
+                tooltip: "Tambah Pengguna",
+                isFreeAction: true,
+                onClick: (event) => {
                   event.preventDefault();
-                  router.push("/pengguna/patroli");
-                }}
-              >
-                Isi Manual
-              </Button>
-              <a href="https://drive.google.com" target="_blank">
-                <Button variant="contained" color="github">
-                  Download Template
-                </Button>
-              </a>
-            </Box>
-          </MuiDialogContent>
-        </Dialog>
+                  router.push("/pengguna/tambah");
+                },
+              },
+              {
+                icon: "edit",
+                tooltip: "Ubah Data Pengguna",
+                onClick: (event, rowData) => {
+                  router.push(`/pengguna/ubah/${rowData.id}`);
+                },
+              },
+              {
+                icon: AssignmentIndIcon,
+                tooltip: "Tambah Hak Akses Pengguna",
+                onClick: (event, rowData) => {
+                  setModalUser({
+                    ...modalUser,
+                    id: rowData.id,
+                    name: rowData.name,
+                    email: rowData.email,
+                  });
+                  setOpenModal(true);
+                },
+              },
+            ]}
+            options={{
+              search: true,
+              actionsColumnIndex: -1,
+              addRowPosition: "first",
+            }}
+            localization={{
+              body: { editRow: { deleteText: "Yakin hapus data ini ?" } },
+              header: { actions: "Aksi" },
+            }}
+            editable={{
+              onRowDelete: (oldData) =>
+                new Promise((resolve, reject) => {
+                  UserService.deleteUser(oldData).then((result) => {
+                    if (result.success) {
+                      const dataDelete = [...users];
+                      const index = oldData.tableData.id;
+                      dataDelete.splice(index, 1);
+                      setUsers(dataDelete);
+                      setAlertType("success");
+                      setAlertMessage("Hapus data pengguna berhasil");
+                      setShowAlert(true);
+                      resolve();
+                    } else {
+                      setAlertType("error");
+                      setAlertMessage(result.message);
+                      setShowAlert(true);
+                      reject();
+                    }
+                  });
+                }),
+            }}
+          />
+        )}
         <Dialog
-          onClose={handleCloseManggala}
-          aria-labelledby="customized-dialog-title"
-          open={openUploadManggala}
+          classes={{
+            root: modalClasses.center,
+            paper: modalClasses.modal,
+          }}
+          open={openModal}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={() => setOpenModal(false)}
+          aria-labelledby="modal-slide-title"
+          aria-describedby="modal-slide-description"
         >
           <DialogTitle
-            id="customized-dialog-title"
-            onClose={handleCloseManggala}
-            classes={classes}
+            id="classic-modal-slide-title"
+            disableTypography
+            className={modalClasses.modalHeader}
           >
-            Upload Template Personil Manggala Agni
+            <IconButton
+              className={modalClasses.modalCloseButton}
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              onClick={() => setOpenModal(false)}
+            >
+              <Close className={modalClasses.modalClose} />
+            </IconButton>
+            <h4 className={modalClasses.modalTitle}>Tambah Hak Akses</h4>
           </DialogTitle>
-          <MuiDialogContent dividers>
-            <form noValidate autoComplete="off">
+          <DialogContent
+            id="modal-slide-description"
+            className={modalClasses.modalBody}
+          >
+            <TextField
+              id="name"
+              label="Nama"
+              disabled
+              fullWidth
+              margin="normal"
+              className={classes.textAlignLeft}
+              value={modalUser.name}
+            />
+            <TextField
+              id="email"
+              label="Email"
+              disabled
+              fullWidth
+              margin="normal"
+              className={classes.textAlignLeft}
+              value={modalUser.email}
+            />
+            <TextField
+              id="role"
+              select
+              label="Hak Akses"
+              fullWidth
+              margin="normal"
+              required
+              onChange={handleRoleChange}
+              value={modalUser.role}
+              className={classes.textAlignLeft}
+            >
+              {roles.map((role) => (
+                <MenuItem key={role.id} value={role.id}>
+                  {role.name}
+                </MenuItem>
+              ))}
+            </TextField>
+            {roleType === "pusat" ? null : roleType === "balai" ? (
               <TextField
-                id="outlined-number"
+                id="balai"
+                select
+                label="Balai"
+                fullWidth
                 margin="normal"
-                label="Berkas Template"
-                type="file"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                variant="outlined"
                 required
-                fullWidth
-                name="file"
-                onChange={handleFileChange}
+                disabled
+                values={modalUser.organization}
+                onChange={handleChange("organization")}
                 className={classes.textAlignLeft}
-              />
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleUploadManggalaFormSubmit}
-                fullWidth
               >
-                Upload
-              </Button>
-            </form>
-          </MuiDialogContent>
+                {balai.map((balai) => (
+                  <MenuItem key={balai.id} value={balai.code}>
+                    {balai.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            ) : (
+              <TextField
+                id="daops"
+                select
+                label="Daerah Operasi"
+                fullWidth
+                margin="normal"
+                required
+                disabled
+                values={modalUser.organization}
+                onChange={handleChange("organization")}
+                className={classes.textAlignLeft}
+              >
+                {daops.map((daops) => (
+                  <MenuItem key={daops.id} value={daops.code}>
+                    {daops.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            )}
+          </DialogContent>
+          <DialogActions
+            className={
+              modalClasses.modalFooter + " " + modalClasses.modalFooterCenter
+            }
+          >
+            <Button onClick={() => setOpenModal(false)}>Batal</Button>
+            <Button onClick={handleFormSubmit} color="info">
+              Tambah Hak Akses
+            </Button>
+          </DialogActions>
         </Dialog>
-      </Grid>
+      </div>
     </SiteLayout>
   );
 }
 
-export default ProtectRoute(AnggotaPage);
+export default ProtectRoute(PenggunaPage);

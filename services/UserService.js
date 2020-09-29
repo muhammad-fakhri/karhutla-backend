@@ -2,6 +2,96 @@ import API from "../api";
 import UserValidator from "../validators/UserValidator";
 
 class UserService {
+  static async getAllUsers(url) {
+    const r = await API.get(url);
+    if (r.status == 200) {
+      const users = new Array();
+      r.data.forEach((user) => {
+        users.push({
+          id: user.id,
+          registrationNumber: user.no_registrasi,
+          name: user.nama,
+          email: user.email,
+          phone: user.no_telepon,
+        });
+      });
+      return users;
+    } else {
+      return new Array();
+    }
+  }
+
+  static async getUserDetail(userId) {
+    const r = await API.get(`/user/single/${userId}`);
+    if (r.status == 200) {
+      const user = {};
+      user.id = r.data.id;
+      user.registrationNumber = r.data.no_registrasi;
+      user.name = r.data.nama;
+      user.email = r.data.email;
+      user.phone = r.data.no_telepon;
+      return { success: true, user };
+    } else {
+      return { success: false, message: r.message };
+    }
+  }
+
+  static async addUser(data) {
+    const validate = UserValidator.createUser(data);
+    if (!validate.pass) return { success: false, message: validate.message };
+
+    const formData = new FormData();
+    formData.append("no_registrasi", data.registrationNumber);
+    formData.append("nama", data.name);
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+    formData.append("no_telepon", data.phone);
+    formData.append("instansi", "-");
+    formData.append("aktif", true);
+
+    const r = await API.post("/user/add", formData);
+
+    if (r.status == 200) {
+      return { success: true };
+    } else {
+      return { success: false, message: [r.message] };
+    }
+  }
+
+  static async updateUser(data) {
+    let validate = UserValidator.updateUser(data);
+    if (!validate.pass) return { success: false, message: validate.message };
+
+    let formData = new FormData();
+    formData.append("id", data.id);
+    formData.append("nama", data.name);
+    formData.append("no_telepon", data.phone);
+    formData.append("password", data.password);
+    if (data.oldEmail !== data.email) formData.append("email", data.email);
+    if (data.oldRegistrationNumber !== data.registrationNumber)
+      formData.append("no_registrasi", data.registrationNumber);
+
+    const r = await API.post("/user/save", formData);
+
+    if (r.status == 200) {
+      return { success: true };
+    } else {
+      return { success: false, message: [r.message] };
+    }
+  }
+
+  static async deleteUser(data) {
+    let validate = UserValidator.deleteUser(data);
+    if (!validate.pass) return { success: false, message: validate.message };
+
+    const r = await API.delete(`/user/remove/${data.id}`);
+    if (r.status == 200) {
+      return { success: true };
+    } else {
+      return { success: false, message: r.message };
+    }
+  }
+
   static async getNonPatroliUsers(url) {
     const r = await API.get(url);
     if (r.status == 200) {
@@ -13,28 +103,93 @@ class UserService {
             id: userAccess.m_user.id,
             accessId: userAccess.id,
             role: userAccess.r_role_id,
-            organization: userAccess.m_user.instansi,
+            institution: userAccess.m_user.instansi,
             nip: userAccess.m_user.no_registrasi,
             name: userAccess.m_user.nama,
             email: userAccess.m_user.email,
-            phone: userAccess.m_user.no_telepon,
+            organization: "",
           });
         } else {
           balaiUsers.push({
             id: userAccess.m_user.id,
             accessId: userAccess.id,
             role: userAccess.r_role_id,
-            organization: userAccess.m_user.instansi,
+            institution: userAccess.m_user.instansi,
             nip: userAccess.m_user.no_registrasi,
             name: userAccess.m_user.nama,
             email: userAccess.m_user.email,
-            phone: userAccess.m_user.no_telepon,
+            organization: "",
           });
         }
       });
       return { daopsUsers, balaiUsers };
     } else {
       return new Array();
+    }
+  }
+
+  static async getPatroliNonLoginUsers(url) {
+    const r = await API.get(url);
+    if (r.status == 200) {
+      const users = new Array();
+      r.data.forEach((user) => {
+        users.push({
+          id: user.id,
+          name: user.nama,
+          role: user.r_role_id,
+        });
+      });
+      return users;
+    } else {
+      return new Array();
+    }
+  }
+
+  static async addPatroliNonLoginUser(data) {
+    const validate = UserValidator.createPatroliNonLogin(data);
+    if (!validate.pass) return { success: false, message: validate.message };
+
+    const formData = new FormData();
+    formData.append("nama", data.name);
+    formData.append("r_role_id", data.role);
+
+    const r = await API.post("/non_login/add", formData);
+
+    if (r.status == 200) {
+      return { success: true };
+    } else {
+      return { success: false, message: [r.message] };
+    }
+  }
+
+  static async updatePatroliNonLoginUser(data) {
+    const validate = UserValidator.updatePatroliNonLogin(data);
+    if (!validate.pass) return { success: false, message: validate.message };
+
+    const formData = new FormData();
+    formData.append("id", data.id);
+    formData.append("nama", data.name);
+    formData.append("r_role_id", data.role);
+
+    const r = await API.post("/non_login/save", formData);
+
+    if (r.status == 200) {
+      return { success: true };
+    } else {
+      return { success: false, message: [r.message] };
+    }
+  }
+
+  static async deletePatroliNonLoginUser(data) {
+    const validate = UserValidator.deletePatroliNonLogin(data);
+    if (!validate.pass) return { success: false, message: validate.message };
+
+    const r = await API.delete(`/non_login/remove/${data.id}`);
+
+    if (r.status == 200) {
+      return { success: true };
+    } else {
+      return { success: false, message: [r.message] };
     }
   }
 
@@ -58,12 +213,12 @@ class UserService {
     }
   }
 
-  static async getPatroliRoles() {
+  static async getPatroliNonLoginRoles() {
     const r = await API.get("/role/list");
     if (r.status == 200) {
       const data = new Array();
       r.data.forEach((role) => {
-        if (role.id > 9) {
+        if (role.id > 11) {
           data.push({
             id: role.id,
             name: role.nama,
@@ -78,79 +233,19 @@ class UserService {
     }
   }
 
-  static async addPatroliUser(data) {
-    let validate = UserValidator.createPatroli(data);
-    if (!validate.pass) return { success: false, message: validate.message };
-    return { success: true };
-    // let formData = new FormData();
-    // formData.append("no_registrasi", data.registrationNumbe);
-    // formData.append("nama", data.name);
-    // formData.append("email", data.email);
-    // formData.append("password", data.password);
-    // formData.append("no_telepon", data.phone);
-    // formData.append("instansi", data.organization);
-    // formData.append("aktif", true);
-
-    // const r = await API.post("/user/add", formData);
-
-    // if (r.status == 200) {
-    //   const r2 = await API.get("/user/list");
-    //   let id = null;
-    //   r2.data.forEach((user) => {
-    //     if (user.email === data.email) {
-    //       id = user.id;
-    //     }
-    //   });
-    //   let formData2 = new FormData();
-    //   formData2.append("m_user_id", id);
-    //   formData2.append("r_role_id", data.role);
-
-    //   const r3 = await API.post("/non_patroli/add", formData2);
-
-    //   if (r3.status == 200) {
-    //     return { success: true };
-    //   } else {
-    //     return { success: false, message: [r3.message] };
-    //   }
-    // } else {
-    //   return { success: false, message: [r.message] };
-    // }
-  }
-
   static async addNonPatroliUser(data) {
-    let validate = UserValidator.createNonPatroli(data);
+    const validate = UserValidator.createNonPatroli(data);
     if (!validate.pass) return { success: false, message: validate.message };
 
-    let formData = new FormData();
-    formData.append("no_registrasi", data.nip);
-    formData.append("nama", data.name);
-    formData.append("email", data.email);
-    formData.append("password", data.password);
-    formData.append("no_telepon", data.phone);
-    formData.append("instansi", data.organization);
-    formData.append("aktif", true);
+    // TODO: Add organization detail
+    const formData = new FormData();
+    formData.append("m_user_id", data.id);
+    formData.append("r_role_id", data.role);
 
-    const r = await API.post("/user/add", formData);
+    const r = await API.post("/non_patroli/add", formData);
 
     if (r.status == 200) {
-      const r2 = await API.get("/user/list");
-      let id = null;
-      r2.data.forEach((user) => {
-        if (user.email === data.email) {
-          id = user.id;
-        }
-      });
-      let formData2 = new FormData();
-      formData2.append("m_user_id", id);
-      formData2.append("r_role_id", data.role);
-
-      const r3 = await API.post("/non_patroli/add", formData2);
-
-      if (r3.status == 200) {
-        return { success: true };
-      } else {
-        return { success: false, message: [r3.message] };
-      }
+      return { success: true };
     } else {
       return { success: false, message: [r.message] };
     }
@@ -160,28 +255,14 @@ class UserService {
     let validate = UserValidator.updateNonPatroli(data);
     if (!validate.pass) return { success: false, message: validate.message };
 
-    // update user data
-    let formData = new FormData();
-    formData.append("id", data.id);
-    formData.append("nama", data.name);
-    formData.append("no_telepon", data.phone);
-    formData.append("instansi", data.organization);
+    const formData = new FormData();
+    formData.append("id", data.accessId);
+    formData.append("r_role_id", data.role);
 
-    const r = await API.post("/user/save", formData);
-
+    const r = await API.post("non_patroli/save", formData);
+    // TODO: update daops/balai in user access
     if (r.status == 200) {
-      // update user's role
-      let formData2 = new FormData();
-      formData2.append("id", data.accessId);
-      formData2.append("r_role_id", data.role);
-
-      const r2 = await API.post("non_patroli/save", formData2);
-
-      if (r2.status == 200) {
-        return { success: true };
-      } else {
-        return { success: false, message: [r2.message] };
-      }
+      return { success: true };
     } else {
       return { success: false, message: [r.message] };
     }
@@ -190,15 +271,12 @@ class UserService {
   static async deleteNonPatroliUser(data) {
     let validate = UserValidator.deleteNonPatroli(data);
     if (!validate.pass) return { success: false, message: validate.message };
-
-    // TODO: fix double hit that causing 404 response
-    // delete non patroli access
     const r = await API.delete(`/non_patroli/remove/${data.accessId}`);
-
-    // delete user data
-    const r2 = await API.delete(`/user/remove/${data.id}`);
-
-    return { success: true };
+    if (r.status == 200) {
+      return { success: true };
+    } else {
+      return { success: false, message: [r.message] };
+    }
   }
 }
 export default UserService;

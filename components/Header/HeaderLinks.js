@@ -50,11 +50,23 @@ const AuthenticatedMenu = (props) => {
         </Link>
       </ListItem>
       <ListItem className={classes.listItem}>
-        <Link href="/pengguna">
-          <Button color="transparent" className={classes.navLink}>
-            Pengguna
-          </Button>
-        </Link>
+        <CustomDropdown
+          noLiPadding
+          navDropdown
+          buttonText="Pengguna"
+          buttonProps={{
+            className: classes.navLink,
+            color: "transparent",
+          }}
+          dropdownList={[
+            <Link href="/pengguna">
+              <a className={classes.dropdownLink}>Data Pengguna</a>
+            </Link>,
+            <Link href="/pengguna/hak-akses">
+              <a className={classes.dropdownLink}>Hak Akses</a>
+            </Link>,
+          ]}
+        />
       </ListItem>
       <ListItem className={classes.listItem}>
         <CustomDropdown
