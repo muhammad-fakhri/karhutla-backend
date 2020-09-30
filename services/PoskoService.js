@@ -3,35 +3,52 @@ import API from "../api";
 
 class PoskoService {
   static async getAllPosko() {
-    const r = await API.get("/posko/list");
-    if (r.status == 200) {
-      const data = new Array();
-      r.data.forEach((posko) => {
-        data.push({
+    const response = await API.get("/posko/list");
+    let poskoData = new Array();
+    if (response.status == 200) {
+      response.data.forEach((posko) => {
+        poskoData.push({
           id: posko.id,
           name: posko.nama,
-          daops: posko.daops,
+          daops: posko.daops.nama,
+          daopsId: posko.m_daops_id,
           kecamatan: posko.kecamatan.nama,
-          kelurahan: posko.kelurahan.nama,
-          desa: posko.desa ? posko.desa.nama : "",
+          kecamatanId: posko.r_wilayah_id_kec,
         });
       });
-      return data;
+      return poskoData;
+    } else {
+      return new Array();
+    }
+  }
+
+  static async getDetailPosko(id) {
+    const response = await API.get(`/posko/single/${id}`);
+
+    if (response.status == 200) {
+      const posko = {};
+      posko.id = response.data.id;
+      posko.name = response.data.nama;
+      posko.daops = response.data.daops.nama;
+      posko.daopsId = response.data.m_daops_id;
+      posko.kecamatan = response.data.kecamatan.nama;
+      posko.kecamatanId = response.data.r_wilayah_id_kec;
+      return posko;
     } else {
       return new Array();
     }
   }
 
   static async addPosko(posko) {
-    let validate = PoskoValidator.createPosko(posko);
+    const validate = PoskoValidator.createPosko(posko);
     if (!validate.pass) return { success: false, message: validate.message };
 
-    let formData = new FormData();
-    formData.append("kode", posko.code);
+    const formData = new FormData();
     formData.append("nama", posko.name);
-    formData.append("r_balai_id", posko.balaiId);
+    formData.append("m_daops_id", posko.daops);
+    formData.append("r_wilayah_id_kec", posko.kecamatan);
 
-    let r = await API.post("/posko/add", formData);
+    const r = await API.post("/posko/add", formData);
 
     if (r.status == 200) {
       return { success: true };
@@ -40,19 +57,17 @@ class PoskoService {
     }
   }
 
-  static async updatePosko(newData, oldData) {
-    let validate = PoskoValidator.updatePosko(newData);
+  static async updatePosko(newData, oldName) {
+    const validate = PoskoValidator.updatePosko(newData);
     if (!validate.pass) return { success: false, message: validate.message };
 
-    let formData = new FormData();
+    const formData = new FormData();
     formData.append("id", newData.id);
-    formData.append("nama", newData.name);
-    formData.append("r_balai_id", newData.balaiId);
-    if (oldData.code !== newData.code) {
-      formData.append("kode", newData.code);
-    }
+    if (newData.name !== oldName) formData.append("nama", newData.name);
+    formData.append("m_daops_id", newData.daops);
+    formData.append("r_wilayah_id_kec", newData.kecamatan);
 
-    let r = await API.post("/posko/save", formData);
+    const r = await API.post("/posko/save", formData);
 
     if (r.status == 200) {
       return { success: true };
@@ -62,18 +77,17 @@ class PoskoService {
   }
 
   static async deletePosko(posko) {
-    let validate = PoskoValidator.deletePosko(posko);
+    const validate = PoskoValidator.deletePosko(posko);
     if (!validate.pass) return { success: false, message: validate.message };
 
-    let r = await API.delete(`/posko/remove/${posko.id}`);
+    const r = await API.delete(`/posko/remove/${posko.id}`);
 
-    // TODO: Fix backend, because delete method always 404
-    // if (r.status == 200) {
-    return { success: true };
-    // } else {
-    //     r = await r.json();
-    //     return { "success": false, "message": [r.message] };
-    // }
+    if (r.status == 200) {
+      return { success: true };
+    } else {
+      r = await r.json();
+      return { success: false, message: [r.message] };
+    }
   }
 }
 export default PoskoService;
