@@ -260,7 +260,7 @@ class UserService {
     formData.append("r_role_id", data.role);
 
     const r = await API.post("non_patroli/save", formData);
-    // TODO: update daops/balai in user access
+    // TODO: update daops/balai organization in user access
     if (r.status == 200) {
       return { success: true };
     } else {

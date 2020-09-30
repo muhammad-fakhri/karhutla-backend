@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    // TODO: login user and get user data from api
+    // TODO: login user then fetch user data from api
     try {
       let response = await AuthAPI.post("/login", {
         email,

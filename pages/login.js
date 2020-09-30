@@ -15,6 +15,7 @@ import CardFooter from "../components/Card/CardFooter.js";
 import CustomInput from "../components/CustomInput/CustomInput.js";
 import Loader from "../components/Loader/Loader";
 import useAuth, { ProtectRoute } from "../context/auth";
+import AuthValidator from "../validators/AuthValidator";
 
 const useStyles = makeStyles(styles);
 
@@ -25,22 +26,35 @@ function LoginPage(props) {
     email: "",
     password: "",
     alertMessage: "",
+    emailError: false,
+    passwordError: false,
     showAlert: false,
   });
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
   const handleSubmit = async (e) => {
-    setLoading(true);
-    let result = await login(values.email, values.password);
-    if (!result.success) {
+    const validate = AuthValidator.login(values);
+    if (validate.pass) {
+      setLoading(true);
+      let result = await login(values.email, values.password);
+      if (!result.success) {
+        setValues({
+          ...values,
+          alertMessage: result.message,
+          showAlert: true,
+        });
+      }
+      setLoading(false);
+    } else {
       setValues({
         ...values,
-        alertMessage: result.message,
+        emailError: validate.emailError,
+        passwordError: validate.passwordError,
+        alertMessage: validate.message,
         showAlert: true,
       });
     }
-    setLoading(false);
   };
 
   const [cardAnimaton, setCardAnimation] = useState("cardHidden");
@@ -72,6 +86,7 @@ function LoginPage(props) {
                     formControlProps={{
                       fullWidth: true,
                     }}
+                    error={values.emailError}
                     inputProps={{
                       type: "email",
                       endAdornment: (
@@ -88,6 +103,7 @@ function LoginPage(props) {
                     formControlProps={{
                       fullWidth: true,
                     }}
+                    error={values.passwordError}
                     inputProps={{
                       type: "password",
                       endAdornment: (
