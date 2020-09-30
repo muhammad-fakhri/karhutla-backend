@@ -1,6 +1,8 @@
 import API from "../api";
 import WilayahValidator from "../validators/WilayahValidator";
 
+// TODO: fetch wilayah by type
+
 class WilayahService {
   static async getAllWilayah() {
     const r = await API.get("/wilayah/list");
@@ -20,10 +22,9 @@ class WilayahService {
     }
   }
 
-  static async getAllKecamatanAndKelurahan() {
+  static async getAllKecamatan() {
     const r = await API.get("/wilayah/list");
     if (r.status == 200) {
-      const kelurahan = new Array();
       const kecamatan = new Array();
       r.data.forEach((wilayah) => {
         if (wilayah.tipe === "Kecamatan") {
@@ -33,8 +34,21 @@ class WilayahService {
             name: wilayah.nama,
             type: wilayah.tipe,
           });
-        } else if (wilayah.tipe === "Kelurahan/Desa") {
-          kelurahan.push({
+        }
+      });
+      return kecamatan;
+    } else {
+      return new Array();
+    }
+  }
+
+  static async getAllPulau() {
+    const r = await API.get("/wilayah/list");
+    if (r.status == 200) {
+      const pulau = new Array();
+      r.data.forEach((wilayah) => {
+        if (wilayah.tipe === "Pulau") {
+          pulau.push({
             id: wilayah.id,
             code: wilayah.kode,
             name: wilayah.nama,
@@ -42,8 +56,7 @@ class WilayahService {
           });
         }
       });
-      console.log({ kecamatan, kelurahan });
-      return { kecamatan, kelurahan };
+      return pulau;
     } else {
       return new Array();
     }
@@ -89,18 +102,17 @@ class WilayahService {
   }
 
   static async deleteWilayah(wilayah) {
-    let validate = WilayahValidator.deleteWilayah(wilayah);
+    const validate = WilayahValidator.deleteWilayah(wilayah);
     if (!validate.pass) return { success: false, message: validate.message };
 
-    let r = await API.delete(`/wilayah/remove/${wilayah.id}`);
+    const r = await API.delete(`/wilayah/remove/${wilayah.id}`);
 
-    // TODO: Fix backend, because delete method always 404
-    // if (r.status == 200) {
-    return { success: true };
-    // } else {
-    //     r = await r.json();
-    //     return { "success": false, "message": [r.message] };
-    // }
+    if (r.status == 200) {
+      return { success: true };
+    } else {
+      r = await r.json();
+      return { success: false, message: [r.message] };
+    }
   }
 }
 export default WilayahService;

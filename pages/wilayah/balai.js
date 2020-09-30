@@ -13,12 +13,14 @@ import useAuth, { ProtectRoute } from "../../context/auth";
 
 const generateWilayahLookup = async () => {
   let data = {};
-  let wilayah = await WilayahService.getAllWilayah();
+  let wilayah = await WilayahService.getAllPulau();
   wilayah.forEach((item) => {
     data[item.id] = item.type + " " + item.name;
   });
   return data;
 };
+
+// TODO: Show organization at balai/pusat useraccess
 
 function BalaiPage(props) {
   const { isAuthenticated } = useAuth();

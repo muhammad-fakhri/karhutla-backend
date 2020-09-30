@@ -20,6 +20,8 @@ const generateBalaiLookup = async () => {
   return data;
 };
 
+// TODO: Show organization at daops useraccess
+
 function DaopsPage(props) {
   const { isAuthenticated } = useAuth();
   const useStyles = makeStyles(styles);
