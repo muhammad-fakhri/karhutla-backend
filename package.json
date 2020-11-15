@@ -11,6 +11,7 @@
     "export": "next export",
     "prod": "next build && next export",
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && rm -rf .next/ && npm install && npm run dev",
+    "format": "prettier --write \"src/**/*.js\"",
     "lint": "eslint ./src/**/*.js",
     "lint:fix": "eslint ./src/**/*.js --fix"
   },

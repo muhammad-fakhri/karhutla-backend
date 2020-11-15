@@ -1,7 +1,7 @@
-import basePage from "./basePage";
+import basePage from './basePage'
 
 const hotspotPageStyle = {
-  ...basePage,
-};
+	...basePage
+}
 
-export default hotspotPageStyle;
+export default hotspotPageStyle

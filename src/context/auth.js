@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
 			const token = CookieService.getToken()
 			if (token) {
 				console.log(
-					'Got a token in the cookies, let\'s see if it is valid'
+					"Got a token in the cookies, let's see if it is valid"
 				)
 				// TODO: fetch user data from api
 				// const { data: user } = await api.get('users/me')
