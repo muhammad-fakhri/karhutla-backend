@@ -1,18 +1,18 @@
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie'
 // import { parseJwt } from "../utils/formatter";
-const KEY_TOKEN = "_z2lj4lY7Wn_hIz_";
+const KEY_TOKEN = '_z2lj4lY7Wn_hIz_'
 
 export default class CookieService {
 	static getToken() {
-		return Cookies.get(KEY_TOKEN);
+		return Cookies.get(KEY_TOKEN)
 	}
 
-	static setToken(token = "") {
-		Cookies.set(KEY_TOKEN, token, { expires: 1 });
+	static setToken(token = '') {
+		Cookies.set(KEY_TOKEN, token, { expires: 1 })
 	}
 
 	static removeToken() {
-		Cookies.remove(KEY_TOKEN);
+		Cookies.remove(KEY_TOKEN)
 	}
 
 	// static checkToken() {

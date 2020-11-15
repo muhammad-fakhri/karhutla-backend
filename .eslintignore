@@ -5,6 +5,7 @@
 /docs/**
 /fixtures/**
 /jsdoc/**
+./node_modules/asn1.js
 /templates/**
 /tests/actual/**
 /tests/templates/**
