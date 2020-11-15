@@ -3,7 +3,7 @@ import {
 	isNumeric,
 	isPhoneNumber,
 	digitLength,
-} from './ValidatorHelper'
+} from './validator.helper'
 
 class UserValidator {
 	static createUser(inputData) {
