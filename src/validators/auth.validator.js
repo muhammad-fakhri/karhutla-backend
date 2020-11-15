@@ -14,7 +14,7 @@ export default class AuthValidator {
 			emailError = true
 			errorMsg = 'Tolong masukkan email anda'
 		}
-		if (errorMsg.length == 0) {
+		if (errorMsg.length === 0) {
 			return { pass: true }
 		}
 		return { pass: false, message: errorMsg, emailError, passwordError }

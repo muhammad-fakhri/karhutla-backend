@@ -1,6 +1,6 @@
 class WilayahValidator {
 	static createWilayah(inputData) {
-		const errorMsg = new Array()
+		const errorMsg = []
 		if (Object.keys(inputData).length > 0) {
 			if (!inputData.code) errorMsg.push('Tolong masukkan kode wilayah')
 			if (!inputData.name) errorMsg.push('Tolong masukkan nama wilayah')
@@ -8,14 +8,14 @@ class WilayahValidator {
 		} else {
 			errorMsg.push('Tolong isikan data wilayah')
 		}
-		if (errorMsg.length == 0) {
+		if (errorMsg.length === 0) {
 			return { pass: true }
 		}
 		return { pass: false, message: errorMsg }
 	}
 
 	static updateWilayah(inputData) {
-		const errorMsg = new Array()
+		const errorMsg = []
 		if (Object.keys(inputData).length > 0) {
 			if (!inputData.id) errorMsg.push('ID Wilayah tidak disertakan')
 			if (!inputData.code) errorMsg.push('Tolong masukkan kode wilayah')
@@ -24,16 +24,16 @@ class WilayahValidator {
 		} else {
 			errorMsg.push('Tolong isikan data wilayah')
 		}
-		if (errorMsg.length == 0) {
+		if (errorMsg.length === 0) {
 			return { pass: true }
 		}
 		return { pass: false, message: errorMsg }
 	}
 
 	static deleteWilayah(inputData) {
-		const errorMsg = new Array()
+		const errorMsg = []
 		if (!inputData.id) errorMsg.push('ID Wilayah tidak disertakan')
-		if (errorMsg.length == 0) {
+		if (errorMsg.length === 0) {
 			return { pass: true }
 		}
 		return { pass: false, message: errorMsg }

@@ -1,6 +1,6 @@
 class BalaiValidator {
 	static createBalai(inputData) {
-		const errorMsg = new Array()
+		const errorMsg = []
 		if (Object.keys(inputData).length > 0) {
 			if (!inputData.code) errorMsg.push('Tolong masukkan kode balai')
 			if (!inputData.name) errorMsg.push('Tolong masukkan nama balai')
@@ -8,14 +8,14 @@ class BalaiValidator {
 		} else {
 			errorMsg.push('Tolong isikan data balai')
 		}
-		if (errorMsg.length == 0) {
+		if (errorMsg.length === 0) {
 			return { pass: true }
 		}
 		return { pass: false, message: errorMsg }
 	}
 
 	static updateBalai(inputData) {
-		const errorMsg = new Array()
+		const errorMsg = []
 		if (Object.keys(inputData).length > 0) {
 			if (!inputData.id) errorMsg.push('ID balai tidak disertakan')
 			if (!inputData.code) errorMsg.push('Tolong masukkan kode balai')
@@ -24,16 +24,16 @@ class BalaiValidator {
 		} else {
 			errorMsg.push('Tolong isikan data balai')
 		}
-		if (errorMsg.length == 0) {
+		if (errorMsg.length === 0) {
 			return { pass: true }
 		}
 		return { pass: false, message: errorMsg }
 	}
 
 	static deleteBalai(inputData) {
-		const errorMsg = new Array()
+		const errorMsg = []
 		if (!inputData.id) errorMsg.push('ID Balai tidak disertakan')
-		if (errorMsg.length == 0) {
+		if (errorMsg.length === 0) {
 			return { pass: true }
 		}
 		return { pass: false, message: errorMsg }

@@ -3,7 +3,7 @@ export const isNumeric = (value) => {
 }
 
 export const isEmail = (value) => {
-	return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)
+	return /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)
 }
 
 export const isPhoneNumber = (value) => {

@@ -1,6 +1,6 @@
 class DaopsValidator {
 	static createDaops(inputData) {
-		const errorMsg = new Array()
+		const errorMsg = []
 		if (Object.keys(inputData).length > 0) {
 			if (!inputData.code) errorMsg.push('Tolong masukkan kode daops')
 			if (!inputData.name) errorMsg.push('Tolong masukkan nama daops')
@@ -8,14 +8,14 @@ class DaopsValidator {
 		} else {
 			errorMsg.push('Tolong isikan data daops')
 		}
-		if (errorMsg.length == 0) {
+		if (errorMsg.length === 0) {
 			return { pass: true }
 		}
 		return { pass: false, message: errorMsg }
 	}
 
 	static updateDaops(inputData) {
-		const errorMsg = new Array()
+		const errorMsg = []
 		if (Object.keys(inputData).length > 0) {
 			if (!inputData.id) errorMsg.push('ID daops tidak disertakan')
 			if (!inputData.code) errorMsg.push('Tolong masukkan kode daops')
@@ -24,16 +24,16 @@ class DaopsValidator {
 		} else {
 			errorMsg.push('Tolong isikan data daops')
 		}
-		if (errorMsg.length == 0) {
+		if (errorMsg.length === 0) {
 			return { pass: true }
 		}
 		return { pass: false, message: errorMsg }
 	}
 
 	static deleteDaops(inputData) {
-		const errorMsg = new Array()
+		const errorMsg = []
 		if (!inputData.id) errorMsg.push('ID Daops tidak disertakan')
-		if (errorMsg.length == 0) {
+		if (errorMsg.length === 0) {
 			return { pass: true }
 		}
 		return { pass: false, message: errorMsg }
