@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react'
 import Router, { useRouter } from 'next/router'
-import CookieService from '../services/CookieService'
+import CookieService from '../services/cookies.service'
 import { AuthAPI } from '../api'
 
 const AuthContext = createContext({})
@@ -13,12 +13,14 @@ export const AuthProvider = ({ children }) => {
 		async function loadUserFromCookies() {
 			const token = CookieService.getToken()
 			if (token) {
-				console.log('Got a token in the cookies, let\'s see if it is valid')
+				console.log(
+					'Got a token in the cookies, let\'s see if it is valid'
+				)
 				// TODO: fetch user data from api
 				// const { data: user } = await api.get('users/me')
 				const user = {
 					name: 'Nama Pengguna',
-					email: 'Email Pengguna',
+					email: 'Email Pengguna'
 				}
 				if (user) setUser(user)
 			}
@@ -30,16 +32,16 @@ export const AuthProvider = ({ children }) => {
 	const login = async (email, password) => {
 		// TODO: login user then fetch user data from api
 		try {
-			let response = await AuthAPI.post('/login', {
+			const response = await AuthAPI.post('/login', {
 				email,
-				password,
+				password
 			})
 			if (response.status == '200') {
-				let user = {
+				const user = {
 					name: response.data.user.nama,
-					email: response.data.user.email,
+					email: response.data.user.email
 				}
-				let token = response.data.token ? response.data.token : null
+				const token = response.data.token ? response.data.token : null
 				if (token) {
 					console.log('Got token')
 					CookieService.setToken(token)

@@ -1,10 +1,10 @@
-import PoskoValidator from '../validators/PoskoValidator'
+import PoskoValidator from '../validators/posko.validator'
 import API from '../api'
 
 class PoskoService {
 	static async getAllPosko() {
 		const response = await API.get('/posko/list')
-		let poskoData = new Array()
+		const poskoData = new Array()
 		if (response.status == 200) {
 			response.data.forEach((posko) => {
 				poskoData.push({
@@ -13,13 +13,12 @@ class PoskoService {
 					daops: posko.daops.nama,
 					daopsId: posko.m_daops_id,
 					kecamatan: posko.kecamatan.nama,
-					kecamatanId: posko.r_wilayah_id_kec,
+					kecamatanId: posko.r_wilayah_id_kec
 				})
 			})
 			return poskoData
-		} else {
-			return new Array()
 		}
+		return new Array()
 	}
 
 	static async getDetailPosko(id) {
@@ -34,9 +33,8 @@ class PoskoService {
 			posko.kecamatan = response.data.kecamatan.nama
 			posko.kecamatanId = response.data.r_wilayah_id_kec
 			return posko
-		} else {
-			return new Array()
 		}
+		return new Array()
 	}
 
 	static async addPosko(posko) {
@@ -52,9 +50,8 @@ class PoskoService {
 
 		if (r.status == 200) {
 			return { success: true }
-		} else {
-			return { success: false, message: [r.message] }
 		}
+		return { success: false, message: [r.message] }
 	}
 
 	static async updatePosko(newData, oldName) {
@@ -71,9 +68,8 @@ class PoskoService {
 
 		if (r.status == 200) {
 			return { success: true }
-		} else {
-			return { success: false, message: [r.message] }
 		}
+		return { success: false, message: [r.message] }
 	}
 
 	static async deletePosko(posko) {
@@ -84,10 +80,9 @@ class PoskoService {
 
 		if (r.status == 200) {
 			return { success: true }
-		} else {
-			r = await r.json()
-			return { success: false, message: [r.message] }
 		}
+		r = await r.json()
+		return { success: false, message: [r.message] }
 	}
 }
 export default PoskoService

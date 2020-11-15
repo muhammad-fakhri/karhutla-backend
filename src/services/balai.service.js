@@ -1,5 +1,5 @@
 import API from '../api'
-import BalaiValidator from '../validators/BalaiValidator'
+import BalaiValidator from '../validators/balai.validator'
 
 class BalaiService {
 	static async getAllBalai() {
@@ -11,37 +11,35 @@ class BalaiService {
 					id: balai.id,
 					code: balai.kode,
 					name: balai.nama,
-					region: balai.r_wilayah_id,
+					region: balai.r_wilayah_id
 				})
 			})
 			return data
-		} else {
-			return new Array()
 		}
+		return new Array()
 	}
 
 	static async addBalai(balai) {
-		let validate = BalaiValidator.createBalai(balai)
+		const validate = BalaiValidator.createBalai(balai)
 		if (!validate.pass) return { success: false, message: validate.message }
 
-		let formData = new FormData()
+		const formData = new FormData()
 		formData.append('kode', balai.code)
 		formData.append('nama', balai.name)
 		formData.append('r_wilayah_id', balai.region)
 
-		let r = await API.post('/balai/add', formData)
+		const r = await API.post('/balai/add', formData)
 		if (r.status == 200) {
 			return { success: true }
-		} else {
-			return { success: false, message: [r.message] }
 		}
+		return { success: false, message: [r.message] }
 	}
 
 	static async updateBalai(newData, oldData) {
-		let validate = BalaiValidator.updateBalai(newData)
+		const validate = BalaiValidator.updateBalai(newData)
 		if (!validate.pass) return { success: false, message: validate.message }
 
-		let formData = new FormData()
+		const formData = new FormData()
 		formData.append('id', newData.id)
 		formData.append('nama', newData.name)
 		formData.append('r_wilayah_id', newData.region)
@@ -49,13 +47,12 @@ class BalaiService {
 			formData.append('kode', newData.code)
 		}
 
-		let r = await API.post('/balai/save', formData)
+		const r = await API.post('/balai/save', formData)
 
 		if (r.status == 200) {
 			return { success: true }
-		} else {
-			return { success: false, message: [r.message] }
 		}
+		return { success: false, message: [r.message] }
 	}
 
 	static async deleteBalai(balai) {
@@ -66,10 +63,9 @@ class BalaiService {
 
 		if (r.status == 200) {
 			return { success: true }
-		} else {
-			r = await r.json()
-			return { success: false, message: [r.message] }
 		}
+		r = await r.json()
+		return { success: false, message: [r.message] }
 	}
 }
 export default BalaiService

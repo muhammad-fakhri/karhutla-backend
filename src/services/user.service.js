@@ -1,5 +1,5 @@
 import API from '../api'
-import UserValidator from '../validators/UserValidator'
+import UserValidator from '../validators/user.validator'
 
 class UserService {
 	static async getAllUsers(url) {
@@ -12,13 +12,12 @@ class UserService {
 					registrationNumber: user.no_registrasi,
 					name: user.nama,
 					email: user.email,
-					phone: user.no_telepon,
+					phone: user.no_telepon
 				})
 			})
 			return users
-		} else {
-			return new Array()
 		}
+		return new Array()
 	}
 
 	static async getUserDetail(userId) {
@@ -31,9 +30,8 @@ class UserService {
 			user.email = r.data.email
 			user.phone = r.data.no_telepon
 			return { success: true, user }
-		} else {
-			return { success: false, message: r.message }
 		}
+		return { success: false, message: r.message }
 	}
 
 	static async addUser(data) {
@@ -53,16 +51,15 @@ class UserService {
 
 		if (r.status == 200) {
 			return { success: true }
-		} else {
-			return { success: false, message: [r.message] }
 		}
+		return { success: false, message: [r.message] }
 	}
 
 	static async updateUser(data) {
-		let validate = UserValidator.updateUser(data)
+		const validate = UserValidator.updateUser(data)
 		if (!validate.pass) return { success: false, message: validate.message }
 
-		let formData = new FormData()
+		const formData = new FormData()
 		formData.append('id', data.id)
 		formData.append('nama', data.name)
 		formData.append('no_telepon', data.phone)
@@ -75,21 +72,19 @@ class UserService {
 
 		if (r.status == 200) {
 			return { success: true }
-		} else {
-			return { success: false, message: [r.message] }
 		}
+		return { success: false, message: [r.message] }
 	}
 
 	static async deleteUser(data) {
-		let validate = UserValidator.deleteUser(data)
+		const validate = UserValidator.deleteUser(data)
 		if (!validate.pass) return { success: false, message: validate.message }
 
 		const r = await API.delete(`/user/remove/${data.id}`)
 		if (r.status == 200) {
 			return { success: true }
-		} else {
-			return { success: false, message: r.message }
 		}
+		return { success: false, message: r.message }
 	}
 
 	static async getNonPatroliUsers(url) {
@@ -107,7 +102,7 @@ class UserService {
 						nip: userAccess.m_user.no_registrasi,
 						name: userAccess.m_user.nama,
 						email: userAccess.m_user.email,
-						organization: '',
+						organization: ''
 					})
 				} else {
 					balaiUsers.push({
@@ -118,14 +113,13 @@ class UserService {
 						nip: userAccess.m_user.no_registrasi,
 						name: userAccess.m_user.nama,
 						email: userAccess.m_user.email,
-						organization: '',
+						organization: ''
 					})
 				}
 			})
 			return { daopsUsers, balaiUsers }
-		} else {
-			return new Array()
 		}
+		return new Array()
 	}
 
 	static async getPatroliNonLoginUsers(url) {
@@ -136,13 +130,12 @@ class UserService {
 				users.push({
 					id: user.id,
 					name: user.nama,
-					role: user.r_role_id,
+					role: user.r_role_id
 				})
 			})
 			return users
-		} else {
-			return new Array()
 		}
+		return new Array()
 	}
 
 	static async addPatroliNonLoginUser(data) {
@@ -157,9 +150,8 @@ class UserService {
 
 		if (r.status == 200) {
 			return { success: true }
-		} else {
-			return { success: false, message: [r.message] }
 		}
+		return { success: false, message: [r.message] }
 	}
 
 	static async updatePatroliNonLoginUser(data) {
@@ -175,9 +167,8 @@ class UserService {
 
 		if (r.status == 200) {
 			return { success: true }
-		} else {
-			return { success: false, message: [r.message] }
 		}
+		return { success: false, message: [r.message] }
 	}
 
 	static async deletePatroliNonLoginUser(data) {
@@ -188,9 +179,8 @@ class UserService {
 
 		if (r.status == 200) {
 			return { success: true }
-		} else {
-			return { success: false, message: [r.message] }
 		}
+		return { success: false, message: [r.message] }
 	}
 
 	static async getNonPatroliRoles() {
@@ -203,14 +193,13 @@ class UserService {
 						id: role.id,
 						name: role.nama,
 						level: role.level,
-						active: role.aktif,
+						active: role.aktif
 					})
 				}
 			})
 			return data
-		} else {
-			return new Array()
 		}
+		return new Array()
 	}
 
 	static async getPatroliNonLoginRoles() {
@@ -223,14 +212,13 @@ class UserService {
 						id: role.id,
 						name: role.nama,
 						level: role.level,
-						active: role.aktif,
+						active: role.aktif
 					})
 				}
 			})
 			return data
-		} else {
-			return new Array()
 		}
+		return new Array()
 	}
 
 	static async addNonPatroliUser(data) {
@@ -246,13 +234,12 @@ class UserService {
 
 		if (r.status == 200) {
 			return { success: true }
-		} else {
-			return { success: false, message: [r.message] }
 		}
+		return { success: false, message: [r.message] }
 	}
 
 	static async updateNonPatroliUser(data) {
-		let validate = UserValidator.updateNonPatroli(data)
+		const validate = UserValidator.updateNonPatroli(data)
 		if (!validate.pass) return { success: false, message: validate.message }
 
 		const formData = new FormData()
@@ -263,20 +250,18 @@ class UserService {
 		// TODO: update daops/balai organization in user access
 		if (r.status == 200) {
 			return { success: true }
-		} else {
-			return { success: false, message: [r.message] }
 		}
+		return { success: false, message: [r.message] }
 	}
 
 	static async deleteNonPatroliUser(data) {
-		let validate = UserValidator.deleteNonPatroli(data)
+		const validate = UserValidator.deleteNonPatroli(data)
 		if (!validate.pass) return { success: false, message: validate.message }
 		const r = await API.delete(`/non_patroli/remove/${data.accessId}`)
 		if (r.status == 200) {
 			return { success: true }
-		} else {
-			return { success: false, message: [r.message] }
 		}
+		return { success: false, message: [r.message] }
 	}
 }
 export default UserService

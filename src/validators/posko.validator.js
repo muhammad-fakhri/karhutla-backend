@@ -1,16 +1,17 @@
-import { digitLength } from './ValidatorHelper'
+import { digitLength } from './helper.validator'
+
 class PoskoValidator {
 	static createPosko(inputData) {
 		const errorMsg = new Array()
 		if (!inputData.name) errorMsg.push('Tolong masukkan nama posko')
-		if (digitLength(inputData.daops) < 1) errorMsg.push('Tolong pilih daops')
+		if (digitLength(inputData.daops) < 1)
+			errorMsg.push('Tolong pilih daops')
 		if (digitLength(inputData.kecamatan) < 1)
 			errorMsg.push('Tolong pilih kecamatan')
 		if (errorMsg.length == 0) {
 			return { pass: true }
-		} else {
-			return { pass: false, message: errorMsg }
 		}
+		return { pass: false, message: errorMsg }
 	}
 
 	static updatePosko(inputData) {
@@ -21,9 +22,8 @@ class PoskoValidator {
 		if (!inputData.kecamatan) errorMsg.push('Tolong pilih kecamatan')
 		if (errorMsg.length == 0) {
 			return { pass: true }
-		} else {
-			return { pass: false, message: errorMsg }
 		}
+		return { pass: false, message: errorMsg }
 	}
 
 	static deletePosko(inputData) {
@@ -31,9 +31,8 @@ class PoskoValidator {
 		if (!inputData.id) errorMsg.push('ID posko tidak disertakan')
 		if (errorMsg.length == 0) {
 			return { pass: true }
-		} else {
-			return { pass: false, message: errorMsg }
 		}
+		return { pass: false, message: errorMsg }
 	}
 }
 export default PoskoValidator

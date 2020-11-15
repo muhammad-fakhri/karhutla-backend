@@ -15,7 +15,7 @@ import CardFooter from '../components/Card/CardFooter.js'
 import CustomInput from '../components/CustomInput/CustomInput.js'
 import Loader from '../components/Loader/Loader'
 import useAuth, { ProtectRoute } from '../context/auth'
-import AuthValidator from '../validators/AuthValidator'
+import AuthValidator from '../validators/auth.validator'
 
 const useStyles = makeStyles(styles)
 
@@ -28,7 +28,7 @@ function LoginPage(props) {
 		alertMessage: '',
 		emailError: false,
 		passwordError: false,
-		showAlert: false,
+		showAlert: false
 	})
 	const handleChange = (prop) => (event) => {
 		setValues({ ...values, [prop]: event.target.value })
@@ -37,12 +37,12 @@ function LoginPage(props) {
 		const validate = AuthValidator.login(values)
 		if (validate.pass) {
 			setLoading(true)
-			let result = await login(values.email, values.password)
+			const result = await login(values.email, values.password)
 			if (!result.success) {
 				setValues({
 					...values,
 					alertMessage: result.message,
-					showAlert: true,
+					showAlert: true
 				})
 			}
 			setLoading(false)
@@ -52,7 +52,7 @@ function LoginPage(props) {
 				emailError: validate.emailError,
 				passwordError: validate.passwordError,
 				alertMessage: validate.message,
-				showAlert: true,
+				showAlert: true
 			})
 		}
 	}
@@ -73,27 +73,36 @@ function LoginPage(props) {
 					<GridItem xs={12} sm={6} md={4}>
 						<Card className={classes[cardAnimaton]}>
 							<form className={classes.form}>
-								<CardHeader color="primary" className={classes.cardHeader}>
+								<CardHeader
+									color="primary"
+									className={classes.cardHeader}
+								>
 									<h4>Login ke SIMADU2</h4>
 								</CardHeader>
 								<CardBody>
 									{values.showAlert ? (
-										<Alert severity="error">{values.alertMessage}</Alert>
+										<Alert severity="error">
+											{values.alertMessage}
+										</Alert>
 									) : null}
 									<CustomInput
 										labelText="Email"
 										id="email"
 										formControlProps={{
-											fullWidth: true,
+											fullWidth: true
 										}}
 										error={values.emailError}
 										inputProps={{
 											type: 'email',
 											endAdornment: (
 												<InputAdornment position="end">
-													<Email className={classes.inputIconsColor} />
+													<Email
+														className={
+															classes.inputIconsColor
+														}
+													/>
 												</InputAdornment>
-											),
+											)
 										}}
 										onChangeFunction={handleChange('email')}
 									/>
@@ -101,21 +110,27 @@ function LoginPage(props) {
 										labelText="Password"
 										id="pass"
 										formControlProps={{
-											fullWidth: true,
+											fullWidth: true
 										}}
 										error={values.passwordError}
 										inputProps={{
 											type: 'password',
 											endAdornment: (
 												<InputAdornment position="end">
-													<Icon className={classes.inputIconsColor}>
-                            lock_outline
+													<Icon
+														className={
+															classes.inputIconsColor
+														}
+													>
+														lock_outline
 													</Icon>
 												</InputAdornment>
 											),
-											autoComplete: 'off',
+											autoComplete: 'off'
 										}}
-										onChangeFunction={handleChange('password')}
+										onChangeFunction={handleChange(
+											'password'
+										)}
 									/>
 								</CardBody>
 								<CardFooter className={classes.cardFooter}>
@@ -128,7 +143,7 @@ function LoginPage(props) {
 											size="lg"
 											onClick={handleSubmit}
 										>
-                      Login
+											Login
 										</Button>
 									)}
 								</CardFooter>

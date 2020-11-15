@@ -1,4 +1,4 @@
-import DaopsValidator from '../validators/DaopsValidator'
+import DaopsValidator from '../validators/daops.validator'
 import API from '../api'
 
 class DaopsService {
@@ -11,38 +11,36 @@ class DaopsService {
 					id: daops.id,
 					code: daops.kode,
 					name: daops.nama,
-					balaiId: daops.r_balai_id,
+					balaiId: daops.r_balai_id
 				})
 			})
 			return data
-		} else {
-			return new Array()
 		}
+		return new Array()
 	}
 
 	static async addDaops(daops) {
-		let validate = DaopsValidator.createDaops(daops)
+		const validate = DaopsValidator.createDaops(daops)
 		if (!validate.pass) return { success: false, message: validate.message }
 
-		let formData = new FormData()
+		const formData = new FormData()
 		formData.append('kode', daops.code)
 		formData.append('nama', daops.name)
 		formData.append('r_balai_id', daops.balaiId)
 
-		let r = await API.post('/daops/add', formData)
+		const r = await API.post('/daops/add', formData)
 
 		if (r.status == 200) {
 			return { success: true }
-		} else {
-			return { success: false, message: [r.message] }
 		}
+		return { success: false, message: [r.message] }
 	}
 
 	static async updateDaops(newData, oldData) {
-		let validate = DaopsValidator.updateDaops(newData)
+		const validate = DaopsValidator.updateDaops(newData)
 		if (!validate.pass) return { success: false, message: validate.message }
 
-		let formData = new FormData()
+		const formData = new FormData()
 		formData.append('id', newData.id)
 		formData.append('nama', newData.name)
 		formData.append('r_balai_id', newData.balaiId)
@@ -50,13 +48,12 @@ class DaopsService {
 			formData.append('kode', newData.code)
 		}
 
-		let r = await API.post('/daops/save', formData)
+		const r = await API.post('/daops/save', formData)
 
 		if (r.status == 200) {
 			return { success: true }
-		} else {
-			return { success: false, message: [r.message] }
 		}
+		return { success: false, message: [r.message] }
 	}
 
 	static async deleteDaops(daops) {
@@ -67,10 +64,9 @@ class DaopsService {
 
 		if (r.status == 200) {
 			return { success: true }
-		} else {
-			r = await r.json()
-			return { success: false, message: [r.message] }
 		}
+		r = await r.json()
+		return { success: false, message: [r.message] }
 	}
 }
 export default DaopsService

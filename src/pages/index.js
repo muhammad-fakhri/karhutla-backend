@@ -8,7 +8,8 @@ import SiteLayout from '../components/Layout/SiteLayout'
 import MapContainer from '../components/Map/MapPatroli'
 import Parallax from '../components/Parallax/Parallax.js'
 import useAuth from '../context/auth'
-import PatroliService from '../services/PatroliService'
+import PatroliService from '../services/patroli.service'
+
 const useStyles = makeStyles(styles)
 
 export default function FrontPage(props) {
@@ -23,7 +24,7 @@ export default function FrontPage(props) {
 
 	React.useEffect(() => {
 		const updatePatroli = async () => {
-			let patroliData = await PatroliService.getPatroli(
+			const patroliData = await PatroliService.getPatroli(
 				false,
 				date.format('D-M-YYYY')
 			)
@@ -46,8 +47,8 @@ export default function FrontPage(props) {
 								<div className={classes.brand}>
 									<h1 className={classes.title}>SIMADU2</h1>
 									<h3 className={classes.subtitle}>
-                    Sistem Informasi Patroli Pencegahan Kebakaran Hutan dan
-                    Lahan
+										Sistem Informasi Patroli Pencegahan
+										Kebakaran Hutan dan Lahan
 									</h3>
 								</div>
 							</Grid>
@@ -65,7 +66,7 @@ export default function FrontPage(props) {
 					<MapContainer
 						center={{
 							lat: -1.5,
-							lng: 117.384,
+							lng: 117.384
 						}}
 						zoom={5.1}
 						spots={spots}
@@ -74,7 +75,7 @@ export default function FrontPage(props) {
 					<Grid container>
 						<Grid item xs={12}>
 							<h3>
-                Tanggal: {date.format('D MMMM YYYY')}
+								Tanggal: {date.format('D MMMM YYYY')}
 								<br />
 								<FormControl
 									className={classNames(
@@ -84,7 +85,10 @@ export default function FrontPage(props) {
 								>
 									<Datetime
 										timeFormat={false}
-										inputProps={{ placeholder: 'Pilih tanggal patroli ...' }}
+										inputProps={{
+											placeholder:
+												'Pilih tanggal patroli ...'
+										}}
 										onChange={(date) => {
 											setDate(date)
 											setLoading(true)
@@ -96,16 +100,30 @@ export default function FrontPage(props) {
 							</h3>
 						</Grid>
 						<Grid item xs={12} md={4}>
-							<h2 className={classes.mandiriBg}>Patroli Mandiri</h2>
-							{loading ? <CircularProgress /> : <h3>{mandiri}</h3>}
+							<h2 className={classes.mandiriBg}>
+								Patroli Mandiri
+							</h2>
+							{loading ? (
+								<CircularProgress />
+							) : (
+								<h3>{mandiri}</h3>
+							)}
 						</Grid>
 						<Grid item xs={12} md={4}>
-							<h2 className={classes.pencegahanBg}>Patroli Rutin</h2>
+							<h2 className={classes.pencegahanBg}>
+								Patroli Rutin
+							</h2>
 							{loading ? <CircularProgress /> : <h3>{rutin}</h3>}
 						</Grid>
 						<Grid item xs={12} md={4}>
-							<h2 className={classes.terpaduBg}>Patroli Terpadu</h2>
-							{loading ? <CircularProgress /> : <h3>{terpadu}</h3>}
+							<h2 className={classes.terpaduBg}>
+								Patroli Terpadu
+							</h2>
+							{loading ? (
+								<CircularProgress />
+							) : (
+								<h3>{terpadu}</h3>
+							)}
 						</Grid>
 					</Grid>
 				</div>

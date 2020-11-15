@@ -1,7 +1,5 @@
 import moment from 'moment'
 import classNames from 'classnames'
-import useAuth, { ProtectRoute } from '../context/auth'
-import PatroliService from '../services/PatroliService'
 import MaterialTable from 'material-table'
 import Datetime from 'react-datetime'
 import {
@@ -9,21 +7,24 @@ import {
 	FormControl,
 	Grid,
 	Paper,
-	CircularProgress,
+	CircularProgress
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload'
+import useSWR from 'swr'
+import useAuth, { ProtectRoute } from '../context/auth'
+import PatroliService from '../services/patroli.service'
 import SiteLayout from '../components/Layout/SiteLayout'
 import MapContainer from '../components/Map/MapPatroli'
 import Loader from '../components/Loader/Loader'
 import styles from '../assets/jss/nextjs-material-kit/pages/dashboardPage'
-import useSWR from 'swr'
+
 const useStyles = makeStyles(styles)
 
 const column = [
 	{ title: 'Tanggal', field: 'patrolDate' },
 	{ title: 'Daerah Operasi', field: 'operationRegion' },
-	{ title: 'Daerah Patroli', field: 'patrolRegion' },
+	{ title: 'Daerah Patroli', field: 'patrolRegion' }
 ]
 
 function DashboardPage(props) {
@@ -39,14 +40,15 @@ function DashboardPage(props) {
 	const [rutin, setRutin] = React.useState()
 	const [spots, setSpots] = React.useState()
 	const { data: patroliData, isValidating } = useSWR(
-		isAuthenticated && date.format('D-M-YYYY') === moment().format('D-M-YYYY')
+		isAuthenticated &&
+			date.format('D-M-YYYY') === moment().format('D-M-YYYY')
 			? `/list?tanggal_patroli=${date.format('D-M-YYYY')}`
 			: null,
 		PatroliService.getPatroli
 	)
 	React.useEffect(() => {
 		const updatePatroli = async () => {
-			let patroliData = await PatroliService.getPatroli(
+			const patroliData = await PatroliService.getPatroli(
 				null,
 				date.format('D-M-YYYY')
 			)
@@ -78,7 +80,7 @@ function DashboardPage(props) {
 					<MapContainer
 						center={{
 							lat: -1.5,
-							lng: 117.384,
+							lng: 117.384
 						}}
 						zoom={5.1}
 						spots={spots}
@@ -87,7 +89,7 @@ function DashboardPage(props) {
 					<Grid container justify="center">
 						<Grid item xs={12}>
 							<h3>
-                Tanggal: {date.format('D MMMM YYYY')}
+								Tanggal: {date.format('D MMMM YYYY')}
 								<br />
 								<FormControl
 									className={classNames(
@@ -97,7 +99,10 @@ function DashboardPage(props) {
 								>
 									<Datetime
 										timeFormat={false}
-										inputProps={{ placeholder: 'Pilih tanggal patroli ...' }}
+										inputProps={{
+											placeholder:
+												'Pilih tanggal patroli ...'
+										}}
 										onChange={(date) => {
 											setDate(date)
 											setLoad(true)
@@ -109,7 +114,9 @@ function DashboardPage(props) {
 							</h3>
 						</Grid>
 						<Grid item xs={12} md={4}>
-							<h2 className={classes.mandiriBg}>Patroli Mandiri</h2>
+							<h2 className={classes.mandiriBg}>
+								Patroli Mandiri
+							</h2>
 							{isValidating || load ? (
 								<CircularProgress />
 							) : (
@@ -117,7 +124,9 @@ function DashboardPage(props) {
 							)}
 						</Grid>
 						<Grid item xs={12} md={4}>
-							<h2 className={classes.pencegahanBg}>Patroli Rutin</h2>
+							<h2 className={classes.pencegahanBg}>
+								Patroli Rutin
+							</h2>
 							{isValidating || load ? (
 								<CircularProgress />
 							) : (
@@ -125,7 +134,9 @@ function DashboardPage(props) {
 							)}
 						</Grid>
 						<Grid item xs={12} md={4}>
-							<h2 className={classes.terpaduBg}>Patroli Terpadu</h2>
+							<h2 className={classes.terpaduBg}>
+								Patroli Terpadu
+							</h2>
 							{isValidating || load ? (
 								<CircularProgress />
 							) : (
@@ -140,27 +151,29 @@ function DashboardPage(props) {
 							<MaterialTable
 								title=""
 								components={{
-									Container: (props) => <Paper {...props} elevation={0} />,
+									Container: (props) => (
+										<Paper {...props} elevation={0} />
+									)
 								}}
 								columns={column}
 								data={mandiri}
 								options={{
 									search: true,
-									actionsColumnIndex: -1,
+									actionsColumnIndex: -1
 								}}
 								style={{
-									textTransform: 'capitalize',
+									textTransform: 'capitalize'
 								}}
 								localization={{
-									header: { actions: 'Aksi' },
+									header: { actions: 'Aksi' }
 								}}
 								actions={[
 									{
 										icon: CloudDownloadIcon,
 										tooltip: 'Download Laporan',
 										onClick: (event, rowData) =>
-											window.open(rowData.reportLink),
-									},
+											window.open(rowData.reportLink)
+									}
 								]}
 							/>
 						</Grid>
@@ -169,24 +182,26 @@ function DashboardPage(props) {
 							<MaterialTable
 								title=""
 								components={{
-									Container: (props) => <Paper {...props} elevation={0} />,
+									Container: (props) => (
+										<Paper {...props} elevation={0} />
+									)
 								}}
 								columns={column}
 								data={rutin}
 								options={{
 									search: true,
-									actionsColumnIndex: -1,
+									actionsColumnIndex: -1
 								}}
 								localization={{
-									header: { actions: 'Aksi' },
+									header: { actions: 'Aksi' }
 								}}
 								actions={[
 									{
 										icon: CloudDownloadIcon,
 										tooltip: 'Download Laporan',
 										onClick: (event, rowData) =>
-											window.open(rowData.reportLink),
-									},
+											window.open(rowData.reportLink)
+									}
 								]}
 							/>
 						</Grid>
@@ -195,24 +210,26 @@ function DashboardPage(props) {
 							<MaterialTable
 								title=""
 								components={{
-									Container: (props) => <Paper {...props} elevation={0} />,
+									Container: (props) => (
+										<Paper {...props} elevation={0} />
+									)
 								}}
 								columns={column}
 								data={terpadu}
 								options={{
 									search: true,
-									actionsColumnIndex: -1,
+									actionsColumnIndex: -1
 								}}
 								localization={{
-									header: { actions: 'Aksi' },
+									header: { actions: 'Aksi' }
 								}}
 								actions={[
 									{
 										icon: CloudDownloadIcon,
 										tooltip: 'Download Laporan',
 										onClick: (event, rowData) =>
-											window.open(rowData.reportLink),
-									},
+											window.open(rowData.reportLink)
+									}
 								]}
 							/>
 						</Grid>

@@ -1,5 +1,5 @@
 import API from '../api'
-import WilayahValidator from '../validators/WilayahValidator'
+import WilayahValidator from '../validators/wilayah.validator'
 
 // TODO: fetch wilayah by type
 
@@ -13,13 +13,12 @@ class WilayahService {
 					id: wilayah.id,
 					code: wilayah.kode,
 					name: wilayah.nama,
-					type: wilayah.tipe,
+					type: wilayah.tipe
 				})
 			})
 			return data
-		} else {
-			return new Array()
 		}
+		return new Array()
 	}
 
 	static async getAllKecamatan() {
@@ -32,14 +31,13 @@ class WilayahService {
 						id: wilayah.id,
 						code: wilayah.kode,
 						name: wilayah.nama,
-						type: wilayah.tipe,
+						type: wilayah.tipe
 					})
 				}
 			})
 			return kecamatan
-		} else {
-			return new Array()
 		}
+		return new Array()
 	}
 
 	static async getAllPulau() {
@@ -52,39 +50,37 @@ class WilayahService {
 						id: wilayah.id,
 						code: wilayah.kode,
 						name: wilayah.nama,
-						type: wilayah.tipe,
+						type: wilayah.tipe
 					})
 				}
 			})
 			return pulau
-		} else {
-			return new Array()
 		}
+		return new Array()
 	}
 
 	static async addWilayah(wilayah) {
-		let validate = WilayahValidator.createWilayah(wilayah)
+		const validate = WilayahValidator.createWilayah(wilayah)
 		if (!validate.pass) return { success: false, message: validate.message }
 
-		let formData = new FormData()
+		const formData = new FormData()
 		formData.append('kode', wilayah.code)
 		formData.append('nama', wilayah.name)
 		formData.append('tipe', wilayah.type)
 
-		let r = await API.post('/wilayah/add', formData)
+		const r = await API.post('/wilayah/add', formData)
 
 		if (r.status == 200) {
 			return { success: true }
-		} else {
-			return { success: false, message: [r.message] }
 		}
+		return { success: false, message: [r.message] }
 	}
 
 	static async updateWilayah(newData, oldData) {
-		let validate = WilayahValidator.updateWilayah(newData)
+		const validate = WilayahValidator.updateWilayah(newData)
 		if (!validate.pass) return { success: false, message: validate.message }
 
-		let formData = new FormData()
+		const formData = new FormData()
 		formData.append('id', newData.id)
 		formData.append('nama', newData.name)
 		formData.append('tipe', newData.type)
@@ -92,13 +88,12 @@ class WilayahService {
 			formData.append('kode', newData.code)
 		}
 
-		let r = await API.post('/wilayah/save', formData)
+		const r = await API.post('/wilayah/save', formData)
 
 		if (r.status == 200) {
 			return { success: true }
-		} else {
-			return { success: false, message: [r.message] }
 		}
+		return { success: false, message: [r.message] }
 	}
 
 	static async deleteWilayah(wilayah) {
@@ -109,10 +104,9 @@ class WilayahService {
 
 		if (r.status == 200) {
 			return { success: true }
-		} else {
-			r = await r.json()
-			return { success: false, message: [r.message] }
 		}
+		r = await r.json()
+		return { success: false, message: [r.message] }
 	}
 }
 export default WilayahService

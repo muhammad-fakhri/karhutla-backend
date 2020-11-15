@@ -16,8 +16,7 @@ export default class AuthValidator {
 		}
 		if (errorMsg.length == 0) {
 			return { pass: true }
-		} else {
-			return { pass: false, message: errorMsg, emailError, passwordError }
 		}
+		return { pass: false, message: errorMsg, emailError, passwordError }
 	}
 }

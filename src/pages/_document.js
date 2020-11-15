@@ -13,7 +13,10 @@ class MyDocument extends Document {
 						content="width=device-width, initial-scale=1, shrink-to-fit=no"
 					/>
 					<meta name="theme-color" content="#000000" />
-					<link rel="shortcut icon" href={require('assets/img/favicon.png')} />
+					<link
+						rel="shortcut icon"
+						href={require('assets/img/favicon.png')}
+					/>
 					<link
 						rel="apple-touch-icon"
 						sizes="76x76"
@@ -40,7 +43,7 @@ class MyDocument extends Document {
 	}
 }
 
-MyDocument.getInitialProps = async ctx => {
+MyDocument.getInitialProps = async (ctx) => {
 	// Resolution order
 	//
 	// On the server:
@@ -69,7 +72,7 @@ MyDocument.getInitialProps = async ctx => {
 
 	ctx.renderPage = () =>
 		originalRenderPage({
-			enhanceApp: App => props => sheets.collect(<App {...props} />)
+			enhanceApp: (App) => (props) => sheets.collect(<App {...props} />)
 		})
 
 	const initialProps = await Document.getInitialProps(ctx)

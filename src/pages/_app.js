@@ -24,7 +24,7 @@ import 'assets/scss/nextjs-material-kit.scss?v=1.1.0'
 
 export default class MyApp extends App {
 	componentDidMount() {
-		let comment = document.createComment(`
+		const comment = document.createComment(`
 
 =========================================================
 * NextJS Material Kit v1.1.0 based on Material Kit Free - v2.0.2 (Bootstrap 4.0.0 Final Edition) and Material Kit React v1.8.0

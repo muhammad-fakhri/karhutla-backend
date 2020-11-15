@@ -1,5 +1,5 @@
 import axios from 'axios'
-import CookieService from '../services/CookieService'
+import CookieService from '../services/cookies.service'
 
 export const BASE_URL = 'http://103.129.223.216/api_dev'
 export const simaduApiUrl = 'http://103.129.223.216/api/simadu'
@@ -30,22 +30,22 @@ const handleResponseError = (error) => {
 
 const API = axios.create({
 	baseURL: BASE_URL,
-	headers: { Accept: 'application/json' },
+	headers: { Accept: 'application/json' }
 })
 
 export const SimaduAPI = axios.create({
 	baseURL: simaduApiUrl,
-	headers: { Accept: 'application/json' },
+	headers: { Accept: 'application/json' }
 })
 
 export const SiavipalaAPI = axios.create({
 	baseURL: siavipalaUrl,
-	headers: { Accept: 'application/json' },
+	headers: { Accept: 'application/json' }
 })
 
 export const AuthAPI = axios.create({
 	baseURL: authApiUrl,
-	headers: { Accept: 'application/json' },
+	headers: { Accept: 'application/json' }
 })
 
 API.interceptors.request.use(handleRequestSend, handleRequestError)
