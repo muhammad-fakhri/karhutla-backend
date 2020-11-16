@@ -1,13 +1,13 @@
-import moment from 'moment'
+import Moment from 'moment'
 import { SimaduAPI, simadu2Url } from '../api'
 
 export default class PatroliService {
 	static async getPatroli(url, date) {
 		try {
-			const patroliSpots = new Array()
-			const patroliTerpadu = new Array()
-			const patroliMandiri = new Array()
-			const patroliRutin = new Array()
+			const patroliSpots = []
+			const patroliTerpadu = []
+			const patroliMandiri = []
+			const patroliRutin = []
 			const counter = {
 				mandiri: 0,
 				rutin: 0,
@@ -25,17 +25,17 @@ export default class PatroliService {
 						data.longitude = patroli.laporanDarat[0].longitude
 						const baseMarkerUrl =
 							'http://maps.google.com/mapfiles/ms/icons/'
-						if (patroli.kategori_patroli == 'Mandiri') {
+						if (patroli.kategori_patroli === 'Mandiri') {
 							data.marker = `${baseMarkerUrl}blue-dot.png`
-							counter.mandiri++
+							counter.mandiri += 1
 						}
-						if (patroli.kategori_patroli == 'Rutin') {
+						if (patroli.kategori_patroli === 'Rutin') {
 							data.marker = `${baseMarkerUrl}green-dot.png`
-							counter.rutin++
+							counter.rutin += 1
 						}
-						if (patroli.kategori_patroli == 'Terpadu') {
+						if (patroli.kategori_patroli === 'Terpadu') {
 							data.marker = `${baseMarkerUrl}yellow-dot.png`
-							counter.terpadu++
+							counter.terpadu += 1
 						}
 						data.patroli = patroli
 						patroliSpots.push(data)
@@ -48,7 +48,7 @@ export default class PatroliService {
 					data2.operationRegion = patroli.id_daerah_patroli.nama_daops
 
 					// Format patrol date to DD-MM-YYYY
-					const tempDate = moment(patroli.tanggal_patroli)
+					const tempDate = Moment(patroli.tanggal_patroli)
 					data2.patrolDate = tempDate.format('DD-MM-YYYY')
 
 					if (patroli.kategori_patroli === 'Terpadu')
@@ -68,15 +68,15 @@ export default class PatroliService {
 				patroliRutin
 			}
 		} catch (error) {
-			console.log(error)
+			return error
 		}
 	}
 
 	static async getAllPatroliTerpadu(url) {
 		try {
-			const patroliTerpadu = new Array()
-			const date = new moment()
-			for (let index = 0; index < 5; index++) {
+			const patroliTerpadu = []
+			const date = new Moment()
+			for (let index = 0; index < 5; index += 1) {
 				if (index !== 0) date.subtract(1, 'days')
 				const res = await SimaduAPI.get(url, {
 					params: {
@@ -101,15 +101,15 @@ export default class PatroliService {
 			}
 			return patroliTerpadu
 		} catch (error) {
-			console.log(error)
+			return error
 		}
 	}
 
 	static async getAllPatroliMandiri(url) {
 		try {
-			const patroliMandiri = new Array()
-			const date = new moment()
-			for (let index = 0; index < 5; index++) {
+			const patroliMandiri = []
+			const date = new Moment()
+			for (let index = 0; index < 5; index += 1) {
 				if (index !== 0) date.subtract(1, 'days')
 				const res = await SimaduAPI.get(url, {
 					params: {
@@ -134,15 +134,15 @@ export default class PatroliService {
 			}
 			return patroliMandiri
 		} catch (error) {
-			console.log(error)
+			return error
 		}
 	}
 
 	static async getAllPatroliRutin(url) {
 		try {
-			const patroliRutin = new Array()
-			const date = new moment()
-			for (let index = 0; index < 5; index++) {
+			const patroliRutin = []
+			const date = new Moment()
+			for (let index = 0; index < 5; index += 1) {
 				if (index !== 0) date.subtract(1, 'days')
 				const res = await SimaduAPI.get(url, {
 					params: {
@@ -167,7 +167,7 @@ export default class PatroliService {
 			}
 			return patroliRutin
 		} catch (error) {
-			console.log(error)
+			return error
 		}
 	}
 }

@@ -4,8 +4,8 @@ import UserValidator from '../validators/user.validator'
 class UserService {
 	static async getAllUsers(url) {
 		const r = await API.get(url)
-		if (r.status == 200) {
-			const users = new Array()
+		if (r.status === 200) {
+			const users = []
 			r.data.forEach((user) => {
 				users.push({
 					id: user.id,
@@ -17,12 +17,12 @@ class UserService {
 			})
 			return users
 		}
-		return new Array()
+		return []
 	}
 
 	static async getUserDetail(userId) {
 		const r = await API.get(`/user/single/${userId}`)
-		if (r.status == 200) {
+		if (r.status === 200) {
 			const user = {}
 			user.id = r.data.id
 			user.registrationNumber = r.data.no_registrasi
@@ -49,7 +49,7 @@ class UserService {
 
 		const r = await API.post('/user/add', formData)
 
-		if (r.status == 200) {
+		if (r.status === 200) {
 			return { success: true }
 		}
 		return { success: false, message: [r.message] }
@@ -70,7 +70,7 @@ class UserService {
 
 		const r = await API.post('/user/save', formData)
 
-		if (r.status == 200) {
+		if (r.status === 200) {
 			return { success: true }
 		}
 		return { success: false, message: [r.message] }
@@ -81,7 +81,7 @@ class UserService {
 		if (!validate.pass) return { success: false, message: validate.message }
 
 		const r = await API.delete(`/user/remove/${data.id}`)
-		if (r.status == 200) {
+		if (r.status === 200) {
 			return { success: true }
 		}
 		return { success: false, message: r.message }
@@ -89,11 +89,11 @@ class UserService {
 
 	static async getNonPatroliUsers(url) {
 		const r = await API.get(url)
-		if (r.status == 200) {
-			const daopsUsers = new Array()
-			const balaiUsers = new Array()
+		if (r.status === 200) {
+			const daopsUsers = []
+			const balaiUsers = []
 			r.data.forEach((userAccess) => {
-				if (userAccess.r_role_id == 8 || userAccess.r_role_id == 9) {
+				if (userAccess.r_role_id === 8 || userAccess.r_role_id === 9) {
 					daopsUsers.push({
 						id: userAccess.m_user.id,
 						accessId: userAccess.id,
@@ -119,13 +119,13 @@ class UserService {
 			})
 			return { daopsUsers, balaiUsers }
 		}
-		return new Array()
+		return []
 	}
 
 	static async getPatroliNonLoginUsers(url) {
 		const r = await API.get(url)
-		if (r.status == 200) {
-			const users = new Array()
+		if (r.status === 200) {
+			const users = []
 			r.data.forEach((user) => {
 				users.push({
 					id: user.id,
@@ -135,7 +135,7 @@ class UserService {
 			})
 			return users
 		}
-		return new Array()
+		return []
 	}
 
 	static async addPatroliNonLoginUser(data) {
@@ -148,7 +148,7 @@ class UserService {
 
 		const r = await API.post('/non_login/add', formData)
 
-		if (r.status == 200) {
+		if (r.status === 200) {
 			return { success: true }
 		}
 		return { success: false, message: [r.message] }
@@ -165,7 +165,7 @@ class UserService {
 
 		const r = await API.post('/non_login/save', formData)
 
-		if (r.status == 200) {
+		if (r.status === 200) {
 			return { success: true }
 		}
 		return { success: false, message: [r.message] }
@@ -177,7 +177,7 @@ class UserService {
 
 		const r = await API.delete(`/non_login/remove/${data.id}`)
 
-		if (r.status == 200) {
+		if (r.status === 200) {
 			return { success: true }
 		}
 		return { success: false, message: [r.message] }
@@ -185,8 +185,8 @@ class UserService {
 
 	static async getNonPatroliRoles() {
 		const r = await API.get('/role/list')
-		if (r.status == 200) {
-			const data = new Array()
+		if (r.status === 200) {
+			const data = []
 			r.data.forEach((role) => {
 				if (role.id <= 9) {
 					data.push({
@@ -199,13 +199,13 @@ class UserService {
 			})
 			return data
 		}
-		return new Array()
+		return []
 	}
 
 	static async getPatroliNonLoginRoles() {
 		const r = await API.get('/role/list')
-		if (r.status == 200) {
-			const data = new Array()
+		if (r.status === 200) {
+			const data = []
 			r.data.forEach((role) => {
 				if (role.id > 11) {
 					data.push({
@@ -218,7 +218,7 @@ class UserService {
 			})
 			return data
 		}
-		return new Array()
+		return []
 	}
 
 	static async addNonPatroliUser(data) {
@@ -232,7 +232,7 @@ class UserService {
 
 		const r = await API.post('/non_patroli/add', formData)
 
-		if (r.status == 200) {
+		if (r.status === 200) {
 			return { success: true }
 		}
 		return { success: false, message: [r.message] }
@@ -248,7 +248,7 @@ class UserService {
 
 		const r = await API.post('non_patroli/save', formData)
 		// TODO: update daops/balai organization in user access
-		if (r.status == 200) {
+		if (r.status === 200) {
 			return { success: true }
 		}
 		return { success: false, message: [r.message] }
@@ -258,7 +258,7 @@ class UserService {
 		const validate = UserValidator.deleteNonPatroli(data)
 		if (!validate.pass) return { success: false, message: validate.message }
 		const r = await API.delete(`/non_patroli/remove/${data.accessId}`)
-		if (r.status == 200) {
+		if (r.status === 200) {
 			return { success: true }
 		}
 		return { success: false, message: [r.message] }

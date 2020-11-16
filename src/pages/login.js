@@ -3,23 +3,23 @@ import { InputAdornment, Icon, CircularProgress } from '@material-ui/core'
 import Alert from '@material-ui/lab/Alert'
 import Email from '@material-ui/icons/Email'
 import { useState } from 'react'
-import styles from '../assets/jss/nextjs-material-kit/pages/loginPage.js'
+import styles from '../assets/jss/nextjs-material-kit/pages/loginPage'
 import AuthLayout from '../components/Layout/AuthLayout'
-import GridContainer from '../components/Grid/GridContainer.js'
-import GridItem from '../components/Grid/GridItem.js'
-import Button from '../components/CustomButtons/Button.js'
-import Card from '../components/Card/Card.js'
-import CardBody from '../components/Card/CardBody.js'
-import CardHeader from '../components/Card/CardHeader.js'
-import CardFooter from '../components/Card/CardFooter.js'
-import CustomInput from '../components/CustomInput/CustomInput.js'
+import GridContainer from '../components/Grid/GridContainer'
+import GridItem from '../components/Grid/GridItem'
+import Button from '../components/CustomButtons/Button'
+import Card from '../components/Card/Card'
+import CardBody from '../components/Card/CardBody'
+import CardHeader from '../components/Card/CardHeader'
+import CardFooter from '../components/Card/CardFooter'
+import CustomInput from '../components/CustomInput/CustomInput'
 import Loader from '../components/Loader/Loader'
 import useAuth, { ProtectRoute } from '../context/auth'
 import AuthValidator from '../validators/auth.validator'
 
 const useStyles = makeStyles(styles)
 
-function LoginPage(props) {
+function LoginPage() {
 	const { login, isAuthenticated } = useAuth()
 	const [loading, setLoading] = React.useState(false)
 	const [values, setValues] = React.useState({
@@ -33,7 +33,7 @@ function LoginPage(props) {
 	const handleChange = (prop) => (event) => {
 		setValues({ ...values, [prop]: event.target.value })
 	}
-	const handleSubmit = async (e) => {
+	const handleSubmit = async () => {
 		const validate = AuthValidator.login(values)
 		if (validate.pass) {
 			setLoading(true)
@@ -62,7 +62,6 @@ function LoginPage(props) {
 		setCardAnimation('')
 	}, 700)
 	const classes = useStyles()
-	const { ...rest } = props
 
 	return isAuthenticated ? (
 		<Loader />

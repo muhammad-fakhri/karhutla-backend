@@ -20,7 +20,7 @@ import App from 'next/app'
 import Head from 'next/head'
 import { AuthProvider } from '../context/auth'
 
-import 'assets/scss/nextjs-material-kit.scss?v=1.1.0'
+import '../assets/scss/nextjs-material-kit.scss'
 
 export default class MyApp extends App {
 	componentDidMount() {

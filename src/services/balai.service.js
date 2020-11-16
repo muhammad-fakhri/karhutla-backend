@@ -4,8 +4,8 @@ import BalaiValidator from '../validators/balai.validator'
 class BalaiService {
 	static async getAllBalai() {
 		const r = await API.get('/balai/list')
-		if (r.status == 200) {
-			const data = new Array()
+		if (r.status === 200) {
+			const data = []
 			r.data.forEach((balai) => {
 				data.push({
 					id: balai.id,
@@ -16,7 +16,7 @@ class BalaiService {
 			})
 			return data
 		}
-		return new Array()
+		return []
 	}
 
 	static async addBalai(balai) {
@@ -29,7 +29,7 @@ class BalaiService {
 		formData.append('r_wilayah_id', balai.region)
 
 		const r = await API.post('/balai/add', formData)
-		if (r.status == 200) {
+		if (r.status === 200) {
 			return { success: true }
 		}
 		return { success: false, message: [r.message] }
@@ -49,7 +49,7 @@ class BalaiService {
 
 		const r = await API.post('/balai/save', formData)
 
-		if (r.status == 200) {
+		if (r.status === 200) {
 			return { success: true }
 		}
 		return { success: false, message: [r.message] }
@@ -59,9 +59,9 @@ class BalaiService {
 		const validate = BalaiValidator.deleteBalai(balai)
 		if (!validate.pass) return { success: false, message: validate.message }
 
-		const r = await API.delete(`/balai/remove/${balai.id}`)
+		let r = await API.delete(`/balai/remove/${balai.id}`)
 
-		if (r.status == 200) {
+		if (r.status === 200) {
 			return { success: true }
 		}
 		r = await r.json()

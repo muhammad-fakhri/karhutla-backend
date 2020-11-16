@@ -2,8 +2,8 @@ import { SiavipalaAPI } from '../api'
 
 export default class HotspotService {
 	static async getHotspot(url) {
-		let responses = new Array()
-		const hotspots = new Array()
+		let responses = []
+		const hotspots = []
 		try {
 			const res = await SiavipalaAPI.get(url)
 			responses = res.hostspot_sipongi
@@ -14,7 +14,7 @@ export default class HotspotService {
 			})
 			return hotspots
 		} catch (error) {
-			console.log(error)
+			return error
 		}
 	}
 }

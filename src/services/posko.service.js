@@ -4,8 +4,8 @@ import API from '../api'
 class PoskoService {
 	static async getAllPosko() {
 		const response = await API.get('/posko/list')
-		const poskoData = new Array()
-		if (response.status == 200) {
+		const poskoData = []
+		if (response.status === 200) {
 			response.data.forEach((posko) => {
 				poskoData.push({
 					id: posko.id,
@@ -18,13 +18,13 @@ class PoskoService {
 			})
 			return poskoData
 		}
-		return new Array()
+		return []
 	}
 
 	static async getDetailPosko(id) {
 		const response = await API.get(`/posko/single/${id}`)
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			const posko = {}
 			posko.id = response.data.id
 			posko.name = response.data.nama
@@ -34,7 +34,7 @@ class PoskoService {
 			posko.kecamatanId = response.data.r_wilayah_id_kec
 			return posko
 		}
-		return new Array()
+		return []
 	}
 
 	static async addPosko(posko) {
@@ -48,7 +48,7 @@ class PoskoService {
 
 		const r = await API.post('/posko/add', formData)
 
-		if (r.status == 200) {
+		if (r.status === 200) {
 			return { success: true }
 		}
 		return { success: false, message: [r.message] }
@@ -66,7 +66,7 @@ class PoskoService {
 
 		const r = await API.post('/posko/save', formData)
 
-		if (r.status == 200) {
+		if (r.status === 200) {
 			return { success: true }
 		}
 		return { success: false, message: [r.message] }
@@ -76,9 +76,9 @@ class PoskoService {
 		const validate = PoskoValidator.deletePosko(posko)
 		if (!validate.pass) return { success: false, message: validate.message }
 
-		const r = await API.delete(`/posko/remove/${posko.id}`)
+		let r = await API.delete(`/posko/remove/${posko.id}`)
 
-		if (r.status == 200) {
+		if (r.status === 200) {
 			return { success: true }
 		}
 		r = await r.json()

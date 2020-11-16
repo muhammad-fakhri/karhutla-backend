@@ -5,37 +5,32 @@ import classNames from 'classnames'
 import { makeStyles } from '@material-ui/core/styles'
 import { Typography } from '@material-ui/core'
 // core components
-import GridContainer from 'components/Grid/GridContainer.js'
-import GridItem from 'components/Grid/GridItem.js'
-import Loader from 'components/Loader/Loader'
-import Parallax from 'components/Parallax/Parallax.js'
-import profile from 'assets/img/user.png'
-import styles from 'assets/jss/nextjs-material-kit/pages/profilePage.js'
+import GridContainer from '../components/Grid/GridContainer'
+import GridItem from '../components/Grid/GridItem'
+import Loader from '../components/Loader/Loader'
+import Parallax from '../components/Parallax/Parallax'
+import profile from '../assets/img/user.png'
+import styles from '../assets/jss/nextjs-material-kit/pages/profilePage'
+import profileBgImage from '../assets/img/profile-bg.jpg'
 import SiteLayout from '../components/Layout/SiteLayout'
 import useAuth, { ProtectRoute } from '../context/auth'
 
 const useStyles = makeStyles(styles)
 
-function ProfilePage(props) {
+function ProfilePage() {
 	const classes = useStyles()
 	const { isAuthenticated, user } = useAuth()
-	const { ...rest } = props
 	const imageClasses = classNames(
 		classes.imgRaised,
 		classes.imgRoundedCircle,
 		classes.imgFluid
 	)
-	const navImageClasses = classNames(classes.imgRounded, classes.imgGallery)
 	return !isAuthenticated ? (
 		<Loader />
 	) : (
 		<SiteLayout scrollChange={true}>
 			<div>
-				<Parallax
-					small
-					filter
-					image={require('assets/img/profile-bg.jpg')}
-				/>
+				<Parallax small filter image={profileBgImage} />
 				<div className={classNames(classes.main, classes.mainRaised)}>
 					<div>
 						<div className={classes.container}>

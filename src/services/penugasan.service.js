@@ -3,8 +3,8 @@ import API from '../api'
 class PenugasanService {
 	static async getAllPenugasan(url) {
 		const r = await API.get(url)
-		if (r.status == 200) {
-			const data = new Array()
+		if (r.status === 200) {
+			const data = []
 			r.data.forEach((work) => {
 				data.push({
 					id: work.id,
@@ -16,7 +16,7 @@ class PenugasanService {
 			})
 			return data
 		}
-		return new Array()
+		return []
 	}
 }
 export default PenugasanService

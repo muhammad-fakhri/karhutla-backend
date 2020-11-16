@@ -4,8 +4,8 @@ import API from '../api'
 class DaopsService {
 	static async getAllDaops() {
 		const r = await API.get('/daops/list')
-		if (r.status == 200) {
-			const data = new Array()
+		if (r.status === 200) {
+			const data = []
 			r.data.forEach((daops) => {
 				data.push({
 					id: daops.id,
@@ -16,7 +16,7 @@ class DaopsService {
 			})
 			return data
 		}
-		return new Array()
+		return []
 	}
 
 	static async addDaops(daops) {
@@ -30,7 +30,7 @@ class DaopsService {
 
 		const r = await API.post('/daops/add', formData)
 
-		if (r.status == 200) {
+		if (r.status === 200) {
 			return { success: true }
 		}
 		return { success: false, message: [r.message] }
@@ -50,7 +50,7 @@ class DaopsService {
 
 		const r = await API.post('/daops/save', formData)
 
-		if (r.status == 200) {
+		if (r.status === 200) {
 			return { success: true }
 		}
 		return { success: false, message: [r.message] }
@@ -60,9 +60,9 @@ class DaopsService {
 		const validate = DaopsValidator.deleteDaops(daops)
 		if (!validate.pass) return { success: false, message: validate.message }
 
-		const r = await API.delete(`/daops/remove/${daops.id}`)
+		let r = await API.delete(`/daops/remove/${daops.id}`)
 
-		if (r.status == 200) {
+		if (r.status === 200) {
 			return { success: true }
 		}
 		r = await r.json()

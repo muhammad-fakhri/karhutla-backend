@@ -3,16 +3,17 @@ import { makeStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
 import moment from 'moment'
 import Datetime from 'react-datetime'
-import styles from '../assets/jss/nextjs-material-kit/pages/frontPage.js'
+import styles from '../assets/jss/nextjs-material-kit/pages/frontPage'
 import SiteLayout from '../components/Layout/SiteLayout'
 import MapContainer from '../components/Map/MapPatroli'
-import Parallax from '../components/Parallax/Parallax.js'
+import Parallax from '../components/Parallax/Parallax'
 import useAuth from '../context/auth'
 import PatroliService from '../services/patroli.service'
+import forestFireImage from '../assets/img/forest-fire.jpg'
 
 const useStyles = makeStyles(styles)
 
-export default function FrontPage(props) {
+export default function FrontPage() {
 	const classes = useStyles()
 	const { isAuthenticated } = useAuth()
 	const [date, setDate] = React.useState(moment())
@@ -40,7 +41,7 @@ export default function FrontPage(props) {
 	return (
 		<SiteLayout scrollChange={true}>
 			<div>
-				<Parallax image={require('assets/img/forest-fire.jpg')}>
+				<Parallax image={forestFireImage}>
 					<div className={classes.container}>
 						<Grid container>
 							<Grid item>

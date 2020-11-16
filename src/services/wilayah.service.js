@@ -6,8 +6,8 @@ import WilayahValidator from '../validators/wilayah.validator'
 class WilayahService {
 	static async getAllWilayah() {
 		const r = await API.get('/wilayah/list')
-		if (r.status == 200) {
-			const data = new Array()
+		if (r.status === 200) {
+			const data = []
 			r.data.forEach((wilayah) => {
 				data.push({
 					id: wilayah.id,
@@ -18,13 +18,13 @@ class WilayahService {
 			})
 			return data
 		}
-		return new Array()
+		return []
 	}
 
 	static async getAllKecamatan() {
 		const r = await API.get('/wilayah/list')
-		if (r.status == 200) {
-			const kecamatan = new Array()
+		if (r.status === 200) {
+			const kecamatan = []
 			r.data.forEach((wilayah) => {
 				if (wilayah.tipe === 'Kecamatan') {
 					kecamatan.push({
@@ -37,13 +37,13 @@ class WilayahService {
 			})
 			return kecamatan
 		}
-		return new Array()
+		return []
 	}
 
 	static async getAllPulau() {
 		const r = await API.get('/wilayah/list')
-		if (r.status == 200) {
-			const pulau = new Array()
+		if (r.status === 200) {
+			const pulau = []
 			r.data.forEach((wilayah) => {
 				if (wilayah.tipe === 'Pulau') {
 					pulau.push({
@@ -56,7 +56,7 @@ class WilayahService {
 			})
 			return pulau
 		}
-		return new Array()
+		return []
 	}
 
 	static async addWilayah(wilayah) {
@@ -70,7 +70,7 @@ class WilayahService {
 
 		const r = await API.post('/wilayah/add', formData)
 
-		if (r.status == 200) {
+		if (r.status === 200) {
 			return { success: true }
 		}
 		return { success: false, message: [r.message] }
@@ -90,7 +90,7 @@ class WilayahService {
 
 		const r = await API.post('/wilayah/save', formData)
 
-		if (r.status == 200) {
+		if (r.status === 200) {
 			return { success: true }
 		}
 		return { success: false, message: [r.message] }
@@ -100,9 +100,9 @@ class WilayahService {
 		const validate = WilayahValidator.deleteWilayah(wilayah)
 		if (!validate.pass) return { success: false, message: validate.message }
 
-		const r = await API.delete(`/wilayah/remove/${wilayah.id}`)
+		let r = await API.delete(`/wilayah/remove/${wilayah.id}`)
 
-		if (r.status == 200) {
+		if (r.status === 200) {
 			return { success: true }
 		}
 		r = await r.json()
