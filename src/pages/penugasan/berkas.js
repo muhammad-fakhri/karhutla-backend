@@ -1,70 +1,84 @@
 import 'date-fns'
-import DateFnsUtils from '@date-io/date-fns'
-import { TextField, MenuItem } from '@material-ui/core'
-import CloudUploadIcon from '@material-ui/icons/CloudUpload'
+// import DateFnsUtils from '@date-io/date-fns'
 import {
-	MuiPickersUtilsProvider,
-	KeyboardDatePicker
-} from '@material-ui/pickers'
+	TextField,
+	// MenuItem,
+	Typography,
+	Link,
+	CircularProgress
+} from '@material-ui/core'
+import CloudUploadIcon from '@material-ui/icons/CloudUpload'
+// import {
+// 	MuiPickersUtilsProvider,
+// 	KeyboardDatePicker
+// } from '@material-ui/pickers'
+import classNames from 'classnames'
+import { makeStyles } from '@material-ui/core/styles'
+import { Alert } from '@material-ui/lab'
 import SiteLayout from '../../components/Layout/SiteLayout'
-import GridContainer from '../../components/Grid/GridContainer.js'
-import GridItem from '../../components/Grid/GridItem.js'
+import GridContainer from '../../components/Grid/GridContainer'
+import GridItem from '../../components/Grid/GridItem'
 import Button from '../../components/CustomButtons/Button'
 import Loader from '../../components/Loader/Loader'
-import classNames from 'classnames'
+import PenugasanService from '../../services/penugasan.service'
 import styles from '../../assets/jss/nextjs-material-kit/pages/penugasan/createPenugasanPage'
-import { makeStyles } from '@material-ui/core/styles'
 import useAuth, { ProtectRoute } from '../../context/auth'
+
 const useStyles = makeStyles(styles)
 
-const workTypes = [
-	{
-		value: 'mandiri',
-		label: 'Mandiri'
-	},
-	{
-		value: 'rutin',
-		label: 'Rutin'
-	},
-	{
-		value: 'terpadu',
-		label: 'Terpadu'
-	}
-]
+// const workTypes = [
+// 	{
+// 		value: 'mandiri',
+// 		label: 'Mandiri'
+// 	},
+// 	{
+// 		value: 'rutin',
+// 		label: 'Rutin'
+// 	},
+// 	{
+// 		value: 'terpadu',
+// 		label: 'Terpadu'
+// 	}
+// ]
 
-function BerkasPenugasanPage(props) {
+function BerkasPenugasanPage() {
 	const classes = useStyles()
 	const { isAuthenticated } = useAuth()
-	const [workType, setWorkType] = React.useState('terpadu')
-	const [startDate, setStartDate] = React.useState(new Date())
-	const [finishDate, setFinishDate] = React.useState(new Date())
-	const [workNumber, setWorkNumber] = React.useState()
+	// const [workType, setWorkType] = React.useState('terpadu')
+	// const [startDate, setStartDate] = React.useState(new Date())
+	// const [finishDate, setFinishDate] = React.useState(new Date())
+	// const [workNumber, setWorkNumber] = React.useState()
 	const [workFile, setWorkFile] = React.useState()
+	const [alertMessage, setAlertMessage] = React.useState()
+	const [show, setShow] = React.useState(false)
+	const [loading, setLoading] = React.useState(false)
 
-	const handleStartDateChange = (date) => {
-		setStartDate(date)
-	}
+	// const handleStartDateChange = (date) => {
+	// 	setStartDate(date)
+	// }
 
-	const handleFinishDateChange = (date) => {
-		setFinishDate(date)
-	}
+	// const handleFinishDateChange = (date) => {
+	// 	setFinishDate(date)
+	// }
 
-	const handleWorkNumberChange = (number) => {
-		setWorkNumber(number)
-	}
+	// const handleWorkNumberChange = (number) => {
+	// 	setWorkNumber(number)
+	// }
 
-	const handleWorkTypeChange = (event) => {
-		setWorkType(event.target.value)
-	}
+	// const handleWorkTypeChange = (event) => {
+	// 	setWorkType(event.target.value)
+	// }
 
 	const handleFileChange = (event) => {
 		setWorkFile(event.target.files[0])
-		console.log(event.target.files[0])
 	}
 
-	const handleClick = () => {
-		const data = new FormData()
-		data.append('file', workFile)
+	const handleClick = async () => {
+		setLoading(true)
+		const result = await PenugasanService.uploadPenugasan(workFile)
+		setLoading(false)
+		setAlertMessage(result.message)
+		setShow(true)
 	}
 
 	return !isAuthenticated ? (
@@ -80,7 +94,7 @@ function BerkasPenugasanPage(props) {
 			>
 				<h2>Upload Berkas Excel Penugasan</h2>
 				<form noValidate autoComplete="off" className={classes.form}>
-					<GridContainer justify="center">
+					{/* <GridContainer justify="center">
 						<GridItem sm={3} xs={10}>
 							<TextField
 								id="work-paper-type"
@@ -117,8 +131,8 @@ function BerkasPenugasanPage(props) {
 								className={classes.textAlignLeft}
 							/>
 						</GridItem>
-					</GridContainer>
-					<GridContainer justify="center" alignItems="center">
+					</GridContainer> */}
+					{/* <GridContainer justify="center" alignItems="center">
 						<GridItem sm={3} xs={10}>
 							<MuiPickersUtilsProvider utils={DateFnsUtils}>
 								<KeyboardDatePicker
@@ -155,9 +169,40 @@ function BerkasPenugasanPage(props) {
 								/>
 							</MuiPickersUtilsProvider>
 						</GridItem>
+					</GridContainer> */}
+					<GridContainer justify="center">
+						<GridItem sm={10} xs={10}>
+							{show ? (
+								<Alert
+									severity="info"
+									color="info"
+									variant="filled"
+									onClose={() => {
+										setShow(false)
+									}}
+									hidden={true}
+									className={classes.alert}
+								>
+									{alertMessage}
+								</Alert>
+							) : null}
+							<Typography variant="body1" gutterBottom>
+								Gunakan File EXCEL dengan format yang dapat
+								diunduh{' '}
+								<Link
+									href="http://103.129.223.216/simadu2/app/contoh_template.xlsx"
+									className={classes.downloadButton}
+								>
+									disini
+								</Link>
+								<br></br>
+								pastikan SEMUA kolom TERISI dan format penulisan
+								telah sesuai
+							</Typography>
+						</GridItem>
 					</GridContainer>
 					<GridContainer justify="center">
-						<GridItem sm={4} xs={10}>
+						<GridItem sm={6} md={4} xs={10}>
 							<TextField
 								id="outlined-number"
 								margin="normal"
@@ -177,17 +222,19 @@ function BerkasPenugasanPage(props) {
 					</GridContainer>
 					<GridContainer justify="center">
 						<GridItem sm={3} xs={10}>
-							<Button
-								variant="contained"
-								color="primary"
-								startIcon={<CloudUploadIcon />}
-								onClick={() =>
-									alert('Masih dalam pengembangan')
-								}
-								fullWidth
-							>
-								Upload
-							</Button>
+							{loading ? (
+								<CircularProgress />
+							) : (
+								<Button
+									variant="contained"
+									color="primary"
+									startIcon={<CloudUploadIcon />}
+									onClick={handleClick}
+									fullWidth
+								>
+									Upload
+								</Button>
+							)}
 						</GridItem>
 					</GridContainer>
 				</form>

@@ -1,4 +1,5 @@
 import basePage from '../basePage'
+
 const berkasPageStyle = {
 	...basePage,
 	textAlignLeft: {
@@ -7,7 +8,13 @@ const berkasPageStyle = {
 	form: {
 		marginTop: '32px'
 	},
-	gridItem: {}
+	gridItem: {},
+	downloadButton: {
+		fontWeight: 'bold'
+	},
+	alert: {
+		marginBottom: '16px'
+	}
 }
 
 export default berkasPageStyle
