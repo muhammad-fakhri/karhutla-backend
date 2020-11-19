@@ -1,5 +1,5 @@
-import basePage from './basePage'
-import { container } from 'assets/jss/nextjs-material-kit.js'
+import basePage from './base.page.style'
+import { container } from '../../nextjs-material-kit'
 
 const frontPageStyle = {
 	...basePage,

@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import MaterialTable from 'material-table'
 import useSWR from 'swr'
 import { Alert } from '@material-ui/lab'
-import styles from '../../assets/jss/nextjs-material-kit/pages/wilayahKerjaPage'
+import styles from '../../assets/jss/nextjs-material-kit/pages/wilayah-kerja.page.style'
 import SiteLayout from '../../components/Layout/SiteLayout'
 import WilayahService from '../../services/wilayah.service'
 import useAuth, { ProtectRoute } from '../../context/auth'
@@ -27,8 +27,8 @@ const column = [
 	}
 ]
 
-function WilayahPage(props) {
-	const { isAuthenticated, loading } = useAuth()
+function WilayahPage() {
+	const { isAuthenticated } = useAuth()
 	const useStyles = makeStyles(styles)
 	const classes = useStyles()
 	const [show, setShow] = React.useState(false)
@@ -103,7 +103,7 @@ function WilayahPage(props) {
 									WilayahService.addWilayah(newData).then(
 										async (result) => {
 											if (result.success) {
-												let data = await WilayahService.getAllWilayah()
+												const data = await WilayahService.getAllWilayah()
 												setValues({
 													...values,
 													wilayah: data,
@@ -115,9 +115,7 @@ function WilayahPage(props) {
 											} else {
 												setValues({
 													...values,
-													alertMessage:
-														'Tambah Wilayah Gagal, ' +
-														result.message[0],
+													alertMessage: `Tambah Wilayah Gagal, ${result.message[0]}`,
 													successAlert: false
 												})
 												reject()
@@ -148,9 +146,7 @@ function WilayahPage(props) {
 										} else {
 											setValues({
 												...values,
-												alertMessage:
-													'Update Wilayah Gagal, ' +
-													result.message[0],
+												alertMessage: `Update Wilayah Gagal, ${result.message[0]}`,
 												successAlert: false
 											})
 											reject()
@@ -159,7 +155,7 @@ function WilayahPage(props) {
 									})
 								}),
 							onRowDelete: (oldData) =>
-								new Promise((resolve, reject) => {
+								new Promise((resolve) => {
 									WilayahService.deleteWilayah(oldData).then(
 										(result) => {
 											if (result.success) {
@@ -179,9 +175,7 @@ function WilayahPage(props) {
 											} else {
 												setValues({
 													...values,
-													alertMessage:
-														'Hapus Wilayah Gagal, ' +
-														result.message[0],
+													alertMessage: `Hapus Wilayah Gagal, ${result.message[0]}`,
 													successAlert: false
 												})
 											}

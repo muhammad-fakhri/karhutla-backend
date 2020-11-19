@@ -1,9 +1,6 @@
-import basePage from './basePage'
+import basePage from '../base.page.style'
 
-const hakAksesPageStyle = {
-	root: {
-		margin: 0
-	},
+const penugasanPageStyle = {
 	title: {
 		color: '#000000'
 	},
@@ -13,8 +10,7 @@ const hakAksesPageStyle = {
 		padding: '12vh 0 4vh 0'
 	},
 	gridItem: {
-		marginTop: '16px',
-		backgroundColor: '#ffffff'
+		marginTop: '16px'
 	},
 	buttonBase: {
 		width: '60%',
@@ -25,16 +21,7 @@ const hakAksesPageStyle = {
 		borderRadius: '8px',
 		boxShadow:
 			'0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)'
-	},
-	closeButton: {
-		position: 'absolute',
-		right: '8px',
-		top: '8px',
-		color: '#e6e1e1'
-	},
-	dialogTitle: {
-		marginRight: '32px'
 	}
 }
 
-export default hakAksesPageStyle
+export default penugasanPageStyle

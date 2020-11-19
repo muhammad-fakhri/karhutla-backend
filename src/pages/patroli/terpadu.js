@@ -4,7 +4,7 @@ import CloudDownloadIcon from '@material-ui/icons/CloudDownload'
 import classNames from 'classnames'
 import MaterialTable from 'material-table'
 import useSWR from 'swr'
-import styles from '../../assets/jss/nextjs-material-kit/pages/patrolReportPage'
+import styles from '../../assets/jss/nextjs-material-kit/pages/patrol-report.page.style'
 import SiteLayout from '../../components/Layout/SiteLayout'
 import Loader from '../../components/Loader/Loader'
 import PatroliService from '../../services/patroli.service'
@@ -16,7 +16,7 @@ const column = [
 	{ title: 'Daerah Patroli', field: 'patrolRegion' }
 ]
 
-function PatroliTerpaduPage(props) {
+function PatroliTerpaduPage() {
 	const useStyles = makeStyles(styles)
 	const { isAuthenticated } = useAuth()
 	const classes = useStyles()

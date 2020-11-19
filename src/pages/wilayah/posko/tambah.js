@@ -17,16 +17,17 @@ import MaterialTable from 'material-table'
 import MuiDialogTitle from '@material-ui/core/DialogTitle'
 import MuiDialogContent from '@material-ui/core/DialogContent'
 import CloseIcon from '@material-ui/icons/Close'
+import classNames from 'classnames'
+import { makeStyles } from '@material-ui/core/styles'
 import SiteLayout from '../../../components/Layout/SiteLayout'
 import CustomButton from '../../../components/CustomButtons/Button'
 import Loader from '../../../components/Loader/Loader'
-import classNames from 'classnames'
-import styles from '../../../assets/jss/nextjs-material-kit/pages/createPoskoPage'
-import { makeStyles } from '@material-ui/core/styles'
+import styles from '../../../assets/jss/nextjs-material-kit/pages/create-posko.page.style'
 import useAuth, { ProtectRoute } from '../../../context/auth'
 import PoskoService from '../../../services/posko.service'
 import DaopsService from '../../../services/daops.service'
 import WilayahService from '../../../services/wilayah.service'
+
 const useStyles = makeStyles(styles)
 
 const DialogTitle = (props) => {
@@ -57,7 +58,7 @@ const column = [
 	}
 ]
 
-function TambahPoskoPage(props) {
+function TambahPoskoPage() {
 	const classes = useStyles()
 	const { isAuthenticated } = useAuth()
 	const router = useRouter()
@@ -79,7 +80,7 @@ function TambahPoskoPage(props) {
 	}
 	const handleFormSubmit = async () => {
 		setLoading(true)
-		let result = await PoskoService.addPosko(values)
+		const result = await PoskoService.addPosko(values)
 		if (result.success)
 			setValues({ ...values, successDialog: true, showDialog: true })
 		else {

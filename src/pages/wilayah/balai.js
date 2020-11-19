@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import MaterialTable from 'material-table'
 import useSWR from 'swr'
 import { Alert } from '@material-ui/lab'
-import styles from '../../assets/jss/nextjs-material-kit/pages/wilayahKerjaPage'
+import styles from '../../assets/jss/nextjs-material-kit/pages/wilayah-kerja.page.style'
 import SiteLayout from '../../components/Layout/SiteLayout'
 import Loader from '../../components/Loader/Loader'
 import BalaiService from '../../services/balai.service'
@@ -12,17 +12,17 @@ import WilayahService from '../../services/wilayah.service'
 import useAuth, { ProtectRoute } from '../../context/auth'
 
 const generateWilayahLookup = async () => {
-	let data = {}
-	let wilayah = await WilayahService.getAllPulau()
+	const data = {}
+	const wilayah = await WilayahService.getAllPulau()
 	wilayah.forEach((item) => {
-		data[item.id] = item.type + ' ' + item.name
+		data[item.id] = `${item.type} ${item.name}`
 	})
 	return data
 }
 
 // TODO: Show organization at balai/pusat useraccess
 
-function BalaiPage(props) {
+function BalaiPage() {
 	const { isAuthenticated } = useAuth()
 	const useStyles = makeStyles(styles)
 	const classes = useStyles()
@@ -46,7 +46,7 @@ function BalaiPage(props) {
 	}
 	React.useEffect(() => {
 		const setLookup = async () => {
-			let wilayahLookup = await generateWilayahLookup()
+			const wilayahLookup = await generateWilayahLookup()
 			const column = [
 				{ title: 'Nama Balai', field: 'name' },
 				{ title: 'Kode Balai', field: 'code' },
@@ -115,7 +115,7 @@ function BalaiPage(props) {
 									BalaiService.addBalai(newData).then(
 										async (result) => {
 											if (result.success) {
-												let data = await BalaiService.getAllBalai()
+												const data = await BalaiService.getAllBalai()
 												setValues({
 													...values,
 													balai: data,
@@ -127,9 +127,7 @@ function BalaiPage(props) {
 											} else {
 												setValues({
 													...values,
-													alertMessage:
-														'Tambah Balai Gagal, ' +
-														result.message[0],
+													alertMessage: `Tambah Balai Gagal, ${result.message[0]}`,
 													successAlert: false
 												})
 												reject()
@@ -158,9 +156,7 @@ function BalaiPage(props) {
 										} else {
 											setValues({
 												...values,
-												alertMessage:
-													'Update Balai Gagal, ' +
-													result.message[0],
+												alertMessage: `Update Balai Gagal, ${result.message[0]}`,
 												successAlert: false
 											})
 											reject()
@@ -169,7 +165,7 @@ function BalaiPage(props) {
 									})
 								}),
 							onRowDelete: (oldData) =>
-								new Promise((resolve, reject) => {
+								new Promise((resolve) => {
 									BalaiService.deleteBalai(oldData).then(
 										(result) => {
 											if (result.success) {
@@ -189,9 +185,7 @@ function BalaiPage(props) {
 											} else {
 												setValues({
 													...values,
-													alertMessage:
-														'Hapus Balai Gagal, ' +
-														result.message[0],
+													alertMessage: `Hapus Balai Gagal, ${result.message[0]}`,
 													successAlert: false
 												})
 											}

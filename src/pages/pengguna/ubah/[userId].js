@@ -10,17 +10,18 @@ import {
 import Alert from '@material-ui/lab/Alert'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
+import classNames from 'classnames'
+import { makeStyles } from '@material-ui/core/styles'
 import SiteLayout from '../../../components/Layout/SiteLayout'
 import Button from '../../../components/CustomButtons/Button'
 import Loader from '../../../components/Loader/Loader'
-import classNames from 'classnames'
-import styles from '../../../assets/jss/nextjs-material-kit/pages/updatePenggunaPage'
-import { makeStyles } from '@material-ui/core/styles'
+import styles from '../../../assets/jss/nextjs-material-kit/pages/update-pengguna.page.style'
 import useAuth, { ProtectRoute } from '../../../context/auth'
 import UserService from '../../../services/user.service'
+
 const useStyles = makeStyles(styles)
 
-function UbahPenggunaPage(props) {
+function UbahPenggunaPage() {
 	const classes = useStyles()
 	const { isAuthenticated } = useAuth()
 	const router = useRouter()
@@ -47,7 +48,7 @@ function UbahPenggunaPage(props) {
 	}
 	const handleFormSubmit = async () => {
 		setLoading(true)
-		let result = await UserService.updateUser(values)
+		const result = await UserService.updateUser(values)
 		if (result.success) {
 			// Redirect to user management page
 			router.push('/pengguna?alert=Ubah data pengguna berhasil')
@@ -67,7 +68,7 @@ function UbahPenggunaPage(props) {
 		const getUserData = async () => {
 			const result = await UserService.getUserDetail(userId)
 			if (result.success) {
-				const user = result.user
+				const { user } = result
 				setValues({
 					...values,
 					id: user.id,

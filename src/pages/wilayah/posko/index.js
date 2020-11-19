@@ -6,7 +6,7 @@ import classNames from 'classnames'
 import MaterialTable from 'material-table'
 import useSWR from 'swr'
 import { Alert } from '@material-ui/lab'
-import styles from '../../../assets/jss/nextjs-material-kit/pages/poskoPage'
+import styles from '../../../assets/jss/nextjs-material-kit/pages/posko.page.style'
 import SiteLayout from '../../../components/Layout/SiteLayout'
 import PoskoService from '../../../services/posko.service'
 import useAuth, { ProtectRoute } from '../../../context/auth'
@@ -22,7 +22,7 @@ const column = [
 	}
 ]
 
-function PoskoPage(props) {
+function PoskoPage() {
 	const { isAuthenticated } = useAuth()
 	const router = useRouter()
 	const { message } = router.query
@@ -97,7 +97,7 @@ function PoskoPage(props) {
 								icon: AddBoxIcon,
 								tooltip: 'Tambah data posko',
 								isFreeAction: true,
-								onClick: (event) =>
+								onClick: () =>
 									router.push('/wilayah/posko/tambah')
 							},
 							{

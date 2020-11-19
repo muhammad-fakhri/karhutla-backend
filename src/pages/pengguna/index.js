@@ -19,7 +19,7 @@ import useSWR from 'swr'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import Close from '@material-ui/icons/Close'
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd'
-import styles from '../../assets/jss/nextjs-material-kit/pages/penggunaPage'
+import styles from '../../assets/jss/nextjs-material-kit/pages/pengguna.page.style'
 import SiteLayout from '../../components/Layout/SiteLayout'
 import Button from '../../components/CustomButtons/Button'
 import UserService from '../../services/user.service'
@@ -40,7 +40,7 @@ const column = [
 	{ title: 'Nomor HP', field: 'phone' }
 ]
 
-function PenggunaPage(props) {
+function PenggunaPage() {
 	const { isAuthenticated } = useAuth()
 	const router = useRouter()
 	const { alert } = router.query
@@ -69,7 +69,7 @@ function PenggunaPage(props) {
 		UserService.getAllUsers
 	)
 	const handleRoleChange = (event) => {
-		if (event.target.value == 4 || event.target.value == 5) {
+		if (event.target.value === 4 || event.target.value === 5) {
 			setRoleType('pusat')
 			setModalUser({
 				...modalUser,
@@ -77,9 +77,9 @@ function PenggunaPage(props) {
 				organization: 'KLHK'
 			})
 		} else {
-			if (event.target.value == 6 || event.target.value == 7) {
+			if (event.target.value === 6 || event.target.value === 7) {
 				setRoleType('balai')
-			} else if (event.target.value == 8 || event.target.value == 9) {
+			} else if (event.target.value === 8 || event.target.value === 9) {
 				setRoleType('daops')
 			}
 			setModalUser({
@@ -355,11 +355,7 @@ function PenggunaPage(props) {
 						)}
 					</DialogContent>
 					<DialogActions
-						className={
-							modalClasses.modalFooter +
-							' ' +
-							modalClasses.modalFooterCenter
-						}
+						className={`${modalClasses.modalFooter} ${modalClasses.modalFooterCenter}`}
 					>
 						<Button onClick={() => setOpenModal(false)}>
 							Batal

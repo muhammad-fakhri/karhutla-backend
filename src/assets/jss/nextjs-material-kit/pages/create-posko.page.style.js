@@ -1,6 +1,6 @@
-import basePage from './basePage'
+import basePage from './base.page.style'
 
-const ubahPoskoPageStyle = {
+const createPoskoPageStyle = {
 	...basePage,
 	textAlignLeft: {
 		textAlign: 'left'
@@ -16,4 +16,4 @@ const ubahPoskoPageStyle = {
 	}
 }
 
-export default ubahPoskoPageStyle
+export default createPoskoPageStyle

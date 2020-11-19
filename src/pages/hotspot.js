@@ -6,22 +6,22 @@ import useSWR from 'swr'
 import SiteLayout from '../components/Layout/SiteLayout'
 import Map from '../components/Map/MapHotspot'
 import Loader from '../components/Loader/Loader'
-import styles from '../assets/jss/nextjs-material-kit/pages/hotspotPage'
+import styles from '../assets/jss/nextjs-material-kit/pages/hotspot.page.style'
 import useAuth, { ProtectRoute } from '../context/auth'
 import HotspotService from '../services/hotspot.service'
 
 const useStyles = makeStyles(styles)
 
-function HotspotPage(props) {
+function HotspotPage() {
 	const classes = useStyles()
 	const { isAuthenticated } = useAuth()
 	const [hotspot, setHotspot] = React.useState([])
 	const [date, setDate] = React.useState(moment())
 	const { data, isValidating } = useSWR(
 		isAuthenticated
-			? `/public/api/hotspot-sipongi/date-range?start_date=${date.format(
-					'D-MM-YYYY'
-			  )}&end_date=${date.format('D-MM-YYYY')}&provinsi=a`
+			? `/public/api/hotspot-sipongi/date-range?start_date=
+			${date.format('D-MM-YYYY')}
+			&end_date=${date.format('D-MM-YYYY')}&provinsi=a`
 			: null,
 		HotspotService.getHotspot
 	)

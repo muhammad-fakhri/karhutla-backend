@@ -21,7 +21,7 @@ import GridItem from '../../components/Grid/GridItem'
 import Button from '../../components/CustomButtons/Button'
 import Loader from '../../components/Loader/Loader'
 import PenugasanService from '../../services/penugasan.service'
-import styles from '../../assets/jss/nextjs-material-kit/pages/penugasan/createPenugasanPage'
+import styles from '../../assets/jss/nextjs-material-kit/pages/penugasan/create-penugasan.page.style'
 import useAuth, { ProtectRoute } from '../../context/auth'
 
 const useStyles = makeStyles(styles)

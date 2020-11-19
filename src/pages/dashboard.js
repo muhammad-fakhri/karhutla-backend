@@ -17,7 +17,7 @@ import PatroliService from '../services/patroli.service'
 import SiteLayout from '../components/Layout/SiteLayout'
 import MapContainer from '../components/Map/MapPatroli'
 import Loader from '../components/Loader/Loader'
-import styles from '../assets/jss/nextjs-material-kit/pages/dashboardPage'
+import styles from '../assets/jss/nextjs-material-kit/pages/dashboard.page.style'
 
 const useStyles = makeStyles(styles)
 
@@ -27,7 +27,7 @@ const column = [
 	{ title: 'Daerah Patroli', field: 'patrolRegion' }
 ]
 
-function DashboardPage(props) {
+function DashboardPage() {
 	const classes = useStyles()
 	const { isAuthenticated } = useAuth()
 	const [load, setLoad] = React.useState(true)
@@ -171,7 +171,7 @@ function DashboardPage(props) {
 									{
 										icon: CloudDownloadIcon,
 										tooltip: 'Download Laporan',
-										onClick: (event, rowData) =>
+										onClick: (rowData) =>
 											window.open(rowData.reportLink)
 									}
 								]}
@@ -199,7 +199,7 @@ function DashboardPage(props) {
 									{
 										icon: CloudDownloadIcon,
 										tooltip: 'Download Laporan',
-										onClick: (event, rowData) =>
+										onClick: (rowData) =>
 											window.open(rowData.reportLink)
 									}
 								]}
@@ -227,7 +227,7 @@ function DashboardPage(props) {
 									{
 										icon: CloudDownloadIcon,
 										tooltip: 'Download Laporan',
-										onClick: (event, rowData) =>
+										onClick: (rowData) =>
 											window.open(rowData.reportLink)
 									}
 								]}

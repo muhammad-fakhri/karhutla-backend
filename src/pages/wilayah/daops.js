@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import MaterialTable from 'material-table'
 import useSWR from 'swr'
 import { Alert } from '@material-ui/lab'
-import styles from '../../assets/jss/nextjs-material-kit/pages/wilayahKerjaPage'
+import styles from '../../assets/jss/nextjs-material-kit/pages/wilayah-kerja.page.style'
 import SiteLayout from '../../components/Layout/SiteLayout'
 import DaopsService from '../../services/daops.service'
 import BalaiService from '../../services/balai.service'
@@ -12,8 +12,8 @@ import useAuth, { ProtectRoute } from '../../context/auth'
 import Loader from '../../components/Loader/Loader'
 
 const generateBalaiLookup = async () => {
-	let data = {}
-	let wilayah = await BalaiService.getAllBalai()
+	const data = {}
+	const wilayah = await BalaiService.getAllBalai()
 	wilayah.forEach((item) => {
 		data[item.id] = item.name
 	})
@@ -22,7 +22,7 @@ const generateBalaiLookup = async () => {
 
 // TODO: Show organization at daops useraccess
 
-function DaopsPage(props) {
+function DaopsPage() {
 	const { isAuthenticated } = useAuth()
 	const useStyles = makeStyles(styles)
 	const classes = useStyles()
@@ -46,7 +46,7 @@ function DaopsPage(props) {
 	}
 	React.useEffect(() => {
 		const setLookup = async () => {
-			let balaiLookup = await generateBalaiLookup()
+			const balaiLookup = await generateBalaiLookup()
 			const column = [
 				{ title: 'Daerah Operasi', field: 'name' },
 				{ title: 'Kodefikasi', field: 'code' },
@@ -115,7 +115,7 @@ function DaopsPage(props) {
 									DaopsService.addDaops(newData).then(
 										async (result) => {
 											if (result.success) {
-												let data = await DaopsService.getAllDaops()
+												const data = await DaopsService.getAllDaops()
 												setValues({
 													...values,
 													daops: data,
@@ -127,9 +127,7 @@ function DaopsPage(props) {
 											} else {
 												setValues({
 													...values,
-													alertMessage:
-														'Tambah Daerah Operasi Gagal, ' +
-														result.message[0],
+													alertMessage: `Tambah Daerah Operasi Gagal, ${result.message[0]}`,
 													successAlert: false
 												})
 												reject()
@@ -158,9 +156,7 @@ function DaopsPage(props) {
 										} else {
 											setValues({
 												...values,
-												alertMessage:
-													'Update Daerah Operasi Gagal, ' +
-													result.message[0],
+												alertMessage: `Update Daerah Operasi Gagal, ${result.message[0]}`,
 												successAlert: false
 											})
 											reject()
@@ -169,7 +165,7 @@ function DaopsPage(props) {
 									})
 								}),
 							onRowDelete: (oldData) =>
-								new Promise((resolve, reject) => {
+								new Promise((resolve) => {
 									DaopsService.deleteDaops(oldData).then(
 										(result) => {
 											if (result.success) {
@@ -189,9 +185,7 @@ function DaopsPage(props) {
 											} else {
 												setValues({
 													...values,
-													alertMessage:
-														'Hapus Daerah Operasi Gagal, ' +
-														result.message[0],
+													alertMessage: `Hapus Daerah Operasi Gagal, ${result.message[0]}`,
 													successAlert: false
 												})
 											}

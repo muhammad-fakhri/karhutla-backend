@@ -1,4 +1,4 @@
-import basePage from './basePage'
+import basePage from './base.page.style'
 
 const poskoPageStyle = {
 	main: basePage.main,

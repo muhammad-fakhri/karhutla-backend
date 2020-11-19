@@ -1,6 +1,6 @@
-import basePage from './basePage'
+import basePage from './base.page.style'
 
-const penggunaPageStyle = {
+const wilayahKerjaPageStyle = {
 	main: basePage.main,
 	mainRaised: {
 		margin: '88px 104px 0px',
@@ -19,4 +19,4 @@ const penggunaPageStyle = {
 	}
 }
 
-export default penggunaPageStyle
+export default wilayahKerjaPageStyle

@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router'
 import useSWR from 'swr'
 import { makeStyles } from '@material-ui/core/styles'
 import { Paper, Grid, Box, AppBar, Tabs, Tab } from '@material-ui/core'
@@ -7,7 +6,7 @@ import PropTypes from 'prop-types'
 import MaterialTable from 'material-table'
 import SiteLayout from '../../components/Layout/SiteLayout'
 import Loader from '../../components/Loader/Loader'
-import styles from '../../assets/jss/nextjs-material-kit/pages/hakAksesPage'
+import styles from '../../assets/jss/nextjs-material-kit/pages/hak-akses.page.style'
 import UserService from '../../services/user.service'
 import DaopsService from '../../services/daops.service'
 import BalaiService from '../../services/balai.service'
@@ -45,13 +44,13 @@ TabPanel.propTypes = {
 }
 
 const generateRolesLookup = async () => {
-	let daopsRoles = {}
-	let balaiRoles = {}
-	let patroliNonLoginRoles = {}
-	let nonPatrolRoles = await UserService.getNonPatroliRoles()
-	let patrolRoles = await UserService.getPatroliNonLoginRoles()
+	const daopsRoles = {}
+	const balaiRoles = {}
+	const patroliNonLoginRoles = {}
+	const nonPatrolRoles = await UserService.getNonPatroliRoles()
+	const patrolRoles = await UserService.getPatroliNonLoginRoles()
 	nonPatrolRoles.forEach((role) => {
-		if (role.id == 8 || role.id == 9) {
+		if (role.id === 8 || role.id === 9) {
 			daopsRoles[role.id] = role.name
 		} else if (role.id < 8) {
 			balaiRoles[role.id] = role.name
@@ -63,27 +62,26 @@ const generateRolesLookup = async () => {
 	return { daopsRoles, balaiRoles, patroliNonLoginRoles }
 }
 const generateDaopsLookup = async () => {
-	let data = {}
-	let daops = await DaopsService.getAllDaops()
+	const data = {}
+	const daops = await DaopsService.getAllDaops()
 	daops.forEach((item) => {
 		data[item.code] = item.name
 	})
 	return data
 }
 const generateBalaiLookup = async () => {
-	let data = {}
-	let daops = await BalaiService.getAllBalai()
+	const data = {}
+	const daops = await BalaiService.getAllBalai()
 	daops.forEach((item) => {
 		data[item.code] = item.name
 	})
-	data['KLHK'] = 'KLHK'
+	data.KLHK = 'KLHK'
 	return data
 }
 
-function HakAksesPage(props) {
+function HakAksesPage() {
 	const { isAuthenticated } = useAuth()
 	const classes = useStyles()
-	const router = useRouter()
 
 	const [manggalaState, setManggalaState] = React.useState([])
 	const [daopsState, setDaopsState] = React.useState()
@@ -102,9 +100,9 @@ function HakAksesPage(props) {
 
 	React.useEffect(() => {
 		const setLookup = async () => {
-			let roles = await generateRolesLookup()
-			let daopsLookup = await generateDaopsLookup()
-			let balaiLookup = await generateBalaiLookup()
+			const roles = await generateRolesLookup()
+			const daopsLookup = await generateDaopsLookup()
+			const balaiLookup = await generateBalaiLookup()
 			const manggalaColumn = [
 				{ title: 'Nama', field: 'name', editable: 'never' },
 				{
@@ -162,6 +160,7 @@ function HakAksesPage(props) {
 	)
 	React.useEffect(() => {
 		if (dataNonPatroli && isAuthenticated) {
+			setManggalaState([])
 			setDaopsState(dataNonPatroli.daopsUsers)
 			setBalaiState(dataNonPatroli.balaiUsers)
 		}
@@ -171,7 +170,7 @@ function HakAksesPage(props) {
 			setPatroliNonLogin(dataPatroliNonLogin)
 	}, [dataPatroliNonLogin])
 
-	const handleChange = (event, newValue) => {
+	const handleChange = (newValue) => {
 		setValue(newValue)
 	}
 
@@ -180,7 +179,7 @@ function HakAksesPage(props) {
 		setValues({
 			...values,
 			alertMessage: message,
-			successAlert: isSuccess ? true : false
+			successAlert: !!isSuccess
 		})
 		setShow(true)
 		setTimeout(() => {

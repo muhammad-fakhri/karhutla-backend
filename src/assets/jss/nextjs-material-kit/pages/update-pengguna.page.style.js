@@ -1,6 +1,6 @@
-import basePage from './basePage'
+import basePage from './base.page.style'
 
-const createPenggunaPageStyle = {
+const updatePenggunaPageStyle = {
 	...basePage,
 	textAlignLeft: {
 		textAlign: 'left'
@@ -16,4 +16,4 @@ const createPenggunaPageStyle = {
 	}
 }
 
-export default createPenggunaPageStyle
+export default updatePenggunaPageStyle

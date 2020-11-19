@@ -1,4 +1,4 @@
-import basePage from './basePage'
+import basePage from './base.page.style'
 
 const hotspotPageStyle = {
 	...basePage

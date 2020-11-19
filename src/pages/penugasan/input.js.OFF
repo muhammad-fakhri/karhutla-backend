@@ -7,12 +7,12 @@ import SiteLayout from '../../components/Layout/SiteLayout'
 import Loader from '../../components/Loader/Loader'
 import Button from '../../components/CustomButtons/Button'
 import classNames from 'classnames'
-import styles from '../../assets/jss/nextjs-material-kit/pages/penugasan/inputPage'
+import styles from '../../assets/jss/nextjs-material-kit/pages/penugasan/input.page.style'
 import useAuth, { ProtectRoute } from '../../context/auth'
 
 const useStyles = makeStyles(styles)
 
-function InputSuratTugasPage(props) {
+function InputSuratTugasPage() {
 	const classes = useStyles()
 	const { isAuthenticated } = useAuth()
 	return !isAuthenticated ? (
@@ -53,11 +53,11 @@ function InputSuratTugasPage(props) {
 							</div>
 						</ButtonBase>
 					</Link>
-					<a href="https://drive.google.com" target="_blank">
+					{/* <a href="https://drive.google.com" target="_blank">
 						<Button type="button" color="gray">
 							Download Template Kosong
 						</Button>
-					</a>
+					</a> */}
 				</Grid>
 				<Grid
 					item

@@ -14,14 +14,15 @@ import MuiDialogContent from '@material-ui/core/DialogContent'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import CloseIcon from '@material-ui/icons/Close'
+import classNames from 'classnames'
+import { makeStyles } from '@material-ui/core/styles'
 import SiteLayout from '../../components/Layout/SiteLayout'
 import Button from '../../components/CustomButtons/Button'
 import Loader from '../../components/Loader/Loader'
-import classNames from 'classnames'
-import styles from '../../assets/jss/nextjs-material-kit/pages/createPenggunaPage'
-import { makeStyles } from '@material-ui/core/styles'
+import styles from '../../assets/jss/nextjs-material-kit/pages/create-pengguna.page.style'
 import useAuth, { ProtectRoute } from '../../context/auth'
 import UserService from '../../services/user.service'
+
 const useStyles = makeStyles(styles)
 
 const DialogTitle = (props) => {
@@ -45,7 +46,7 @@ const DialogTitle = (props) => {
 	)
 }
 
-function TambahPenggunaPage(props) {
+function TambahPenggunaPage() {
 	const classes = useStyles()
 	const { isAuthenticated } = useAuth()
 	const router = useRouter()
@@ -67,7 +68,7 @@ function TambahPenggunaPage(props) {
 	}
 	const handleFormSubmit = async () => {
 		setLoading(true)
-		let result = await UserService.addUser(values)
+		const result = await UserService.addUser(values)
 		if (result.success)
 			setValues({ ...values, successDialog: true, showDialog: true })
 		else {

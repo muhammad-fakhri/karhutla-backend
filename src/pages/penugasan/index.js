@@ -3,12 +3,12 @@ import { Grid, CircularProgress } from '@material-ui/core'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import MaterialTable from 'material-table'
 import Link from 'next/link'
+import useSWR from 'swr'
 import SiteLayout from '../../components/Layout/SiteLayout'
 import Button from '../../components/CustomButtons/Button'
 import Loader from '../../components/Loader/Loader'
-import styles from '../../assets/jss/nextjs-material-kit/pages/penugasan/penugasanPage'
+import styles from '../../assets/jss/nextjs-material-kit/pages/penugasan/penugasan.page.style'
 import useAuth, { ProtectRoute } from '../../context/auth'
-import useSWR from 'swr'
 import PenugasanService from '../../services/penugasan.service'
 
 const useStyles = makeStyles(styles)
@@ -20,11 +20,11 @@ const columns = [
 	{ title: 'Tanggal Selesai', field: 'finishDate' }
 ]
 
-function PenugasanPage(props) {
+function PenugasanPage() {
 	const classes = useStyles()
 	const { isAuthenticated } = useAuth()
 	const [penugasan, setPenugasan] = React.useState([])
-	const { data: penugasanData, error, isValidating } = useSWR(
+	const { data: penugasanData, isValidating } = useSWR(
 		isAuthenticated ? '/penugasan/list' : null,
 		PenugasanService.getAllPenugasan
 	)
@@ -64,14 +64,14 @@ function PenugasanPage(props) {
 								{
 									icon: 'edit',
 									tooltip: 'Edit Data',
-									onClick: (event, rowData) => {
+									onClick: () => {
 										alert('Masih dalam pengembangan')
 									}
 								},
 								{
 									icon: 'delete',
 									tooltip: 'Delete Data',
-									onClick: (event, rowData) => {
+									onClick: () => {
 										alert('Masih dalam pengembangan')
 									}
 								}

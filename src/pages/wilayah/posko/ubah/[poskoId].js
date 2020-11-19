@@ -1,13 +1,9 @@
 import { useRouter } from 'next/router'
 import {
 	CircularProgress,
-	IconButton,
 	TextField,
 	Grid,
-	Dialog,
-	Typography,
 	MenuItem,
-	Box,
 	Divider,
 	Button,
 	Paper
@@ -15,41 +11,18 @@ import {
 import Alert from '@material-ui/lab/Alert'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import MaterialTable from 'material-table'
-import MuiDialogTitle from '@material-ui/core/DialogTitle'
-import MuiDialogContent from '@material-ui/core/DialogContent'
-import CloseIcon from '@material-ui/icons/Close'
+import classNames from 'classnames'
+import { makeStyles } from '@material-ui/core/styles'
 import SiteLayout from '../../../../components/Layout/SiteLayout'
 import CustomButton from '../../../../components/CustomButtons/Button'
 import Loader from '../../../../components/Loader/Loader'
-import classNames from 'classnames'
-import styles from '../../../../assets/jss/nextjs-material-kit/pages/createPoskoPage'
-import { makeStyles } from '@material-ui/core/styles'
+import styles from '../../../../assets/jss/nextjs-material-kit/pages/create-posko.page.style'
 import useAuth, { ProtectRoute } from '../../../../context/auth'
 import PoskoService from '../../../../services/posko.service'
 import DaopsService from '../../../../services/daops.service'
 import WilayahService from '../../../../services/wilayah.service'
-const useStyles = makeStyles(styles)
 
-const DialogTitle = (props) => {
-	const { children, classes, onClose, ...other } = props
-	return (
-		<MuiDialogTitle disableTypography className={classes.root} {...other}>
-			<Typography variant="h6" className={classes.dialogTitle}>
-				{children}
-			</Typography>
-			{onClose ? (
-				<IconButton
-					color="default"
-					aria-label="close"
-					className={classes.closeButton}
-					onClick={onClose}
-				>
-					<CloseIcon />
-				</IconButton>
-			) : null}
-		</MuiDialogTitle>
-	)
-}
+const useStyles = makeStyles(styles)
 
 const column = [
 	{
@@ -58,7 +31,7 @@ const column = [
 	}
 ]
 
-function UbahPoskoPage(props) {
+function UbahPoskoPage() {
 	const classes = useStyles()
 	const { isAuthenticated } = useAuth()
 	const router = useRouter()
@@ -83,9 +56,9 @@ function UbahPoskoPage(props) {
 	}
 	const handleFormSubmit = async () => {
 		setLoading(true)
-		let result = await PoskoService.updatePosko(values, values.oldName)
+		const result = await PoskoService.updatePosko(values, values.oldName)
 		if (result.success)
-			router.push(`/wilayah/posko?message=Data posko berhasil diubah`)
+			router.push('/wilayah/posko?message=Data posko berhasil diubah')
 		else {
 			setValues({
 				...values,

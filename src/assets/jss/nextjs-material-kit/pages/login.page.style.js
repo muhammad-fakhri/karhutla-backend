@@ -1,6 +1,6 @@
-import { container } from 'assets/jss/nextjs-material-kit.js'
+import { container } from '../../nextjs-material-kit'
 
-const signupPageStyle = {
+const loginPageStyle = {
 	container: {
 		...container,
 		zIndex: '2',
@@ -88,4 +88,4 @@ const signupPageStyle = {
 	}
 }
 
-export default signupPageStyle
+export default loginPageStyle

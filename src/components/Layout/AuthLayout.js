@@ -1,9 +1,8 @@
 import { makeStyles } from '@material-ui/core/styles'
 import Header from '../Header/Header'
-import HeaderLinks from '../Header/HeaderLinks.js'
-import Footer from '../Footer/Footer.js'
-import styles from 'assets/jss/nextjs-material-kit/pages/loginPage.js'
-import image from 'assets/img/login-bg.jpg'
+import Footer from '../Footer/Footer'
+import styles from '../../assets/jss/nextjs-material-kit/pages/login.page.style'
+import image from '../../assets/img/login-bg.jpg'
 
 const useStyles = makeStyles(styles)
 
@@ -16,7 +15,7 @@ export default function AuthLayout(props) {
 			<div
 				className={classes.pageHeader}
 				style={{
-					backgroundImage: 'url(' + image + ')',
+					backgroundImage: `url(${image})`,
 					backgroundSize: 'cover',
 					backgroundPosition: 'top center'
 				}}
