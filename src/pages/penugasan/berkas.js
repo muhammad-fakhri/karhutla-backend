@@ -171,7 +171,7 @@ function BerkasPenugasanPage() {
 						</GridItem>
 					</GridContainer> */}
 					<GridContainer justify="center">
-						<GridItem sm={10} xs={10}>
+						<GridItem sm={6} xs={10}>
 							{show ? (
 								<Alert
 									severity="info"
@@ -186,6 +186,10 @@ function BerkasPenugasanPage() {
 									{alertMessage}
 								</Alert>
 							) : null}
+						</GridItem>
+					</GridContainer>
+					<GridContainer justify="center">
+						<GridItem sm={10} xs={10}>
 							<Typography variant="body1" gutterBottom>
 								Gunakan File EXCEL dengan format yang dapat
 								diunduh{' '}

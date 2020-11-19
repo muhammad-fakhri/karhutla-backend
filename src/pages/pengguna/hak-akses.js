@@ -170,7 +170,7 @@ function HakAksesPage() {
 			setPatroliNonLogin(dataPatroliNonLogin)
 	}, [dataPatroliNonLogin])
 
-	const handleChange = (newValue) => {
+	const handleChange = (event, newValue) => {
 		setValue(newValue)
 	}
 
