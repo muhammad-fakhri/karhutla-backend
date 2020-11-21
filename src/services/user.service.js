@@ -1,4 +1,4 @@
-import API from '../api'
+import { API } from '../api'
 import UserValidator from '../validators/user.validator'
 
 class UserService {

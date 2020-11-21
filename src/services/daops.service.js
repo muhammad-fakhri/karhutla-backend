@@ -1,5 +1,5 @@
 import DaopsValidator from '../validators/daops.validator'
-import API from '../api'
+import { API } from '../api'
 
 class DaopsService {
 	static async getAllDaops() {

@@ -1,4 +1,4 @@
-import API from '../api'
+import { API } from '../api'
 import BalaiValidator from '../validators/balai.validator'
 
 class BalaiService {

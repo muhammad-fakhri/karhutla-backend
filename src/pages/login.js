@@ -37,7 +37,10 @@ function LoginPage() {
 		const validate = AuthValidator.login(values)
 		if (validate.pass) {
 			setLoading(true)
-			const result = await login(values.email, values.password)
+			const result = await login(
+				values.email.trim(),
+				values.password.trim()
+			)
 			if (!result.success) {
 				setValues({
 					...values,

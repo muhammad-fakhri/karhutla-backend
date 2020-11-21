@@ -1,5 +1,5 @@
 import PoskoValidator from '../validators/posko.validator'
-import API from '../api'
+import { API } from '../api'
 
 class PoskoService {
 	static async getAllPosko() {

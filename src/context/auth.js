@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react'
-import Router, { useRouter } from 'next/router'
+import Router from 'next/router'
 import CookieService from '../services/cookies.service'
-import { AuthAPI } from '../api'
+import { API } from '../api'
 
 const AuthContext = createContext({})
 
@@ -13,50 +13,59 @@ export const AuthProvider = ({ children }) => {
 		async function loadUserFromCookies() {
 			const token = CookieService.getToken()
 			if (token) {
-				console.log(
-					"Got a token in the cookies, let's see if it is valid"
-				)
-				// TODO: fetch user data from api
-				// const { data: user } = await api.get('users/me')
-				const user = {
-					name: 'Nama Pengguna',
-					email: 'Email Pengguna'
-				}
-				if (user) setUser(user)
+				const user = CookieService.getUser()
+				if (user) setUser(JSON.parse(user))
 			}
 			setLoading(false)
 		}
 		loadUserFromCookies()
 	}, [])
 
-	const login = async (email, password) => {
-		// TODO: login user then fetch user data from api
+	const login = async (username, password) => {
+		// Login user
 		try {
-			const response = await AuthAPI.post('/login', {
-				email,
+			const response = await API.post('/auth/login', {
+				username,
 				password
 			})
-			if (response.status == '200') {
-				const user = {
-					name: response.data.user.nama,
-					email: response.data.user.email
-				}
-				const token = response.data.token ? response.data.token : null
-				if (token) {
-					console.log('Got token')
-					CookieService.setToken(token)
-					setUser(user)
-					console.log('Got user', user)
-					window.location.pathname = '/dashboard'
-				}
-			} else throw response.message
+			if (response.status !== 200) throw new Error(response.message)
+
+			const user = {
+				name: response.data.user.nama,
+				email: response.data.user.email,
+				registrationNumber: response.data.detail.no_registrasi,
+				phoneNumber: response.data.detail.no_telepon,
+				instantion: response.data.detail.instansi,
+				photo: response.data.detail.foto
+			}
+			const token = response.data.token ? response.data.token : null
+			if (token) {
+				// // TODO: remove pre-download auth when auth system in DB V2 is completed
+				// // Login to simadu/app, for report old pre-download auth
+				// const responseAPIAuth = await AuthAPI.post('/login', {
+				// 	email: 'balai',
+				// 	password: '123'
+				// })
+				// if (responseAPIAuth.data.token) {
+				// 	CookieService.setTokenV1(responseAPIAuth.data.token)
+				// }
+
+				CookieService.setToken(token)
+				CookieService.setUser(user)
+				setUser(user)
+				window.location.pathname = '/dashboard'
+				return true
+			}
+			return null
 		} catch (error) {
-			return { success: false, message: error }
+			return { success: false, message: error.message }
 		}
 	}
 
-	const logout = (email, password) => {
+	const logout = () => {
 		CookieService.removeToken()
+		// CookieService.removeTokenV1()
+		CookieService.removeUser()
 		setUser(null)
 		window.location.pathname = '/login'
 	}
@@ -78,9 +87,7 @@ export default function useAuth() {
 
 export function ProtectRoute(Component, isAuthRoute = false) {
 	return () => {
-		const { user, isAuthenticated, loading } = useAuth()
-		const router = useRouter()
-
+		const { isAuthenticated, loading } = useAuth()
 		useEffect(() => {
 			if (!isAuthenticated && !loading) Router.push('/login')
 			if (isAuthRoute && isAuthenticated) Router.push('/dashboard')

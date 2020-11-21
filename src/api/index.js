@@ -1,19 +1,22 @@
 import axios from 'axios'
 import CookieService from '../services/cookies.service'
 
-export const BASE_URL = 'http://103.129.223.216/api_dev'
-export const simaduApiUrl = 'http://103.129.223.216/api/simadu'
-export const simadu2Url = 'http://103.129.223.216/simadu2'
-export const siavipalaUrl = 'http://103.129.223.216/siavipala'
-export const authApiUrl = 'http://103.129.223.216/api/auth'
+const serverIP = 'http://103.129.223.216'
+
+export const apiUrl = `${serverIP}/api_dev`
+export const simaduApiUrl = `${serverIP}/api/simadu`
+export const simadu2Url = `${serverIP}/simadu2`
+export const siavipalaUrl = `${serverIP}/siavipala`
+export const authApiUrl = `${serverIP}/api/auth`
 
 const handleRequestSend = (config) => {
 	// Set Auth Token
 	const token = CookieService.getToken()
+	const modifiedconfig = config
 	if (token) {
-		config.headers.Authorization = `Bearer ${token}`
+		modifiedconfig.headers.Authorization = `Bearer ${token}`
 	}
-	return config
+	return modifiedconfig
 }
 
 const handleRequestError = (error) => {
@@ -28,8 +31,8 @@ const handleResponseError = (error) => {
 	return error.response ? error.response.data : error
 }
 
-const API = axios.create({
-	baseURL: BASE_URL,
+export const API = axios.create({
+	baseURL: apiUrl,
 	headers: { Accept: 'application/json' }
 })
 
@@ -62,5 +65,3 @@ SiavipalaAPI.interceptors.response.use(
 
 AuthAPI.interceptors.request.use(handleRequestSend, handleRequestError)
 AuthAPI.interceptors.response.use(handleResponseReceive, handleResponseError)
-
-export default API

@@ -1,4 +1,4 @@
-import API from '../api'
+import { API } from '../api'
 import WilayahValidator from '../validators/wilayah.validator'
 
 // TODO: fetch wilayah by type

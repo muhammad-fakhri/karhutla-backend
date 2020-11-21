@@ -1,5 +1,5 @@
 import axios from 'axios'
-import API from '../api'
+import { API } from '../api'
 
 class PenugasanService {
 	static async getAllPenugasan(url) {

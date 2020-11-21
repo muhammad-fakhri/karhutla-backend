@@ -3,13 +3,13 @@ import React from 'react'
 import classNames from 'classnames'
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
-import { Typography } from '@material-ui/core'
+import { Typography, TextField } from '@material-ui/core'
 // core components
 import GridContainer from '../components/Grid/GridContainer'
 import GridItem from '../components/Grid/GridItem'
 import Loader from '../components/Loader/Loader'
 import Parallax from '../components/Parallax/Parallax'
-import profile from '../assets/img/user.png'
+import profile from '../assets/img/user.jpg'
 import styles from '../assets/jss/nextjs-material-kit/pages/profile.page.style'
 import profileBgImage from '../assets/img/profile-bg.jpg'
 import SiteLayout from '../components/Layout/SiteLayout'
@@ -25,6 +25,11 @@ function ProfilePage() {
 		classes.imgRoundedCircle,
 		classes.imgFluid
 	)
+
+	if (isAuthenticated) {
+		console.log(user)
+	}
+
 	return !isAuthenticated ? (
 		<Loader />
 	) : (
@@ -39,7 +44,7 @@ function ProfilePage() {
 									<div className={classes.profile}>
 										<div>
 											<img
-												src={profile}
+												src={user.photo || profile}
 												alt="..."
 												className={imageClasses}
 											/>
@@ -48,30 +53,44 @@ function ProfilePage() {
 											<h3 className={classes.title}>
 												{user.name}
 											</h3>
-											<h6>{user.email}</h6>
 										</div>
 									</div>
 								</GridItem>
 							</GridContainer>
 							<div className={classes.description}>
 								<Typography
-									variant="body1"
+									variant="h6"
 									gutterBottom
-									align="justify"
+									align="center"
+									className={classes.descriptionItem}
 								>
-									Lorem ipsum dolor sit amet, consectetur
-									adipiscing elit. In luctus odio nibh, in
-									ornare urna placerat non. Mauris nisl dui,
-									pharetra vitae lectus et, gravida imperdiet
-									orci. Mauris libero mauris, iaculis in
-									tristique ut, auctor at libero. Aliquam id
-									volutpat ipsum, eu volutpat nisi. Vivamus
-									diam erat, pretium id accumsan nec, pulvinar
-									at mi. Ut neque sem, auctor sed sagittis
-									non, sollicitudin at ante. Ut at quam eget
-									nisl vulputate pretium. Vivamus lacinia arcu
-									et felis pulvinar hendrerit.
+									Data Pengguna
 								</Typography>
+								<TextField
+									className={classes.descriptionItem}
+									disabled
+									label="Email"
+									fullWidth
+									defaultValue={user.email}
+									color="secondary"
+									variant="outlined"
+								/>
+								<TextField
+									className={classes.descriptionItem}
+									disabled
+									label="Nomor Registrasi"
+									fullWidth
+									defaultValue={user.registrationNumber}
+									variant="outlined"
+								/>
+								<TextField
+									className={classes.descriptionItem}
+									disabled
+									label="Nomor Telepon"
+									fullWidth
+									defaultValue={user.phoneNumber}
+									variant="outlined"
+								/>
 							</div>
 						</div>
 					</div>
