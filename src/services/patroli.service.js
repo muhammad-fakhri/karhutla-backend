@@ -1,5 +1,5 @@
 import Moment from 'moment'
-import { SimaduAPI, simadu2Url } from '../api'
+import { SimaduAPI, simadu2Url, simaduApiUrl } from '../api'
 
 export default class PatroliService {
 	static async getPatroli(url, date) {
@@ -88,7 +88,7 @@ export default class PatroliService {
 					item.forEach((patroli) => {
 						if (patroli.kategori_patroli === 'Terpadu') {
 							const data = {}
-							data.reportLink = `${simadu2Url}/app/downloader.php?id=${patroli.id_laporan_header}`
+							data.reportLink = `${simaduApiUrl}/download/${patroli.id_laporan_header}`
 							data.patrolRegion =
 								patroli.id_daerah_patroli.nama_daerah_patroli
 							data.operationRegion =
@@ -121,7 +121,7 @@ export default class PatroliService {
 					item.forEach((patroli) => {
 						if (patroli.kategori_patroli === 'Mandiri') {
 							const data = {}
-							data.reportLink = `${simadu2Url}/app/downloader.php?id=${patroli.id_laporan_header}`
+							data.reportLink = `${simaduApiUrl}/download/${patroli.id_laporan_header}`
 							data.patrolRegion =
 								patroli.id_daerah_patroli.nama_daerah_patroli
 							data.operationRegion =
@@ -154,7 +154,7 @@ export default class PatroliService {
 					item.forEach((patroli) => {
 						if (patroli.kategori_patroli === 'Rutin') {
 							const data = {}
-							data.reportLink = `${simadu2Url}/app/downloader.php?id=${patroli.id_laporan_header}`
+							data.reportLink = `${simaduApiUrl}/download/${patroli.id_laporan_header}`
 							data.patrolRegion =
 								patroli.id_daerah_patroli.nama_daerah_patroli
 							data.operationRegion =

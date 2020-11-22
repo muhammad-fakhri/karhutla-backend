@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload'
 import classNames from 'classnames'
 import MaterialTable from 'material-table'
-import useSWR from 'swr'
 import styles from '../../assets/jss/nextjs-material-kit/pages/patrol-report.page.style'
 import SiteLayout from '../../components/Layout/SiteLayout'
 import Loader from '../../components/Loader/Loader'
@@ -21,14 +20,16 @@ function PatroliTerpaduPage() {
 	const { isAuthenticated } = useAuth()
 	const classes = useStyles()
 	const [terpadu, setTerpadu] = React.useState()
-	const { data, isValidating } = useSWR(
-		isAuthenticated ? '/list' : null,
-		PatroliService.getAllPatroliTerpadu
-	)
+	const [isDataFetched, setIsDataFetched] = React.useState(false)
 	// TODO: change endpoint with endpoint for fetching all terpadu patrol data
 	React.useEffect(() => {
-		setTerpadu(data)
-	}, [data])
+		const fetchData = async () => {
+			const data = await PatroliService.getAllPatroliTerpadu('/list')
+			setTerpadu(data)
+			setIsDataFetched(true)
+		}
+		fetchData()
+	}, [])
 
 	return !isAuthenticated ? (
 		<Loader />
@@ -42,7 +43,7 @@ function PatroliTerpaduPage() {
 				)}
 			>
 				<h2>Data Patroli Terpadu</h2>
-				{isValidating ? (
+				{!isDataFetched ? (
 					<CircularProgress />
 				) : (
 					<MaterialTable

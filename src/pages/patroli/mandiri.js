@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload'
 import classNames from 'classnames'
 import MaterialTable from 'material-table'
-import useSWR from 'swr'
 import styles from '../../assets/jss/nextjs-material-kit/pages/patrol-report.page.style'
 import SiteLayout from '../../components/Layout/SiteLayout'
 import Loader from '../../components/Loader/Loader'
@@ -20,15 +19,17 @@ function PatroliMandiriPage() {
 	const useStyles = makeStyles(styles)
 	const { isAuthenticated } = useAuth()
 	const classes = useStyles()
+	const [isDataFetched, setIsDataFetched] = React.useState(false)
 	const [mandiri, setMandiri] = React.useState({})
-	const { data, isValidating } = useSWR(
-		isAuthenticated ? '/list' : null,
-		PatroliService.getAllPatroliMandiri
-	)
 	// TODO: change endpoint with endpoint for fetching all mandiri patrol data
 	React.useEffect(() => {
-		setMandiri(data)
-	}, [data])
+		const fetchData = async () => {
+			const data = await PatroliService.getAllPatroliMandiri('/list')
+			setMandiri(data)
+			setIsDataFetched(true)
+		}
+		fetchData()
+	}, [])
 
 	return !isAuthenticated ? (
 		<Loader />
@@ -42,7 +43,7 @@ function PatroliMandiriPage() {
 				)}
 			>
 				<h2>Data Patroli Mandiri</h2>
-				{isValidating ? (
+				{!isDataFetched ? (
 					<CircularProgress />
 				) : (
 					<MaterialTable
@@ -62,8 +63,9 @@ function PatroliMandiriPage() {
 							{
 								icon: CloudDownloadIcon,
 								tooltip: 'Download Laporan',
-								onClick: (event, rowData) =>
+								onClick: (event, rowData) => {
 									window.open(rowData.reportLink)
+								}
 							}
 						]}
 					/>

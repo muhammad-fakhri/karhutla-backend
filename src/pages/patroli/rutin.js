@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload'
 import classNames from 'classnames'
 import MaterialTable from 'material-table'
-import useSWR from 'swr'
 import styles from '../../assets/jss/nextjs-material-kit/pages/patrol-report.page.style'
 import SiteLayout from '../../components/Layout/SiteLayout'
 import Loader from '../../components/Loader/Loader'
@@ -21,14 +20,16 @@ function PatroliRutinPage() {
 	const { isAuthenticated } = useAuth()
 	const classes = useStyles()
 	const [rutin, setRutin] = React.useState()
-	const { data, isValidating } = useSWR(
-		isAuthenticated ? '/list' : null,
-		PatroliService.getAllPatroliRutin
-	)
+	const [isDataFetched, setIsDataFetched] = React.useState(false)
 	// TODO: change endpoint with endpoint for fetching all pencegahan patrol data
 	React.useEffect(() => {
-		setRutin(data)
-	}, [data])
+		const fetchData = async () => {
+			const data = await PatroliService.getAllPatroliRutin('/list')
+			setRutin(data)
+			setIsDataFetched(true)
+		}
+		fetchData()
+	}, [])
 
 	return !isAuthenticated ? (
 		<Loader />
@@ -43,7 +44,7 @@ function PatroliRutinPage() {
 					)}
 				>
 					<h2>Data Patroli Rutin</h2>
-					{isValidating ? (
+					{!isDataFetched ? (
 						<CircularProgress />
 					) : (
 						<MaterialTable
