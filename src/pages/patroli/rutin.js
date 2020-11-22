@@ -1,5 +1,6 @@
 import { Paper, CircularProgress } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import useSWR from 'swr'
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload'
 import classNames from 'classnames'
 import MaterialTable from 'material-table'
@@ -20,16 +21,14 @@ function PatroliRutinPage() {
 	const { isAuthenticated } = useAuth()
 	const classes = useStyles()
 	const [rutin, setRutin] = React.useState()
-	const [isDataFetched, setIsDataFetched] = React.useState(false)
 	// TODO: change endpoint with endpoint for fetching all pencegahan patrol data
+	const { data, isValidating } = useSWR(
+		isAuthenticated ? '/list' : null,
+		PatroliService.getAllPatroliRutin
+	)
 	React.useEffect(() => {
-		const fetchData = async () => {
-			const data = await PatroliService.getAllPatroliRutin('/list')
-			setRutin(data)
-			setIsDataFetched(true)
-		}
-		fetchData()
-	}, [])
+		setRutin(data)
+	}, [data])
 
 	return !isAuthenticated ? (
 		<Loader />
@@ -44,7 +43,7 @@ function PatroliRutinPage() {
 					)}
 				>
 					<h2>Data Patroli Rutin</h2>
-					{!isDataFetched ? (
+					{isValidating ? (
 						<CircularProgress />
 					) : (
 						<MaterialTable
