@@ -8,7 +8,8 @@
 		"start": "next start",
 		"build": "next build",
 		"export": "next export",
-		"prod": "next build && next export",
+		"prod:export": "next build && next export",
+		"prod:start": "next build && next start",
 		"install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && rm -rf .next/ && npm install && npm run dev",
 		"lint": "eslint ./src/**/*.js"
 	},
