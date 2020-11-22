@@ -79,7 +79,7 @@ function LoginPage() {
 									color="primary"
 									className={classes.cardHeader}
 								>
-									<h4>Login ke SIMADU2</h4>
+									<h4>Login ke SIPP Karhutla</h4>
 								</CardHeader>
 								<CardBody>
 									{values.showAlert ? (

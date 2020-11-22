@@ -11,7 +11,7 @@ export default function AuthLayout(props) {
 	// TODO: remove burger button when in md breakpoint
 	return (
 		<div>
-			<Header fixed color="transparent" brand="SIMADU2" />
+			<Header fixed color="transparent" brand="SIPP Karhutla" />
 			<div
 				className={classes.pageHeader}
 				style={{

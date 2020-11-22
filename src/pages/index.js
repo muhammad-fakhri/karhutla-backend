@@ -46,7 +46,9 @@ export default function FrontPage() {
 						<Grid container>
 							<Grid item>
 								<div className={classes.brand}>
-									<h1 className={classes.title}>SIMADU2</h1>
+									<h1 className={classes.title}>
+										SIPP Karhutla
+									</h1>
 									<h3 className={classes.subtitle}>
 										Sistem Informasi Patroli Pencegahan
 										Kebakaran Hutan dan Lahan

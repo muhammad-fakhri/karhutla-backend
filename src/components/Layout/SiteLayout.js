@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Header from '../Header/Header.js'
-import HeaderLinks from '../Header/HeaderLinks.js'
-import Footer from '../Footer/Footer.js'
+import Header from '../Header/Header'
+import HeaderLinks from '../Header/HeaderLinks'
+import Footer from '../Footer/Footer'
 
 export default function SiteLayout(props) {
 	let scrollChangeOption = null
@@ -18,7 +18,7 @@ export default function SiteLayout(props) {
 	return (
 		<div>
 			<Header
-				brand="SIMADU2"
+				brand="SIPP Karhutla"
 				rightLinks={<HeaderLinks />}
 				fixed
 				color={props.headerColor ? props.headerColor : 'transparent'}

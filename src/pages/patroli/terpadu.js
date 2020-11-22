@@ -24,7 +24,7 @@ function PatroliTerpaduPage() {
 	// TODO: change endpoint with endpoint for fetching all terpadu patrol data
 	const { data, isValidating } = useSWR(
 		isAuthenticated ? '/list' : null,
-		PatroliService.getAllPatroliRutin
+		PatroliService.getAllPatroliTerpadu
 	)
 	React.useEffect(() => {
 		setTerpadu(data)
