@@ -47,7 +47,7 @@ export default function FrontPage() {
 							<Grid item>
 								<div className={classes.brand}>
 									<h1 className={classes.title}>
-										SIPP Karhutla
+										SIPP Karhutla Test
 									</h1>
 									<h3 className={classes.subtitle}>
 										Sistem Informasi Patroli Pencegahan

@@ -59,7 +59,7 @@ export default class MyApp extends App {
 		return (
 			<React.Fragment>
 				<Head>
-					<title>SIPP Karhutla</title>
+					<title>SIPP Karhutla Test</title>
 				</Head>
 				<AuthProvider>
 					<Component {...pageProps} />
