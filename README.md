@@ -23,18 +23,24 @@ This project is the frontend module of the SIPP Karhutla, a joint project betwee
 
 ## Run Dev Server
 
-1. Open terminal in project folder
-2. Use below command in the terminal  
+1. Use below command in the terminal  
    `npm run dev`
-3. Access development server in  
+2. Access development server in  
    `http://localhost:3000`
 
 ## Prepare for Production
 
 1. Build project and run production server  
    `npm run prod:start`
-3. Access production server in  
+2. Access production server in  
    `http://localhost:3000`
+
+## Static HTML Export
+
+1. Build project and export html  
+   `npm run prod:export`
+2. Command above will build the project and export html static. The exported html files will be placed inside `/out` folder
+2. Deploy project files inside `/out` folder to the server
 
 ## Developer Team
 
