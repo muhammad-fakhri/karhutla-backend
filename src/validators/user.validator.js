@@ -35,6 +35,14 @@ class UserValidator {
 			errorMsg.push('Tolong masukan nomor registrasi/NIP')
 		if (!isPhoneNumber(inputData.phone))
 			errorMsg.push('Tolong masukan nomor hape yang valid')
+		if (inputData.password || inputData.cPassword) {
+			if (inputData.password.length < 8)
+				errorMsg.push('Password minimal 8 karakter')
+			else if (inputData.password !== inputData.cPassword) {
+				errorMsg.push('Konfirmasi password tidak sama')
+			}
+		}
+
 		if (errorMsg.length === 0) {
 			return { pass: true }
 		}

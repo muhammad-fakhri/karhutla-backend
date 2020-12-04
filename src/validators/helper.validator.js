@@ -7,7 +7,7 @@ export const isEmail = (value) => {
 }
 
 export const isPhoneNumber = (value) => {
-	return /^(^\+62\s?|^0)(\d{3,4}-?){2}\d{3,4}$/.test(value)
+	return /^(^\+62)\d{11,12}$/.test(value)
 }
 
 export const digitLength = (number) => {
