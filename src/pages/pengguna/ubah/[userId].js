@@ -1,15 +1,7 @@
 import { useRouter } from 'next/router'
 import ErrorPage from 'next/error'
-import {
-	CircularProgress,
-	IconButton,
-	TextField,
-	InputAdornment,
-	Grid
-} from '@material-ui/core'
+import { CircularProgress, TextField, Grid } from '@material-ui/core'
 import Alert from '@material-ui/lab/Alert'
-import Visibility from '@material-ui/icons/Visibility'
-import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import classNames from 'classnames'
 import { makeStyles } from '@material-ui/core/styles'
 import SiteLayout from '../../../components/Layout/SiteLayout'
@@ -35,10 +27,7 @@ function UbahPenggunaPage() {
 		email: '',
 		oldEmail: '',
 		phone: '',
-		password: '',
-		cPassword: '',
 		errorMessage: '',
-		showPassword: false,
 		notFound: false,
 		showAlert: false,
 		alertMessage: ''
@@ -61,9 +50,6 @@ function UbahPenggunaPage() {
 		}
 		setLoading(false)
 	}
-	const handleClickShowPassword = () =>
-		setValues({ ...values, showPassword: !values.showPassword })
-	const handleMouseDownPassword = (event) => event.preventDefault()
 	React.useEffect(() => {
 		const getUserData = async () => {
 			const result = await UserService.getUserDetail(userId)
@@ -135,8 +121,6 @@ function UbahPenggunaPage() {
 								onChange={handleChange('registrationNumber')}
 								value={values.registrationNumber}
 							/>
-						</Grid>
-						<Grid item xs={10} md={4}>
 							<TextField
 								id="name"
 								label="Nama"
@@ -148,10 +132,6 @@ function UbahPenggunaPage() {
 								onChange={handleChange('name')}
 								value={values.name}
 							/>
-						</Grid>
-					</Grid>
-					<Grid container justify="center" spacing={2}>
-						<Grid item xs={10} md={4}>
 							<TextField
 								id="email"
 								label="Email"
@@ -163,92 +143,17 @@ function UbahPenggunaPage() {
 								onChange={handleChange('email')}
 								value={values.email}
 							/>
-						</Grid>
-						<Grid item xs={10} md={4}>
 							<TextField
 								id="phone-number"
-								label="Nomor HP"
+								label="Nomor Telepon"
 								variant="outlined"
-								helperText="Format nomor HP: 08xxxxxxxxxx / +62xxxxxxxxxxx"
+								helperText="Format nomor HP: +628xxxxxxxxxx"
 								fullWidth
 								margin="normal"
 								required
 								className={classes.textAlignLeft}
 								onChange={handleChange('phone')}
 								value={values.phone}
-							/>
-						</Grid>
-					</Grid>
-					<Grid container justify="center" spacing={2}>
-						<Grid item xs={10} md={4}>
-							<TextField
-								id="password"
-								label="Password"
-								variant="outlined"
-								value={values.password}
-								type={values.showPassword ? 'text' : 'password'}
-								fullWidth
-								margin="normal"
-								helperText="Silakan isi untuk mengubah kata sandi"
-								className={classes.textAlignLeft}
-								onChange={handleChange('password')}
-								InputProps={{
-									endAdornment: (
-										<InputAdornment position="end">
-											<IconButton
-												aria-label="toggle password visibility"
-												onClick={
-													handleClickShowPassword
-												}
-												onMouseDown={
-													handleMouseDownPassword
-												}
-												edge="end"
-											>
-												{values.showPassword ? (
-													<Visibility />
-												) : (
-													<VisibilityOff />
-												)}
-											</IconButton>
-										</InputAdornment>
-									)
-								}}
-							/>
-						</Grid>
-						<Grid item xs={10} md={4}>
-							<TextField
-								id="confirmation-password"
-								label="Konfirmasi Password"
-								variant="outlined"
-								value={values.cPassword}
-								type={values.showPassword ? 'text' : 'password'}
-								fullWidth
-								margin="normal"
-								className={classes.textAlignLeft}
-								onChange={handleChange('cPassword')}
-								InputProps={{
-									endAdornment: (
-										<InputAdornment position="end">
-											<IconButton
-												aria-label="toggle password visibility"
-												onClick={
-													handleClickShowPassword
-												}
-												onMouseDown={
-													handleMouseDownPassword
-												}
-												edge="end"
-											>
-												{values.showPassword ? (
-													<Visibility />
-												) : (
-													<VisibilityOff />
-												)}
-											</IconButton>
-										</InputAdornment>
-									)
-								}}
 							/>
 						</Grid>
 					</Grid>
