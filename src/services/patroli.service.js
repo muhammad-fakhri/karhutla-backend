@@ -1,5 +1,5 @@
 import Moment from 'moment'
-import { SimaduAPI, simadu2Url, simaduApiUrl } from '../api'
+import { SimaduAPI, simaduApiUrl } from '../api'
 
 export default class PatroliService {
 	static async getPatroli(url, date) {
@@ -42,7 +42,7 @@ export default class PatroliService {
 					}
 
 					const data2 = {}
-					data2.reportLink = `${simadu2Url}/app/downloader.php?id=${patroli.id_laporan_header}`
+					data2.reportLink = `${simaduApiUrl}/download/${patroli.id_laporan_header}`
 					data2.patrolRegion =
 						patroli.id_daerah_patroli.nama_daerah_patroli
 					data2.operationRegion = patroli.id_daerah_patroli.nama_daops

@@ -171,7 +171,7 @@ function DashboardPage() {
 									{
 										icon: CloudDownloadIcon,
 										tooltip: 'Download Laporan',
-										onClick: (rowData) =>
+										onClick: (e, rowData) =>
 											window.open(rowData.reportLink)
 									}
 								]}
@@ -199,7 +199,7 @@ function DashboardPage() {
 									{
 										icon: CloudDownloadIcon,
 										tooltip: 'Download Laporan',
-										onClick: (rowData) =>
+										onClick: (e, rowData) =>
 											window.open(rowData.reportLink)
 									}
 								]}
@@ -227,7 +227,7 @@ function DashboardPage() {
 									{
 										icon: CloudDownloadIcon,
 										tooltip: 'Download Laporan',
-										onClick: (rowData) =>
+										onClick: (e, rowData) =>
 											window.open(rowData.reportLink)
 									}
 								]}
