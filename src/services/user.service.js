@@ -63,7 +63,7 @@ class UserService {
 		formData.append('id', data.id)
 		formData.append('nama', data.name)
 		formData.append('no_telepon', data.phone)
-		formData.append('password', data.password)
+		if (data.password) formData.append('password', data.password)
 		if (data.oldEmail !== data.email) formData.append('email', data.email)
 		if (data.oldRegistrationNumber !== data.registrationNumber)
 			formData.append('no_registrasi', data.registrationNumber)
@@ -71,7 +71,7 @@ class UserService {
 		const r = await API.post('/user/save', formData)
 
 		if (r.status === 200) {
-			return { success: true }
+			return { success: true, message: 'Ubah data pengguna berhasil' }
 		}
 		return { success: false, message: [r.message] }
 	}

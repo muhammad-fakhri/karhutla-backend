@@ -31,6 +31,7 @@ export const AuthProvider = ({ children }) => {
 			if (response.status !== 200) throw new Error(response.message)
 
 			const user = {
+				id: response.data.user.id_user,
 				name: response.data.user.nama,
 				email: response.data.user.email,
 				registrationNumber: response.data.detail.no_registrasi,
@@ -38,10 +39,11 @@ export const AuthProvider = ({ children }) => {
 				instantion: response.data.detail.instansi,
 				photo: response.data.detail.foto
 			}
+
 			const token = response.data.token ? response.data.token : null
 			if (token) {
-				// // TODO: remove pre-download auth when auth system in DB V2 is completed
-				// // Login to simadu/app, for report old pre-download auth
+				// TODO: remove pre-download auth when auth system in DB V2 is completed
+				// Login to simadu/app, for report old pre-download auth
 				// const responseAPIAuth = await AuthAPI.post('/login', {
 				// 	email: 'balai',
 				// 	password: '123'
