@@ -1,14 +1,12 @@
-/*eslint-disable*/
-// nodejs library to set properties for components
 import PropTypes from 'prop-types'
-// nodejs library that concatenates classes
 import classNames from 'classnames'
-// material-ui core components
-import { Avatar } from '@material-ui/core'
+import { Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
-import styles from 'assets/jss/nextjs-material-kit/components/footerStyle.js'
-import logoIPB from 'assets/img/logo-ipb.png'
+import styles from '../../assets/jss/nextjs-material-kit/components/footerStyle'
+import logoIPB from '../../assets/img/logo-ipb.png'
+import logoLPDP from '../../assets/img/lpdp.png'
+import logoKLHK from '../../assets/img/klhk.png'
 
 const useStyles = makeStyles(styles)
 
@@ -27,19 +25,45 @@ export default function Footer(props) {
 		<footer className={footerClasses}>
 			<div className={classes.container}>
 				<div className={classes.center}>
-					<Avatar
-						alt="Logo IPB"
-						src={logoIPB}
-						className={classes.logo}
-					/>
-					Copyright &copy; {1900 + new Date().getYear()}{' '}
-					<a
-						href="https://cs.ipb.ac.id"
-						className={aClasses}
-						target="_blank"
+					<div>
+						<img
+							alt="Logo LPDP"
+							src={logoLPDP}
+							className={classes.logo}
+						/>
+						<img
+							alt="Logo IPB"
+							src={logoIPB}
+							className={classes.logo}
+						/>
+						<img
+							alt="Logo KLHK"
+							src={logoKLHK}
+							className={classes.logo}
+						/>
+					</div>
+					<Typography
+						variant="body1"
+						gutterBottom
+						className={classes.footerDescription}
 					>
-						Departemen Ilmu Komputer FMIPA IPB
-					</a>
+						Kerjasama Balai Pengendalian Perubahan Iklim dan
+						Kebakaran Hutan dan Lahan (PPIKHL) Wilayah Sumatra,
+						Direktorat Jenderal Pengendalian Perubahan Iklim,
+						Kementerian Lingkungan Hidup dan Kehutanan Republik
+						Indonesia, Departemen Ilmu Komputer IPB University
+					</Typography>
+					<Typography variant="body1" gutterBottom>
+						didanai oleh{' '}
+						<a
+							href="https://www.lpdp.kemenkeu.go.id/in/home"
+							className={aClasses}
+							target="_blank"
+							rel="noreferrer"
+						>
+							Lembaga Pengelola Dana Pendidikan
+						</a>
+					</Typography>
 				</div>
 			</div>
 		</footer>

@@ -1,4 +1,4 @@
-import { container, primaryColor } from 'assets/jss/nextjs-material-kit.js'
+import { container, primaryColor } from '../../nextjs-material-kit'
 
 const footerStyle = {
 	block: {
@@ -50,10 +50,13 @@ const footerStyle = {
 		position: 'relative',
 		top: '3px'
 	},
+	footerDescription: {
+		padding: '0 12vw'
+	},
 	logo: {
-		width: '64px',
 		height: '64px',
-		margin: '16px auto',
+		width: 'auto',
+		margin: '16px 8px',
 		position: 'relative'
 	}
 }
