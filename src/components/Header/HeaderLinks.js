@@ -1,11 +1,12 @@
 import { makeStyles } from '@material-ui/core/styles'
 import { List, ListItem, Icon } from '@material-ui/core'
-import styles from 'assets/jss/nextjs-material-kit/components/headerLinksStyle.js'
-import CustomDropdown from 'components/CustomDropdown/CustomDropdown.js'
-import Button from 'components/CustomButtons/Button.js'
 import Link from 'next/link'
 import React from 'react'
+import styles from '../../assets/jss/nextjs-material-kit/components/headerLinksStyle'
+import CustomDropdown from '../CustomDropdown/CustomDropdown'
+import Button from '../CustomButtons/Button'
 import useAuth from '../../context/auth'
+
 const useStyles = makeStyles(styles)
 
 const AuthenticatedMenu = (props) => {
@@ -21,37 +22,9 @@ const AuthenticatedMenu = (props) => {
 				</Link>
 			</ListItem>
 			<ListItem className={classes.listItem}>
-				<CustomDropdown
-					noLiPadding
-					navDropdown
-					buttonText="Patroli"
-					buttonProps={{
-						className: classes.navLink,
-						color: 'transparent'
-					}}
-					dropdownList={[
-						<Link href="/patroli/mandiri">
-							<a className={classes.dropdownLink}>
-								Patroli Mandiri
-							</a>
-						</Link>,
-						<Link href="/patroli/rutin">
-							<a className={classes.dropdownLink}>
-								Patroli Rutin
-							</a>
-						</Link>,
-						<Link href="/patroli/terpadu">
-							<a className={classes.dropdownLink}>
-								Patroli Terpadu
-							</a>
-						</Link>
-					]}
-				/>
-			</ListItem>
-			<ListItem className={classes.listItem}>
-				<Link href="/penugasan">
+				<Link href="/pelaporan">
 					<Button color="transparent" className={classes.navLink}>
-						Penugasan
+						Pelaporan
 					</Button>
 				</Link>
 			</ListItem>
@@ -59,19 +32,22 @@ const AuthenticatedMenu = (props) => {
 				<CustomDropdown
 					noLiPadding
 					navDropdown
-					buttonText="Pengguna"
+					buttonText="Manajemen Pengguna"
 					buttonProps={{
 						className: classes.navLink,
 						color: 'transparent'
 					}}
 					dropdownList={[
-						<Link href="/pengguna">
+						<Link href="/pengguna" key="data">
 							<a className={classes.dropdownLink}>
 								Data Pengguna
 							</a>
 						</Link>,
-						<Link href="/pengguna/hak-akses">
+						<Link href="/pengguna/hak-akses" key="access">
 							<a className={classes.dropdownLink}>Hak Akses</a>
+						</Link>,
+						<Link href="/penugasan" key="task">
+							<a className={classes.dropdownLink}>Penugasan</a>
 						</Link>
 					]}
 				/>
@@ -86,24 +62,23 @@ const AuthenticatedMenu = (props) => {
 						color: 'transparent'
 					}}
 					dropdownList={[
-						<Link href="/wilayah">
+						<Link href="/wilayah" key="region">
 							<a className={classes.dropdownLink}>Wilayah</a>
 						</Link>,
-						<Link href="/wilayah/balai">
+						<Link href="/wilayah/balai" key="balai">
 							<a className={classes.dropdownLink}>Balai</a>
 						</Link>,
-						<Link href="/wilayah/daops">
+						<Link href="/wilayah/daops" key="daops">
 							<a className={classes.dropdownLink}>
 								Daerah Operasi
 							</a>
 						</Link>,
-						<Link href="/wilayah/posko">
+						<Link href="/wilayah/posko" key="posko">
 							<a className={classes.dropdownLink}>Posko</a>
 						</Link>
 					]}
 				/>
 			</ListItem>
-
 			<ListItem className={classes.listItem}>
 				<Link href="/hotspot">
 					<Button color="transparent" className={classes.navLink}>
@@ -121,12 +96,13 @@ const AuthenticatedMenu = (props) => {
 						color: 'transparent'
 					}}
 					dropdownList={[
-						<Link href="/profile">
+						<Link href="/profile" key="profile">
 							<a className={classes.dropdownLink}>Profil</a>
 						</Link>,
 						<a
 							className={classes.dropdownLink}
 							onClick={props.logout}
+							key="logout"
 						>
 							Logout
 						</a>
@@ -153,7 +129,7 @@ const UnauthenticatedMenu = () => {
 	)
 }
 
-export default function HeaderLinks(props) {
+export default function HeaderLinks() {
 	const { isAuthenticated, logout } = useAuth()
 
 	return isAuthenticated ? (
