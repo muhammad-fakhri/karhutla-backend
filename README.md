@@ -17,7 +17,7 @@ This project is the frontend module of the SIPP Karhutla, a joint project betwee
 ## Set Up
 
 1. Clone this repo and change directory to project folder  
-   `git clone https://github.com/muhammad-fakhri/karhutla-frontend.git && cd /karhutla-frontend`
+   `git clone https://github.com/muhammad-fakhri/sipp-karhutla.git && cd /sipp-karhutla`
 2. Install dependencies  
    `npm install`
 
