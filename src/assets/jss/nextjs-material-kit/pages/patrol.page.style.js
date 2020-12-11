@@ -1,6 +1,6 @@
 import basePage from './base.page.style'
 
-const dashboardPageStyle = {
+const patrolPageStyle = {
 	...basePage,
 	terpaduBg: {
 		textDecoration: 'underline #fdf569 solid'
@@ -23,4 +23,4 @@ const dashboardPageStyle = {
 	}
 }
 
-export default dashboardPageStyle
+export default patrolPageStyle

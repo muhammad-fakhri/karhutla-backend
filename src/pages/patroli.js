@@ -16,7 +16,7 @@ import PatroliService from '../services/patroli.service'
 import SiteLayout from '../components/Layout/SiteLayout'
 import MapContainer from '../components/Map/MapPatroli'
 import Loader from '../components/Loader/Loader'
-import styles from '../assets/jss/nextjs-material-kit/pages/dashboard.page.style'
+import styles from '../assets/jss/nextjs-material-kit/pages/patrol.page.style'
 
 const useStyles = makeStyles(styles)
 
@@ -26,7 +26,7 @@ const column = [
 	{ title: 'Daerah Patroli', field: 'patrolRegion' }
 ]
 
-function DashboardPage() {
+function PatroliPage() {
 	const classes = useStyles()
 	const { isAuthenticated } = useAuth()
 	const [loading, setLoading] = React.useState(true)
@@ -231,4 +231,4 @@ function DashboardPage() {
 	)
 }
 
-export default ProtectRoute(DashboardPage)
+export default ProtectRoute(PatroliPage)

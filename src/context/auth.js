@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }) => {
 				CookieService.setToken(token)
 				CookieService.setUser(user)
 				setUser(user)
-				window.location.pathname = '/dashboard'
+				window.location.pathname = '/patroli'
 				return true
 			}
 			return null
@@ -99,7 +99,7 @@ export function ProtectRoute(Component, isAuthRoute = false) {
 		const { isAuthenticated, loading } = useAuth()
 		useEffect(() => {
 			if (!isAuthenticated && !loading) Router.push('/login')
-			if (isAuthRoute && isAuthenticated) Router.push('/dashboard')
+			if (isAuthRoute && isAuthenticated) Router.push('/patroli')
 		}, [loading, isAuthenticated])
 
 		return <Component {...arguments} />

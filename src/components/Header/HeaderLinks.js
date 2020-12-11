@@ -15,9 +15,16 @@ const AuthenticatedMenu = (props) => {
 	return (
 		<List className={classes.list}>
 			<ListItem className={classes.listItem}>
-				<Link href="/dashboard">
+				<Link href="/">
 					<Button color="transparent" className={classes.navLink}>
-						Dashboard
+						Beranda
+					</Button>
+				</Link>
+			</ListItem>
+			<ListItem className={classes.listItem}>
+				<Link href="/patroli">
+					<Button color="transparent" className={classes.navLink}>
+						Patroli
 					</Button>
 				</Link>
 			</ListItem>
