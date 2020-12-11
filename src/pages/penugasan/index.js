@@ -30,8 +30,8 @@ function PenugasanPage() {
 			setPenugasan(data)
 			setLoading(false)
 		}
-		fetchData()
-	}, [])
+		if (isAuthenticated) fetchData()
+	}, [isAuthenticated])
 
 	return !isAuthenticated ? (
 		<Loader />

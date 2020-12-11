@@ -63,8 +63,8 @@ function DaopsPage() {
 			setValues({ ...values, daops: data })
 			setLoading(false)
 		}
-		fetchData()
-	}, [])
+		if (isAuthenticated) fetchData()
+	}, [isAuthenticated])
 
 	return !isAuthenticated ? (
 		<Loader />

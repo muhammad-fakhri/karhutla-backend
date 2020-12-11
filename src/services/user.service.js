@@ -2,8 +2,8 @@ import { API } from '../api'
 import UserValidator from '../validators/user.validator'
 
 class UserService {
-	static async getAllUsers(url) {
-		const r = await API.get(url)
+	static async getAllUsers() {
+		const r = await API.get('/user/list')
 		if (r.status === 200) {
 			const users = []
 			r.data.forEach((user) => {
@@ -87,8 +87,8 @@ class UserService {
 		return { success: false, message: r.message }
 	}
 
-	static async getNonPatroliUsers(url) {
-		const r = await API.get(url)
+	static async getNonPatroliUsers() {
+		const r = await API.get('/non_patroli/list')
 		if (r.status === 200) {
 			const daopsUsers = []
 			const balaiUsers = []
@@ -122,8 +122,8 @@ class UserService {
 		return []
 	}
 
-	static async getPatroliNonLoginUsers(url) {
-		const r = await API.get(url)
+	static async getPatroliNonLoginUsers() {
+		const r = await API.get('/non_login/list')
 		if (r.status === 200) {
 			const users = []
 			r.data.forEach((user) => {

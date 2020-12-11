@@ -51,8 +51,8 @@ function WilayahPage() {
 			setValues({ ...values, wilayah: data })
 			setLoading(false)
 		}
-		fetchData()
-	}, [])
+		if (isAuthenticated) fetchData()
+	}, [isAuthenticated])
 
 	return !isAuthenticated ? (
 		<Loader />

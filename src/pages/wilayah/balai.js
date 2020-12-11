@@ -42,7 +42,7 @@ function BalaiPage() {
 		}, 3000)
 	}
 	React.useEffect(() => {
-		const setLookup = async () => {
+		const fetchData = async () => {
 			const wilayahLookup = await generateWilayahLookup()
 			const column = [
 				{ title: 'Nama Balai', field: 'name' },
@@ -54,17 +54,13 @@ function BalaiPage() {
 				}
 			]
 			setColumn(column)
-		}
-		if (isAuthenticated) setLookup()
-	}, [isAuthenticated])
-	React.useEffect(() => {
-		const fetchData = async () => {
+
 			const data = await BalaiService.getAllBalai()
 			setValues({ ...values, balai: data })
 			setLoading(false)
 		}
-		fetchData()
-	}, [])
+		if (isAuthenticated) fetchData()
+	}, [isAuthenticated])
 
 	return !isAuthenticated ? (
 		<Loader />

@@ -43,8 +43,8 @@ function PoskoPage() {
 			setAlertType('success')
 			setShowAlert(true)
 		}
-		fetchData()
-	}, [])
+		if (isAuthenticated) fetchData()
+	}, [isAuthenticated])
 
 	return !isAuthenticated ? (
 		<Loader />

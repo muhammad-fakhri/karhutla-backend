@@ -15,7 +15,6 @@ import Alert from '@material-ui/lab/Alert'
 import { makeStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
 import MaterialTable from 'material-table'
-import useSWR from 'swr'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import Close from '@material-ui/icons/Close'
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd'
@@ -62,12 +61,9 @@ function PenggunaPage() {
 	const [roles, setRoles] = React.useState([])
 	const [users, setUsers] = React.useState([])
 	const [showAlert, setShowAlert] = React.useState(false)
+	const [loading, setLoading] = React.useState(true)
 	const [alertType, setAlertType] = React.useState('success')
 	const [alertMessage, setAlertMessage] = React.useState()
-	const { data: dataUsers, isValidating } = useSWR(
-		isAuthenticated ? '/user/list' : null,
-		UserService.getAllUsers
-	)
 	const handleRoleChange = (event) => {
 		if (event.target.value === 4 || event.target.value === 5) {
 			setRoleType('pusat')
@@ -116,25 +112,24 @@ function PenggunaPage() {
 		setRoleType('pusat')
 	}
 	React.useEffect(() => {
-		setUsers(dataUsers)
-	}, [dataUsers])
-	React.useEffect(() => {
-		if (alert) {
-			setAlertMessage(alert)
-			setShowAlert(true)
-			setAlertType('success')
-		}
-	}, [])
-	React.useEffect(() => {
-		const setOptionData = async () => {
+		const fetchData = async () => {
 			const roles = await UserService.getNonPatroliRoles()
 			const daops = await DaopsService.getAllDaops()
 			const balai = await BalaiService.getAllBalai()
 			setRoles(roles)
 			setDaops(daops)
 			setBalai(balai)
+
+			const data = await UserService.getAllUsers()
+			setUsers(data)
+			setLoading(false)
 		}
-		if (isAuthenticated) setOptionData()
+		if (alert) {
+			setAlertMessage(alert)
+			setShowAlert(true)
+			setAlertType('success')
+		}
+		if (isAuthenticated) fetchData()
 	}, [isAuthenticated])
 
 	return !isAuthenticated ? (
@@ -160,7 +155,7 @@ function PenggunaPage() {
 						{alertMessage}
 					</Alert>
 				) : null}
-				{isValidating ? (
+				{loading ? (
 					<CircularProgress />
 				) : (
 					<MaterialTable
