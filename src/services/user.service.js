@@ -93,28 +93,23 @@ class UserService {
 			const daopsUsers = []
 			const balaiUsers = []
 			r.data.forEach((userAccess) => {
-				if (userAccess.r_role_id === 8 || userAccess.r_role_id === 9) {
-					daopsUsers.push({
-						id: userAccess.m_user.id,
-						accessId: userAccess.id,
-						role: userAccess.r_role_id,
-						institution: userAccess.m_user.instansi,
-						nip: userAccess.m_user.no_registrasi,
-						name: userAccess.m_user.nama,
-						email: userAccess.m_user.email,
-						organization: ''
-					})
+				const user = {
+					id: parseInt(userAccess.m_user.id, 10),
+					accessId: parseInt(userAccess.id, 10),
+					role: parseInt(userAccess.r_role_id, 10),
+					institution: userAccess.m_user.instansi,
+					nip: userAccess.m_user.no_registrasi,
+					name: userAccess.m_user.nama,
+					email: userAccess.m_user.email,
+					organization: ''
+				}
+				if (
+					parseInt(userAccess.r_role_id, 10) === 8 ||
+					parseInt(userAccess.r_role_id, 10) === 9
+				) {
+					daopsUsers.push(user)
 				} else {
-					balaiUsers.push({
-						id: userAccess.m_user.id,
-						accessId: userAccess.id,
-						role: userAccess.r_role_id,
-						institution: userAccess.m_user.instansi,
-						nip: userAccess.m_user.no_registrasi,
-						name: userAccess.m_user.nama,
-						email: userAccess.m_user.email,
-						organization: ''
-					})
+					balaiUsers.push(user)
 				}
 			})
 			return { daopsUsers, balaiUsers }
@@ -188,9 +183,9 @@ class UserService {
 		if (r.status === 200) {
 			const data = []
 			r.data.forEach((role) => {
-				if (role.id <= 9) {
+				if (parseInt(role.id, 10) <= 9) {
 					data.push({
-						id: role.id,
+						id: parseInt(role.id, 10),
 						name: role.nama,
 						level: role.level,
 						active: role.aktif
@@ -207,9 +202,9 @@ class UserService {
 		if (r.status === 200) {
 			const data = []
 			r.data.forEach((role) => {
-				if (role.id > 11) {
+				if (parseInt(role.id, 10) > 11) {
 					data.push({
-						id: role.id,
+						id: parseInt(role.id, 10),
 						name: role.nama,
 						level: role.level,
 						active: role.aktif
