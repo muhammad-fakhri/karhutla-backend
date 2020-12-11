@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { SimaduAPI } from '../api'
+import { SimaduAPI, simaduApiUrl } from '../api'
 
 class PenugasanService {
 	static async getAllPenugasan() {
@@ -12,7 +12,8 @@ class PenugasanService {
 					number: work.nomor,
 					type: work.jenis_surat,
 					startDate: work.tanggal_awal,
-					finishDate: work.tanggal_akhir
+					finishDate: work.tanggal_akhir,
+					reportLink: `${simaduApiUrl}/downloadPeriode?nomor_sk=${work.nomor}`
 				})
 			})
 			return data
