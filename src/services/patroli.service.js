@@ -2,7 +2,7 @@ import Moment from 'moment'
 import { SimaduAPI, simaduApiUrl } from '../api'
 
 export default class PatroliService {
-	static async getPatroli(url, date) {
+	static async getPatroli(date) {
 		try {
 			const patroliSpots = []
 			const patroliTerpadu = []
@@ -13,9 +13,7 @@ export default class PatroliService {
 				rutin: 0,
 				terpadu: 0
 			}
-			const res = await SimaduAPI.get(
-				url || `/list?tanggal_patroli=${date}`
-			)
+			const res = await SimaduAPI.get(`/list?tanggal_patroli=${date}`)
 			const patroliData = res.data
 			patroliData.forEach((item) => {
 				item.forEach((patroli) => {

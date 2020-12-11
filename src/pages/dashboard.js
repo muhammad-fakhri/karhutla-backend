@@ -11,7 +11,6 @@ import {
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload'
-import useSWR from 'swr'
 import useAuth, { ProtectRoute } from '../context/auth'
 import PatroliService from '../services/patroli.service'
 import SiteLayout from '../components/Layout/SiteLayout'
@@ -30,7 +29,7 @@ const column = [
 function DashboardPage() {
 	const classes = useStyles()
 	const { isAuthenticated } = useAuth()
-	const [load, setLoad] = React.useState(true)
+	const [loading, setLoading] = React.useState(true)
 	const [date, setDate] = React.useState(moment())
 	const [mandiriCounter, setMandiriCounter] = React.useState(0)
 	const [rutinCounter, setRutinCounter] = React.useState(0)
@@ -39,17 +38,9 @@ function DashboardPage() {
 	const [mandiri, setMandiri] = React.useState()
 	const [rutin, setRutin] = React.useState()
 	const [spots, setSpots] = React.useState()
-	const { data: patroliData, isValidating } = useSWR(
-		isAuthenticated &&
-			date.format('D-M-YYYY') === moment().format('D-M-YYYY')
-			? `/list?tanggal_patroli=${date.format('D-M-YYYY')}`
-			: null,
-		PatroliService.getPatroli
-	)
 	React.useEffect(() => {
 		const updatePatroli = async () => {
 			const patroliData = await PatroliService.getPatroli(
-				null,
 				date.format('D-M-YYYY')
 			)
 			setSpots(patroliData.patroliSpots)
@@ -59,10 +50,10 @@ function DashboardPage() {
 			setTerpadu(patroliData.patroliTerpadu)
 			setMandiri(patroliData.patroliMandiri)
 			setRutin(patroliData.patroliRutin)
-			setLoad(false)
+			setLoading(false)
 		}
 		if (isAuthenticated) updatePatroli()
-	}, [date, isAuthenticated, patroliData])
+	}, [date, isAuthenticated])
 
 	return !isAuthenticated ? (
 		<Loader />
@@ -105,7 +96,7 @@ function DashboardPage() {
 										}}
 										onChange={(date) => {
 											setDate(date)
-											setLoad(true)
+											setLoading(true)
 										}}
 										closeOnSelect={true}
 										locale="id"
@@ -117,7 +108,7 @@ function DashboardPage() {
 							<h2 className={classes.mandiriBg}>
 								Patroli Mandiri
 							</h2>
-							{isValidating || load ? (
+							{loading ? (
 								<CircularProgress />
 							) : (
 								<h3>{mandiriCounter}</h3>
@@ -127,7 +118,7 @@ function DashboardPage() {
 							<h2 className={classes.pencegahanBg}>
 								Patroli Rutin
 							</h2>
-							{isValidating || load ? (
+							{loading ? (
 								<CircularProgress />
 							) : (
 								<h3>{rutinCounter}</h3>
@@ -137,7 +128,7 @@ function DashboardPage() {
 							<h2 className={classes.terpaduBg}>
 								Patroli Terpadu
 							</h2>
-							{isValidating || load ? (
+							{loading ? (
 								<CircularProgress />
 							) : (
 								<h3>{terpaduCounter}</h3>

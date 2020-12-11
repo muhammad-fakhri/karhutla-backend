@@ -15,10 +15,10 @@ const dashboardPageStyle = {
 		marginTop: '8px'
 	},
 	divider: {
-		padding: '8vh 0'
+		padding: '8px 0'
 	},
 	table: {
-		padding: '0 16px 8vh 16px',
+		padding: '0 16px 8px 16px',
 		textTransform: 'capitalize'
 	}
 }
