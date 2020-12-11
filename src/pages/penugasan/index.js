@@ -21,7 +21,7 @@ const columns = [
 
 function PenugasanPage() {
 	const classes = useStyles()
-	const { isAuthenticated } = useAuth()
+	const { isAuthenticated, user } = useAuth()
 	const [penugasan, setPenugasan] = React.useState([])
 	const [loading, setLoading] = React.useState(true)
 	React.useEffect(() => {
@@ -41,18 +41,20 @@ function PenugasanPage() {
 				<Grid item xs={10} align="center" className={classes.title}>
 					<h2>Daftar Penugasan</h2>
 				</Grid>
-				<Grid item xs={3} align="center">
-					<Link href="penugasan/berkas">
-						<Button
-							variant="contained"
-							color="primary"
-							className={classes.button}
-							startIcon={<AddBoxIcon />}
-						>
-							Tambah Penugasan
-						</Button>
-					</Link>
-				</Grid>
+				{user.roleLevel === 4 ? (
+					<Grid item xs={3} align="center">
+						<Link href="penugasan/berkas">
+							<Button
+								variant="contained"
+								color="primary"
+								className={classes.button}
+								startIcon={<AddBoxIcon />}
+							>
+								Tambah Penugasan
+							</Button>
+						</Link>
+					</Grid>
+				) : null}
 				<Grid item xs={10} align="center" className={classes.gridItem}>
 					{loading ? (
 						<CircularProgress />

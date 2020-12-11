@@ -31,13 +31,20 @@ export const AuthProvider = ({ children }) => {
 			if (response.status !== 200) throw new Error(response.message)
 
 			const user = {
-				id: response.data.user.id_user,
+				id: parseInt(response.data.user.id_user, 10),
 				name: response.data.user.nama,
 				email: response.data.user.email,
 				registrationNumber: response.data.detail.no_registrasi,
 				phoneNumber: response.data.detail.no_telepon,
 				instantion: response.data.detail.instansi,
-				photo: response.data.detail.foto
+				photo: response.data.detail.foto,
+				roleLevel:
+					// If user has role then store the role level
+					// Otherwise assign 100 as role level
+					// 100 is big enough to be mark as not have any role
+					response.data.detail.roles.length > 0
+						? parseInt(response.data.detail.roles[0].level, 10)
+						: 100
 			}
 
 			const token = response.data.token ? response.data.token : null

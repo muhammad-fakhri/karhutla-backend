@@ -8,6 +8,7 @@ import {
 	Tab,
 	CircularProgress
 } from '@material-ui/core'
+import { useRouter } from 'next/router'
 import { Alert } from '@material-ui/lab'
 import PropTypes from 'prop-types'
 import MaterialTable from 'material-table'
@@ -87,7 +88,8 @@ const generateBalaiLookup = async () => {
 }
 
 function HakAksesPage() {
-	const { isAuthenticated } = useAuth()
+	const { isAuthenticated, user } = useAuth()
+	const router = useRouter()
 	const classes = useStyles()
 
 	const [manggalaState, setManggalaState] = React.useState([])
@@ -167,6 +169,17 @@ function HakAksesPage() {
 		}
 		if (isAuthenticated) fetchData()
 	}, [isAuthenticated])
+
+	React.useEffect(() => {
+		if (user) {
+			if (user.roleLevel > 1) {
+				alert(
+					'Hak akses anda tidak mencukupi untuk mengakses halaman ini'
+				)
+				router.back()
+			}
+		}
+	}, [user])
 
 	const handleChange = (event, newValue) => {
 		setValue(newValue)
@@ -277,70 +290,90 @@ function HakAksesPage() {
 									editable={{
 										onRowUpdate: (newData, oldData) =>
 											new Promise((resolve, reject) => {
-												UserService.updateNonPatroliUser(
-													newData
-												).then((result) => {
-													if (result.success) {
-														if (oldData) {
-															setDaopsState(
-																(prevState) => {
-																	const data = [
-																		...prevState
-																	]
-																	data[
-																		data.indexOf(
-																			oldData
-																		)
-																	] = newData
-																	return data
-																}
+												if (user.roleLevel > 1) {
+													alert(
+														'Hak akses anda tidak mencukupi untuk melakukan operasi ini'
+													)
+													resolve()
+												} else {
+													UserService.updateNonPatroliUser(
+														newData
+													).then((result) => {
+														if (result.success) {
+															if (oldData) {
+																setDaopsState(
+																	(
+																		prevState
+																	) => {
+																		const data = [
+																			...prevState
+																		]
+																		data[
+																			data.indexOf(
+																				oldData
+																			)
+																		] = newData
+																		return data
+																	}
+																)
+															}
+															showAlert(
+																true,
+																'Update hak akses daops berhasil'
 															)
+															resolve()
+														} else {
+															showAlert(
+																false,
+																result
+																	.message[0]
+															)
+															reject()
 														}
-														showAlert(
-															true,
-															'Update hak akses daops berhasil'
-														)
-														resolve()
-													} else {
-														showAlert(
-															false,
-															result.message[0]
-														)
-														reject()
-													}
-												})
+													})
+												}
 											}),
 										onRowDelete: (oldData) =>
 											new Promise((resolve, reject) => {
-												UserService.deleteNonPatroliUser(
-													oldData
-												).then((result) => {
-													if (result.success) {
-														const dataDelete = [
-															...daopsState
-														]
-														const index =
-															oldData.tableData.id
-														dataDelete.splice(
-															index,
-															1
-														)
-														setDaopsState(
-															dataDelete
-														)
-														showAlert(
-															true,
-															'Hapus hak akses daops berhasil'
-														)
-														resolve()
-													} else {
-														showAlert(
-															false,
-															result.message[0]
-														)
-														reject()
-													}
-												})
+												if (user.roleLevel > 1) {
+													alert(
+														'Hak akses anda tidak mencukupi untuk melakukan operasi ini'
+													)
+													resolve()
+												} else {
+													UserService.deleteNonPatroliUser(
+														oldData
+													).then((result) => {
+														if (result.success) {
+															const dataDelete = [
+																...daopsState
+															]
+															const index =
+																oldData
+																	.tableData
+																	.id
+															dataDelete.splice(
+																index,
+																1
+															)
+															setDaopsState(
+																dataDelete
+															)
+															showAlert(
+																true,
+																'Hapus hak akses daops berhasil'
+															)
+															resolve()
+														} else {
+															showAlert(
+																false,
+																result
+																	.message[0]
+															)
+															reject()
+														}
+													})
+												}
 											})
 									}}
 								/>
@@ -371,70 +404,90 @@ function HakAksesPage() {
 									editable={{
 										onRowUpdate: (newData, oldData) =>
 											new Promise((resolve, reject) => {
-												UserService.updateNonPatroliUser(
-													newData
-												).then((result) => {
-													if (result.success) {
-														if (oldData) {
-															setBalaiState(
-																(prevState) => {
-																	const data = [
-																		...prevState
-																	]
-																	data[
-																		data.indexOf(
-																			oldData
-																		)
-																	] = newData
-																	return data
-																}
+												if (user.roleLevel > 1) {
+													alert(
+														'Hak akses anda tidak mencukupi untuk melakukan operasi ini'
+													)
+													resolve()
+												} else {
+													UserService.updateNonPatroliUser(
+														newData
+													).then((result) => {
+														if (result.success) {
+															if (oldData) {
+																setBalaiState(
+																	(
+																		prevState
+																	) => {
+																		const data = [
+																			...prevState
+																		]
+																		data[
+																			data.indexOf(
+																				oldData
+																			)
+																		] = newData
+																		return data
+																	}
+																)
+															}
+															showAlert(
+																true,
+																'Update hak akses balai/pusat berhasil'
 															)
+															resolve()
+														} else {
+															showAlert(
+																false,
+																result
+																	.message[0]
+															)
+															reject()
 														}
-														showAlert(
-															true,
-															'Update hak akses balai/pusat berhasil'
-														)
-														resolve()
-													} else {
-														showAlert(
-															false,
-															result.message[0]
-														)
-														reject()
-													}
-												})
+													})
+												}
 											}),
 										onRowDelete: (oldData) =>
 											new Promise((resolve, reject) => {
-												UserService.deleteNonPatroliUser(
-													oldData
-												).then((result) => {
-													if (result.success) {
-														const dataDelete = [
-															...balaiState
-														]
-														const index =
-															oldData.tableData.id
-														dataDelete.splice(
-															index,
-															1
-														)
-														setBalaiState(
-															dataDelete
-														)
-														showAlert(
-															true,
-															'Hapus hak akses balai/pusat berhasil'
-														)
-														resolve()
-													} else {
-														showAlert(
-															false,
-															result.message[0]
-														)
-														reject()
-													}
-												})
+												if (user.roleLevel > 1) {
+													alert(
+														'Hak akses anda tidak mencukupi untuk melakukan operasi ini'
+													)
+													resolve()
+												} else {
+													UserService.deleteNonPatroliUser(
+														oldData
+													).then((result) => {
+														if (result.success) {
+															const dataDelete = [
+																...balaiState
+															]
+															const index =
+																oldData
+																	.tableData
+																	.id
+															dataDelete.splice(
+																index,
+																1
+															)
+															setBalaiState(
+																dataDelete
+															)
+															showAlert(
+																true,
+																'Hapus hak akses balai/pusat berhasil'
+															)
+															resolve()
+														} else {
+															showAlert(
+																false,
+																result
+																	.message[0]
+															)
+															reject()
+														}
+													})
+												}
 											})
 									}}
 								/>
@@ -466,94 +519,122 @@ function HakAksesPage() {
 									editable={{
 										onRowAdd: (newData) =>
 											new Promise((resolve, reject) => {
-												UserService.addPatroliNonLoginUser(
-													newData
-												).then((result) => {
-													if (result.success) {
-														setPatroliNonLogin([
-															...patroliNonLogin,
-															newData
-														])
-														showAlert(
-															true,
-															'Tambah hak akses patroli (non login) Berhasil'
-														)
-														resolve()
-													} else {
-														showAlert(
-															false,
-															result.message[0]
-														)
-														reject()
-													}
-												})
+												if (user.roleLevel > 1) {
+													alert(
+														'Hak akses anda tidak mencukupi untuk melakukan operasi ini'
+													)
+													resolve()
+												} else {
+													UserService.addPatroliNonLoginUser(
+														newData
+													).then((result) => {
+														if (result.success) {
+															setPatroliNonLogin([
+																...patroliNonLogin,
+																newData
+															])
+															showAlert(
+																true,
+																'Tambah hak akses patroli (non login) Berhasil'
+															)
+															resolve()
+														} else {
+															showAlert(
+																false,
+																result
+																	.message[0]
+															)
+															reject()
+														}
+													})
+												}
 											}),
 										onRowUpdate: (newData, oldData) =>
 											new Promise((resolve, reject) => {
-												UserService.updatePatroliNonLoginUser(
-													newData
-												).then((result) => {
-													if (result.success) {
-														if (oldData) {
-															setPatroliNonLogin(
-																(prevState) => {
-																	const data = [
-																		...prevState
-																	]
-																	data[
-																		data.indexOf(
-																			oldData
-																		)
-																	] = newData
-																	return data
-																}
+												if (user.roleLevel > 1) {
+													alert(
+														'Hak akses anda tidak mencukupi untuk melakukan operasi ini'
+													)
+													resolve()
+												} else {
+													UserService.updatePatroliNonLoginUser(
+														newData
+													).then((result) => {
+														if (result.success) {
+															if (oldData) {
+																setPatroliNonLogin(
+																	(
+																		prevState
+																	) => {
+																		const data = [
+																			...prevState
+																		]
+																		data[
+																			data.indexOf(
+																				oldData
+																			)
+																		] = newData
+																		return data
+																	}
+																)
+															}
+															showAlert(
+																true,
+																'Update hak akses patroli (non login) berhasil'
 															)
+															resolve()
+														} else {
+															showAlert(
+																false,
+																result
+																	.message[0]
+															)
+															reject()
 														}
-														showAlert(
-															true,
-															'Update hak akses patroli (non login) berhasil'
-														)
-														resolve()
-													} else {
-														showAlert(
-															false,
-															result.message[0]
-														)
-														reject()
-													}
-												})
+													})
+												}
 											}),
 										onRowDelete: (oldData) =>
 											new Promise((resolve, reject) => {
-												UserService.deletePatroliNonLoginUser(
-													oldData
-												).then((result) => {
-													if (result.success) {
-														const dataDelete = [
-															...patroliNonLogin
-														]
-														const index =
-															oldData.tableData.id
-														dataDelete.splice(
-															index,
-															1
-														)
-														setPatroliNonLogin(
-															dataDelete
-														)
-														showAlert(
-															true,
-															'Hapus hak akses patroli (non login) berhasil'
-														)
-														resolve()
-													} else {
-														showAlert(
-															false,
-															result.message[0]
-														)
-														reject()
-													}
-												})
+												if (user.roleLevel > 1) {
+													alert(
+														'Hak akses anda tidak mencukupi untuk melakukan operasi ini'
+													)
+													resolve()
+												} else {
+													UserService.deletePatroliNonLoginUser(
+														oldData
+													).then((result) => {
+														if (result.success) {
+															const dataDelete = [
+																...patroliNonLogin
+															]
+															const index =
+																oldData
+																	.tableData
+																	.id
+															dataDelete.splice(
+																index,
+																1
+															)
+															setPatroliNonLogin(
+																dataDelete
+															)
+															showAlert(
+																true,
+																'Hapus hak akses patroli (non login) berhasil'
+															)
+															resolve()
+														} else {
+															showAlert(
+																false,
+																result
+																	.message[0]
+															)
+															reject()
+														}
+													})
+												}
 											})
 									}}
 								/>

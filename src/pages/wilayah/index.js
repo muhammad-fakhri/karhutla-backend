@@ -1,4 +1,5 @@
 import { Paper, CircularProgress } from '@material-ui/core'
+import { useRouter } from 'next/router'
 import { makeStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
 import MaterialTable from 'material-table'
@@ -28,7 +29,8 @@ const column = [
 ]
 
 function WilayahPage() {
-	const { isAuthenticated } = useAuth()
+	const { isAuthenticated, user } = useAuth()
+	const router = useRouter()
 	const useStyles = makeStyles(styles)
 	const classes = useStyles()
 	const [show, setShow] = React.useState(false)
@@ -53,6 +55,17 @@ function WilayahPage() {
 		}
 		if (isAuthenticated) fetchData()
 	}, [isAuthenticated])
+
+	React.useEffect(() => {
+		if (user) {
+			if (user.roleLevel > 1) {
+				alert(
+					'Hak akses anda tidak mencukupi untuk mengakses halaman ini'
+				)
+				router.back()
+			}
+		}
+	}, [user])
 
 	return !isAuthenticated ? (
 		<Loader />

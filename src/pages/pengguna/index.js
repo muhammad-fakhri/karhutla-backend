@@ -40,9 +40,9 @@ const column = [
 ]
 
 function PenggunaPage() {
-	const { isAuthenticated } = useAuth()
+	const { isAuthenticated, user } = useAuth()
 	const router = useRouter()
-	const { alert } = router.query
+	const { alert: alertQuery } = router.query
 	const useStyles = makeStyles(styles)
 	const useModalStyles = makeStyles(modalStyle)
 	const classes = useStyles()
@@ -124,13 +124,24 @@ function PenggunaPage() {
 			setUsers(data)
 			setLoading(false)
 		}
-		if (alert) {
-			setAlertMessage(alert)
+		if (alertQuery) {
+			setAlertMessage(alertQuery)
 			setShowAlert(true)
 			setAlertType('success')
 		}
 		if (isAuthenticated) fetchData()
 	}, [isAuthenticated])
+
+	React.useEffect(() => {
+		if (user) {
+			if (user.roleLevel > 1) {
+				alert(
+					'Hak akses anda tidak mencukupi untuk mengakses halaman ini'
+				)
+				router.back()
+			}
+		}
+	}, [user])
 
 	return !isAuthenticated ? (
 		<Loader />
@@ -173,28 +184,48 @@ function PenggunaPage() {
 								tooltip: 'Tambah Pengguna',
 								isFreeAction: true,
 								onClick: (event) => {
-									event.preventDefault()
-									router.push('/pengguna/tambah')
+									if (user.roleLevel > 1) {
+										alert(
+											'Hak akses anda tidak mencukupi untuk melakukan operasi ini'
+										)
+									} else {
+										event.preventDefault()
+										router.push('/pengguna/tambah')
+									}
 								}
 							},
 							{
 								icon: 'edit',
 								tooltip: 'Ubah Data Pengguna',
 								onClick: (event, rowData) => {
-									router.push(`/pengguna/ubah/${rowData.id}`)
+									if (user.roleLevel > 1) {
+										alert(
+											'Hak akses anda tidak mencukupi untuk melakukan operasi ini'
+										)
+									} else {
+										router.push(
+											`/pengguna/ubah/${rowData.id}`
+										)
+									}
 								}
 							},
 							{
 								icon: AssignmentIndIcon,
 								tooltip: 'Tambah Hak Akses Pengguna',
 								onClick: (event, rowData) => {
-									setModalUser({
-										...modalUser,
-										id: rowData.id,
-										name: rowData.name,
-										email: rowData.email
-									})
-									setOpenModal(true)
+									if (user.roleLevel > 1) {
+										alert(
+											'Hak akses anda tidak mencukupi untuk melakukan operasi ini'
+										)
+									} else {
+										setModalUser({
+											...modalUser,
+											id: rowData.id,
+											name: rowData.name,
+											email: rowData.email
+										})
+										setOpenModal(true)
+									}
 								}
 							}
 						]}
@@ -214,28 +245,39 @@ function PenggunaPage() {
 						editable={{
 							onRowDelete: (oldData) =>
 								new Promise((resolve, reject) => {
-									UserService.deleteUser(oldData).then(
-										(result) => {
-											if (result.success) {
-												const dataDelete = [...users]
-												const index =
-													oldData.tableData.id
-												dataDelete.splice(index, 1)
-												setUsers(dataDelete)
-												setAlertType('success')
-												setAlertMessage(
-													'Hapus data pengguna berhasil'
-												)
-												setShowAlert(true)
-												resolve()
-											} else {
-												setAlertType('error')
-												setAlertMessage(result.message)
-												setShowAlert(true)
-												reject()
+									if (user.roleLevel > 1) {
+										alert(
+											'Hak akses anda tidak mencukupi untuk melakukan operasi ini'
+										)
+										resolve()
+									} else {
+										UserService.deleteUser(oldData).then(
+											(result) => {
+												if (result.success) {
+													const dataDelete = [
+														...users
+													]
+													const index =
+														oldData.tableData.id
+													dataDelete.splice(index, 1)
+													setUsers(dataDelete)
+													setAlertType('success')
+													setAlertMessage(
+														'Hapus data pengguna berhasil'
+													)
+													setShowAlert(true)
+													resolve()
+												} else {
+													setAlertType('error')
+													setAlertMessage(
+														result.message
+													)
+													setShowAlert(true)
+													reject()
+												}
 											}
-										}
-									)
+										)
+									}
 								})
 						}}
 					/>
