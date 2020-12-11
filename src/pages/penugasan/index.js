@@ -61,22 +61,22 @@ function PenugasanPage() {
 							title=""
 							columns={columns}
 							data={penugasan}
-							actions={[
-								{
-									icon: 'edit',
-									tooltip: 'Edit Data',
-									onClick: () => {
-										alert('Masih dalam pengembangan')
-									}
-								},
-								{
-									icon: 'delete',
-									tooltip: 'Delete Data',
-									onClick: () => {
-										alert('Masih dalam pengembangan')
-									}
-								}
-							]}
+							// actions={[
+							// 	{
+							// 		icon: 'edit',
+							// 		tooltip: 'Edit Data',
+							// 		onClick: () => {
+							// 			alert('Masih dalam pengembangan')
+							// 		}
+							// 	},
+							// 	{
+							// 		icon: 'delete',
+							// 		tooltip: 'Delete Data',
+							// 		onClick: () => {
+							// 			alert('Masih dalam pengembangan')
+							// 		}
+							// 	}
+							// ]}
 							options={{
 								search: true,
 								actionsColumnIndex: -1
