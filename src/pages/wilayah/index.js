@@ -6,6 +6,7 @@ import useSWR from 'swr'
 import { Alert } from '@material-ui/lab'
 import styles from '../../assets/jss/nextjs-material-kit/pages/wilayah-kerja.page.style'
 import SiteLayout from '../../components/Layout/SiteLayout'
+import NavBtnGroup from '../../components/NavBtnGroup'
 import WilayahService from '../../services/wilayah.service'
 import useAuth, { ProtectRoute } from '../../context/auth'
 import Loader from '../../components/Loader/Loader'
@@ -64,6 +65,7 @@ function WilayahPage() {
 				)}
 			>
 				<h2>Data Wilayah</h2>
+				<NavBtnGroup />
 				{show ? (
 					<Alert
 						severity={values.successAlert ? 'success' : 'error'}

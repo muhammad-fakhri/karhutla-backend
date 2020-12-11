@@ -6,6 +6,7 @@ import useSWR from 'swr'
 import { Alert } from '@material-ui/lab'
 import styles from '../../assets/jss/nextjs-material-kit/pages/wilayah-kerja.page.style'
 import SiteLayout from '../../components/Layout/SiteLayout'
+import NavBtnGroup from '../../components/NavBtnGroup'
 import DaopsService from '../../services/daops.service'
 import BalaiService from '../../services/balai.service'
 import useAuth, { ProtectRoute } from '../../context/auth'
@@ -84,6 +85,7 @@ function DaopsPage() {
 						{values.alertMessage}
 					</Alert>
 				) : null}
+				<NavBtnGroup />
 				{isValidating ? (
 					<CircularProgress />
 				) : (

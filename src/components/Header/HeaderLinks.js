@@ -48,33 +48,11 @@ const AuthenticatedMenu = (props) => {
 						</Link>,
 						<Link href="/penugasan" key="task">
 							<a className={classes.dropdownLink}>Penugasan</a>
-						</Link>
-					]}
-				/>
-			</ListItem>
-			<ListItem className={classes.listItem}>
-				<CustomDropdown
-					noLiPadding
-					navDropdown
-					buttonText="Wilayah Kerja"
-					buttonProps={{
-						className: classes.navLink,
-						color: 'transparent'
-					}}
-					dropdownList={[
-						<Link href="/wilayah" key="region">
-							<a className={classes.dropdownLink}>Wilayah</a>
 						</Link>,
-						<Link href="/wilayah/balai" key="balai">
-							<a className={classes.dropdownLink}>Balai</a>
-						</Link>,
-						<Link href="/wilayah/daops" key="daops">
+						<Link href="/wilayah" key="task">
 							<a className={classes.dropdownLink}>
-								Daerah Operasi
+								Wilayah Kerja
 							</a>
-						</Link>,
-						<Link href="/wilayah/posko" key="posko">
-							<a className={classes.dropdownLink}>Posko</a>
 						</Link>
 					]}
 				/>

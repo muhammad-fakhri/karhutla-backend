@@ -8,6 +8,7 @@ import useSWR from 'swr'
 import { Alert } from '@material-ui/lab'
 import styles from '../../../assets/jss/nextjs-material-kit/pages/posko.page.style'
 import SiteLayout from '../../../components/Layout/SiteLayout'
+import NavBtnGroup from '../../../components/NavBtnGroup'
 import PoskoService from '../../../services/posko.service'
 import useAuth, { ProtectRoute } from '../../../context/auth'
 import Loader from '../../../components/Loader/Loader'
@@ -66,6 +67,7 @@ function PoskoPage() {
 						{alertMessage}
 					</Alert>
 				) : null}
+				<NavBtnGroup />
 				{isValidating ? (
 					<CircularProgress />
 				) : (
