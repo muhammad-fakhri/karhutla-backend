@@ -1,6 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles'
 import Header from '../Header/Header'
-import Footer from '../Footer/Footer'
 import styles from '../../assets/jss/nextjs-material-kit/pages/login.page.style'
 import image from '../../assets/img/login-bg.jpg'
 
@@ -21,7 +20,6 @@ export default function AuthLayout(props) {
 				}}
 			>
 				{props.children}
-				<Footer whiteFont />
 			</div>
 		</div>
 	)
