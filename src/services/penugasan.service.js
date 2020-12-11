@@ -1,9 +1,9 @@
 import axios from 'axios'
-import { API } from '../api'
+import { SimaduAPI } from '../api'
 
 class PenugasanService {
-	static async getAllPenugasan(url) {
-		const r = await API.get(url)
+	static async getAllPenugasan() {
+		const r = await SimaduAPI.get('/listsk')
 		if (r.status === 200) {
 			const data = []
 			r.data.forEach((work) => {

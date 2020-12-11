@@ -3,7 +3,6 @@ import { Grid, CircularProgress } from '@material-ui/core'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import MaterialTable from 'material-table'
 import Link from 'next/link'
-import useSWR from 'swr'
 import SiteLayout from '../../components/Layout/SiteLayout'
 import Button from '../../components/CustomButtons/Button'
 import Loader from '../../components/Loader/Loader'
@@ -24,13 +23,15 @@ function PenugasanPage() {
 	const classes = useStyles()
 	const { isAuthenticated } = useAuth()
 	const [penugasan, setPenugasan] = React.useState([])
-	const { data: penugasanData, isValidating } = useSWR(
-		isAuthenticated ? '/penugasan/list' : null,
-		PenugasanService.getAllPenugasan
-	)
+	const [loading, setLoading] = React.useState(true)
 	React.useEffect(() => {
-		setPenugasan(penugasanData)
-	}, [penugasanData])
+		const fetchData = async () => {
+			const data = await PenugasanService.getAllPenugasan()
+			setPenugasan(data)
+			setLoading(false)
+		}
+		fetchData()
+	}, [])
 
 	return !isAuthenticated ? (
 		<Loader />
@@ -53,7 +54,7 @@ function PenugasanPage() {
 					</Link>
 				</Grid>
 				<Grid item xs={10} align="center" className={classes.gridItem}>
-					{isValidating ? (
+					{loading ? (
 						<CircularProgress />
 					) : (
 						<MaterialTable
