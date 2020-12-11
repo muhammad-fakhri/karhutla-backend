@@ -2,7 +2,6 @@ import { Paper, CircularProgress } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
 import MaterialTable from 'material-table'
-import useSWR from 'swr'
 import { Alert } from '@material-ui/lab'
 import styles from '../../assets/jss/nextjs-material-kit/pages/wilayah-kerja.page.style'
 import SiteLayout from '../../components/Layout/SiteLayout'
@@ -29,15 +28,12 @@ function BalaiPage() {
 	const classes = useStyles()
 	const [show, setShow] = React.useState(false)
 	const [column, setColumn] = React.useState([])
+	const [loading, setLoading] = React.useState(true)
 	const [values, setValues] = React.useState({
 		balai: [],
 		alertMessage: '',
 		successAlert: true
 	})
-	const { data: dataBalai, isValidating } = useSWR(
-		isAuthenticated ? '/balai/list' : null,
-		BalaiService.getAllBalai
-	)
 	const closeAlert = () => setShow(false)
 	const showAlert = () => {
 		setShow(true)
@@ -62,8 +58,13 @@ function BalaiPage() {
 		if (isAuthenticated) setLookup()
 	}, [isAuthenticated])
 	React.useEffect(() => {
-		setValues({ ...values, balai: dataBalai })
-	}, [dataBalai])
+		const fetchData = async () => {
+			const data = await BalaiService.getAllBalai()
+			setValues({ ...values, balai: data })
+			setLoading(false)
+		}
+		fetchData()
+	}, [])
 
 	return !isAuthenticated ? (
 		<Loader />
@@ -86,7 +87,7 @@ function BalaiPage() {
 					</Alert>
 				) : null}
 				<NavBtnGroup />
-				{isValidating ? (
+				{loading ? (
 					<CircularProgress />
 				) : (
 					<MaterialTable

@@ -2,7 +2,6 @@ import { Paper, CircularProgress } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
 import MaterialTable from 'material-table'
-import useSWR from 'swr'
 import { Alert } from '@material-ui/lab'
 import styles from '../../assets/jss/nextjs-material-kit/pages/wilayah-kerja.page.style'
 import SiteLayout from '../../components/Layout/SiteLayout'
@@ -29,15 +28,12 @@ function DaopsPage() {
 	const classes = useStyles()
 	const [show, setShow] = React.useState(false)
 	const [column, setColumn] = React.useState([])
+	const [loading, setLoading] = React.useState(true)
 	const [values, setValues] = React.useState({
 		daops: [],
 		alertMessage: '',
 		successAlert: true
 	})
-	const { data, isValidating } = useSWR(
-		isAuthenticated ? '/daops/list' : null,
-		DaopsService.getAllDaops
-	)
 	const closeAlert = () => setShow(false)
 	const showAlert = () => {
 		setShow(true)
@@ -62,8 +58,13 @@ function DaopsPage() {
 		if (isAuthenticated) setLookup()
 	}, [isAuthenticated])
 	React.useEffect(() => {
-		setValues({ ...values, daops: data })
-	}, [data])
+		const fetchData = async () => {
+			const data = await DaopsService.getAllDaops()
+			setValues({ ...values, daops: data })
+			setLoading(false)
+		}
+		fetchData()
+	}, [])
 
 	return !isAuthenticated ? (
 		<Loader />
@@ -86,7 +87,7 @@ function DaopsPage() {
 					</Alert>
 				) : null}
 				<NavBtnGroup />
-				{isValidating ? (
+				{loading ? (
 					<CircularProgress />
 				) : (
 					<MaterialTable

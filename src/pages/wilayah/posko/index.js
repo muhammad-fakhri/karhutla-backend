@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import classNames from 'classnames'
 import MaterialTable from 'material-table'
-import useSWR from 'swr'
 import { Alert } from '@material-ui/lab'
 import styles from '../../../assets/jss/nextjs-material-kit/pages/posko.page.style'
 import SiteLayout from '../../../components/Layout/SiteLayout'
@@ -29,23 +28,23 @@ function PoskoPage() {
 	const { message } = router.query
 	const classes = useStyles()
 	const [posko, setPosko] = React.useState([])
+	const [loading, setLoading] = React.useState(true)
 	const [showAlert, setShowAlert] = React.useState(false)
 	const [alertType, setAlertType] = React.useState('success')
 	const [alertMessage, setAlertMessage] = React.useState()
-	const { data: dataPosko, isValidating } = useSWR(
-		isAuthenticated ? '/posko/list' : null,
-		PoskoService.getAllPosko
-	)
 	React.useEffect(() => {
+		const fetchData = async () => {
+			const data = await PoskoService.getAllPosko()
+			setPosko(data)
+			setLoading(false)
+		}
 		if (message) {
 			setAlertMessage(message)
 			setAlertType('success')
 			setShowAlert(true)
 		}
+		fetchData()
 	}, [])
-	React.useEffect(() => {
-		setPosko(dataPosko)
-	}, [dataPosko])
 
 	return !isAuthenticated ? (
 		<Loader />
@@ -68,7 +67,7 @@ function PoskoPage() {
 					</Alert>
 				) : null}
 				<NavBtnGroup />
-				{isValidating ? (
+				{loading ? (
 					<CircularProgress />
 				) : (
 					<MaterialTable

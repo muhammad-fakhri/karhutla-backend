@@ -2,7 +2,6 @@ import { Paper, CircularProgress } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
 import MaterialTable from 'material-table'
-import useSWR from 'swr'
 import { Alert } from '@material-ui/lab'
 import styles from '../../assets/jss/nextjs-material-kit/pages/wilayah-kerja.page.style'
 import SiteLayout from '../../components/Layout/SiteLayout'
@@ -33,15 +32,12 @@ function WilayahPage() {
 	const useStyles = makeStyles(styles)
 	const classes = useStyles()
 	const [show, setShow] = React.useState(false)
+	const [loading, setLoading] = React.useState(true)
 	const [values, setValues] = React.useState({
 		wilayah: [],
 		alertMessage: '',
 		successAlert: true
 	})
-	const { data: dataWilayah, isValidating } = useSWR(
-		isAuthenticated ? '/wilayah/list' : null,
-		WilayahService.getAllWilayah
-	)
 	const closeAlert = () => setShow(false)
 	const showAlert = () => {
 		setShow(true)
@@ -50,8 +46,13 @@ function WilayahPage() {
 		}, 3000)
 	}
 	React.useEffect(() => {
-		setValues({ ...values, wilayah: dataWilayah })
-	}, [dataWilayah])
+		const fetchData = async () => {
+			const data = await WilayahService.getAllWilayah()
+			setValues({ ...values, wilayah: data })
+			setLoading(false)
+		}
+		fetchData()
+	}, [])
 
 	return !isAuthenticated ? (
 		<Loader />
@@ -74,7 +75,7 @@ function WilayahPage() {
 						{values.alertMessage}
 					</Alert>
 				) : null}
-				{isValidating ? (
+				{loading ? (
 					<CircularProgress />
 				) : (
 					<MaterialTable
