@@ -1,7 +1,13 @@
 import { makeStyles } from '@material-ui/core/styles'
-import { InputAdornment, Icon, CircularProgress } from '@material-ui/core'
+import {
+	InputAdornment,
+	IconButton,
+	CircularProgress,
+	TextField
+} from '@material-ui/core'
 import Alert from '@material-ui/lab/Alert'
-import Email from '@material-ui/icons/Email'
+import Visibility from '@material-ui/icons/Visibility'
+import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import { useState } from 'react'
 import styles from '../assets/jss/nextjs-material-kit/pages/login.page.style'
 import AuthLayout from '../components/Layout/AuthLayout'
@@ -12,7 +18,6 @@ import Card from '../components/Card/Card'
 import CardBody from '../components/Card/CardBody'
 import CardHeader from '../components/Card/CardHeader'
 import CardFooter from '../components/Card/CardFooter'
-import CustomInput from '../components/CustomInput/CustomInput'
 import Loader from '../components/Loader/Loader'
 import useAuth, { ProtectRoute } from '../context/auth'
 import AuthValidator from '../validators/auth.validator'
@@ -28,8 +33,12 @@ function LoginPage() {
 		alertMessage: '',
 		emailError: false,
 		passwordError: false,
-		showAlert: false
+		showAlert: false,
+		showPassword: false
 	})
+	const handleClickShowPassword = () =>
+		setValues({ ...values, showPassword: !values.showPassword })
+	const handleMouseDownPassword = (event) => event.preventDefault()
 	const handleChange = (prop) => (event) => {
 		setValues({ ...values, [prop]: event.target.value })
 	}
@@ -87,52 +96,50 @@ function LoginPage() {
 											{values.alertMessage}
 										</Alert>
 									) : null}
-									<CustomInput
-										labelText="Email"
+									<TextField
 										id="email"
-										formControlProps={{
-											fullWidth: true
-										}}
 										error={values.emailError}
-										inputProps={{
-											type: 'email',
+										label="Email"
+										fullWidth
+										margin="normal"
+										onChange={handleChange('email')}
+										value={values.email}
+									/>
+									<TextField
+										id="password"
+										label="Password"
+										error={values.passwordError}
+										value={values.password}
+										type={
+											values.showPassword
+												? 'text'
+												: 'password'
+										}
+										fullWidth
+										margin="normal"
+										onChange={handleChange('password')}
+										InputProps={{
 											endAdornment: (
 												<InputAdornment position="end">
-													<Email
-														className={
-															classes.inputIconsColor
+													<IconButton
+														aria-label="toggle password visibility"
+														onClick={
+															handleClickShowPassword
 														}
-													/>
+														onMouseDown={
+															handleMouseDownPassword
+														}
+														edge="end"
+													>
+														{values.showPassword ? (
+															<Visibility />
+														) : (
+															<VisibilityOff />
+														)}
+													</IconButton>
 												</InputAdornment>
 											)
 										}}
-										onChangeFunction={handleChange('email')}
-									/>
-									<CustomInput
-										labelText="Password"
-										id="pass"
-										formControlProps={{
-											fullWidth: true
-										}}
-										error={values.passwordError}
-										inputProps={{
-											type: 'password',
-											endAdornment: (
-												<InputAdornment position="end">
-													<Icon
-														className={
-															classes.inputIconsColor
-														}
-													>
-														lock_outline
-													</Icon>
-												</InputAdornment>
-											),
-											autoComplete: 'off'
-										}}
-										onChangeFunction={handleChange(
-											'password'
-										)}
 									/>
 								</CardBody>
 								<CardFooter className={classes.cardFooter}>
