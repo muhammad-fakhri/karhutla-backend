@@ -147,7 +147,7 @@ function UbahPenggunaPage() {
 								id="phone-number"
 								label="Nomor Telepon"
 								variant="outlined"
-								helperText="Format nomor HP: +628xxxxxxxxxx"
+								helperText="Format nomor telepon: +628xxxxxxxxxx"
 								fullWidth
 								margin="normal"
 								required

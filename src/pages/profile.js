@@ -200,7 +200,7 @@ function ProfilePage() {
 											label="Nomor Telepon"
 											fullWidth
 											variant="outlined"
-											helperText="Format nomor HP: +628xxxxxxxxxx"
+											helperText="Format nomor telepon: +628xxxxxxxxxx"
 											required
 											onChange={handleChange('phone')}
 											value={values.phone}

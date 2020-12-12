@@ -163,9 +163,9 @@ function TambahPenggunaPage() {
 						<Grid item xs={10} md={4}>
 							<TextField
 								id="phone-number"
-								label="Nomor HP"
+								label="Nomor Telepon"
 								variant="outlined"
-								helperText="Format nomor HP: 08xxxxxxxxxx / +62xxxxxxxxxxx"
+								helperText="Format nomor telepon: +62xxxxxxxxxxx"
 								fullWidth
 								margin="normal"
 								required
