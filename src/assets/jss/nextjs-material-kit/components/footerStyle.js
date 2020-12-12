@@ -12,9 +12,12 @@ const footerStyle = {
 		position: 'relative',
 		display: 'block'
 	},
-	center: {
-		padding: '15px 0',
-		textAlign: 'center'
+	logoWrapper: {
+		textAlign: 'center',
+		marginBottom: '16px'
+	},
+	footerWrapper: {
+		paddingTop: '16px'
 	},
 	footer: {
 		padding: '0.9375rem 0',
@@ -50,14 +53,9 @@ const footerStyle = {
 		position: 'relative',
 		top: '3px'
 	},
-	footerDescription: {
-		padding: '0 12vw'
-	},
 	logo: {
 		height: '64px',
-		width: 'auto',
-		margin: '16px 8px',
-		position: 'relative'
+		width: 'auto'
 	}
 }
 export default footerStyle

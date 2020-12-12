@@ -19,59 +19,45 @@ export default function Footer(props) {
 		[classes.footer]: true,
 		[classes.footerWhiteFont]: whiteFont
 	})
-	const aClasses = classNames({
-		[classes.a]: true,
-		[classes.footerWhiteFont]: whiteFont
-	})
 	return (
 		<footer className={footerClasses}>
 			<div className={classes.container}>
-				<GridContainer>
-					<GridItem xs={12} sm={5}>
-						<img
-							alt="Logo LPDP"
-							src={logoLPDP}
-							className={classes.logo}
-						/>
-					</GridItem>
-					<GridItem xs={12} sm={2}>
+				<GridContainer className={classes.footerWrapper}>
+					<GridItem md={12} lg={1} className={classes.logoWrapper}>
 						<img
 							alt="Logo IPB"
 							src={logoIPB}
 							className={classes.logo}
 						/>
 					</GridItem>
-					<GridItem xs={12} sm={5}>
+					<GridItem md={12} lg={1} className={classes.logoWrapper}>
 						<img
 							alt="Logo KLHK"
 							src={logoKLHK}
 							className={classes.logo}
 						/>
 					</GridItem>
-				</GridContainer>
-				<GridContainer>
-					<GridItem xs={12}>
+					<GridItem md={12} lg={2} className={classes.logoWrapper}>
+						<img
+							alt="Logo LPDP"
+							src={logoLPDP}
+							className={classes.logo}
+						/>
+					</GridItem>
+					<GridItem md={12} lg={8}>
 						<Typography
 							variant="body1"
 							gutterBottom
-							className={classes.footerDescription}
+							align="justify"
 						>
-							Kerjasama Balai Pengendalian Perubahan Iklim dan
-							Kebakaran Hutan dan Lahan (PPIKHL) Wilayah Sumatra,
-							Direktorat Jenderal Pengendalian Perubahan Iklim,
-							Kementerian Lingkungan Hidup dan Kehutanan Republik
-							Indonesia, Departemen Ilmu Komputer IPB University
-						</Typography>
-						<Typography variant="body1" gutterBottom>
-							didanai oleh{' '}
-							<a
-								href="https://www.lpdp.kemenkeu.go.id/in/home"
-								className={aClasses}
-								target="_blank"
-								rel="noreferrer"
-							>
-								Lembaga Pengelola Dana Pendidikan
-							</a>
+							dikembangkan oleh Departemen Ilmu Komputer FMIPA
+							IPB, bekerja sama dengan Balai Pengendalian
+							Perubahan Iklim dan Kebakaran Hutan dan Lahan
+							(PPIKHL) Wilayah Sumatra, Direktorat Jenderal
+							Pengendalian Perubahan Iklim, Kementerian Lingkungan
+							Hidup dan Kehutanan, didanai oleh Lembaga Pengelola
+							Dana Pendidikan, Kementerian Keuangan Republik
+							Indonesia
 						</Typography>
 					</GridItem>
 				</GridContainer>
