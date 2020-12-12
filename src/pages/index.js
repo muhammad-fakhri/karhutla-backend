@@ -26,7 +26,6 @@ export default function FrontPage() {
 	React.useEffect(() => {
 		const updatePatroli = async () => {
 			const patroliData = await PatroliService.getPatroli(
-				false,
 				date.format('D-M-YYYY')
 			)
 			setSpots(patroliData.patroliSpots)
