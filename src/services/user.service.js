@@ -97,19 +97,17 @@ class UserService {
 					id: parseInt(userAccess.m_user.id, 10),
 					accessId: parseInt(userAccess.id, 10),
 					role: parseInt(userAccess.r_role_id, 10),
+					roleLevel: parseInt(userAccess.r_role.level, 10),
 					institution: userAccess.m_user.instansi,
 					nip: userAccess.m_user.no_registrasi,
 					name: userAccess.m_user.nama,
 					email: userAccess.m_user.email,
 					organization: ''
 				}
-				if (
-					parseInt(userAccess.r_role_id, 10) === 8 ||
-					parseInt(userAccess.r_role_id, 10) === 9
-				) {
-					daopsUsers.push(user)
-				} else {
+				if (parseInt(userAccess.r_role.level, 10) <= 3) {
 					balaiUsers.push(user)
+				} else {
+					daopsUsers.push(user)
 				}
 			})
 			return { daopsUsers, balaiUsers }
@@ -183,11 +181,11 @@ class UserService {
 		if (r.status === 200) {
 			const data = []
 			r.data.forEach((role) => {
-				if (parseInt(role.id, 10) <= 9) {
+				if (parseInt(role.level, 10) <= 5) {
 					data.push({
 						id: parseInt(role.id, 10),
 						name: role.nama,
-						level: role.level,
+						level: parseInt(role.level, 10),
 						active: role.aktif
 					})
 				}
@@ -202,11 +200,11 @@ class UserService {
 		if (r.status === 200) {
 			const data = []
 			r.data.forEach((role) => {
-				if (parseInt(role.id, 10) > 11) {
+				if (parseInt(role.level, 10) === 7) {
 					data.push({
 						id: parseInt(role.id, 10),
 						name: role.nama,
-						level: role.level,
+						level: parseInt(role.level, 10),
 						active: role.aktif
 					})
 				}

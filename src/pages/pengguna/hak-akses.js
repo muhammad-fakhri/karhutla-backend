@@ -58,10 +58,10 @@ const generateRolesLookup = async () => {
 	const nonPatrolRoles = await UserService.getNonPatroliRoles()
 	const patrolRoles = await UserService.getPatroliNonLoginRoles()
 	nonPatrolRoles.forEach((role) => {
-		if (role.id === 8 || role.id === 9) {
-			daopsRoles[role.id] = role.name
-		} else if (role.id < 8) {
+		if (role.level <= 3) {
 			balaiRoles[role.id] = role.name
+		} else if (role.level <= 5) {
+			daopsRoles[role.id] = role.name
 		}
 	})
 	patrolRoles.forEach((role) => {

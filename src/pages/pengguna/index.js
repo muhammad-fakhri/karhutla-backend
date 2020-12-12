@@ -18,6 +18,7 @@ import MaterialTable from 'material-table'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import Close from '@material-ui/icons/Close'
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd'
+import { isPusatRole, isBalaiRole, isDaopsRole } from '../../utils/role.util'
 import styles from '../../assets/jss/nextjs-material-kit/pages/pengguna.page.style'
 import SiteLayout from '../../components/Layout/SiteLayout'
 import Button from '../../components/CustomButtons/Button'
@@ -65,7 +66,7 @@ function PenggunaPage() {
 	const [alertType, setAlertType] = React.useState('success')
 	const [alertMessage, setAlertMessage] = React.useState()
 	const handleRoleChange = (event) => {
-		if (event.target.value === 4 || event.target.value === 5) {
+		if (isPusatRole(event.target.value)) {
 			setRoleType('pusat')
 			setModalUser({
 				...modalUser,
@@ -73,9 +74,9 @@ function PenggunaPage() {
 				organization: 'KLHK'
 			})
 		} else {
-			if (event.target.value === 6 || event.target.value === 7) {
+			if (isBalaiRole(event.target.value)) {
 				setRoleType('balai')
-			} else if (event.target.value === 8 || event.target.value === 9) {
+			} else if (isDaopsRole(event.target.value)) {
 				setRoleType('daops')
 			}
 			setModalUser({
@@ -346,7 +347,7 @@ function PenggunaPage() {
 							className={classes.textAlignLeft}
 						>
 							{roles.map((role) => (
-								<MenuItem key={role.id} value={role.id}>
+								<MenuItem key={role.level} value={role.id}>
 									{role.name}
 								</MenuItem>
 							))}
