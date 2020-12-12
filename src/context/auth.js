@@ -44,7 +44,11 @@ export const AuthProvider = ({ children }) => {
 					// 100 is big enough to be mark as not have any role
 					response.data.detail.roles.length > 0
 						? parseInt(response.data.detail.roles[0].level, 10)
-						: 100
+						: 100,
+				roleName:
+					response.data.detail.roles.length > 0
+						? response.data.detail.roles[0].nama
+						: ''
 			}
 
 			const token = response.data.token ? response.data.token : null

@@ -31,7 +31,7 @@ const useStyles = makeStyles(styles)
 
 function ProfilePage() {
 	const classes = useStyles()
-	const { isAuthenticated } = useAuth()
+	const { isAuthenticated, user } = useAuth()
 	const imageClasses = classNames(
 		classes.imgRaised,
 		classes.imgRoundedCircle,
@@ -161,6 +161,16 @@ function ProfilePage() {
 										>
 											Data Pengguna
 										</Typography>
+										<TextField
+											id="role"
+											className={classes.descriptionItem}
+											label="Hak Akses"
+											fullWidth
+											variant="outlined"
+											value={user.roleName}
+											disabled
+											margin="normal"
+										/>
 										<TextField
 											id="registration-number"
 											className={classes.descriptionItem}
