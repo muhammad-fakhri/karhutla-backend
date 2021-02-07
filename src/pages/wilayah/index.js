@@ -1,15 +1,14 @@
-import { Paper, CircularProgress } from '@material-ui/core'
-import { useRouter } from 'next/router'
+import { CircularProgress, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
 import MaterialTable from 'material-table'
-import { Alert } from '@material-ui/lab'
+import { useRouter } from 'next/router'
 import styles from '../../assets/jss/nextjs-material-kit/pages/wilayah-kerja.page.style'
 import SiteLayout from '../../components/Layout/SiteLayout'
-import NavBtnGroup from '../../components/NavBtnGroup'
-import WilayahService from '../../services/wilayah.service'
-import useAuth, { ProtectRoute } from '../../context/auth'
 import Loader from '../../components/Loader/Loader'
+import NavBtnGroup from '../../components/NavBtnGroup'
+import useAuth, { ProtectRoute } from '../../context/auth'
+import WilayahService from '../../services/wilayah.service'
 
 const column = [
 	{ title: 'Wilayah', field: 'name' },
@@ -33,20 +32,10 @@ function WilayahPage() {
 	const router = useRouter()
 	const useStyles = makeStyles(styles)
 	const classes = useStyles()
-	const [show, setShow] = React.useState(false)
 	const [loading, setLoading] = React.useState(true)
 	const [values, setValues] = React.useState({
-		wilayah: [],
-		alertMessage: '',
-		successAlert: true
+		wilayah: []
 	})
-	const closeAlert = () => setShow(false)
-	const showAlert = () => {
-		setShow(true)
-		setTimeout(() => {
-			setShow(false)
-		}, 3000)
-	}
 	React.useEffect(() => {
 		const fetchData = async () => {
 			const data = await WilayahService.getAllWilayah()
@@ -79,15 +68,7 @@ function WilayahPage() {
 				)}
 			>
 				<h2>Data Wilayah</h2>
-				<NavBtnGroup />
-				{show ? (
-					<Alert
-						severity={values.successAlert ? 'success' : 'error'}
-						onClose={closeAlert}
-					>
-						{values.alertMessage}
-					</Alert>
-				) : null}
+				<NavBtnGroup page="wilayah" />
 				{loading ? (
 					<CircularProgress />
 				) : (
@@ -101,105 +82,7 @@ function WilayahPage() {
 						}}
 						data={values.wilayah}
 						options={{
-							search: true,
-							actionsColumnIndex: -1,
-							addRowPosition: 'first'
-						}}
-						localization={{
-							body: {
-								editRow: {
-									deleteText: 'Yakin hapus data ini ?'
-								}
-							},
-							header: { actions: 'Aksi' }
-						}}
-						editable={{
-							onRowAdd: (newData) =>
-								new Promise((resolve, reject) => {
-									WilayahService.addWilayah(newData).then(
-										async (result) => {
-											if (result.success) {
-												const data = await WilayahService.getAllWilayah()
-												setValues({
-													...values,
-													wilayah: data,
-													alertMessage:
-														'Tambah Wilayah Berhasil',
-													successAlert: true
-												})
-												resolve()
-											} else {
-												setValues({
-													...values,
-													alertMessage: `Tambah Wilayah Gagal, ${result.message[0]}`,
-													successAlert: false
-												})
-												reject()
-											}
-											showAlert()
-										}
-									)
-								}),
-							onRowUpdate: (newData, oldData) =>
-								new Promise((resolve, reject) => {
-									WilayahService.updateWilayah(
-										newData,
-										oldData
-									).then((result) => {
-										if (result.success) {
-											const dataUpdate = [
-												...values.wilayah
-											]
-											const index = oldData.tableData.id
-											dataUpdate[index] = newData
-											setValues({
-												wilayah: [...dataUpdate],
-												alertMessage:
-													'Update Wilayah Berhasil',
-												successAlert: true
-											})
-											resolve()
-										} else {
-											setValues({
-												...values,
-												alertMessage: `Update Wilayah Gagal, ${result.message[0]}`,
-												successAlert: false
-											})
-											reject()
-										}
-										showAlert()
-									})
-								}),
-							onRowDelete: (oldData) =>
-								new Promise((resolve) => {
-									WilayahService.deleteWilayah(oldData).then(
-										(result) => {
-											if (result.success) {
-												const dataDelete = [
-													...values.wilayah
-												]
-												const index =
-													oldData.tableData.id
-												dataDelete.splice(index, 1)
-												setValues({
-													...values,
-													wilayah: [...dataDelete],
-													alertMessage:
-														'Hapus Wilayah Berhasil',
-													successAlert: true
-												})
-											} else {
-												setValues({
-													...values,
-													alertMessage: `Hapus Wilayah Gagal, ${result.message[0]}`,
-													successAlert: false
-												})
-											}
-											showAlert()
-											resolve()
-										}
-									)
-								})
+							search: true
 						}}
 					/>
 				)}

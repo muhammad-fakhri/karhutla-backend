@@ -1,16 +1,16 @@
-import { useRouter } from 'next/router'
-import { Paper, CircularProgress } from '@material-ui/core'
+import { CircularProgress, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import AddBoxIcon from '@material-ui/icons/AddBox'
+import { Alert } from '@material-ui/lab'
 import classNames from 'classnames'
 import MaterialTable from 'material-table'
-import { Alert } from '@material-ui/lab'
+import { useRouter } from 'next/router'
 import styles from '../../../assets/jss/nextjs-material-kit/pages/posko.page.style'
 import SiteLayout from '../../../components/Layout/SiteLayout'
-import NavBtnGroup from '../../../components/NavBtnGroup'
-import PoskoService from '../../../services/posko.service'
-import useAuth, { ProtectRoute } from '../../../context/auth'
 import Loader from '../../../components/Loader/Loader'
+import NavBtnGroup from '../../../components/NavBtnGroup'
+import useAuth, { ProtectRoute } from '../../../context/auth'
+import PoskoService from '../../../services/posko.service'
 
 const useStyles = makeStyles(styles)
 const column = [
@@ -66,7 +66,7 @@ function PoskoPage() {
 						{alertMessage}
 					</Alert>
 				) : null}
-				<NavBtnGroup />
+				<NavBtnGroup page="posko" />
 				{loading ? (
 					<CircularProgress />
 				) : (

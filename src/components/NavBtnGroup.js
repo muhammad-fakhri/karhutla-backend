@@ -7,9 +7,10 @@ const styles = {
 	}
 }
 
-export default function NavBtnGroup() {
+export default function NavBtnGroup(props) {
 	const useStyles = makeStyles(styles)
 	const classes = useStyles()
+	const { page } = props
 
 	return (
 		<ButtonGroup
@@ -17,10 +18,30 @@ export default function NavBtnGroup() {
 			color="primary"
 			className={classes.navBtnGroup}
 		>
-			<Button href="/wilayah">Wilayah</Button>
-			<Button href="/wilayah/balai">Balai</Button>
-			<Button href="/wilayah/daops">Daerah Operasi</Button>
-			<Button href="/wilayah/posko">Posko</Button>
+			<Button
+				href="/wilayah/balai"
+				variant={page === 'balai' ? 'contained' : 'outlined'}
+			>
+				Balai
+			</Button>
+			<Button
+				href="/wilayah/daops"
+				variant={page === 'daops' ? 'contained' : 'outlined'}
+			>
+				Daerah Operasi
+			</Button>
+			<Button
+				href="/wilayah/posko"
+				variant={page === 'posko' ? 'contained' : 'outlined'}
+			>
+				Posko
+			</Button>
+			<Button
+				href="/wilayah"
+				variant={page === 'wilayah' ? 'contained' : 'outlined'}
+			>
+				Wilayah
+			</Button>
 		</ButtonGroup>
 	)
 }

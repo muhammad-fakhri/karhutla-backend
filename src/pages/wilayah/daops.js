@@ -1,15 +1,15 @@
-import { Paper, CircularProgress } from '@material-ui/core'
+import { CircularProgress, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import { Alert } from '@material-ui/lab'
 import classNames from 'classnames'
 import MaterialTable from 'material-table'
-import { Alert } from '@material-ui/lab'
 import styles from '../../assets/jss/nextjs-material-kit/pages/wilayah-kerja.page.style'
 import SiteLayout from '../../components/Layout/SiteLayout'
-import NavBtnGroup from '../../components/NavBtnGroup'
-import DaopsService from '../../services/daops.service'
-import BalaiService from '../../services/balai.service'
-import useAuth, { ProtectRoute } from '../../context/auth'
 import Loader from '../../components/Loader/Loader'
+import NavBtnGroup from '../../components/NavBtnGroup'
+import useAuth, { ProtectRoute } from '../../context/auth'
+import BalaiService from '../../services/balai.service'
+import DaopsService from '../../services/daops.service'
 
 const generateBalaiLookup = async () => {
 	const data = {}
@@ -86,7 +86,7 @@ function DaopsPage() {
 						{values.alertMessage}
 					</Alert>
 				) : null}
-				<NavBtnGroup />
+				<NavBtnGroup page="daops" />
 				{loading ? (
 					<CircularProgress />
 				) : (
