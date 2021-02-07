@@ -1,4 +1,4 @@
-import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react'
+import { GoogleApiWrapper, InfoWindow, Map, Marker } from 'google-maps-react'
 
 export class MapContainer extends React.Component {
 	state = {
@@ -145,7 +145,7 @@ export class MapContainer extends React.Component {
 								/>
 							)
 					  })
-					: console.log('no spots')}
+					: null}
 
 				<InfoWindow
 					marker={this.state.activeMarker}

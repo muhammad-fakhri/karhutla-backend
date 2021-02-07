@@ -1,13 +1,13 @@
 import { makeStyles } from '@material-ui/core/styles'
-import Header from '../Header/Header'
-import styles from '../../assets/jss/nextjs-material-kit/pages/login.page.style'
 import image from '../../assets/img/login-bg.jpg'
+import styles from '../../assets/jss/nextjs-material-kit/pages/login.page.style'
+import Header from '../Header/Header'
 
 const useStyles = makeStyles(styles)
 
 export default function AuthLayout(props) {
 	const classes = useStyles()
-	// TODO: remove burger button when in md breakpoint
+	
 	return (
 		<div>
 			<Header fixed color="transparent" brand="SIPP Karhutla" />

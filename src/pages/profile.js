@@ -1,31 +1,23 @@
-import React from 'react'
-// nodejs library that concatenates classes
-import classNames from 'classnames'
-// @material-ui/core components
-import { makeStyles } from '@material-ui/core/styles'
 import {
-	Typography,
-	TextField,
-	InputAdornment,
-	IconButton,
-	CircularProgress
+	CircularProgress, IconButton, InputAdornment, TextField, Typography
 } from '@material-ui/core'
-// core components
+import { makeStyles } from '@material-ui/core/styles'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import Alert from '@material-ui/lab/Alert'
-import GridContainer from '../components/Grid/GridContainer'
-import GridItem from '../components/Grid/GridItem'
-import Button from '../components/CustomButtons/Button'
-import Loader from '../components/Loader/Loader'
-import Parallax from '../components/Parallax/Parallax'
+import classNames from 'classnames'
+import profileBgImage from '../assets/img/profile-bg.jpg'
 import profile from '../assets/img/user.jpg'
 import styles from '../assets/jss/nextjs-material-kit/pages/profile.page.style'
-import profileBgImage from '../assets/img/profile-bg.jpg'
+import Button from '../components/CustomButtons/Button'
+import GridContainer from '../components/Grid/GridContainer'
+import GridItem from '../components/Grid/GridItem'
 import SiteLayout from '../components/Layout/SiteLayout'
+import Loader from '../components/Loader/Loader'
+import Parallax from '../components/Parallax/Parallax'
 import useAuth, { ProtectRoute } from '../context/auth'
-import UserService from '../services/user.service'
 import CookieService from '../services/cookies.service'
+import UserService from '../services/user.service'
 
 const useStyles = makeStyles(styles)
 
@@ -95,20 +87,22 @@ function ProfilePage() {
 	const handleMouseDownPassword = (event) => event.preventDefault()
 
 	React.useEffect(() => {
-		const user = JSON.parse(CookieService.getUser())
-		setValues({
-			...values,
-			id: user.id,
-			registrationNumber: user.registrationNumber,
-			oldRegistrationNumber: user.registrationNumber,
-			name: user.name,
-			email: user.email,
-			oldEmail: user.email,
-			phone: user.phoneNumber,
-			photo: user.photo,
-			instantion: user.instantion
-		})
-	}, [])
+		if (isAuthenticated) {
+			const user = JSON.parse(CookieService.getUser())
+			setValues({
+				...values,
+				id: user.id,
+				registrationNumber: user.registrationNumber,
+				oldRegistrationNumber: user.registrationNumber,
+				name: user.name,
+				email: user.email,
+				oldEmail: user.email,
+				phone: user.phoneNumber,
+				photo: user.photo,
+				instantion: user.instantion
+			})
+		}
+	}, [isAuthenticated])
 
 	return !isAuthenticated ? (
 		<Loader />
@@ -215,7 +209,6 @@ function ProfilePage() {
 											onChange={handleChange('phone')}
 											value={values.phone}
 											margin="normal"
-											gutterBottom
 										/>
 										<Typography
 											variant="h6"
