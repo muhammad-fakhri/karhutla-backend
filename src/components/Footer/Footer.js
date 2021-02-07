@@ -1,14 +1,14 @@
-import PropTypes from 'prop-types'
-import classNames from 'classnames'
 import { Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-
+import classNames from 'classnames'
+import PropTypes from 'prop-types'
+import logoIPB from '../../assets/img/logo-ipb.png'
+import logoKLHK from '../../assets/img/logo-klhk.png'
+import logoLPDP from '../../assets/img/logo-lpdp.png'
+import logoManggalaAgni from '../../assets/img/logo-manggala.png'
 import styles from '../../assets/jss/nextjs-material-kit/components/footerStyle'
 import GridContainer from '../Grid/GridContainer'
 import GridItem from '../Grid/GridItem'
-import logoIPB from '../../assets/img/logo-ipb.png'
-import logoLPDP from '../../assets/img/lpdp.png'
-import logoKLHK from '../../assets/img/klhk.png'
 
 const useStyles = makeStyles(styles)
 
@@ -37,6 +37,13 @@ export default function Footer(props) {
 							className={classes.logo}
 						/>
 					</GridItem>
+					<GridItem md={12} lg={1} className={classes.logoWrapper}>
+						<img
+							alt="Logo Manggala Agni"
+							src={logoManggalaAgni}
+							className={classes.logo}
+						/>
+					</GridItem>
 					<GridItem md={12} lg={2} className={classes.logoWrapper}>
 						<img
 							alt="Logo LPDP"
@@ -44,7 +51,7 @@ export default function Footer(props) {
 							className={classes.logo}
 						/>
 					</GridItem>
-					<GridItem md={12} lg={8}>
+					<GridItem md={12} lg={7}>
 						<Typography
 							variant="body1"
 							gutterBottom
