@@ -13,7 +13,8 @@ const berkasPageStyle = {
 		fontWeight: 'bold'
 	},
 	alert: {
-		marginBottom: '16px'
+		marginBottom: '16px',
+		textAlign: 'left'
 	}
 }
 

@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { SimaduAPI, simaduApiUrl } from '../api'
+import splitAndTrim from '../utils/string.util'
+import PenugasanValidator from '../validators/penugasan.validator'
 
 class PenugasanService {
 	static async getAllPenugasan() {
@@ -21,23 +23,32 @@ class PenugasanService {
 		return []
 	}
 
-	static async uploadPenugasan(data) {
-		if (!data) {
-			return { success: false, message: 'Gagal mengupload berkas' }
+	static async uploadPenugasan(file, type) {
+		const validate = PenugasanValidator.uploadPenugasan(file, type)
+		if (!validate.pass) {
+			return {
+				success: false,
+				message: validate.message
+			}
 		}
 
 		const formData = new FormData()
-		formData.append('file', data)
+		formData.append('file', file)
+		formData.append('jenis_patroli', type)
 
-		const r = await axios
-			.post('http://103.129.223.216/api/simadu/uploadtim', formData)
-			.then((res) => res.data)
+		const r = await axios.post(`${simaduApiUrl}/uploadtim`, formData)
 
-		const message = r.split('<')[0].trim()
 		if (r.status === 200) {
-			return { success: true, message }
+			return {
+				success: true,
+				message: splitAndTrim(r.data, '<a href=')
+			}
 		}
-		return { success: false, message }
+
+		return {
+			success: false,
+			message: splitAndTrim(r.data, '<br><br>')
+		}
 	}
 }
 export default PenugasanService
