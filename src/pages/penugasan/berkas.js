@@ -1,5 +1,6 @@
 import {
 	CircularProgress,
+	Grid,
 	Link,
 	MenuItem,
 	TextField,
@@ -12,7 +13,6 @@ import classNames from 'classnames'
 import 'date-fns'
 import styles from '../../assets/jss/nextjs-material-kit/pages/penugasan/create-penugasan.page.style'
 import Button from '../../components/CustomButtons/Button'
-import GridContainer from '../../components/Grid/GridContainer'
 import GridItem from '../../components/Grid/GridItem'
 import SiteLayout from '../../components/Layout/SiteLayout'
 import Loader from '../../components/Loader/Loader'
@@ -88,7 +88,7 @@ function BerkasPenugasanPage() {
 			>
 				<h2>Upload Berkas Excel Penugasan</h2>
 				<form noValidate autoComplete="off" className={classes.form}>
-					<GridContainer justify="center">
+					<Grid container justify="center">
 						<GridItem sm={6} xs={10}>
 							{show ? (
 								<Alert
@@ -106,9 +106,9 @@ function BerkasPenugasanPage() {
 								</Alert>
 							) : null}
 						</GridItem>
-					</GridContainer>
-					<GridContainer justify="center">
-						<GridItem sm={10} xs={10}>
+					</Grid>
+					<Grid container justify="center">
+						<Grid item sm={10} xs={10}>
 							<Typography variant="body1" gutterBottom>
 								Gunakan File EXCEL dengan format yang dapat
 								diunduh{' '}
@@ -122,11 +122,11 @@ function BerkasPenugasanPage() {
 								pastikan SEMUA kolom TERISI dan format penulisan
 								telah sesuai
 							</Typography>
-						</GridItem>
-					</GridContainer>
-					<GridContainer justify="center">
-						<GridItem lg={4} md={5} sm={10}>
-							<GridItem sm={12}>
+						</Grid>
+					</Grid>
+					<Grid container justify="center">
+						<Grid item lg={3} md={4} sm={10}>
+							<Grid item sm={12}>
 								<TextField
 									id="outlined-number"
 									margin="normal"
@@ -142,8 +142,8 @@ function BerkasPenugasanPage() {
 									onChange={handleFileChange}
 									className={classes.textAlignLeft}
 								/>
-							</GridItem>
-							<GridItem sm={12}>
+							</Grid>
+							<Grid item sm={12}>
 								<TextField
 									id="outlined-number"
 									select
@@ -169,11 +169,11 @@ function BerkasPenugasanPage() {
 										</MenuItem>
 									))}
 								</TextField>
-							</GridItem>
-						</GridItem>
-					</GridContainer>
-					<GridContainer justify="center">
-						<GridItem sm={3} xs={10}>
+							</Grid>
+						</Grid>
+					</Grid>
+					<Grid container justify="center">
+						<Grid item lg={3} md={4} sm={10} xs={8}>
 							{loading ? (
 								<CircularProgress />
 							) : (
@@ -187,8 +187,8 @@ function BerkasPenugasanPage() {
 									Upload
 								</Button>
 							)}
-						</GridItem>
-					</GridContainer>
+						</Grid>
+					</Grid>
 				</form>
 			</div>
 		</SiteLayout>

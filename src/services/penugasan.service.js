@@ -50,5 +50,26 @@ class PenugasanService {
 			message: splitAndTrim(r.data, '<br><br>')
 		}
 	}
+
+	static async getPenugasanDetail(noSK) {
+		const r = await SimaduAPI.get(`/listregu?nomor_sk=${noSK}`)
+		if (r.status === 200) {
+			const data = []
+			r.data.forEach((teamMember) => {
+				data.push({
+					id: teamMember.id,
+					name: teamMember.nama,
+					registrationNumber: teamMember.no_registrasi,
+					organization: teamMember.instansi,
+					startDate: teamMember.tanggal_awal,
+					endDate: teamMember.tanggal_akhir,
+					posko: teamMember.posko,
+					daops: teamMember.daops
+				})
+			})
+			return data
+		}
+		return []
+	}
 }
 export default PenugasanService
