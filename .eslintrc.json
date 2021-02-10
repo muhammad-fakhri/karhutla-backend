@@ -21,7 +21,9 @@
 	},
 	"plugins": ["react", "prettier", "@typescript-eslint"],
 	"rules": {
-		"prettier/prettier": "error"
+		"prettier/prettier": "error",
+		"react/prop-types": 0,
+		"react/display-name": 0
 	},
 	"globals": { "React": "writable" },
 	"settings": {
