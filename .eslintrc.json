@@ -1,13 +1,17 @@
 {
+	"root": true,
 	"env": {
 		"browser": true,
 		"es2021": true
 	},
 	"extends": [
-		"airbnb-base",
+		"eslint:recommended",
 		"plugin:prettier/recommended",
-		"plugin:react/recommended"
+		"plugin:react/recommended",
+		"plugin:@typescript-eslint/eslint-recommended",
+		"plugin:@typescript-eslint/recommended"
 	],
+	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
 		"ecmaFeatures": {
 			"jsx": true
@@ -15,23 +19,9 @@
 		"ecmaVersion": 12,
 		"sourceType": "module"
 	},
-	"plugins": ["react", "prettier"],
+	"plugins": ["react", "prettier", "@typescript-eslint"],
 	"rules": {
-		"prettier/prettier": "error",
-		"react/react-in-jsx-scope": "off",
-		"indent": ["error", "tab"],
-		"linebreak-style": ["error", "unix"],
-		"quotes": ["error", "single"],
-		"semi": ["error", "never"],
-		"class-methods-use-this": 0,
-		"import/no-named-as-default": 0,
-		"react/display-name": 0,
-		"react/prop-types": 0,
-		"import/no-named-as-default-member": 0,
-		"no-nested-ternary": 0,
-		"no-await-in-loop": 0,
-		"no-shadow": 0,
-		"prefer-rest-params": 0
+		"prettier/prettier": "error"
 	},
 	"globals": { "React": "writable" },
 	"settings": {

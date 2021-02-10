@@ -19,26 +19,26 @@ This project is the frontend module of the SIPP Karhutla, a joint project betwee
 1. Clone this repo and change directory to project folder  
    `git clone https://github.com/muhammad-fakhri/sipp-karhutla.git && cd /sipp-karhutla`
 2. Install dependencies  
-   `npm install`
+   `yarn install`
 
 ## Run Dev Server
 
 1. Use below command in the terminal  
-   `npm run dev`
+   `yarn dev`
 2. Access development server in  
    `http://localhost:3000`
 
 ## Prepare for Production
 
 1. Build project and run production server  
-   `npm run prod:start`
+   `yarn prod:start`
 2. Access production server in  
    `http://localhost:3000`
 
 ## Static HTML Export
 
 1. Build project and export html  
-   `npm run prod:export`
+   `yarn prod:export`
 2. Command above will build the project and export html static. The exported html files will be placed inside `/out` folder
 2. Deploy project files inside `/out` folder to the server
 

@@ -5,7 +5,6 @@
 /docs/**
 /fixtures/**
 /jsdoc/**
-./node_modules/asn1.js
 /templates/**
 /tests/actual/**
 /tests/templates/**
@@ -13,3 +12,4 @@
 /tests/fixtures/**
 /tests/performance/**
 /tmp/**
+node_modules
