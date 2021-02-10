@@ -1,4 +1,9 @@
-import axios from 'axios'
+import axios, {
+	AxiosError,
+	AxiosInstance,
+	AxiosRequestConfig,
+	AxiosResponse
+} from 'axios'
 import CookieService from '../services/cookies.service'
 
 const serverIP = 'http://103.129.223.216'
@@ -9,7 +14,11 @@ export const simadu2Url = `${serverIP}/simadu2`
 export const siavipalaUrl = `${serverIP}/siavipala`
 export const authApiUrl = `${serverIP}/api/auth`
 
-const handleRequestSend = (config) => {
+export interface APIResponse extends AxiosResponse {
+	message: string
+}
+
+const handleRequestSend = (config: AxiosRequestConfig) => {
 	// Set Auth Token
 	const token = CookieService.getToken()
 	const modifiedconfig = config
@@ -19,34 +28,34 @@ const handleRequestSend = (config) => {
 	return modifiedconfig
 }
 
-const handleRequestError = (error) => {
+const handleRequestError = (error: AxiosError) => {
 	return Promise.reject(error)
 }
 
-const handleResponseReceive = (response) => {
+const handleResponseReceive = (response: AxiosResponse) => {
 	return response.data
 }
 
-const handleResponseError = (error) => {
+const handleResponseError = (error: AxiosError) => {
 	return error.response ? error.response.data : error
 }
 
-export const API = axios.create({
+export const API: AxiosInstance = axios.create({
 	baseURL: apiUrl,
 	headers: { Accept: 'application/json' }
 })
 
-export const SimaduAPI = axios.create({
+export const SimaduAPI: AxiosInstance = axios.create({
 	baseURL: simaduApiUrl,
 	headers: { Accept: 'application/json' }
 })
 
-export const SiavipalaAPI = axios.create({
+export const SiavipalaAPI: AxiosInstance = axios.create({
 	baseURL: siavipalaUrl,
 	headers: { Accept: 'application/json' }
 })
 
-export const AuthAPI = axios.create({
+export const AuthAPI: AxiosInstance = axios.create({
 	baseURL: authApiUrl,
 	headers: { Accept: 'application/json' }
 })
