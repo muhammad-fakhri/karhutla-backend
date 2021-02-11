@@ -7,17 +7,20 @@ import {
 	useEffect,
 	useState
 } from 'react'
-import { API, APIResponse } from '../api'
-import { UserData } from '../interfaces'
+import { API } from '../api'
+import { APIResponse, LoginResponse } from '../interfaces/api'
+import { UserData } from '../interfaces/data'
 import CookieService from '../services/cookies.service'
 
 const DefaultUser: UserData = {
-	id: null,
+	id: 0,
 	name: '',
+	accessId: 0,
+	role: 0,
 	email: '',
 	registrationNumber: '',
 	phoneNumber: '',
-	instantion: '',
+	organization: '',
 	photo: '',
 	roleLevel: 100,
 	roleName: ''
@@ -71,22 +74,25 @@ export const AuthProvider: FC<{ children: any }> = ({ children }) => {
 	const login = async (username: string, password: string) => {
 		// Login user
 		try {
-			const { status, data, message }: APIResponse = await API.post(
-				'/auth/login',
-				{
-					username,
-					password
-				}
-			)
+			const {
+				status,
+				data,
+				message
+			}: APIResponse<LoginResponse> = await API.post('/auth/login', {
+				username,
+				password
+			})
 			if (status !== 200) throw new Error(message)
 
 			const user: UserData = {
 				id: parseInt(data.user.id_user, 10),
+				accessId: 0,
+				role: 0,
 				name: data.user.nama,
 				email: data.user.email,
 				registrationNumber: data.detail.no_registrasi,
 				phoneNumber: data.detail.no_telepon,
-				instantion: data.detail.instansi,
+				organization: data.detail.instansi,
 				photo: data.detail.foto,
 				roleLevel:
 					// If user has role then store the role level

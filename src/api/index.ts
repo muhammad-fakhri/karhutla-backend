@@ -14,10 +14,6 @@ export const simadu2Url = `${serverIP}/simadu2`
 export const siavipalaUrl = `${serverIP}/siavipala`
 export const authApiUrl = `${serverIP}/api/auth`
 
-export interface APIResponse extends AxiosResponse {
-	message: string
-}
-
 const handleRequestSend = (config: AxiosRequestConfig) => {
 	// Set Auth Token
 	const token = CookieService.getToken()
