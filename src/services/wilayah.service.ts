@@ -1,27 +1,26 @@
 import { API } from '../api'
+import { APIResponse, RegionData, RegionResponse } from '../interfaces'
 
-class WilayahService {
-	static async getAllWilayah() {
-		const r = await API.get('/wilayah/list')
+export default class WilayahService {
+	static async getAllWilayah(): Promise<RegionData[]> {
+		const r: APIResponse<RegionResponse[]> = await API.get('/wilayah/list')
 		if (r.status === 200) {
-			const data = []
-			r.data.forEach((wilayah) => {
-				data.push({
+			return r.data.map((wilayah) => {
+				return {
 					id: wilayah.id,
 					code: wilayah.kode,
 					name: wilayah.nama,
 					type: wilayah.tipe
-				})
+				}
 			})
-			return data
 		}
 		return []
 	}
 
-	static async getAllKecamatan() {
-		const r = await API.get('/wilayah/list')
+	static async getAllKecamatan(): Promise<RegionData[]> {
+		const r: APIResponse<RegionResponse[]> = await API.get('/wilayah/list')
 		if (r.status === 200) {
-			const kecamatan = []
+			const kecamatan: RegionData[] = []
 			r.data.forEach((wilayah) => {
 				if (wilayah.tipe === 'Kecamatan') {
 					kecamatan.push({
@@ -37,10 +36,10 @@ class WilayahService {
 		return []
 	}
 
-	static async getAllPulau() {
-		const r = await API.get('/wilayah/list')
+	static async getAllPulau(): Promise<RegionData[]> {
+		const r: APIResponse<RegionResponse[]> = await API.get('/wilayah/list')
 		if (r.status === 200) {
-			const pulau = []
+			const pulau: RegionData[] = []
 			r.data.forEach((wilayah) => {
 				if (wilayah.tipe === 'Pulau') {
 					pulau.push({
@@ -56,4 +55,3 @@ class WilayahService {
 		return []
 	}
 }
-export default WilayahService

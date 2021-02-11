@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie'
+import { UserData } from '../interfaces'
 // import { parseJwt } from "../utils/formatter";
 
 // Token Name for JWT Token
@@ -11,15 +12,15 @@ const KEY_TOKEN = '_z2lj4lY7Wn_hIz_'
 const KEY_USER = 'ijN8Lds_1nd'
 
 export default class CookieService {
-	static getToken() {
-		return Cookies.get(KEY_TOKEN)
+	static getToken(): string {
+		return Cookies.get(KEY_TOKEN) || ''
 	}
 
-	static setToken(token = '') {
+	static setToken(token = ''): void {
 		Cookies.set(KEY_TOKEN, token, { expires: 1 })
 	}
 
-	static removeToken() {
+	static removeToken(): void {
 		Cookies.remove(KEY_TOKEN)
 	}
 
@@ -45,15 +46,15 @@ export default class CookieService {
 	// 	return parseJwt(token);
 	// }
 
-	static getUser() {
-		return Cookies.get(KEY_USER)
+	static getUser(): string {
+		return Cookies.get(KEY_USER) || ''
 	}
 
-	static setUser(user) {
+	static setUser(user: UserData): void {
 		Cookies.set(KEY_USER, user)
 	}
 
-	static removeUser() {
+	static removeUser(): void {
 		Cookies.remove(KEY_USER)
 	}
 }
