@@ -125,7 +125,11 @@ function HakAksesPage() {
 			]
 			const daopsColumn = [
 				{ title: 'Nama', field: 'name', editable: 'never' },
-				{ title: 'No Registrasi/NIP', field: 'nip', editable: 'never' },
+				{
+					title: 'No Registrasi/NIP',
+					field: 'registrationNumber',
+					editable: 'never'
+				},
 				{ title: 'Email', field: 'email', editable: 'never' },
 				{
 					title: 'Organisasi',
@@ -136,7 +140,11 @@ function HakAksesPage() {
 			]
 			const balaiColumn = [
 				{ title: 'Nama', field: 'name', editable: 'never' },
-				{ title: 'No Registrasi/NIP', field: 'nip', editable: 'never' },
+				{
+					title: 'No Registrasi/NIP',
+					field: 'registrationNumber',
+					editable: 'never'
+				},
 				{ title: 'Email', field: 'email', editable: 'never' },
 				{
 					title: 'Balai/Organisasi',

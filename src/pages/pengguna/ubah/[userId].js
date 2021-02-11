@@ -26,7 +26,7 @@ function UbahPenggunaPage() {
 		name: '',
 		email: '',
 		oldEmail: '',
-		phone: '',
+		phoneNumber: '',
 		errorMessage: '',
 		notFound: false,
 		showAlert: false,
@@ -54,7 +54,7 @@ function UbahPenggunaPage() {
 		const getUserData = async () => {
 			const result = await UserService.getUserDetail(userId)
 			if (result.success) {
-				const { user } = result
+				const { data: user } = result
 				setValues({
 					...values,
 					id: user.id,
@@ -63,7 +63,7 @@ function UbahPenggunaPage() {
 					name: user.name,
 					email: user.email,
 					oldEmail: user.email,
-					phone: user.phone
+					phoneNumber: user.phoneNumber
 				})
 			} else {
 				setValues({
@@ -152,8 +152,8 @@ function UbahPenggunaPage() {
 								margin="normal"
 								required
 								className={classes.textAlignLeft}
-								onChange={handleChange('phone')}
-								value={values.phone}
+								onChange={handleChange('phoneNumber')}
+								value={values.phoneNumber}
 							/>
 						</Grid>
 					</Grid>

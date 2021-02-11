@@ -7,7 +7,7 @@ const useStyles = makeStyles(styles)
 
 export default function AuthLayout(props) {
 	const classes = useStyles()
-	
+
 	return (
 		<div>
 			<Header fixed color="transparent" brand="SIPP Karhutla" />

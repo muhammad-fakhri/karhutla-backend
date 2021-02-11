@@ -55,7 +55,7 @@ function TambahPenggunaPage() {
 		registrationNumber: '',
 		name: '',
 		email: '',
-		phone: '',
+		phoneNumber: '',
 		password: '',
 		cPassword: '',
 		errorMessage: '',
@@ -87,7 +87,7 @@ function TambahPenggunaPage() {
 			registrationNumber: '',
 			name: '',
 			email: '',
-			phone: '',
+			phoneNumber: '',
 			password: '',
 			cPassword: '',
 			errorMessage: '',
@@ -170,8 +170,8 @@ function TambahPenggunaPage() {
 								margin="normal"
 								required
 								className={classes.textAlignLeft}
-								onChange={handleChange('phone')}
-								value={values.phone}
+								onChange={handleChange('phoneNumber')}
+								value={values.phoneNumber}
 							/>
 						</Grid>
 					</Grid>

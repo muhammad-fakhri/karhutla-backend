@@ -1,5 +1,9 @@
 import {
-	CircularProgress, IconButton, InputAdornment, TextField, Typography
+	CircularProgress,
+	IconButton,
+	InputAdornment,
+	TextField,
+	Typography
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import Visibility from '@material-ui/icons/Visibility'
@@ -38,7 +42,7 @@ function ProfilePage() {
 		name: '',
 		email: '',
 		oldEmail: '',
-		phone: '',
+		phoneNumber: '',
 		photo: '',
 		instantion: '',
 		password: '',
@@ -67,7 +71,7 @@ function ProfilePage() {
 				name: values.name,
 				email: values.email,
 				registrationNumber: values.registrationNumber,
-				phoneNumber: values.phone,
+				phoneNumber: values.phoneNumber,
 				instantion: values.instantion,
 				photo: values.photo
 			}
@@ -97,7 +101,7 @@ function ProfilePage() {
 				name: user.name,
 				email: user.email,
 				oldEmail: user.email,
-				phone: user.phoneNumber,
+				phoneNumber: user.phoneNumber,
 				photo: user.photo,
 				instantion: user.instantion
 			})
@@ -206,8 +210,10 @@ function ProfilePage() {
 											variant="outlined"
 											helperText="Format nomor telepon: +628xxxxxxxxxx"
 											required
-											onChange={handleChange('phone')}
-											value={values.phone}
+											onChange={handleChange(
+												'phoneNumber'
+											)}
+											value={values.phoneNumber}
 											margin="normal"
 										/>
 										<Typography

@@ -20,7 +20,7 @@ import CardHeader from '../components/Card/CardHeader'
 import CardFooter from '../components/Card/CardFooter'
 import Loader from '../components/Loader/Loader'
 import useAuth, { ProtectRoute } from '../context/auth'
-import AuthValidator from '../validators/auth.validator'
+import { loginValidator } from '../validators'
 
 const useStyles = makeStyles(styles)
 
@@ -43,7 +43,7 @@ function LoginPage() {
 		setValues({ ...values, [prop]: event.target.value })
 	}
 	const handleSubmit = async () => {
-		const validate = AuthValidator.login(values)
+		const validate = loginValidator(values)
 		if (validate.pass) {
 			setLoading(true)
 			const result = await login(
