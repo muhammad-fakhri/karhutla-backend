@@ -1,23 +1,23 @@
-import { makeStyles } from '@material-ui/core/styles'
 import {
-	InputAdornment,
-	IconButton,
 	CircularProgress,
+	IconButton,
+	InputAdornment,
 	TextField
 } from '@material-ui/core'
-import Alert from '@material-ui/lab/Alert'
+import { makeStyles } from '@material-ui/core/styles'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
+import Alert from '@material-ui/lab/Alert'
 import { useState } from 'react'
 import styles from '../assets/jss/nextjs-material-kit/pages/login.page.style'
-import AuthLayout from '../components/Layout/AuthLayout'
-import GridContainer from '../components/Grid/GridContainer'
-import GridItem from '../components/Grid/GridItem'
-import Button from '../components/CustomButtons/Button'
 import Card from '../components/Card/Card'
 import CardBody from '../components/Card/CardBody'
-import CardHeader from '../components/Card/CardHeader'
 import CardFooter from '../components/Card/CardFooter'
+import CardHeader from '../components/Card/CardHeader'
+import Button from '../components/CustomButtons/Button'
+import GridContainer from '../components/Grid/GridContainer'
+import GridItem from '../components/Grid/GridItem'
+import AuthLayout from '../components/Layout/AuthLayout'
 import Loader from '../components/Loader/Loader'
 import useAuth, { ProtectRoute } from '../context/auth'
 import { loginValidator } from '../validators'
@@ -26,8 +26,8 @@ const useStyles = makeStyles(styles)
 
 function LoginPage() {
 	const { login, isAuthenticated } = useAuth()
-	const [loading, setLoading] = React.useState(false)
-	const [values, setValues] = React.useState({
+	const [loading, setLoading] = useState(false)
+	const [values, setValues] = useState({
 		email: '',
 		password: '',
 		alertMessage: '',
