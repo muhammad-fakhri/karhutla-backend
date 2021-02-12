@@ -38,8 +38,8 @@ export default class DaopsService {
 		formData.append('r_balai_id', daops.balaiId)
 
 		const r: APIResponse<null> = await API.post('/daops/add', formData)
-		if (r.status === 200) return { success: true, message: [] }
-		return { success: false, message: [r.message] }
+		if (r.status === 200) return { success: true, message: '' }
+		return { success: false, message: r.message }
 	}
 
 	static async updateDaops(
@@ -56,8 +56,8 @@ export default class DaopsService {
 		if (oldData.code !== newData.code) formData.append('kode', newData.code)
 
 		const r: APIResponse<null> = await API.post('/daops/save', formData)
-		if (r.status === 200) return { success: true, message: [] }
-		return { success: false, message: [r.message] }
+		if (r.status === 200) return { success: true, message: '' }
+		return { success: false, message: r.message }
 	}
 
 	static async deleteDaops(daops: DaopsData): Promise<ServiceResponse> {
@@ -67,7 +67,7 @@ export default class DaopsService {
 		const r: APIResponse<null> = await API.delete(
 			`/daops/remove/${daops.id}`
 		)
-		if (r.status === 200) return { success: true, message: [] }
-		return { success: false, message: [r.message] }
+		if (r.status === 200) return { success: true, message: '' }
+		return { success: false, message: r.message }
 	}
 }

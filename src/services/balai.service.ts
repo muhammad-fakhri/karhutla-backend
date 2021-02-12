@@ -38,8 +38,8 @@ export default class BalaiService {
 		formData.append('r_wilayah_id', balai.region)
 
 		const r: APIResponse<null> = await API.post('/balai/add', formData)
-		if (r.status === 200) return { success: true, message: [] }
-		return { success: false, message: [r.message] }
+		if (r.status === 200) return { success: true, message: '' }
+		return { success: false, message: r.message }
 	}
 
 	static async updateBalai(
@@ -56,8 +56,8 @@ export default class BalaiService {
 		if (oldData.code !== newData.code) formData.append('kode', newData.code)
 
 		const r: APIResponse<null> = await API.post('/balai/save', formData)
-		if (r.status === 200) return { success: true, message: [] }
-		return { success: false, message: [r.message] }
+		if (r.status === 200) return { success: true, message: '' }
+		return { success: false, message: r.message }
 	}
 
 	static async deleteBalai(balai: BalaiData): Promise<ServiceResponse> {
@@ -67,7 +67,7 @@ export default class BalaiService {
 		const r: APIResponse<null> = await API.delete(
 			`/balai/remove/${balai.id}`
 		)
-		if (r.status === 200) return { success: true, message: [] }
-		return { success: false, message: [r.message] }
+		if (r.status === 200) return { success: true, message: '' }
+		return { success: false, message: r.message }
 	}
 }

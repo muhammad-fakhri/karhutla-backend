@@ -25,7 +25,7 @@ export default class PelaporanService {
 		window.open(url)
 		return {
 			success: true,
-			message: []
+			message: ''
 		}
 	}
 }

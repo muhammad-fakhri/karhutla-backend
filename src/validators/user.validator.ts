@@ -15,133 +15,122 @@ import { digitLength, isEmail, isPhoneNumber } from '../utils'
 export const createUserValidator = (
 	inputData: AddUserInput
 ): ValidatorResult => {
-	const errorMsg: string[] = []
-	if (inputData.name.length < 1) errorMsg.push('Tolong masukan nama pengguna')
-	if (!isEmail(inputData.email))
-		errorMsg.push('Tolong masukan email pengguna yang valid')
-	if (inputData.registrationNumber.length < 1)
-		errorMsg.push('Tolong masukan nomor registrasi/NIP')
-	if (!isPhoneNumber(inputData.phoneNumber))
-		errorMsg.push('Tolong masukan nomor hape yang valid')
-	if (inputData.password.length < 8)
-		errorMsg.push('Password minimal 8 karakter')
-	if (
+	let errorMsg = ''
+	if (inputData.name.length < 1) errorMsg = 'Tolong masukan nama pengguna'
+	else if (!isEmail(inputData.email))
+		errorMsg = 'Tolong masukan email pengguna yang valid'
+	else if (inputData.registrationNumber.length < 1)
+		errorMsg = 'Tolong masukan nomor registrasi/NIP'
+	else if (!isPhoneNumber(inputData.phoneNumber))
+		errorMsg = 'Tolong masukan nomor hape yang valid'
+	else if (inputData.password.length < 8)
+		errorMsg = 'Password minimal 8 karakter'
+	else if (
 		inputData.password !== inputData.cPassword &&
 		inputData.password.length > 7
 	) {
-		errorMsg.push('Konfirmasi password tidak sama')
+		errorMsg = 'Konfirmasi password tidak sama'
 	}
-	if (errorMsg.length === 0) return { pass: true, message: [] }
-	return { pass: false, message: errorMsg }
+
+	if (errorMsg) return { pass: false, message: errorMsg }
+	return { pass: true, message: '' }
 }
 
 export const updateUserValidator = (
 	inputData: UpdateUserInput
 ): ValidatorResult => {
-	const errorMsg: string[] = []
-	if (inputData.name.length < 1) errorMsg.push('Tolong masukan nama pengguna')
-	if (!isEmail(inputData.email))
-		errorMsg.push('Tolong masukan email pengguna yang valid')
-	if (inputData.registrationNumber.length < 1)
-		errorMsg.push('Tolong masukan nomor registrasi/NIP')
-	if (!isPhoneNumber(inputData.phoneNumber))
-		errorMsg.push('Tolong masukan nomor hape yang valid')
-	if (inputData.password || inputData.cPassword) {
+	let errorMsg = ''
+	if (inputData.name.length < 1) errorMsg = 'Tolong masukan nama pengguna'
+	else if (!isEmail(inputData.email))
+		errorMsg = 'Tolong masukan email pengguna yang valid'
+	else if (inputData.registrationNumber.length < 1)
+		errorMsg = 'Tolong masukan nomor registrasi/NIP'
+	else if (!isPhoneNumber(inputData.phoneNumber))
+		errorMsg = 'Tolong masukan nomor hape yang valid'
+	else if (inputData.password || inputData.cPassword) {
 		if (inputData.password.length < 8)
-			errorMsg.push('Password minimal 8 karakter')
+			errorMsg = 'Password minimal 8 karakter'
 		else if (inputData.password !== inputData.cPassword) {
-			errorMsg.push('Konfirmasi password tidak sama')
+			errorMsg = 'Konfirmasi password tidak sama'
 		}
 	}
-	if (errorMsg.length === 0) return { pass: true, message: [] }
-	return { pass: false, message: errorMsg }
+
+	if (errorMsg) return { pass: false, message: errorMsg }
+	return { pass: true, message: '' }
 }
 
 export const deleteUserValidator = (
 	inputData: DeleteUserInput
 ): ValidatorResult => {
-	const errorMsg: string[] = []
-	if (digitLength(inputData.id) < 1) errorMsg.push('ID Pengguna tidak ada')
-	if (errorMsg.length === 0) {
-		return { pass: true, message: [] }
-	}
-	return { pass: false, message: errorMsg }
+	if (digitLength(inputData.id) < 1)
+		return { pass: false, message: 'ID Pengguna tidak ada' }
+	return { pass: true, message: '' }
 }
 
 export const createPatroliNonLoginValidator = (
 	inputData: AddPatroliNonLoginUserInput
 ): ValidatorResult => {
-	const errorMsg: string[] = []
-	if (inputData.name.length < 1) errorMsg.push('Tolong masukan nama pengguna')
-	if (digitLength(inputData.role) < 1)
-		errorMsg.push('Tolong pilih hak akses pengguna')
-	if (errorMsg.length === 0) {
-		return { pass: true, message: [] }
-	}
-	return { pass: false, message: errorMsg }
+	let errorMsg = ''
+	if (inputData.name.length < 1) errorMsg = 'Tolong masukan nama pengguna'
+	else if (digitLength(inputData.role) < 1)
+		errorMsg = 'Tolong pilih hak akses pengguna'
+
+	if (errorMsg) return { pass: false, message: errorMsg }
+	return { pass: true, message: '' }
 }
 
 export const updatePatroliNonLoginValidator = (
 	inputData: UpdatePatroliNonLoginUserInput
 ): ValidatorResult => {
-	const errorMsg: string[] = []
-	if (digitLength(inputData.id) < 1) errorMsg.push('Tidak ada ID pengguna')
-	if (inputData.name.length < 1) errorMsg.push('Tolong masukan nama pengguna')
-	if (digitLength(inputData.role) < 1)
-		errorMsg.push('Tolong pilih hak akses pengguna')
-	if (errorMsg.length === 0) {
-		return { pass: true, message: [] }
-	}
-	return { pass: false, message: errorMsg }
+	let errorMsg = ''
+	if (digitLength(inputData.id) < 1) errorMsg = 'Tidak ada ID pengguna'
+	else if (inputData.name.length < 1)
+		errorMsg = 'Tolong masukan nama pengguna'
+	else if (digitLength(inputData.role) < 1)
+		errorMsg = 'Tolong pilih hak akses pengguna'
+
+	if (errorMsg) return { pass: false, message: errorMsg }
+	return { pass: true, message: '' }
 }
 
 export const deletePatroliNonLoginValidator = (
 	inputData: DeletePatroliNonLoginUserInput
 ): ValidatorResult => {
-	const errorMsg: string[] = []
-	if (digitLength(inputData.id) < 1) errorMsg.push('ID hak akses tidak ada')
-	if (errorMsg.length === 0) {
-		return { pass: true, message: [] }
-	}
-	return { pass: false, message: errorMsg }
+	if (digitLength(inputData.id) < 1)
+		return { pass: false, message: 'ID hak akses tidak ada' }
+	return { pass: true, message: '' }
 }
 
 export const createNonPatroliValidator = (
 	inputData: CreateNonPatroliUser
 ): ValidatorResult => {
-	const errorMsg: string[] = []
-	if (digitLength(inputData.id) < 1) errorMsg.push('ID pengguna tidak ada')
-	if (digitLength(inputData.role) < 1)
-		errorMsg.push('Tolong pilih hak akses pengguna')
+	let errorMsg = ''
+	if (digitLength(inputData.id) < 1) errorMsg = 'ID pengguna tidak ada'
+	else if (digitLength(inputData.role) < 1)
+		errorMsg = 'Tolong pilih hak akses pengguna'
 	// if (inputData.organization.length < 1)
-	//   errorMsg.push("Tolong pilih Daops/Balai");
-	if (errorMsg.length === 0) {
-		return { pass: true, message: [] }
-	}
-	return { pass: false, message: errorMsg }
+	//   errorMsg="Tolong pilih Daops/Balai")
+
+	if (errorMsg) return { pass: false, message: errorMsg }
+	return { pass: true, message: '' }
 }
 
 export const updateNonPatroliValidator = (
 	inputData: NonPatroliUserData
 ): ValidatorResult => {
-	const errorMsg: string[] = []
-	if (digitLength(inputData.id) < 1) errorMsg.push('ID Pengguna tidak ada')
-	if (digitLength(inputData.role) < 1)
-		errorMsg.push('Tolong pilih hak akses pengguna')
-	if (errorMsg.length === 0) {
-		return { pass: true, message: [] }
-	}
-	return { pass: false, message: errorMsg }
+	let errorMsg = ''
+	if (digitLength(inputData.id) < 1) errorMsg = 'ID Pengguna tidak ada'
+	else if (digitLength(inputData.role) < 1)
+		errorMsg = 'Tolong pilih hak akses pengguna'
+
+	if (errorMsg) return { pass: false, message: errorMsg }
+	return { pass: true, message: '' }
 }
 
 export const deleteNonPatroliValidator = (
 	inputData: DeleteNonPatroliUser
 ): ValidatorResult => {
-	const errorMsg: string[] = []
 	if (digitLength(inputData.accessId) < 1)
-		errorMsg.push('ID Akses Pengguna tidak ada')
-	if (errorMsg.length === 0) {
-		return { pass: true, message: [] }
-	}
-	return { pass: false, message: errorMsg }
+		return { pass: false, message: 'ID Akses Pengguna tidak ada' }
+	return { pass: true, message: '' }
 }

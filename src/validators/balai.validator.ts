@@ -1,41 +1,32 @@
 import { BalaiData, ValidatorResult } from '../interfaces'
 
 export const createBalaiValidator = (inputData: BalaiData): ValidatorResult => {
-	const errorMsg: string[] = []
-	if (Object.keys(inputData).length > 0) {
-		if (!inputData.code) errorMsg.push('Tolong masukkan kode balai')
-		if (!inputData.name) errorMsg.push('Tolong masukkan nama balai')
-		if (!inputData.region) errorMsg.push('Tolong pilih wilayah balai')
-	} else {
-		errorMsg.push('Tolong isikan data balai')
+	let errorMsg = ''
+	if (!inputData.code) errorMsg = 'Tolong masukkan kode balai'
+	else if (!inputData.name) errorMsg = 'Tolong masukkan nama balai'
+	else if (!inputData.region) errorMsg = 'Tolong pilih wilayah balai'
+
+	if (errorMsg) {
+		return { pass: false, message: errorMsg }
 	}
-	if (errorMsg.length === 0) {
-		return { pass: true, message: [] }
-	}
-	return { pass: false, message: errorMsg }
+	return { pass: true, message: '' }
 }
 
 export const updateBalaiValidator = (inputData: BalaiData): ValidatorResult => {
-	const errorMsg: string[] = []
-	if (Object.keys(inputData).length > 0) {
-		if (!inputData.id) errorMsg.push('ID balai tidak disertakan')
-		if (!inputData.code) errorMsg.push('Tolong masukkan kode balai')
-		if (!inputData.name) errorMsg.push('Tolong masukkan nama balai')
-		if (!inputData.region) errorMsg.push('Tolong pilih wilayah')
-	} else {
-		errorMsg.push('Tolong isikan data balai')
+	let errorMsg = ''
+	if (!inputData.id) errorMsg = 'ID balai tidak disertakan'
+	else if (!inputData.code) errorMsg = 'Tolong masukkan kode balai'
+	else if (!inputData.name) errorMsg = 'Tolong masukkan nama balai'
+	else if (!inputData.region) errorMsg = 'Tolong pilih wilayah'
+
+	if (errorMsg) {
+		return { pass: false, message: errorMsg }
 	}
-	if (errorMsg.length === 0) {
-		return { pass: true, message: [] }
-	}
-	return { pass: false, message: errorMsg }
+	return { pass: true, message: '' }
 }
 
 export const deleteBalaiValidator = (inputData: BalaiData): ValidatorResult => {
-	const errorMsg: string[] = []
-	if (!inputData.id) errorMsg.push('ID Balai tidak disertakan')
-	if (errorMsg.length === 0) {
-		return { pass: true, message: [] }
-	}
-	return { pass: false, message: errorMsg }
+	if (!inputData.id)
+		return { pass: false, message: 'ID Balai tidak disertakan' }
+	return { pass: true, message: '' }
 }

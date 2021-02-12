@@ -7,12 +7,12 @@ import {
 
 export interface ValidatorResult {
 	pass: boolean
-	message: string[]
+	message: string
 }
 
 export interface ServiceResponse<T = any> {
 	success: boolean
-	message: string[]
+	message: string | string[]
 	data?: T
 }
 

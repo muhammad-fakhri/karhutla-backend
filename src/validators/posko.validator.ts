@@ -9,33 +9,32 @@ import { digitLength } from '../utils'
 export const createPoskoValidator = (
 	inputData: AddPoskoInput
 ): ValidatorResult => {
-	const errorMsg: string[] = []
-	if (!inputData.name) errorMsg.push('Tolong masukkan nama posko')
-	if (digitLength(parseInt(inputData.daops)) < 1)
-		errorMsg.push('Tolong pilih daops')
-	if (digitLength(parseInt(inputData.kecamatan)) < 1)
-		errorMsg.push('Tolong pilih kecamatan')
-	if (errorMsg.length === 0) {
-		return { pass: true, message: [] }
-	}
-	return { pass: false, message: errorMsg }
+	let errorMsg = ''
+	if (!inputData.name) errorMsg = 'Tolong masukkan nama posko'
+	else if (digitLength(parseInt(inputData.daops)) < 1)
+		errorMsg = 'Tolong pilih daops'
+	else if (digitLength(parseInt(inputData.kecamatan)) < 1)
+		errorMsg = 'Tolong pilih kecamatan'
+
+	if (errorMsg) return { pass: false, message: errorMsg }
+	return { pass: true, message: '' }
 }
 
 export const updatePoskoValidator = (
 	inputData: UpdatePoskoInput
 ): ValidatorResult => {
-	const errorMsg: string[] = []
-	if (!inputData.id) errorMsg.push('ID posko tidak disertakan')
-	if (!inputData.name) errorMsg.push('Tolong masukkan nama posko')
-	if (!inputData.daops) errorMsg.push('Tolong pilih daops')
-	if (!inputData.kecamatan) errorMsg.push('Tolong pilih kecamatan')
-	if (errorMsg.length === 0) return { pass: true, message: [] }
-	return { pass: false, message: errorMsg }
+	let errorMsg = ''
+	if (!inputData.id) errorMsg = 'ID posko tidak disertakan'
+	else if (!inputData.name) errorMsg = 'Tolong masukkan nama posko'
+	else if (!inputData.daops) errorMsg = 'Tolong pilih daops'
+	else if (!inputData.kecamatan) errorMsg = 'Tolong pilih kecamatan'
+
+	if (errorMsg) return { pass: false, message: errorMsg }
+	return { pass: true, message: '' }
 }
 
 export const deletePoskoValidator = (inputData: PoskoData): ValidatorResult => {
-	const errorMsg: string[] = []
-	if (!inputData.id) errorMsg.push('ID posko tidak disertakan')
-	if (errorMsg.length === 0) return { pass: true, message: [] }
-	return { pass: false, message: errorMsg }
+	if (!inputData.id)
+		return { pass: false, message: 'ID posko tidak disertakan' }
+	return { pass: true, message: '' }
 }

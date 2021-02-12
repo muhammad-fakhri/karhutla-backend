@@ -1,31 +1,28 @@
 import { DaopsData, ValidatorResult } from '../interfaces'
 
 export const createDaopsValidator = (inputData: DaopsData): ValidatorResult => {
-	const errorMsg: string[] = []
-	if (Object.keys(inputData).length > 0) {
-		if (!inputData.code) errorMsg.push('Tolong masukkan kode daops')
-		if (!inputData.name) errorMsg.push('Tolong masukkan nama daops')
-		if (!inputData.balaiId) errorMsg.push('Tolong pilih balai')
-	} else errorMsg.push('Tolong isikan data daops')
-	if (errorMsg.length === 0) return { pass: true, message: [] }
-	return { pass: false, message: errorMsg }
+	let errorMsg = ''
+	if (!inputData.code) errorMsg = 'Tolong masukkan kode daops'
+	else if (!inputData.name) errorMsg = 'Tolong masukkan nama daops'
+	else if (!inputData.balaiId) errorMsg = 'Tolong pilih balai'
+
+	if (errorMsg) return { pass: false, message: errorMsg }
+	return { pass: true, message: '' }
 }
 
 export const updateDaopsValidator = (inputData: DaopsData): ValidatorResult => {
-	const errorMsg: string[] = []
-	if (Object.keys(inputData).length > 0) {
-		if (!inputData.id) errorMsg.push('ID daops tidak disertakan')
-		if (!inputData.code) errorMsg.push('Tolong masukkan kode daops')
-		if (!inputData.name) errorMsg.push('Tolong masukkan nama daops')
-		if (!inputData.balaiId) errorMsg.push('Tolong pilih balai')
-	} else errorMsg.push('Tolong isikan data daops')
-	if (errorMsg.length === 0) return { pass: true, message: [] }
-	return { pass: false, message: errorMsg }
+	let errorMsg = ''
+	if (!inputData.id) errorMsg = 'ID daops tidak disertakan'
+	else if (!inputData.code) errorMsg = 'Tolong masukkan kode daops'
+	else if (!inputData.name) errorMsg = 'Tolong masukkan nama daops'
+	else if (!inputData.balaiId) errorMsg = 'Tolong pilih balai'
+
+	if (errorMsg) return { pass: false, message: errorMsg }
+	return { pass: true, message: '' }
 }
 
 export const deleteDaopsValidator = (inputData: DaopsData): ValidatorResult => {
-	const errorMsg: string[] = []
-	if (!inputData.id) errorMsg.push('ID Daops tidak disertakan')
-	if (errorMsg.length === 0) return { pass: true, message: [] }
-	return { pass: false, message: errorMsg }
+	if (!inputData.id)
+		return { pass: false, message: 'ID Daops tidak disertakan' }
+	return { pass: true, message: '' }
 }
