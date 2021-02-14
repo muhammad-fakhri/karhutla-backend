@@ -1,14 +1,15 @@
 import { SiavipalaAPI } from '../api'
-import { APIResponse, HotspotItem, HotspotResponse } from '../interfaces'
+import { HotspotItem, HotspotResponse } from '../interfaces'
 
 export default class HotspotService {
 	static async getHotspot(url: string): Promise<HotspotItem[]> {
 		try {
-			const res: APIResponse<HotspotResponse> = await SiavipalaAPI.get(
-				url
-			)
+			const res: HotspotResponse = await SiavipalaAPI.get(url)
 			const hotspots: HotspotItem[] = []
-			res.data.hostspot_sipongi.map((item) => {
+			if (res.hostspot_sipongi.length < 1) {
+				return hotspots
+			}
+			res.hostspot_sipongi.map((item) => {
 				item.sebaran_hotspot.map((item) => {
 					hotspots.push(item)
 				})
