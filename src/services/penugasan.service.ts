@@ -43,24 +43,37 @@ export default class PenugasanService {
 			}
 		}
 
-		const formData = new FormData()
-		formData.append('file', file)
-		formData.append('jenis_patroli', type)
+		try {
+			const formData = new FormData()
+			formData.append('file', file)
+			formData.append('jenis_patroli', type)
 
-		const r: APIResponse<string> = await axios.post(
-			`${simaduApiUrl}/uploadtim`,
-			formData
-		)
+			const r: APIResponse<{
+				code: string
+				message: string
+			}> = await axios.post(`${simaduApiUrl}/uploadtim`, formData)
 
-		if (r.status === 200)
-			return {
-				success: true,
-				message: splitAndTrim(r.data, '<a href=')
+			if (r.status === 200) {
+				return {
+					success: true,
+					message: [r.data.message]
+				}
 			}
 
-		return {
-			success: false,
-			message: splitAndTrim(r.data, '<br><br>')
+			throw new Error(
+				'Unexpected error when uploading penugasan, please contact the administrator'
+			)
+		} catch (error) {
+			if (!error.response) {
+				return {
+					success: false,
+					message: [error.message]
+				}
+			}
+			return {
+				success: false,
+				message: splitAndTrim(error.response.data.message, '\n\n')
+			}
 		}
 	}
 
