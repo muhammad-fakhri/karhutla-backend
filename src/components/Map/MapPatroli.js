@@ -25,7 +25,7 @@ export class MapContainer extends React.Component {
 	}
 
 	generateInfoWindowContent = () => {
-		const reportLink = `http://103.129.223.216/api/simadu/download/${this.state.selectedPlace.patroli.id_laporan_header}`
+		const reportLink = `https://103.129.223.216/api/simadu/download/${this.state.selectedPlace.patroli.id_laporan_header}`
 		return (
 			<div>
 				<center>

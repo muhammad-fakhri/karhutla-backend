@@ -113,7 +113,7 @@ function BerkasPenugasanPage() {
 								Gunakan File EXCEL dengan format yang dapat
 								diunduh{' '}
 								<Link
-									href="http://103.129.223.216/simadu2/app/contoh_template.xlsx"
+									href="https://103.129.223.216/simadu2/app/contoh_template.xlsx"
 									className={classes.downloadButton}
 								>
 									disini

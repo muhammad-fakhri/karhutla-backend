@@ -10,16 +10,16 @@ import {
 
 export default class PatroliService {
 	static async getPatroli(date: Date): Promise<PatroliServiceResponse> {
+		const patroliSpots: PatrolData[] = []
+		const patroliTerpadu: PatrolListData[] = []
+		const patroliMandiri: PatrolListData[] = []
+		const patroliRutin: PatrolListData[] = []
+		const counter = {
+			mandiri: 0,
+			rutin: 0,
+			terpadu: 0
+		}
 		try {
-			const patroliSpots: PatrolData[] = []
-			const patroliTerpadu: PatrolListData[] = []
-			const patroliMandiri: PatrolListData[] = []
-			const patroliRutin: PatrolListData[] = []
-			const counter = {
-				mandiri: 0,
-				rutin: 0,
-				terpadu: 0
-			}
 			const res: APIResponse<[[PatroliResponse]]> = await SimaduAPI.get(
 				`/list?tanggal_patroli=${date}`
 			)
@@ -36,7 +36,7 @@ export default class PatroliService {
 						data.latitude = patroli.laporanDarat[0].latitude
 						data.longitude = patroli.laporanDarat[0].longitude
 						const baseMarkerUrl =
-							'http://maps.google.com/mapfiles/ms/icons/'
+							'https://maps.google.com/mapfiles/ms/icons/'
 						if (patroli.kategori_patroli === 'Mandiri') {
 							data.marker = `${baseMarkerUrl}blue-dot.png`
 							counter.mandiri += 1
@@ -85,7 +85,13 @@ export default class PatroliService {
 				patroliRutin
 			}
 		} catch (error) {
-			return error
+			return {
+				patroliSpots,
+				counter,
+				patroliTerpadu,
+				patroliMandiri,
+				patroliRutin
+			}
 		}
 	}
 }

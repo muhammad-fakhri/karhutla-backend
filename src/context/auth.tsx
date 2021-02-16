@@ -56,7 +56,7 @@ const AuthContext = createContext<AuthContextType>({
 	}
 })
 
-export const AuthProvider: FC<{ children: any }> = ({ children }) => {
+export const AuthProvider: FC<{ children: ComponentType }> = ({ children }) => {
 	const [user, setUser] = useState<UserData>(DefaultUser)
 	const [loading, setLoading] = useState(true)
 
@@ -169,10 +169,8 @@ export const ProtectRoute = (
 			if (!isAuthenticated && !loading) router.push('/login')
 			if (isAuthRoute && isAuthenticated) router.push('/patroli')
 			if (limitedAccessRight && user.email) {
-				console.log('Enter access right check')
 				// Insufficient user access rights
 				if (user.roleLevel > 2) {
-					console.log('Enter access right insufficient')
 					alert(
 						'Hak akses anda tidak mencukupi untuk mengakses halaman ini'
 					)

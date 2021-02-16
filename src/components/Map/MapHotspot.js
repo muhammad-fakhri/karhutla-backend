@@ -19,7 +19,7 @@ function Map(props) {
 		const markers = []
 		const infowindows = []
 		const defaultMarker =
-			'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+			'https://maps.google.com/mapfiles/ms/icons/red-dot.png'
 		hotspots.forEach((hotspot) => {
 			markers.push(
 				new maps.Marker({

@@ -30,9 +30,10 @@ This project is the frontend module of the SIPP Karhutla, a joint project betwee
 
 ## Prepare for Production
 
-1. Build project and run production server  
+1. Copy `.env` to `.env.local` and set API Server IP env value
+2. Build project and run production server  
    `yarn prod:start`
-2. Access production server in  
+3. Access production server in  
    `http://localhost:3000`
 
 ## Static HTML Export
@@ -40,7 +41,7 @@ This project is the frontend module of the SIPP Karhutla, a joint project betwee
 1. Build project and export html  
    `yarn prod:export`
 2. Command above will build the project and export html static. The exported html files will be placed inside `/out` folder
-2. Deploy project files inside `/out` folder to the server
+3. Deploy project files inside `/out` folder to the server
 
 ## Developer Team
 
