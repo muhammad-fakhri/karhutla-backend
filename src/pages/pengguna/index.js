@@ -1,33 +1,33 @@
-import { useRouter } from 'next/router'
 import {
-	Paper,
 	CircularProgress,
 	Dialog,
 	DialogActions,
-	DialogTitle,
 	DialogContent,
+	DialogTitle,
 	IconButton,
-	TextField,
 	MenuItem,
-	Slide
+	Paper,
+	Slide,
+	TextField
 } from '@material-ui/core'
-import Alert from '@material-ui/lab/Alert'
 import { makeStyles } from '@material-ui/core/styles'
+import AddBoxIcon from '@material-ui/icons/AddBox'
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd'
+import Close from '@material-ui/icons/Close'
+import Alert from '@material-ui/lab/Alert'
 import classNames from 'classnames'
 import MaterialTable from 'material-table'
-import AddBoxIcon from '@material-ui/icons/AddBox'
-import Close from '@material-ui/icons/Close'
-import AssignmentIndIcon from '@material-ui/icons/AssignmentInd'
-import { isPusatRole, isBalaiRole, isDaopsRole } from '../../utils/role.util'
-import styles from '../../assets/jss/nextjs-material-kit/pages/pengguna.page.style'
-import SiteLayout from '../../components/Layout/SiteLayout'
-import Button from '../../components/CustomButtons/Button'
-import UserService from '../../services/user.service'
-import DaopsService from '../../services/daops.service'
-import BalaiService from '../../services/balai.service'
-import useAuth, { ProtectRoute } from '../../context/auth'
-import Loader from '../../components/Loader/Loader'
+import { useRouter } from 'next/router'
 import modalStyle from '../../assets/jss/nextjs-material-kit/modalStyle'
+import styles from '../../assets/jss/nextjs-material-kit/pages/pengguna.page.style'
+import Button from '../../components/CustomButtons/Button'
+import SiteLayout from '../../components/Layout/SiteLayout'
+import Loader from '../../components/Loader/Loader'
+import useAuth, { ProtectRoute } from '../../context/auth'
+import BalaiService from '../../services/balai.service'
+import DaopsService from '../../services/daops.service'
+import UserService from '../../services/user.service'
+import { isBalaiRole, isDaopsRole, isPusatRole } from '../../utils/role.util'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
 	return <Slide direction="down" ref={ref} {...props} />
@@ -133,17 +133,6 @@ function PenggunaPage() {
 		if (isAuthenticated) fetchData()
 	}, [isAuthenticated])
 
-	React.useEffect(() => {
-		if (user) {
-			if (user.roleLevel > 1) {
-				alert(
-					'Hak akses anda tidak mencukupi untuk mengakses halaman ini'
-				)
-				router.back()
-			}
-		}
-	}, [user])
-
 	return !isAuthenticated ? (
 		<Loader />
 	) : (
@@ -185,48 +174,28 @@ function PenggunaPage() {
 								tooltip: 'Tambah Pengguna',
 								isFreeAction: true,
 								onClick: (event) => {
-									if (user.roleLevel > 1) {
-										alert(
-											'Hak akses anda tidak mencukupi untuk melakukan operasi ini'
-										)
-									} else {
-										event.preventDefault()
-										router.push('/pengguna/tambah')
-									}
+									event.preventDefault()
+									router.push('/pengguna/tambah')
 								}
 							},
 							{
 								icon: 'edit',
 								tooltip: 'Ubah Data Pengguna',
 								onClick: (event, rowData) => {
-									if (user.roleLevel > 1) {
-										alert(
-											'Hak akses anda tidak mencukupi untuk melakukan operasi ini'
-										)
-									} else {
-										router.push(
-											`/pengguna/ubah/${rowData.id}`
-										)
-									}
+									router.push(`/pengguna/ubah/${rowData.id}`)
 								}
 							},
 							{
 								icon: AssignmentIndIcon,
 								tooltip: 'Tambah Hak Akses Pengguna',
 								onClick: (event, rowData) => {
-									if (user.roleLevel > 1) {
-										alert(
-											'Hak akses anda tidak mencukupi untuk melakukan operasi ini'
-										)
-									} else {
-										setModalUser({
-											...modalUser,
-											id: rowData.id,
-											name: rowData.name,
-											email: rowData.email
-										})
-										setOpenModal(true)
-									}
+									setModalUser({
+										...modalUser,
+										id: rowData.id,
+										name: rowData.name,
+										email: rowData.email
+									})
+									setOpenModal(true)
 								}
 							}
 						]}
@@ -246,39 +215,28 @@ function PenggunaPage() {
 						editable={{
 							onRowDelete: (oldData) =>
 								new Promise((resolve, reject) => {
-									if (user.roleLevel > 1) {
-										alert(
-											'Hak akses anda tidak mencukupi untuk melakukan operasi ini'
-										)
-										resolve()
-									} else {
-										UserService.deleteUser(oldData).then(
-											(result) => {
-												if (result.success) {
-													const dataDelete = [
-														...users
-													]
-													const index =
-														oldData.tableData.id
-													dataDelete.splice(index, 1)
-													setUsers(dataDelete)
-													setAlertType('success')
-													setAlertMessage(
-														'Hapus data pengguna berhasil'
-													)
-													setShowAlert(true)
-													resolve()
-												} else {
-													setAlertType('error')
-													setAlertMessage(
-														result.message
-													)
-													setShowAlert(true)
-													reject()
-												}
+									UserService.deleteUser(oldData).then(
+										(result) => {
+											if (result.success) {
+												const dataDelete = [...users]
+												const index =
+													oldData.tableData.id
+												dataDelete.splice(index, 1)
+												setUsers(dataDelete)
+												setAlertType('success')
+												setAlertMessage(
+													'Hapus data pengguna berhasil'
+												)
+												setShowAlert(true)
+												resolve()
+											} else {
+												setAlertType('error')
+												setAlertMessage(result.message)
+												setShowAlert(true)
+												reject()
 											}
-										)
-									}
+										}
+									)
 								})
 						}}
 					/>
@@ -408,4 +366,4 @@ function PenggunaPage() {
 	)
 }
 
-export default ProtectRoute(PenggunaPage)
+export default ProtectRoute(PenggunaPage, false, true)

@@ -1,4 +1,5 @@
 import {
+	Button,
 	CircularProgress,
 	IconButton,
 	InputAdornment,
@@ -13,7 +14,6 @@ import classNames from 'classnames'
 import profileBgImage from '../assets/img/profile-bg.jpg'
 import profile from '../assets/img/user.jpg'
 import styles from '../assets/jss/nextjs-material-kit/pages/profile.page.style'
-import Button from '../components/CustomButtons/Button'
 import GridContainer from '../components/Grid/GridContainer'
 import GridItem from '../components/Grid/GridItem'
 import SiteLayout from '../components/Layout/SiteLayout'
@@ -307,6 +307,7 @@ function ProfilePage() {
 												color="primary"
 												onClick={handleFormSubmit}
 												fullWidth
+												size="large"
 												className={
 													classes.descriptionTitle
 												}

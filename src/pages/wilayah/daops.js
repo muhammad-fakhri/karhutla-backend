@@ -205,4 +205,4 @@ function DaopsPage() {
 	)
 }
 
-export default ProtectRoute(DaopsPage)
+export default ProtectRoute(DaopsPage, false, true)

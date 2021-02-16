@@ -261,4 +261,4 @@ function UbahPoskoPage() {
 	)
 }
 
-export default ProtectRoute(UbahPoskoPage)
+export default ProtectRoute(UbahPoskoPage, false, true)

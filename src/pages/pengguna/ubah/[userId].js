@@ -179,4 +179,4 @@ function UbahPenggunaPage() {
 	)
 }
 
-export default ProtectRoute(UbahPenggunaPage)
+export default ProtectRoute(UbahPenggunaPage, false, true)

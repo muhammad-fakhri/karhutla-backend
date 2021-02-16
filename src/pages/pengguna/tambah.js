@@ -316,4 +316,4 @@ function TambahPenggunaPage() {
 	)
 }
 
-export default ProtectRoute(TambahPenggunaPage)
+export default ProtectRoute(TambahPenggunaPage, false, true)

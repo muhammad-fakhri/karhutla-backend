@@ -45,17 +45,6 @@ function WilayahPage() {
 		if (isAuthenticated) fetchData()
 	}, [isAuthenticated])
 
-	React.useEffect(() => {
-		if (user) {
-			if (user.roleLevel > 1) {
-				alert(
-					'Hak akses anda tidak mencukupi untuk mengakses halaman ini'
-				)
-				router.back()
-			}
-		}
-	}, [user])
-
 	return !isAuthenticated ? (
 		<Loader />
 	) : (
@@ -91,4 +80,4 @@ function WilayahPage() {
 	)
 }
 
-export default ProtectRoute(WilayahPage)
+export default ProtectRoute(WilayahPage, false, true)

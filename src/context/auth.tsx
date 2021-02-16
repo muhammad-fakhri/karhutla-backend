@@ -1,4 +1,4 @@
-import Router from 'next/router'
+import { useRouter } from 'next/router'
 import {
 	ComponentType,
 	createContext,
@@ -8,6 +8,7 @@ import {
 	useState
 } from 'react'
 import { API } from '../api'
+import { ServiceResponse } from '../interfaces'
 import { APIResponse, LoginResponse } from '../interfaces/api'
 import { UserData } from '../interfaces/data'
 import CookieService from '../services/cookies.service'
@@ -30,7 +31,7 @@ type AuthContextType = {
 	isAuthenticated: boolean
 	loading: boolean
 	user: UserData
-	login: (username: string, password: string) => Promise<unknown>
+	login: (username: string, password: string) => Promise<ServiceResponse>
 	logout: () => void
 }
 
@@ -71,7 +72,10 @@ export const AuthProvider: FC<{ children: any }> = ({ children }) => {
 		loadUserFromCookies()
 	}, [])
 
-	const login = async (username: string, password: string) => {
+	const login = async (
+		username: string,
+		password: string
+	): Promise<ServiceResponse> => {
 		// Login user
 		try {
 			const {
@@ -155,14 +159,27 @@ export default function useAuth(): AuthContextType {
 
 export const ProtectRoute = (
 	Page: ComponentType,
-	isAuthRoute = false
+	isAuthRoute = false,
+	limitedAccessRight = false
 ): (() => JSX.Element) => {
 	return () => {
-		const { isAuthenticated, loading } = useAuth()
+		const router = useRouter()
+		const { isAuthenticated, loading, user } = useAuth()
 		useEffect(() => {
-			if (!isAuthenticated && !loading) Router.push('/login')
-			if (isAuthRoute && isAuthenticated) Router.push('/patroli')
-		}, [loading, isAuthenticated])
+			if (!isAuthenticated && !loading) router.push('/login')
+			if (isAuthRoute && isAuthenticated) router.push('/patroli')
+			if (limitedAccessRight && user.email) {
+				console.log('Enter access right check')
+				// Insufficient user access rights
+				if (user.roleLevel > 2) {
+					console.log('Enter access right insufficient')
+					alert(
+						'Hak akses anda tidak mencukupi untuk mengakses halaman ini'
+					)
+					router.push('/patroli')
+				}
+			}
+		}, [loading, isAuthenticated, user])
 
 		return <Page />
 	}

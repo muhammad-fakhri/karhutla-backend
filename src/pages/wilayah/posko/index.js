@@ -144,4 +144,4 @@ function PoskoPage() {
 	)
 }
 
-export default ProtectRoute(PoskoPage)
+export default ProtectRoute(PoskoPage, false, true)

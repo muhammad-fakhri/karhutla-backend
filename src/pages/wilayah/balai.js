@@ -201,4 +201,4 @@ function BalaiPage() {
 	)
 }
 
-export default ProtectRoute(BalaiPage)
+export default ProtectRoute(BalaiPage, false, true)

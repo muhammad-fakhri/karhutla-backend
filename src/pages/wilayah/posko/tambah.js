@@ -304,4 +304,4 @@ function TambahPoskoPage() {
 	)
 }
 
-export default ProtectRoute(TambahPoskoPage)
+export default ProtectRoute(TambahPoskoPage, false, true)
