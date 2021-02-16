@@ -1,22 +1,15 @@
-import React from 'react'
-// nodejs library to set properties for components
-import PropTypes from 'prop-types'
-// nodejs library that concatenates classes
-import classNames from 'classnames'
-
-// @material-ui/core components
-import makeStyles from '@material-ui/core/styles/makeStyles'
 import Button from '@material-ui/core/Button'
-
-// core components
-
+import makeStyles from '@material-ui/core/styles/makeStyles'
 import buttonStyle from 'assets/jss/nextjs-material-kit/components/buttonStyle.js'
+import classNames from 'classnames'
+import PropTypes from 'prop-types'
+import { forwardRef } from 'react'
 
 const makeComponentStyles = makeStyles(() => ({
 	...buttonStyle
 }))
 
-const RegularButton = React.forwardRef((props, ref) => {
+const RegularButton = forwardRef((props, ref) => {
 	const {
 		color,
 		round,

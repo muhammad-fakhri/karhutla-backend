@@ -1,23 +1,23 @@
-import React from 'react'
-// nodejs library that concatenates classes
-import classNames from 'classnames'
-// nodejs library to set properties for components
-import PropTypes from 'prop-types'
-// @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
-// @material-ui/icons
-
-// core components
-import styles from 'assets/jss/nextjs-material-kit/components/cardHeaderStyle.js'
+import classNames from 'classnames'
+import PropTypes from 'prop-types'
+import { ReactNode } from 'react'
+import styles from '../../assets/jss/nextjs-material-kit/components/cardHeaderStyle'
 
 const useStyles = makeStyles(styles)
 
-export default function CardHeader(props) {
+export default function CardHeader(props: {
+	className: string
+	color: string
+	plain?: boolean
+	children: ReactNode
+}) {
 	const classes = useStyles()
 	const { className, children, color, plain, ...rest } = props
+	const cardHeaderIndex = (color + 'CardHeader') as 'cardHeader'
 	const cardHeaderClasses = classNames({
 		[classes.cardHeader]: true,
-		[classes[color + 'CardHeader']]: color,
+		[classes[cardHeaderIndex]]: color,
 		[classes.cardHeaderPlain]: plain,
 		[className]: className !== undefined
 	})

@@ -3,8 +3,8 @@ import { container } from '../../nextjs-material-kit'
 const loginPageStyle = {
 	container: {
 		...container,
-		zIndex: '2',
-		position: 'relative',
+		zIndex: 2,
+		position: 'relative' as const,
 		paddingTop: '20vh',
 		color: '#FFFFFF',
 		paddingBottom: '200px'
@@ -17,7 +17,7 @@ const loginPageStyle = {
 		minHeight: '100vh',
 		height: 'auto',
 		display: 'inherit',
-		position: 'relative',
+		position: 'relative' as const,
 		margin: '0',
 		padding: '0',
 		border: '0',
@@ -49,7 +49,7 @@ const loginPageStyle = {
 	},
 	cardHeader: {
 		width: 'auto',
-		textAlign: 'center',
+		textAlign: 'center' as const,
 		marginLeft: '20px',
 		marginRight: '20px',
 		marginTop: '-40px',
@@ -60,7 +60,8 @@ const loginPageStyle = {
 		paddingTop: '0rem',
 		border: '0',
 		borderRadius: '6px',
-		justifyContent: 'center !important'
+		justifyContent: 'center !important',
+		color: '#ffffff'
 	}
 }
 

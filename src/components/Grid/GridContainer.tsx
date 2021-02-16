@@ -1,10 +1,8 @@
-import React from 'react'
-// nodejs library to set properties for components
-import PropTypes from 'prop-types'
-
-// @material-ui/core components
+import { Grid, GridTypeMap } from '@material-ui/core'
+import { DefaultComponentProps } from '@material-ui/core/OverridableComponent'
 import { makeStyles } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 const styles = {
 	grid: {
@@ -16,7 +14,9 @@ const styles = {
 
 const useStyles = makeStyles(styles)
 
-export default function GridContainer(props) {
+export default function GridContainer(
+	props: DefaultComponentProps<GridTypeMap>
+) {
 	const classes = useStyles()
 	const { children, className, ...rest } = props
 	return (

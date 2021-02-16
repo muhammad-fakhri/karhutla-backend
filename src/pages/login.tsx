@@ -1,4 +1,5 @@
 import {
+	Button,
 	CircularProgress,
 	IconButton,
 	InputAdornment,
@@ -8,13 +9,12 @@ import { makeStyles } from '@material-ui/core/styles'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import Alert from '@material-ui/lab/Alert'
-import { useState } from 'react'
+import { ChangeEvent, MouseEvent, useState } from 'react'
 import styles from '../assets/jss/nextjs-material-kit/pages/login.page.style'
 import Card from '../components/Card/Card'
 import CardBody from '../components/Card/CardBody'
 import CardFooter from '../components/Card/CardFooter'
 import CardHeader from '../components/Card/CardHeader'
-import Button from '../components/CustomButtons/Button'
 import GridContainer from '../components/Grid/GridContainer'
 import GridItem from '../components/Grid/GridItem'
 import AuthLayout from '../components/Layout/AuthLayout'
@@ -38,8 +38,11 @@ function LoginPage() {
 	})
 	const handleClickShowPassword = () =>
 		setValues({ ...values, showPassword: !values.showPassword })
-	const handleMouseDownPassword = (event) => event.preventDefault()
-	const handleChange = (prop) => (event) => {
+	const handleMouseDownPassword = (event: MouseEvent) =>
+		event.preventDefault()
+	const handleChange = (prop: string) => (
+		event: ChangeEvent<HTMLInputElement>
+	) => {
 		setValues({ ...values, [prop]: event.target.value })
 	}
 	const handleSubmit = async () => {
@@ -53,7 +56,7 @@ function LoginPage() {
 			if (!result.success) {
 				setValues({
 					...values,
-					alertMessage: result.message,
+					alertMessage: result.message as string,
 					showAlert: true
 				})
 			}
@@ -69,9 +72,9 @@ function LoginPage() {
 		}
 	}
 
-	const [cardAnimaton, setCardAnimation] = useState('cardHidden')
+	const [cardAnimaton, setCardAnimation] = useState('cardHidden' as const)
 	setTimeout(function () {
-		setCardAnimation('')
+		setCardAnimation('' as 'cardHidden')
 	}, 700)
 	const classes = useStyles()
 
@@ -90,7 +93,7 @@ function LoginPage() {
 								>
 									<h4>Login ke SIPP Karhutla</h4>
 								</CardHeader>
-								<CardBody>
+								<CardBody className={''}>
 									{values.showAlert ? (
 										<Alert severity="error">
 											{values.alertMessage}
@@ -147,10 +150,11 @@ function LoginPage() {
 										<CircularProgress />
 									) : (
 										<Button
-											simple
+											variant="contained"
 											color="primary"
-											size="lg"
+											size="large"
 											onClick={handleSubmit}
+											fullWidth
 										>
 											Login
 										</Button>
