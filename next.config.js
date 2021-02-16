@@ -1,12 +1,23 @@
 const withPlugins = require('next-compose-plugins')
-const withImages = require('next-images')
+const optimizedImages = require('next-optimized-images')
 const withSass = require('@zeit/next-sass')
 const webpack = require('webpack')
 const path = require('path')
 
-module.exports = withPlugins([[withSass], [withImages]], {
-	webpack(config, options) {
-		config.resolve.modules.push(path.resolve('./src'))
-		return config
+module.exports = withPlugins(
+	[
+		[withSass],
+		[
+			optimizedImages,
+			{
+				optimizeImagesInDev: true
+			}
+		]
+	],
+	{
+		webpack(config, options) {
+			config.resolve.modules.push(path.resolve('./src'))
+			return config
+		}
 	}
-})
+)
