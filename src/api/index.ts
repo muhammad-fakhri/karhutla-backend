@@ -6,7 +6,7 @@ import axios, {
 } from 'axios'
 import CookieService from '../services/cookies.service'
 
-const serverIP = 'http://103.129.223.216'
+const serverIP = 'https://103.129.223.216'
 
 export const apiUrl = `${serverIP}/api_dev`
 export const simaduApiUrl = `${serverIP}/api/simadu`
