@@ -1,19 +1,21 @@
-import React from 'react'
-import Document, { Head, Main, NextScript } from 'next/document'
 import { ServerStyleSheets } from '@material-ui/styles'
-import favicon from '../assets/img/favicon.png'
+import Document, {
+	DocumentContext,
+	Head,
+	Html,
+	Main,
+	NextScript
+} from 'next/document'
+import { Fragment } from 'react'
 import appleIcon from '../assets/img/apple-icon.png'
+import favicon from '../assets/img/favicon.png'
 
 class MyDocument extends Document {
 	render() {
 		return (
-			<html lang="en">
+			<Html lang="en">
 				<Head>
 					<meta charSet="utf-8" />
-					<meta
-						name="viewport"
-						content="width=device-width, initial-scale=1, shrink-to-fit=no"
-					/>
 					<meta name="theme-color" content="#000000" />
 					<link rel="shortcut icon" href={favicon} />
 					<link
@@ -37,12 +39,12 @@ class MyDocument extends Document {
 					<Main />
 					<NextScript />
 				</body>
-			</html>
+			</Html>
 		)
 	}
 }
 
-MyDocument.getInitialProps = async (ctx) => {
+MyDocument.getInitialProps = async (ctx: DocumentContext) => {
 	// Resolution order
 	//
 	// On the server:
@@ -80,10 +82,10 @@ MyDocument.getInitialProps = async (ctx) => {
 		...initialProps,
 		// Styles fragment is rendered after the app and page rendering finish.
 		styles: [
-			<React.Fragment key="styles">
+			<Fragment key="styles">
 				{initialProps.styles}
 				{sheets.getStyleElement()}
-			</React.Fragment>
+			</Fragment>
 		]
 	}
 }

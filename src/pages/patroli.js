@@ -1,22 +1,23 @@
-import moment from 'moment'
-import classNames from 'classnames'
-import MaterialTable from 'material-table'
-import Datetime from 'react-datetime'
 import {
+	CircularProgress,
 	Divider,
 	FormControl,
 	Grid,
-	Paper,
-	CircularProgress
+	Paper
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload'
+import classNames from 'classnames'
+import MaterialTable from 'material-table'
+import moment from 'moment'
+import { useEffect, useState } from 'react'
+import Datetime from 'react-datetime'
+import styles from '../assets/jss/nextjs-material-kit/pages/patrol.page.style'
+import SiteLayout from '../components/Layout/SiteLayout'
+import Loader from '../components/Loader/Loader'
+import MapContainer from '../components/Map/MapPatroli'
 import useAuth, { ProtectRoute } from '../context/auth'
 import PatroliService from '../services/patroli.service'
-import SiteLayout from '../components/Layout/SiteLayout'
-import MapContainer from '../components/Map/MapPatroli'
-import Loader from '../components/Loader/Loader'
-import styles from '../assets/jss/nextjs-material-kit/pages/patrol.page.style'
 
 const useStyles = makeStyles(styles)
 
@@ -29,16 +30,16 @@ const column = [
 function PatroliPage() {
 	const classes = useStyles()
 	const { isAuthenticated } = useAuth()
-	const [loading, setLoading] = React.useState(true)
-	const [date, setDate] = React.useState(moment())
-	const [mandiriCounter, setMandiriCounter] = React.useState(0)
-	const [rutinCounter, setRutinCounter] = React.useState(0)
-	const [terpaduCounter, setTerpaduCounter] = React.useState(0)
-	const [terpadu, setTerpadu] = React.useState()
-	const [mandiri, setMandiri] = React.useState()
-	const [rutin, setRutin] = React.useState()
-	const [spots, setSpots] = React.useState()
-	React.useEffect(() => {
+	const [loading, setLoading] = useState(true)
+	const [date, setDate] = useState(moment())
+	const [mandiriCounter, setMandiriCounter] = useState(0)
+	const [rutinCounter, setRutinCounter] = useState(0)
+	const [terpaduCounter, setTerpaduCounter] = useState(0)
+	const [terpadu, setTerpadu] = useState()
+	const [mandiri, setMandiri] = useState()
+	const [rutin, setRutin] = useState()
+	const [spots, setSpots] = useState()
+	useEffect(() => {
 		const updatePatroli = async () => {
 			const patroliData = await PatroliService.getPatroli(
 				date.format('D-M-YYYY')

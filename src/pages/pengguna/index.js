@@ -18,6 +18,7 @@ import Alert from '@material-ui/lab/Alert'
 import classNames from 'classnames'
 import MaterialTable from 'material-table'
 import { useRouter } from 'next/router'
+import { forwardRef, useEffect, useState } from 'react'
 import modalStyle from '../../assets/jss/nextjs-material-kit/modalStyle'
 import styles from '../../assets/jss/nextjs-material-kit/pages/pengguna.page.style'
 import Button from '../../components/CustomButtons/Button'
@@ -29,7 +30,7 @@ import DaopsService from '../../services/daops.service'
 import UserService from '../../services/user.service'
 import { isBalaiRole, isDaopsRole, isPusatRole } from '../../utils/role.util'
 
-const Transition = React.forwardRef(function Transition(props, ref) {
+const Transition = forwardRef(function Transition(props, ref) {
 	return <Slide direction="down" ref={ref} {...props} />
 })
 
@@ -48,23 +49,23 @@ function PenggunaPage() {
 	const useModalStyles = makeStyles(modalStyle)
 	const classes = useStyles()
 	const modalClasses = useModalStyles()
-	const [roleType, setRoleType] = React.useState('pusat')
-	const [openModal, setOpenModal] = React.useState(false)
-	const [modalUser, setModalUser] = React.useState({
+	const [roleType, setRoleType] = useState('pusat')
+	const [openModal, setOpenModal] = useState(false)
+	const [modalUser, setModalUser] = useState({
 		id: '',
 		name: '',
 		email: '',
 		role: '',
 		organization: ''
 	})
-	const [daops, setDaops] = React.useState([])
-	const [balai, setBalai] = React.useState([])
-	const [roles, setRoles] = React.useState([])
-	const [users, setUsers] = React.useState([])
-	const [showAlert, setShowAlert] = React.useState(false)
-	const [loading, setLoading] = React.useState(true)
-	const [alertType, setAlertType] = React.useState('success')
-	const [alertMessage, setAlertMessage] = React.useState()
+	const [daops, setDaops] = useState([])
+	const [balai, setBalai] = useState([])
+	const [roles, setRoles] = useState([])
+	const [users, setUsers] = useState([])
+	const [showAlert, setShowAlert] = useState(false)
+	const [loading, setLoading] = useState(true)
+	const [alertType, setAlertType] = useState('success')
+	const [alertMessage, setAlertMessage] = useState()
 	const handleRoleChange = (event) => {
 		if (isPusatRole(event.target.value)) {
 			setRoleType('pusat')
@@ -112,7 +113,7 @@ function PenggunaPage() {
 		})
 		setRoleType('pusat')
 	}
-	React.useEffect(() => {
+	useEffect(() => {
 		const fetchData = async () => {
 			const roles = await UserService.getNonPatroliRoles()
 			const daops = await DaopsService.getAllDaops()

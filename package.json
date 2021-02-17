@@ -1,5 +1,5 @@
 {
-	"name": "karhutla-frontend",
+	"name": "sipp-karhutla",
 	"version": "1.0.0",
 	"description": "Sistem Informasi Patroli Pencegahan Kebakaran Hutan dan Lahan di Wilayah Sumatera",
 	"scripts": {
@@ -15,7 +15,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/muhammad-fakhri/karhutla-frontend.git"
+		"url": "git+https://github.com/muhammad-fakhri/sipp-karhutla.git"
 	},
 	"author": "Muhammad Fakhri",
 	"license": "MIT",
@@ -23,7 +23,7 @@
 	"dependencies": {
 		"@date-io/date-fns": "^1.3.13",
 		"@material-ui/core": "^4.9.13",
-		"@material-ui/icons": "4.9.1",
+		"@material-ui/icons": "^4.11.2",
 		"@material-ui/lab": "^4.0.0-alpha.56",
 		"@material-ui/pickers": "^3.2.10",
 		"@material-ui/styles": "^4.10.0",
@@ -33,15 +33,15 @@
 		"axios": "^0.20.0",
 		"classnames": "2.2.6",
 		"date-fns": "^2.15.0",
-		"google-map-react": "^1.1.7",
+		"google-map-react": "^2.1.9",
 		"google-maps-react": "^2.0.6",
 		"imagemin-mozjpeg": "^9.0.0",
 		"imagemin-optipng": "^8.0.0",
 		"isomorphic-unfetch": "^3.0.0",
 		"js-cookie": "^2.2.1",
-		"material-table": "^1.68.1",
+		"material-table": "^1.69.2",
 		"moment": "2.25.3",
-		"next": "9.3.6",
+		"next": "^10.0.7",
 		"next-compose-plugins": "2.2.0",
 		"next-images": "^1.7.0",
 		"next-optimized-images": "^2.6.2",
@@ -50,15 +50,17 @@
 		"nouislider": "14.4.0",
 		"path": "0.12.7",
 		"prop-types": "15.7.2",
-		"react": "16.13.1",
+		"react": "^17.0.1",
+		"react-beautiful-dnd": "^13.0.0",
 		"react-datetime": "2.16.3",
-		"react-dom": "16.13.1",
-		"react-slick": "0.25.2",
-		"react-swipeable-views": "0.13.9",
+		"react-dom": "^17.0.1",
+		"react-scripts": "4.0.0",
+		"react-slick": "^0.28.0",
+		"react-swipeable-views": "^0.13.9",
 		"styled-components": "5.1.0",
 		"swr": "^0.3.0",
 		"terser": "^5.6.0-beta",
-		"webpack": "4.43.0"
+		"webpack": "4.43"
 	},
 	"devDependencies": {
 		"@types/node": "^14.14.25",
@@ -75,7 +77,8 @@
 		"husky": "^4.3.0",
 		"lint-staged": "^10.5.1",
 		"prettier": "^2.2.1",
-		"typescript": "^4.1.3"
+		"typescript": "^4.1.3",
+		"webpack-cli": "^4.5.0"
 	},
 	"husky": {
 		"hooks": {

@@ -1,7 +1,6 @@
 import { Grid, GridTypeMap, makeStyles, StyleRules } from '@material-ui/core'
 import { DefaultComponentProps } from '@material-ui/core/OverridableComponent'
 import PropTypes from 'prop-types'
-import React from 'react'
 
 const styles: StyleRules<'grid'> = {
 	grid: {

@@ -11,6 +11,7 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import { Alert } from '@material-ui/lab'
 import classNames from 'classnames'
 import 'date-fns'
+import { useState } from 'react'
 import styles from '../../assets/jss/nextjs-material-kit/pages/penugasan/create-penugasan.page.style'
 import Button from '../../components/CustomButtons/Button'
 import GridItem from '../../components/Grid/GridItem'
@@ -42,12 +43,12 @@ const AlertElement = (props) =>
 function BerkasPenugasanPage() {
 	const classes = useStyles()
 	const { isAuthenticated } = useAuth()
-	const [workFile, setWorkFile] = React.useState()
-	const [workType, setWorkType] = React.useState('')
-	const [alertMessage, setAlertMessage] = React.useState()
-	const [show, setShow] = React.useState(false)
-	const [alertSuccess, setAlertSuccess] = React.useState(true)
-	const [loading, setLoading] = React.useState(false)
+	const [workFile, setWorkFile] = useState()
+	const [workType, setWorkType] = useState('')
+	const [alertMessage, setAlertMessage] = useState()
+	const [show, setShow] = useState(false)
+	const [alertSuccess, setAlertSuccess] = useState(true)
+	const [loading, setLoading] = useState(false)
 
 	const handleFileChange = (event) => {
 		setWorkFile(event.target.files[0])

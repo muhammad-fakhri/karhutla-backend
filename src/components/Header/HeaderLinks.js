@@ -1,11 +1,10 @@
+import { Icon, List, ListItem } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { List, ListItem, Icon } from '@material-ui/core'
 import Link from 'next/link'
-import React from 'react'
 import styles from '../../assets/jss/nextjs-material-kit/components/headerLinksStyle'
-import CustomDropdown from '../CustomDropdown/CustomDropdown'
-import Button from '../CustomButtons/Button'
 import useAuth from '../../context/auth'
+import Button from '../CustomButtons/Button'
+import CustomDropdown from '../CustomDropdown/CustomDropdown'
 
 const useStyles = makeStyles(styles)
 

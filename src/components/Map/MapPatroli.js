@@ -1,3 +1,4 @@
+import React from "react";
 import { GoogleApiWrapper, InfoWindow, Map, Marker } from 'google-maps-react'
 
 export class MapContainer extends React.Component {
@@ -106,7 +107,7 @@ export class MapContainer extends React.Component {
 					<>
 						<br />
 						<center>
-							<a href={reportLink} target="_blank">
+							<a href={reportLink} target="_blank" rel="noreferrer">
 								Unduh Laporan
 							</a>
 						</center>

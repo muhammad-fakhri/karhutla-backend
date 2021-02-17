@@ -11,6 +11,7 @@ import Loader from '../../../components/Loader/Loader'
 import NavBtnGroup from '../../../components/NavBtnGroup'
 import useAuth, { ProtectRoute } from '../../../context/auth'
 import PoskoService from '../../../services/posko.service'
+import { useEffect, useState } from 'react'
 
 const useStyles = makeStyles(styles)
 const column = [
@@ -27,12 +28,12 @@ function PoskoPage() {
 	const router = useRouter()
 	const { message } = router.query
 	const classes = useStyles()
-	const [posko, setPosko] = React.useState([])
-	const [loading, setLoading] = React.useState(true)
-	const [showAlert, setShowAlert] = React.useState(false)
-	const [alertType, setAlertType] = React.useState('success')
-	const [alertMessage, setAlertMessage] = React.useState()
-	React.useEffect(() => {
+	const [posko, setPosko] = useState([])
+	const [loading, setLoading] = useState(true)
+	const [showAlert, setShowAlert] = useState(false)
+	const [alertType, setAlertType] = useState('success')
+	const [alertMessage, setAlertMessage] = useState()
+	useEffect(() => {
 		const fetchData = async () => {
 			const data = await PoskoService.getAllPosko()
 			setPosko(data)

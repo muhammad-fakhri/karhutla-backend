@@ -1,25 +1,20 @@
-import React from 'react'
-// nodejs library that concatenates classes
-import classNames from 'classnames'
-// nodejs library to set properties for components
-import PropTypes from 'prop-types'
-// @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles'
-
-// core components
-import styles from 'assets/jss/nextjs-material-kit/components/parallaxStyle.js'
+import classNames from 'classnames'
+import PropTypes from 'prop-types'
+import { useEffect, useState } from 'react'
+import styles from '../../assets/jss/nextjs-material-kit/components/parallaxStyle.js'
 
 const useStyles = makeStyles(styles)
 
 export default function Parallax(props) {
-	let windowScrollTop
+	// let windowScrollTop
 	// if (window.innerWidth >= 768) {
 	//   windowScrollTop = window.pageYOffset / 3;
 	// } else {
 	//   windowScrollTop = 0;
 	// }
-	const [transform, setTransform] = React.useState('translate3d(0,0px,0)')
-	React.useEffect(() => {
+	const [transform, setTransform] = useState('translate3d(0,0px,0)')
+	useEffect(() => {
 		if (window.innerWidth >= 768) {
 			window.addEventListener('scroll', resetTransform)
 		}

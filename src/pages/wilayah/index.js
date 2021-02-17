@@ -2,7 +2,7 @@ import { CircularProgress, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
 import MaterialTable from 'material-table'
-import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import styles from '../../assets/jss/nextjs-material-kit/pages/wilayah-kerja.page.style'
 import SiteLayout from '../../components/Layout/SiteLayout'
 import Loader from '../../components/Loader/Loader'
@@ -28,15 +28,14 @@ const column = [
 ]
 
 function WilayahPage() {
-	const { isAuthenticated, user } = useAuth()
-	const router = useRouter()
+	const { isAuthenticated } = useAuth()
 	const useStyles = makeStyles(styles)
 	const classes = useStyles()
-	const [loading, setLoading] = React.useState(true)
-	const [values, setValues] = React.useState({
+	const [loading, setLoading] = useState(true)
+	const [values, setValues] = useState({
 		wilayah: []
 	})
-	React.useEffect(() => {
+	useEffect(() => {
 		const fetchData = async () => {
 			const data = await WilayahService.getAllWilayah()
 			setValues({ ...values, wilayah: data })

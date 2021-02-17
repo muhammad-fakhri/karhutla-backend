@@ -10,6 +10,7 @@ import NavBtnGroup from '../../components/NavBtnGroup'
 import useAuth, { ProtectRoute } from '../../context/auth'
 import BalaiService from '../../services/balai.service'
 import DaopsService from '../../services/daops.service'
+import { useEffect, useState } from 'react'
 
 const generateBalaiLookup = async () => {
 	const data = {}
@@ -26,10 +27,10 @@ function DaopsPage() {
 	const { isAuthenticated } = useAuth()
 	const useStyles = makeStyles(styles)
 	const classes = useStyles()
-	const [show, setShow] = React.useState(false)
-	const [column, setColumn] = React.useState([])
-	const [loading, setLoading] = React.useState(true)
-	const [values, setValues] = React.useState({
+	const [show, setShow] = useState(false)
+	const [column, setColumn] = useState([])
+	const [loading, setLoading] = useState(true)
+	const [values, setValues] = useState({
 		daops: [],
 		alertMessage: '',
 		successAlert: true
@@ -41,7 +42,7 @@ function DaopsPage() {
 			setShow(false)
 		}, 3000)
 	}
-	React.useEffect(() => {
+	useEffect(() => {
 		const setLookup = async () => {
 			const balaiLookup = await generateBalaiLookup()
 			const column = [
@@ -57,7 +58,7 @@ function DaopsPage() {
 		}
 		if (isAuthenticated) setLookup()
 	}, [isAuthenticated])
-	React.useEffect(() => {
+	useEffect(() => {
 		const fetchData = async () => {
 			const data = await DaopsService.getAllDaops()
 			setValues({ ...values, daops: data })

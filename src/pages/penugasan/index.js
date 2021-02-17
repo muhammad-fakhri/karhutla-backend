@@ -12,6 +12,7 @@ import SiteLayout from '../../components/Layout/SiteLayout'
 import Loader from '../../components/Loader/Loader'
 import useAuth, { ProtectRoute } from '../../context/auth'
 import PenugasanService from '../../services/penugasan.service'
+import { useEffect, useState } from 'react'
 
 const useStyles = makeStyles(styles)
 
@@ -26,9 +27,9 @@ function PenugasanPage() {
 	const classes = useStyles()
 	const { isAuthenticated, user } = useAuth()
 	const router = useRouter()
-	const [penugasan, setPenugasan] = React.useState([])
-	const [loading, setLoading] = React.useState(true)
-	React.useEffect(() => {
+	const [penugasan, setPenugasan] = useState([])
+	const [loading, setLoading] = useState(true)
+	useEffect(() => {
 		const fetchData = async () => {
 			const data = await PenugasanService.getAllPenugasan()
 			setPenugasan(data)

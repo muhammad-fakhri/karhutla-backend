@@ -21,6 +21,7 @@ import useAuth, { ProtectRoute } from '../../../../context/auth'
 import PoskoService from '../../../../services/posko.service'
 import DaopsService from '../../../../services/daops.service'
 import WilayahService from '../../../../services/wilayah.service'
+import { useEffect, useState } from 'react'
 
 const useStyles = makeStyles(styles)
 
@@ -36,10 +37,10 @@ function UbahPoskoPage() {
 	const { isAuthenticated } = useAuth()
 	const router = useRouter()
 	const { poskoId } = router.query
-	const [loading, setLoading] = React.useState(false)
-	const [daopsOptionData, setDaopsOptionData] = React.useState([])
-	const [kecamatan, setKecamatan] = React.useState([])
-	const [values, setValues] = React.useState({
+	const [loading, setLoading] = useState(false)
+	const [daopsOptionData, setDaopsOptionData] = useState([])
+	const [kecamatan, setKecamatan] = useState([])
+	const [values, setValues] = useState({
 		id: '',
 		oldName: '',
 		name: '',
@@ -68,7 +69,7 @@ function UbahPoskoPage() {
 		}
 		setLoading(false)
 	}
-	React.useEffect(() => {
+	useEffect(() => {
 		const setOptionData = async () => {
 			const daops = await DaopsService.getAllDaops()
 			const kecamatan = await WilayahService.getAllKecamatan()

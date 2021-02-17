@@ -1,29 +1,30 @@
-import { FormControl, Grid, CircularProgress } from '@material-ui/core'
+import { CircularProgress, FormControl, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
 import moment from 'moment'
+import { useEffect, useState } from 'react'
 import Datetime from 'react-datetime'
+import forestFireImage from '../assets/img/forest-fire.jpg'
 import styles from '../assets/jss/nextjs-material-kit/pages/front.page.style'
 import SiteLayout from '../components/Layout/SiteLayout'
 import MapContainer from '../components/Map/MapPatroli'
 import Parallax from '../components/Parallax/Parallax'
 import useAuth from '../context/auth'
 import PatroliService from '../services/patroli.service'
-import forestFireImage from '../assets/img/forest-fire.jpg'
 
 const useStyles = makeStyles(styles)
 
 export default function FrontPage() {
 	const classes = useStyles()
 	const { isAuthenticated } = useAuth()
-	const [date, setDate] = React.useState(moment())
-	const [loading, setLoading] = React.useState(true)
-	const [mandiri, setMandiri] = React.useState(0)
-	const [rutin, setRutin] = React.useState(0)
-	const [terpadu, setTerpadu] = React.useState(0)
-	const [spots, setSpots] = React.useState()
+	const [date, setDate] = useState(moment())
+	const [loading, setLoading] = useState(true)
+	const [mandiri, setMandiri] = useState(0)
+	const [rutin, setRutin] = useState(0)
+	const [terpadu, setTerpadu] = useState(0)
+	const [spots, setSpots] = useState()
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const updatePatroli = async () => {
 			const patroliData = await PatroliService.getPatroli(
 				date.format('D-M-YYYY')

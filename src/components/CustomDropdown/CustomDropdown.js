@@ -1,29 +1,22 @@
-import React from 'react'
-// nodejs library that concatenates classes
-import classNames from 'classnames'
-// nodejs library to set properties for components
-import PropTypes from 'prop-types'
-
-// @material-ui/core components
-import { makeStyles } from '@material-ui/core/styles'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
+import Divider from '@material-ui/core/Divider'
+import Grow from '@material-ui/core/Grow'
+import Icon from '@material-ui/core/Icon'
 import MenuItem from '@material-ui/core/MenuItem'
 import MenuList from '@material-ui/core/MenuList'
-import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import Paper from '@material-ui/core/Paper'
-import Grow from '@material-ui/core/Grow'
-import Divider from '@material-ui/core/Divider'
-import Icon from '@material-ui/core/Icon'
 import Popper from '@material-ui/core/Popper'
-
-// core components
-import Button from 'components/CustomButtons/Button.js'
-
-import styles from 'assets/jss/nextjs-material-kit/components/customDropdownStyle.js'
+import { makeStyles } from '@material-ui/core/styles'
+import classNames from 'classnames'
+import PropTypes from 'prop-types'
+import { useState } from 'react'
+import styles from '../../assets/jss/nextjs-material-kit/components/customDropdownStyle.js'
+import Button from '../CustomButtons/Button.js'
 
 const useStyles = makeStyles(styles)
 
 export default function CustomDropdown(props) {
-	const [anchorEl, setAnchorEl] = React.useState(null)
+	const [anchorEl, setAnchorEl] = useState(null)
 	const handleClick = (event) => {
 		if (anchorEl && anchorEl.contains(event.target)) {
 			setAnchorEl(null)

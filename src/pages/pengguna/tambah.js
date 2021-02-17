@@ -1,25 +1,26 @@
-import { useRouter } from 'next/router'
 import {
+	Box,
 	CircularProgress,
-	IconButton,
-	TextField,
-	InputAdornment,
-	Grid,
 	Dialog,
-	Typography,
-	Box
+	Grid,
+	IconButton,
+	InputAdornment,
+	TextField,
+	Typography
 } from '@material-ui/core'
-import MuiDialogTitle from '@material-ui/core/DialogTitle'
 import MuiDialogContent from '@material-ui/core/DialogContent'
+import MuiDialogTitle from '@material-ui/core/DialogTitle'
+import { makeStyles } from '@material-ui/core/styles'
+import CloseIcon from '@material-ui/icons/Close'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
-import CloseIcon from '@material-ui/icons/Close'
 import classNames from 'classnames'
-import { makeStyles } from '@material-ui/core/styles'
-import SiteLayout from '../../components/Layout/SiteLayout'
-import Button from '../../components/CustomButtons/Button'
-import Loader from '../../components/Loader/Loader'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
 import styles from '../../assets/jss/nextjs-material-kit/pages/create-pengguna.page.style'
+import Button from '../../components/CustomButtons/Button'
+import SiteLayout from '../../components/Layout/SiteLayout'
+import Loader from '../../components/Loader/Loader'
 import useAuth, { ProtectRoute } from '../../context/auth'
 import UserService from '../../services/user.service'
 
@@ -50,8 +51,8 @@ function TambahPenggunaPage() {
 	const classes = useStyles()
 	const { isAuthenticated } = useAuth()
 	const router = useRouter()
-	const [loading, setLoading] = React.useState(false)
-	const [values, setValues] = React.useState({
+	const [loading, setLoading] = useState(false)
+	const [values, setValues] = useState({
 		registrationNumber: '',
 		name: '',
 		email: '',

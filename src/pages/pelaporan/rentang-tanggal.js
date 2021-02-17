@@ -9,6 +9,7 @@ import {
 } from '@material-ui/pickers'
 import classNames from 'classnames'
 import 'date-fns'
+import { useState } from 'react'
 import styles from '../../assets/jss/nextjs-material-kit/pages/pelaporan/rentang-tanggal.page.style'
 import Button from '../../components/CustomButtons/Button'
 import SiteLayout from '../../components/Layout/SiteLayout'
@@ -21,10 +22,10 @@ const useStyles = makeStyles(styles)
 function PelaporanRentangTanggalPage() {
 	const classes = useStyles()
 	const { isAuthenticated } = useAuth()
-	const [startDate, setStartDate] = React.useState(new Date())
-	const [endDate, setEndDate] = React.useState(new Date())
-	const [show, setShow] = React.useState(false)
-	const [alertMessage, setAlertMessage] = React.useState('')
+	const [startDate, setStartDate] = useState(new Date())
+	const [endDate, setEndDate] = useState(new Date())
+	const [show, setShow] = useState(false)
+	const [alertMessage, setAlertMessage] = useState('')
 	const handleStartDateChange = (date) => setStartDate(date)
 
 	const handleEndDateChange = (date) => setEndDate(date)

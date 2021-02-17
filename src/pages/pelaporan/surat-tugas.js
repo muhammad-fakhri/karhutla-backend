@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload'
 import classNames from 'classnames'
 import MaterialTable from 'material-table'
+import { useEffect, useState } from 'react'
 import styles from '../../assets/jss/nextjs-material-kit/pages/pelaporan/surat-tugas.page.style'
 import SiteLayout from '../../components/Layout/SiteLayout'
 import Loader from '../../components/Loader/Loader'
@@ -21,9 +22,9 @@ const columns = [
 function PelaporanSuratTugasPage() {
 	const classes = useStyles()
 	const { isAuthenticated } = useAuth()
-	const [penugasan, setPenugasan] = React.useState([])
-	const [loading, setLoading] = React.useState(true)
-	React.useEffect(() => {
+	const [penugasan, setPenugasan] = useState([])
+	const [loading, setLoading] = useState(true)
+	useEffect(() => {
 		const fetchData = async () => {
 			const data = await PenugasanService.getAllPenugasan()
 			setPenugasan(data)

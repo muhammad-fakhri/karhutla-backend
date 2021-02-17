@@ -1,12 +1,13 @@
-import { Icon, Grid, CircularProgress } from '@material-ui/core'
-import classNames from 'classnames'
+import { CircularProgress, Grid, Icon } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import classNames from 'classnames'
 import moment from 'moment'
+import { useEffect, useState } from 'react'
 import useSWR from 'swr'
-import SiteLayout from '../components/Layout/SiteLayout'
-import Map from '../components/Map/MapHotspot'
-import Loader from '../components/Loader/Loader'
 import styles from '../assets/jss/nextjs-material-kit/pages/hotspot.page.style'
+import SiteLayout from '../components/Layout/SiteLayout'
+import Loader from '../components/Loader/Loader'
+import Map from '../components/Map/MapHotspot'
 import useAuth, { ProtectRoute } from '../context/auth'
 import HotspotService from '../services/hotspot.service'
 
@@ -15,8 +16,8 @@ const useStyles = makeStyles(styles)
 function HotspotPage() {
 	const classes = useStyles()
 	const { isAuthenticated } = useAuth()
-	const [hotspot, setHotspot] = React.useState([])
-	const [date, setDate] = React.useState(moment())
+	const [hotspot, setHotspot] = useState([])
+	const [date, setDate] = useState(moment())
 	const { data, isValidating } = useSWR(
 		isAuthenticated
 			? `/public/api/hotspot-sipongi/date-range?start_date=
@@ -25,7 +26,7 @@ function HotspotPage() {
 			: null,
 		HotspotService.getHotspot
 	)
-	React.useEffect(() => {
+	useEffect(() => {
 		if (data) {
 			setHotspot(data)
 			setDate(moment())

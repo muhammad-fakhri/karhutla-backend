@@ -10,6 +10,7 @@ import NavBtnGroup from '../../components/NavBtnGroup'
 import useAuth, { ProtectRoute } from '../../context/auth'
 import BalaiService from '../../services/balai.service'
 import WilayahService from '../../services/wilayah.service'
+import { useEffect, useState } from 'react'
 
 const generateWilayahLookup = async () => {
 	const data = {}
@@ -26,10 +27,10 @@ function BalaiPage() {
 	const { isAuthenticated } = useAuth()
 	const useStyles = makeStyles(styles)
 	const classes = useStyles()
-	const [show, setShow] = React.useState(false)
-	const [column, setColumn] = React.useState([])
-	const [loading, setLoading] = React.useState(true)
-	const [values, setValues] = React.useState({
+	const [show, setShow] = useState(false)
+	const [column, setColumn] = useState([])
+	const [loading, setLoading] = useState(true)
+	const [values, setValues] = useState({
 		balai: [],
 		alertMessage: '',
 		successAlert: true
@@ -41,7 +42,7 @@ function BalaiPage() {
 			setShow(false)
 		}, 3000)
 	}
-	React.useEffect(() => {
+	useEffect(() => {
 		const fetchData = async () => {
 			const wilayahLookup = await generateWilayahLookup()
 			const column = [

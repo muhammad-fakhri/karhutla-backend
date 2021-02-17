@@ -1,10 +1,15 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import Header from '../Header/Header'
 import HeaderLinks from '../Header/HeaderLinks'
 import Footer from '../Footer/Footer'
 
-export default function SiteLayout(props) {
+type PropType = {
+	children: JSX.Element
+	scrollChange: boolean
+	headerColor: string
+}
+
+export default function SiteLayout(props: PropType) {
 	let scrollChangeOption = null
 	if (props.scrollChange) {
 		scrollChangeOption = {
@@ -12,7 +17,7 @@ export default function SiteLayout(props) {
 			color: 'white'
 		}
 	} else {
-		scrollChangeOption = {}
+		scrollChangeOption = null
 	}
 
 	return (

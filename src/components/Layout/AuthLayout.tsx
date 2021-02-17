@@ -5,7 +5,7 @@ import Header from '../Header/Header'
 
 const useStyles = makeStyles(styles)
 
-export default function AuthLayout(props) {
+export default function AuthLayout(props: { children: JSX.Element }) {
 	const classes = useStyles()
 
 	return (

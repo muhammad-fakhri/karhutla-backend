@@ -11,6 +11,7 @@ import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import Alert from '@material-ui/lab/Alert'
 import classNames from 'classnames'
+import { useEffect, useState } from 'react'
 import profileBgImage from '../assets/img/profile-bg.jpg'
 import profile from '../assets/img/user.jpg'
 import styles from '../assets/jss/nextjs-material-kit/pages/profile.page.style'
@@ -34,8 +35,8 @@ function ProfilePage() {
 		classes.imgFluid
 	)
 
-	const [loading, setLoading] = React.useState(false)
-	const [values, setValues] = React.useState({
+	const [loading, setLoading] = useState(false)
+	const [values, setValues] = useState({
 		id: 0,
 		registrationNumber: '',
 		oldRegistrationNumber: '',
@@ -90,7 +91,7 @@ function ProfilePage() {
 		setValues({ ...values, showPassword: !values.showPassword })
 	const handleMouseDownPassword = (event) => event.preventDefault()
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (isAuthenticated) {
 			const user = JSON.parse(CookieService.getUser())
 			setValues({

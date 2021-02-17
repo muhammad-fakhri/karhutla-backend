@@ -8,6 +8,7 @@ import SiteLayout from '../../components/Layout/SiteLayout'
 import Loader from '../../components/Loader/Loader'
 import useAuth, { ProtectRoute } from '../../context/auth'
 import PenugasanService from '../../services/penugasan.service'
+import { useEffect, useState } from 'react'
 
 const useStyles = makeStyles(styles)
 
@@ -26,9 +27,9 @@ function DetailPenugasanPage() {
 	const { isAuthenticated } = useAuth()
 	const router = useRouter()
 	const { noSK } = router.query
-	const [teamMembers, setTeamMembers] = React.useState([])
-	const [loading, setLoading] = React.useState(true)
-	React.useEffect(() => {
+	const [teamMembers, setTeamMembers] = useState([])
+	const [loading, setLoading] = useState(true)
+	useEffect(() => {
 		const fetchData = async () => {
 			const data = await PenugasanService.getPenugasanDetail(noSK)
 			setTeamMembers(data)

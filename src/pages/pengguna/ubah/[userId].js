@@ -10,6 +10,7 @@ import Loader from '../../../components/Loader/Loader'
 import styles from '../../../assets/jss/nextjs-material-kit/pages/update-pengguna.page.style'
 import useAuth, { ProtectRoute } from '../../../context/auth'
 import UserService from '../../../services/user.service'
+import { useEffect, useState } from 'react'
 
 const useStyles = makeStyles(styles)
 
@@ -18,8 +19,8 @@ function UbahPenggunaPage() {
 	const { isAuthenticated } = useAuth()
 	const router = useRouter()
 	const { userId } = router.query
-	const [loading, setLoading] = React.useState(false)
-	const [values, setValues] = React.useState({
+	const [loading, setLoading] = useState(false)
+	const [values, setValues] = useState({
 		id: '',
 		registrationNumber: '',
 		oldRegistrationNumber: '',
@@ -50,7 +51,7 @@ function UbahPenggunaPage() {
 		}
 		setLoading(false)
 	}
-	React.useEffect(() => {
+	useEffect(() => {
 		const getUserData = async () => {
 			const result = await UserService.getUserDetail(userId)
 			if (result.success) {

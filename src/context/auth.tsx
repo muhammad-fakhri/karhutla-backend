@@ -56,7 +56,7 @@ const AuthContext = createContext<AuthContextType>({
 	}
 })
 
-export const AuthProvider: FC<{ children: ComponentType }> = ({ children }) => {
+export const AuthProvider: FC<{ children: any }> = ({ children }) => {
 	const [user, setUser] = useState<UserData>(DefaultUser)
 	const [loading, setLoading] = useState(true)
 
