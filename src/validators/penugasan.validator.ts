@@ -1,4 +1,4 @@
-import { ValidatorResult } from '../interfaces'
+import { ValidatorResult } from '@interface'
 
 export const uploadPenugasanValidator = (
 	file: File,

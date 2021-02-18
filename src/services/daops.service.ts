@@ -1,15 +1,15 @@
-import { API } from '../api'
+import { API } from '@api'
 import {
 	APIResponse,
 	DaopsData,
 	DaopsResponse,
 	ServiceResponse
-} from '../interfaces'
+} from '@interface'
 import {
 	createDaopsValidator,
 	deleteDaopsValidator,
 	updateDaopsValidator
-} from '../validators'
+} from '@validator'
 
 export default class DaopsService {
 	static async getAllDaops(): Promise<DaopsData[]> {

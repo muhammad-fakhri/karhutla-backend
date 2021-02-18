@@ -1,10 +1,10 @@
+import { getTokenCookie } from '@service'
 import axios, {
 	AxiosError,
 	AxiosInstance,
 	AxiosRequestConfig,
 	AxiosResponse
 } from 'axios'
-import CookieService from '../services/cookies.service'
 
 const serverIP = process.env.NEXT_PUBLIC_API_SERVER_IP
 
@@ -16,7 +16,7 @@ export const authApiUrl = `${serverIP}/api/auth`
 
 const handleRequestSend = (config: AxiosRequestConfig) => {
 	// Set Auth Token
-	const token = CookieService.getToken()
+	const token = getTokenCookie()
 	const modifiedconfig = config
 	if (token) {
 		modifiedconfig.headers.Authorization = `Bearer ${token}`

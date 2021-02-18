@@ -1,4 +1,4 @@
-import { API } from '../api'
+import { API } from '@api'
 import {
 	AddPatroliNonLoginUserInput,
 	AddUserInput,
@@ -17,7 +17,7 @@ import {
 	UpdateUserInput,
 	UserData,
 	UserDetailResponse
-} from '../interfaces'
+} from '@interface'
 import {
 	createNonPatroliValidator,
 	createPatroliNonLoginValidator,
@@ -28,7 +28,7 @@ import {
 	updateNonPatroliValidator,
 	updatePatroliNonLoginValidator,
 	updateUserValidator
-} from '../validators'
+} from '@validator'
 
 export default class UserService {
 	static async getAllUsers(): Promise<UserData[]> {

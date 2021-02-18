@@ -1,5 +1,5 @@
+import { UserData } from '@interface'
 import Cookies from 'js-cookie'
-import { UserData } from '../interfaces'
 // import { parseJwt } from "../utils/formatter";
 
 // Token Name for JWT Token
@@ -11,50 +11,48 @@ const KEY_TOKEN = '_z2lj4lY7Wn_hIz_'
 // Token Name for user data
 const KEY_USER = 'ijN8Lds_1nd'
 
-export default class CookieService {
-	static getToken(): string {
-		return Cookies.get(KEY_TOKEN) || ''
-	}
+export const getTokenCookie = (): string => {
+	return Cookies.get(KEY_TOKEN) || ''
+}
 
-	static setToken(token = ''): void {
-		Cookies.set(KEY_TOKEN, token, { expires: 1 })
-	}
+export const setTokenCookie = (token = ''): void => {
+	Cookies.set(KEY_TOKEN, token, { expires: 1 })
+}
 
-	static removeToken(): void {
-		Cookies.remove(KEY_TOKEN)
-	}
+export const removeTokenCookie = (): void => {
+	Cookies.remove(KEY_TOKEN)
+}
 
-	// static getTokenV1() {
-	// 	return Cookies.get(KEY_TOKEN_V1)
-	// }
+// static getTokenV1() {
+// 	return Cookies.get(KEY_TOKEN_V1)
+// }
 
-	// static setTokenV1(token = '') {
-	// 	Cookies.set(KEY_TOKEN_V1, token, { expires: 1 })
-	// }
+// static setTokenV1(token = '') {
+// 	Cookies.set(KEY_TOKEN_V1, token, { expires: 1 })
+// }
 
-	// static removeTokenV1() {
-	// 	Cookies.remove(KEY_TOKEN_V1)
-	// }
+// static removeTokenV1() {
+// 	Cookies.remove(KEY_TOKEN_V1)
+// }
 
-	// static checkToken() {
-	// 	const token = Cookies.get(KEY_TOKEN);
-	// 	return !!token;
-	// }
+// static checkToken() {
+// 	const token = Cookies.get(KEY_TOKEN);
+// 	return !!token;
+// }
 
-	// static getUserFromToken() {
-	// 	const token = Cookies.get(KEY_TOKEN);
-	// 	return parseJwt(token);
-	// }
+// static getUserFromToken() {
+// 	const token = Cookies.get(KEY_TOKEN);
+// 	return parseJwt(token);
+// }
 
-	static getUser(): string {
-		return Cookies.get(KEY_USER) || ''
-	}
+export const getUserCookie = (): string => {
+	return Cookies.get(KEY_USER) || ''
+}
 
-	static setUser(user: UserData): void {
-		Cookies.set(KEY_USER, user)
-	}
+export const setUserCookie = (user: UserData): void => {
+	Cookies.set(KEY_USER, user)
+}
 
-	static removeUser(): void {
-		Cookies.remove(KEY_USER)
-	}
+export const removeUserCookie = (): void => {
+	Cookies.remove(KEY_USER)
 }

@@ -1,5 +1,5 @@
-import { ValidatorResult } from '../interfaces'
-import { calcDayDifference, isGreaterThan } from '../utils'
+import { ValidatorResult } from '@interface'
+import { calcDayDifference, isGreaterThan } from '@util'
 
 export const downloadRentangTanggalValidator = (
 	startDate: Date,

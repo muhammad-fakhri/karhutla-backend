@@ -1,3 +1,18 @@
+import { API } from '@api'
+import {
+	APIResponse,
+	LoginResponse,
+	ServiceResponse,
+	UserData
+} from '@interface'
+import {
+	getTokenCookie,
+	getUserCookie,
+	removeTokenCookie,
+	removeUserCookie,
+	setTokenCookie,
+	setUserCookie
+} from '@service'
 import { useRouter } from 'next/router'
 import {
 	ComponentType,
@@ -7,11 +22,6 @@ import {
 	useEffect,
 	useState
 } from 'react'
-import { API } from '../api'
-import { ServiceResponse } from '../interfaces'
-import { APIResponse, LoginResponse } from '../interfaces/api'
-import { UserData } from '../interfaces/data'
-import CookieService from '../services/cookies.service'
 
 const DefaultUser: UserData = {
 	id: 0,
@@ -62,9 +72,9 @@ export const AuthProvider: FC<{ children: any }> = ({ children }) => {
 
 	useEffect(() => {
 		async function loadUserFromCookies() {
-			const token = CookieService.getToken()
+			const token = getTokenCookie()
 			if (token) {
-				const user = CookieService.getUser()
+				const user = getUserCookie()
 				if (user) setUser(JSON.parse(user))
 			}
 			setLoading(false)
@@ -123,8 +133,8 @@ export const AuthProvider: FC<{ children: any }> = ({ children }) => {
 				// 	CookieService.setTokenV1(responseAPIAuth.data.token)
 				// }
 
-				CookieService.setToken(token)
-				CookieService.setUser(user)
+				setTokenCookie(token)
+				setUserCookie(user)
 				setUser(user)
 				window.location.pathname = '/patroli'
 			}
@@ -135,9 +145,9 @@ export const AuthProvider: FC<{ children: any }> = ({ children }) => {
 	}
 
 	const logout = () => {
-		CookieService.removeToken()
+		removeTokenCookie()
 		// CookieService.removeTokenV1()
-		CookieService.removeUser()
+		removeUserCookie()
 		setUser(DefaultUser)
 		window.location.pathname = '/login'
 	}

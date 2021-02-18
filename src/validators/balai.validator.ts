@@ -1,4 +1,4 @@
-import { BalaiData, ValidatorResult } from '../interfaces'
+import { BalaiData, ValidatorResult } from '@interface'
 
 export const createBalaiValidator = (inputData: BalaiData): ValidatorResult => {
 	let errorMsg = ''

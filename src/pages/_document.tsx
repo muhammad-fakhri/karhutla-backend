@@ -1,3 +1,5 @@
+import appleIcon from '@asset/img/apple-icon.png'
+import favicon from '@asset/img/favicon.png'
 import { ServerStyleSheets } from '@material-ui/styles'
 import Document, {
 	DocumentContext,
@@ -7,8 +9,6 @@ import Document, {
 	NextScript
 } from 'next/document'
 import { Fragment } from 'react'
-import appleIcon from '../assets/img/apple-icon.png'
-import favicon from '../assets/img/favicon.png'
 
 class MyDocument extends Document {
 	render() {

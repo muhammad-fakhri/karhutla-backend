@@ -1,5 +1,5 @@
-import { API } from '../api'
-import { APIResponse, RegionData, RegionResponse } from '../interfaces'
+import { API } from '@api'
+import { APIResponse, RegionData, RegionResponse } from '@interface'
 
 export default class WilayahService {
 	static async getAllWilayah(): Promise<RegionData[]> {

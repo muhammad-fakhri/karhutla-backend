@@ -1,10 +1,10 @@
 import {
-	warningCardHeader,
-	successCardHeader,
 	dangerCardHeader,
 	infoCardHeader,
-	primaryCardHeader
-} from '../../nextjs-material-kit.js'
+	primaryCardHeader,
+	successCardHeader,
+	warningCardHeader
+} from '@asset/jss/nextjs-material-kit'
 
 const cardHeaderStyle = {
 	cardHeader: {

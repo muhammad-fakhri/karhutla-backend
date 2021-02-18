@@ -15,7 +15,19 @@
 		"moduleResolution": "node",
 		"resolveJsonModule": true,
 		"isolatedModules": true,
-		"jsx": "preserve"
+		"jsx": "preserve",
+		"baseUrl": "src",
+		"paths": {
+			"@api": ["api/index.ts"],
+			"@asset/*": ["assets/*"],
+			"@component/*": ["components/*"],
+			"@context/*": ["context/*"],
+			"@interface": ["interfaces/index.ts"],
+			"@pages/*": ["pages/*"],
+			"@service": ["services/index.ts"],
+			"@util": ["utils/index.ts"],
+			"@validator": ["validators/index.ts"]
+		}
 	},
 	"exclude": ["node_modules"],
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]

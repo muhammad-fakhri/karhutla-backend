@@ -1,4 +1,4 @@
-import { DaopsData, ValidatorResult } from '../interfaces'
+import { DaopsData, ValidatorResult } from '@interface'
 
 export const createDaopsValidator = (inputData: DaopsData): ValidatorResult => {
 	let errorMsg = ''

@@ -3,8 +3,8 @@ import {
 	PoskoData,
 	UpdatePoskoInput,
 	ValidatorResult
-} from '../interfaces'
-import { digitLength } from '../utils'
+} from '@interface'
+import { digitLength } from '@util'
 
 export const createPoskoValidator = (
 	inputData: AddPoskoInput

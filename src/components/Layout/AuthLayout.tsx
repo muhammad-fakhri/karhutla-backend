@@ -1,7 +1,7 @@
+import image from '@asset/img/login-bg.jpg'
+import styles from '@asset/jss/nextjs-material-kit/pages/login.page.style'
+import Header from '@component/Header/Header'
 import { makeStyles } from '@material-ui/core/styles'
-import image from '../../assets/img/login-bg.jpg'
-import styles from '../../assets/jss/nextjs-material-kit/pages/login.page.style'
-import Header from '../Header/Header'
 
 const useStyles = makeStyles(styles)
 

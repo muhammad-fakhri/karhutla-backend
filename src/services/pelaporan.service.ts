@@ -1,7 +1,7 @@
-import { simaduApiUrl } from '../api'
-import { ServiceResponse } from '../interfaces'
-import { formatYYYYMMDD } from '../utils'
-import { downloadRentangTanggalValidator } from '../validators'
+import { simaduApiUrl } from '@api'
+import { ServiceResponse } from '@interface'
+import { formatYYYYMMDD } from '@util'
+import { downloadRentangTanggalValidator } from '@validator'
 
 export default class PelaporanService {
 	static downloadLaporanRentangTanggal(

@@ -1,9 +1,9 @@
+import '@asset/scss/nextjs-material-kit.scss'
+import { AuthProvider } from '@context/auth'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { Fragment } from 'react'
-import '../assets/scss/nextjs-material-kit.scss'
-import { AuthProvider } from '../context/auth'
 
 // Override default Material UI Theme
 const theme = createMuiTheme({
@@ -36,7 +36,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 			<Head>
 				<meta
 					name="viewport"
-					content="width=device-w/pidth, initial-scale=1, shrink-to-fit=no"
+					content="width=device-width, initial-scale=1, shrink-to-fit=no"
 				/>
 				<title>SIPP Karhutla</title>
 			</Head>

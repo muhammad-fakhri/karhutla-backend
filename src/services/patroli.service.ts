@@ -1,12 +1,12 @@
-import Moment from 'moment'
-import { SimaduAPI, simaduApiUrl } from '../api'
+import { SimaduAPI, simaduApiUrl } from '@api'
 import {
 	APIResponse,
 	PatrolData,
 	PatroliResponse,
 	PatroliServiceResponse,
 	PatrolListData
-} from '../interfaces'
+} from '@interface'
+import Moment from 'moment'
 
 export default class PatroliService {
 	static async getPatroli(date: Date): Promise<PatroliServiceResponse> {

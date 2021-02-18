@@ -1,7 +1,7 @@
+import Footer from '@component/Footer/Footer'
+import Header from '@component/Header/Header'
+import HeaderLinks from '@component/Header/HeaderLinks'
 import PropTypes from 'prop-types'
-import Header from '../Header/Header'
-import HeaderLinks from '../Header/HeaderLinks'
-import Footer from '../Footer/Footer'
 
 type PropType = {
 	children: JSX.Element

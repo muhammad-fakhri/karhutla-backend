@@ -1,4 +1,4 @@
-import { API } from '../api'
+import { API } from '@api'
 import {
 	AddPoskoInput,
 	APIResponse,
@@ -6,12 +6,12 @@ import {
 	PoskoResponse,
 	ServiceResponse,
 	UpdatePoskoInput
-} from '../interfaces'
+} from '@interface'
 import {
 	createPoskoValidator,
 	deletePoskoValidator,
 	updatePoskoValidator
-} from '../validators'
+} from '@validator'
 
 export default class PoskoService {
 	static async getAllPosko(): Promise<PoskoData[]> {

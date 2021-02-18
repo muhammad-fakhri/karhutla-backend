@@ -1,5 +1,4 @@
-import axios from 'axios'
-import { SimaduAPI, simaduApiUrl } from '../api'
+import { SimaduAPI, simaduApiUrl } from '@api'
 import {
 	APIResponse,
 	ServiceResponse,
@@ -7,9 +6,10 @@ import {
 	SuratTugasResponse,
 	SuratTugasTeamMemberData,
 	SuratTugasTeamMemberResponse
-} from '../interfaces'
-import { splitAndTrim } from '../utils'
-import { uploadPenugasanValidator } from '../validators'
+} from '@interface'
+import { splitAndTrim } from '@util'
+import { uploadPenugasanValidator } from '@validator'
+import axios from 'axios'
 
 export default class PenugasanService {
 	static async getAllPenugasan(): Promise<SuratTugasData[]> {

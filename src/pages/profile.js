@@ -21,7 +21,7 @@ import SiteLayout from '../components/Layout/SiteLayout'
 import Loader from '../components/Loader/Loader'
 import Parallax from '../components/Parallax/Parallax'
 import useAuth, { ProtectRoute } from '../context/auth'
-import CookieService from '../services/cookies.service'
+import { getUserCookie, setUserCookie } from '../services/cookies.service'
 import UserService from '../services/user.service'
 
 const useStyles = makeStyles(styles)
@@ -76,7 +76,7 @@ function ProfilePage() {
 				instantion: values.instantion,
 				photo: values.photo
 			}
-			CookieService.setUser(updatedUser)
+			setUserCookie(updatedUser)
 		} else {
 			setValues({
 				...values,
@@ -93,7 +93,7 @@ function ProfilePage() {
 
 	useEffect(() => {
 		if (isAuthenticated) {
-			const user = JSON.parse(CookieService.getUser())
+			const user = JSON.parse(getUserCookie())
 			setValues({
 				...values,
 				id: user.id,

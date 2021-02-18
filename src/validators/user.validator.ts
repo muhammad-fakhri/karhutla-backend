@@ -9,8 +9,8 @@ import {
 	UpdatePatroliNonLoginUserInput,
 	UpdateUserInput,
 	ValidatorResult
-} from '../interfaces'
-import { digitLength, isEmail, isPhoneNumber } from '../utils'
+} from '@interface'
+import { digitLength, isEmail, isPhoneNumber } from '@util'
 
 export const createUserValidator = (
 	inputData: AddUserInput

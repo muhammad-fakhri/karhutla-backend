@@ -1,15 +1,15 @@
-import { API } from '../api'
+import { API } from '@api'
 import {
 	APIResponse,
 	BalaiData,
 	BalaiResponse,
 	ServiceResponse
-} from '../interfaces'
+} from '@interface'
 import {
 	createBalaiValidator,
 	deleteBalaiValidator,
 	updateBalaiValidator
-} from '../validators'
+} from '@validator'
 
 export default class BalaiService {
 	static async getAllBalai(): Promise<BalaiData[]> {

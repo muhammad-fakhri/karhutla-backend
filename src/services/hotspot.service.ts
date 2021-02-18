@@ -1,5 +1,5 @@
-import { SiavipalaAPI } from '../api'
-import { HotspotItem, HotspotResponse } from '../interfaces'
+import { SiavipalaAPI } from '@api'
+import { HotspotItem, HotspotResponse } from '@interface'
 
 export default class HotspotService {
 	static async getHotspot(url: string): Promise<HotspotItem[]> {

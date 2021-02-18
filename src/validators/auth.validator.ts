@@ -1,4 +1,4 @@
-import { AuthValidatorResult, LoginInput } from '../interfaces'
+import { AuthValidatorResult, LoginInput } from '@interface'
 
 export const loginValidator = (inputData: LoginInput): AuthValidatorResult => {
 	let emailError = false
