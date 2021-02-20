@@ -54,13 +54,11 @@ interface BaseUserInput {
 	email: string
 	registrationNumber: string
 	phoneNumber: string
-	password: string
-	cPassword: string
+	password?: string
+	cPassword?: string
 }
 
-export interface AddUserInput extends BaseUserInput {
-	instantion: string
-}
+export type AddUserInput = BaseUserInput
 
 export interface UpdateUserInput extends BaseUserInput {
 	id: string
@@ -83,10 +81,10 @@ export interface UpdatePatroliNonLoginUserInput
 export type DeletePatroliNonLoginUserInput = UpdatePatroliNonLoginUserInput
 
 export interface CreateNonPatroliUser {
-	id: number
+	id: string
 	name: string
 	email: string
-	role: number
+	role: string
 	organization: string
 }
 

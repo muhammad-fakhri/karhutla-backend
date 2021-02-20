@@ -23,13 +23,19 @@ export const createUserValidator = (
 		errorMsg = 'Tolong masukan nomor registrasi/NIP'
 	else if (!isPhoneNumber(inputData.phoneNumber))
 		errorMsg = 'Tolong masukan nomor hape yang valid'
-	else if (inputData.password.length < 8)
-		errorMsg = 'Password minimal 8 karakter'
-	else if (
-		inputData.password !== inputData.cPassword &&
-		inputData.password.length > 7
-	) {
-		errorMsg = 'Konfirmasi password tidak sama'
+	else if (!inputData.password) {
+		errorMsg = 'Tolong masukkan kata sandi'
+	} else if (!inputData.cPassword) {
+		errorMsg = 'Tolong masukkan konfirmasi kata sandi'
+	} else if (inputData.password && inputData.cPassword) {
+		if (inputData.password.length < 8)
+			errorMsg = 'Password minimal 8 karakter'
+		else if (
+			inputData.password !== inputData.cPassword &&
+			inputData.password.length > 7
+		) {
+			errorMsg = 'Konfirmasi password tidak sama'
+		}
 	}
 
 	if (errorMsg) return { pass: false, message: errorMsg }
@@ -47,11 +53,13 @@ export const updateUserValidator = (
 		errorMsg = 'Tolong masukan nomor registrasi/NIP'
 	else if (!isPhoneNumber(inputData.phoneNumber))
 		errorMsg = 'Tolong masukan nomor hape yang valid'
-	else if (inputData.password || inputData.cPassword) {
+	else if (inputData.password) {
 		if (inputData.password.length < 8)
 			errorMsg = 'Password minimal 8 karakter'
-		else if (inputData.password !== inputData.cPassword) {
-			errorMsg = 'Konfirmasi password tidak sama'
+		else if (inputData.cPassword) {
+			if (inputData.password !== inputData.cPassword) {
+				errorMsg = 'Konfirmasi password tidak sama'
+			}
 		}
 	}
 
@@ -71,9 +79,8 @@ export const createPatroliNonLoginValidator = (
 	inputData: AddPatroliNonLoginUserInput
 ): ValidatorResult => {
 	let errorMsg = ''
-	if (inputData.name.length < 1) errorMsg = 'Tolong masukan nama pengguna'
-	else if (digitLength(inputData.role) < 1)
-		errorMsg = 'Tolong pilih hak akses pengguna'
+	if (!inputData.name) errorMsg = 'Tolong masukan nama pengguna'
+	else if (!inputData.role) errorMsg = 'Tolong pilih hak akses pengguna'
 
 	if (errorMsg) return { pass: false, message: errorMsg }
 	return { pass: true, message: '' }
@@ -83,11 +90,10 @@ export const updatePatroliNonLoginValidator = (
 	inputData: UpdatePatroliNonLoginUserInput
 ): ValidatorResult => {
 	let errorMsg = ''
-	if (digitLength(inputData.id) < 1) errorMsg = 'Tidak ada ID pengguna'
+	if (!inputData.id) errorMsg = 'Tidak ada ID pengguna'
 	else if (inputData.name.length < 1)
 		errorMsg = 'Tolong masukan nama pengguna'
-	else if (digitLength(inputData.role) < 1)
-		errorMsg = 'Tolong pilih hak akses pengguna'
+	else if (!inputData.role) errorMsg = 'Tolong pilih hak akses pengguna'
 
 	if (errorMsg) return { pass: false, message: errorMsg }
 	return { pass: true, message: '' }
@@ -105,8 +111,8 @@ export const createNonPatroliValidator = (
 	inputData: CreateNonPatroliUser
 ): ValidatorResult => {
 	let errorMsg = ''
-	if (digitLength(inputData.id) < 1) errorMsg = 'ID pengguna tidak ada'
-	else if (digitLength(inputData.role) < 1)
+	if (inputData.id.length < 1) errorMsg = 'ID pengguna tidak ada'
+	else if (inputData.role.length < 1)
 		errorMsg = 'Tolong pilih hak akses pengguna'
 	// if (inputData.organization.length < 1)
 	//   errorMsg="Tolong pilih Daops/Balai")
