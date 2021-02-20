@@ -5,8 +5,8 @@ import PropTypes from 'prop-types'
 
 type PropType = {
 	children: JSX.Element
-	scrollChange: boolean
-	headerColor: string
+	scrollChange?: boolean
+	headerColor?: string
 }
 
 export default function SiteLayout(props: PropType) {
