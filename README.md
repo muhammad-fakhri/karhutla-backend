@@ -20,6 +20,7 @@ This project is the frontend module of the SIPP Karhutla, a joint project betwee
    `git clone https://github.com/muhammad-fakhri/sipp-karhutla.git && cd /sipp-karhutla`
 2. Install dependencies  
    `yarn install`
+3. Continue to [Dev Guide](#run-dev-server) or [Production Guide](#prepare-for-production)
 
 ## Run Dev Server
 
@@ -31,9 +32,9 @@ This project is the frontend module of the SIPP Karhutla, a joint project betwee
 ## Prepare for Production
 
 1. Copy `.env` to `.env.local` and set API Server IP env value
-2. Build project and run production server  
-   `yarn prod:start`
-3. Access production server in  
+2. Run this code to start production server  
+   `pm2 startOrReload ecosystem.config.js`
+3. Production server will listening at  
    `http://localhost:3000`
 
 ## Static HTML Export
