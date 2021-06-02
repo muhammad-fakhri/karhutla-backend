@@ -78,11 +78,28 @@ const AuthenticatedMenu = (props) => {
 				/>
 			</ListItem>
 			<ListItem className={classes.listItem}>
-				<Link href="/hotspot">
-					<Button color="transparent" className={classes.navLink}>
-						Hotspot
-					</Button>
-				</Link>
+				<CustomDropdown
+					noLiPadding
+					navDropdown
+					buttonText="Hotspot"
+					buttonProps={{
+						className: classes.navLink,
+						color: 'transparent'
+					}}
+					dropdownList={[
+						<Link href="/hotspot" key="data">
+							<a className={classes.dropdownLink}>Titik Panas</a>
+						</Link>,
+						<Link
+							href="https://ipbgis.maps.arcgis.com/apps/webappviewer/index.html?id=34b0d11f424d47349bb06c8fda55913d"
+							key="access"
+						>
+							<a className={classes.dropdownLink} target="_blank">
+								Analisis
+							</a>
+						</Link>
+					]}
+				/>
 			</ListItem>
 			<ListItem className={classes.listItem}>
 				<CustomDropdown
