@@ -29,7 +29,7 @@ function HotspotPage() {
 	)
 	useEffect(() => {
 		if (data) {
-			setHotspot(data)
+			data.length > 0 ? setHotspot(data) : setHotspot([])
 			setDate(moment())
 		}
 	}, [data])
