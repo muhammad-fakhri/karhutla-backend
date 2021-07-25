@@ -31,7 +31,7 @@ This project is the frontend module of the SIPP Karhutla, a joint project betwee
 
 ## Prepare for Production
 
-1. Copy `.env` to `.env.local` and set API Server IP env value
+1. Copy `.env` to `.env.local` and set env value there
 2. Run this code to start production server  
    `pm2 startOrReload ecosystem.config.js`
 3. Production server will listening at  

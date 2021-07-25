@@ -7,12 +7,13 @@ import axios, {
 } from 'axios'
 
 const serverIP = process.env.NEXT_PUBLIC_API_SERVER_IP
+const baseAPIv1 = process.env.NEXT_PUBLIC_API_V1
 
 export const apiUrl = `${serverIP}/api_dev`
-export const simaduApiUrl = `${serverIP}/api/simadu`
+export const simaduApiUrl = `${baseAPIv1}/api/simadu`
 export const simadu2Url = `${serverIP}/simadu2`
 export const siavipalaUrl = `${serverIP}/siavipala`
-export const authApiUrl = `${serverIP}/api/auth`
+export const authApiUrl = `${baseAPIv1}/api/auth`
 
 const handleRequestSend = (config: AxiosRequestConfig) => {
 	// Set Auth Token

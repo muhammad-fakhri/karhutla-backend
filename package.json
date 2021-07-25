@@ -86,9 +86,9 @@
 		}
 	},
 	"lint-staged": {
-		"*.{js,jsx,ts,tsx,json,css,scss,md}": [
+		"*.{js,jsx,ts,tsx,json,css,scss}": [
 			"prettier --write",
-			"eslint --ext .js,.jsx,.ts,.tsx --fix"
+			"yarn lint:fix"
 		]
 	}
 }
