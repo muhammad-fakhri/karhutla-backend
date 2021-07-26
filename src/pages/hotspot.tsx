@@ -20,11 +20,7 @@ function HotspotPage() {
 	const [hotspot, setHotspot] = useState<HotspotItem[]>([])
 	const [date, setDate] = useState(moment())
 	const { data, isValidating } = useSWR(
-		isAuthenticated
-			? `/public/api/hotspot-sipongi/date-range?start_date=
-			${date.format('D-MM-YYYY')}
-			&end_date=${date.format('D-MM-YYYY')}&provinsi=a`
-			: null,
+		isAuthenticated ? `?conf=high&date=${date.format('YYYY-MM-DD')}` : null,
 		getHotspot
 	)
 	useEffect(() => {

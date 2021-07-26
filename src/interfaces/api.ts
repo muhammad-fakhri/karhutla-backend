@@ -75,24 +75,25 @@ export interface DaopsResponse {
 	r_balai_id: string
 	r_balai: BalaiResponse
 }
-
-export interface HotspotItem {
-	id: number
-	hotspot_sipongi_id: number
+export interface HotspotItemDetail {
+	tanggal: string
 	latitude: string
 	longitude: string
-	html: string
+	confidence: string
+	kawasan: string
+	desa: string
+	kecamatan: string
+	'kota/kabupaten': string
 	provinsi: string
 }
 
-export interface HotspotItemResponse {
-	id: number
+export interface HotspotItem {
+	lat: string
+	lon: string
+	conf: string
+	satellite: string
 	tanggal: string
-	sebaran_hotspot: HotspotItem[]
-}
-
-export interface HotspotResponse {
-	hostspot_sipongi: HotspotItemResponse[]
+	detail: HotspotItemDetail
 }
 
 interface DaerahPatroli {
