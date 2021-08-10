@@ -1,14 +1,15 @@
-import { SimaduAPI, simaduApiUrl } from '@api'
+import { SimaduAPI, simaduApiUrl, API } from '@api'
 import {
 	APIResponse,
 	ServiceResponse,
 	SuratTugasData,
 	SuratTugasResponse,
 	SuratTugasTeamMemberData,
-	SuratTugasTeamMemberResponse
+	SuratTugasTeamMemberResponse,
+	DeletePenugasanInput
 } from '@interface'
 import { splitAndTrim } from '@util'
-import { uploadPenugasanValidator } from '@validator'
+import { uploadPenugasanValidator, deletePenugasanValidator } from '@validator'
 import axios from 'axios'
 
 export const getAllPenugasan = async (): Promise<SuratTugasData[]> => {
@@ -26,6 +27,21 @@ export const getAllPenugasan = async (): Promise<SuratTugasData[]> => {
 		})
 	}
 	return []
+}
+
+export const deletePenugasan = async (
+	data: DeletePenugasanInput
+): Promise<ServiceResponse> => {
+	try {
+		const validate = deletePenugasanValidator(data)
+		if (!validate.pass) return { success: false, message: validate.message }
+
+		const r: APIResponse<null> = await SimaduAPI.get(`/deletesk/${data.id}`)
+		if (r.status === 200) return { success: true, message: r.message }
+		return { success: false, message: r.message }
+	} catch (error) {
+		return { success: false, message: error }
+	}
 }
 
 export const uploadPenugasan = async (
