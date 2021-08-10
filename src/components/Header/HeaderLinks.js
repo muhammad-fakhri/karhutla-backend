@@ -92,13 +92,6 @@ const AuthenticatedMenu = (props) => {
 				</Link>
 			</ListItem>
 			<ListItem className={classes.listItem}>
-				<Link href="/about">
-					<Button color="transparent" className={classes.navLink}>
-						Tentang Sistem
-					</Button>
-				</Link>
-			</ListItem>
-			<ListItem className={classes.listItem}>
 				<CustomDropdown
 					noLiPadding
 					navDropdown
