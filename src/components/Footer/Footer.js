@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import logoIPB from '../../assets/img/logo-ipb.png'
 import logoKLHK from '../../assets/img/logo-klhk.png'
 import logoLPDP from '../../assets/img/logo-lpdp.png'
+import logoITTO from '../../assets/img/itto_logo_web_light_sm.gif'
 import logoManggalaAgni from '../../assets/img/logo-manggala.png'
 import styles from '../../assets/jss/nextjs-material-kit/components/footerStyle'
 import GridContainer from '../Grid/GridContainer'
@@ -51,7 +52,14 @@ export default function Footer(props) {
 							className={classes.logo}
 						/>
 					</GridItem>
-					<GridItem md={12} lg={7}>
+					<GridItem md={12} lg={2} className={classes.logoWrapper}>
+						<img
+							alt="Logo ITTO"
+							src={logoITTO}
+							className={classes.logo}
+						/>
+					</GridItem>
+					<GridItem md={12} lg={5}>
 						<Typography
 							variant="body1"
 							gutterBottom
