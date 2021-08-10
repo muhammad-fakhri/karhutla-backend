@@ -7,7 +7,7 @@ import { Button, CircularProgress, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import LaunchIcon from '@material-ui/icons/Launch'
-import { deletePenugasan, getAllPenugasan } from '@service'
+import { getAllPenugasan } from '@service'
 import classNames from 'classnames'
 import MaterialTable from 'material-table'
 import Link from 'next/link'
@@ -28,7 +28,6 @@ function PenugasanPage() {
 	const router = useRouter()
 	const { isAuthenticated, user } = useAuth()
 	const [penugasan, setPenugasan] = useState<SuratTugasData[]>([])
-	const [showAlert, setShowAlert] = useState(false)
 	const [loading, setLoading] = useState(true)
 	useEffect(() => {
 		const fetchData = async () => {
@@ -39,10 +38,6 @@ function PenugasanPage() {
 		if (isAuthenticated) fetchData()
 	}, [isAuthenticated])
 
-	const [alertType, setAlertType] = useState<
-		'success' | 'info' | 'warning' | 'error'
-	>('success')
-	const [alertMessage, setAlertMessage] = useState('')
 	return !isAuthenticated ? (
 		<Loader />
 	) : (
@@ -102,34 +97,6 @@ function PenugasanPage() {
 						]}
 						localization={{
 							header: { actions: 'Aksi' }
-						}}
-						editable={{
-							onRowDelete: (oldData) =>
-								new Promise<void>((resolve, reject) => {
-									deletePenugasan(oldData).then((result) => {
-										if (result.success) {
-											const dataDelete = [...penugasan]
-											const userRowData: any = oldData
-											const index =
-												userRowData.tableData.id
-											dataDelete.splice(index, 1)
-											setPenugasan(dataDelete)
-											setAlertType('success')
-											setAlertMessage(
-												'Hapus data penugasan berhasil'
-											)
-											setShowAlert(true)
-											resolve()
-										} else {
-											setAlertType('error')
-											setAlertMessage(
-												result.message as string
-											)
-											setShowAlert(true)
-											reject()
-										}
-									})
-								})
 						}}
 					/>
 				)}
