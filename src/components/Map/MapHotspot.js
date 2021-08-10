@@ -17,32 +17,19 @@ function createMapOptions(maps) {
 function Map(props) {
 	const handleApiLoaded = (map, maps, hotspots) => {
 		const markers = []
-		const infowindows = []
 		const defaultMarker =
 			'https://maps.google.com/mapfiles/ms/icons/red-dot.png'
 		hotspots.forEach((hotspot) => {
 			markers.push(
 				new maps.Marker({
 					position: {
-						lat: parseFloat(hotspot.latitude),
-						lng: parseFloat(hotspot.longitude)
+						lat: parseFloat(hotspot.lat),
+						lng: parseFloat(hotspot.lon)
 					},
 					map,
 					icon: hotspot.marker ? hotspot.marker : defaultMarker
 				})
 			)
-
-			infowindows.push(
-				new maps.InfoWindow({
-					content: hotspot.html
-				})
-			)
-		})
-
-		markers.forEach((marker, i) => {
-			marker.addListener('click', () => {
-				infowindows[i].open(map, marker)
-			})
 		})
 	}
 

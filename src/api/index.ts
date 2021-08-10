@@ -6,13 +6,12 @@ import axios, {
 	AxiosResponse
 } from 'axios'
 
-const serverIP = process.env.NEXT_PUBLIC_API_SERVER_IP
+const baseAPIv1 = process.env.NEXT_PUBLIC_API_V1
+const baseAPIv2 = process.env.NEXT_PUBLIC_API_V2
 
-export const apiUrl = `${serverIP}/api_dev`
-export const simaduApiUrl = `${serverIP}/api/simadu`
-export const simadu2Url = `${serverIP}/simadu2`
-export const siavipalaUrl = `${serverIP}/siavipala`
-export const authApiUrl = `${serverIP}/api/auth`
+export const simaduApiUrl = `${baseAPIv1}/simadu`
+export const authApiUrl = `${baseAPIv1}/auth`
+export const hotspotApiUrl = `${baseAPIv1}/hotspot`
 
 const handleRequestSend = (config: AxiosRequestConfig) => {
 	// Set Auth Token
@@ -37,7 +36,7 @@ const handleResponseError = (error: AxiosError) => {
 }
 
 export const API: AxiosInstance = axios.create({
-	baseURL: apiUrl,
+	baseURL: baseAPIv2 || '',
 	headers: { Accept: 'application/json' }
 })
 
@@ -46,13 +45,13 @@ export const SimaduAPI: AxiosInstance = axios.create({
 	headers: { Accept: 'application/json' }
 })
 
-export const SiavipalaAPI: AxiosInstance = axios.create({
-	baseURL: siavipalaUrl,
+export const AuthAPI: AxiosInstance = axios.create({
+	baseURL: authApiUrl,
 	headers: { Accept: 'application/json' }
 })
 
-export const AuthAPI: AxiosInstance = axios.create({
-	baseURL: authApiUrl,
+export const HotspotAPI: AxiosInstance = axios.create({
+	baseURL: hotspotApiUrl,
 	headers: { Accept: 'application/json' }
 })
 
@@ -62,11 +61,8 @@ API.interceptors.response.use(handleResponseReceive, handleResponseError)
 SimaduAPI.interceptors.request.use(handleRequestSend, handleRequestError)
 SimaduAPI.interceptors.response.use(handleResponseReceive, handleResponseError)
 
-SiavipalaAPI.interceptors.request.use(handleRequestSend, handleRequestError)
-SiavipalaAPI.interceptors.response.use(
-	handleResponseReceive,
-	handleResponseError
-)
-
 AuthAPI.interceptors.request.use(handleRequestSend, handleRequestError)
 AuthAPI.interceptors.response.use(handleResponseReceive, handleResponseError)
+
+HotspotAPI.interceptors.request.use(handleRequestSend, handleRequestError)
+HotspotAPI.interceptors.response.use(handleResponseReceive, handleResponseError)
