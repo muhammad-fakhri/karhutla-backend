@@ -2,6 +2,7 @@ import {
 	NonPatroliUserData,
 	PatrolData,
 	PatrolListData,
+	PenugasanData,
 	UserData
 } from './data'
 
@@ -67,6 +68,8 @@ export interface UpdateUserInput extends BaseUserInput {
 }
 
 export type DeleteUserInput = UserData
+
+export type DeletePenugasanInput = PenugasanData
 
 export interface AddPatroliNonLoginUserInput {
 	name: string

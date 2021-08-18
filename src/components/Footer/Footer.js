@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import logoIPB from '../../assets/img/logo-ipb.png'
 import logoKLHK from '../../assets/img/logo-klhk.png'
 import logoLPDP from '../../assets/img/logo-lpdp.png'
+import logoITTO from '../../assets/img/itto_logo_web_light_sm.gif'
 import logoManggalaAgni from '../../assets/img/logo-manggala.png'
 import styles from '../../assets/jss/nextjs-material-kit/components/footerStyle'
 import GridContainer from '../Grid/GridContainer'
@@ -21,37 +22,50 @@ export default function Footer(props) {
 	})
 	return (
 		<footer className={footerClasses}>
-			<div className={classes.container}>
+			<div className={classes.container} style={{ margin: 'auto 20%' }}>
 				<GridContainer className={classes.footerWrapper}>
-					<GridItem md={12} lg={1} className={classes.logoWrapper}>
+					<GridItem
+						md={12}
+						lg={1}
+						className={classes.logoWrapper}
+					></GridItem>
+					<GridItem md={12} lg={2} className={classes.logoWrapper}>
 						<img
 							alt="Logo IPB"
 							src={logoIPB}
 							className={classes.logo}
 						/>
 					</GridItem>
-					<GridItem md={12} lg={1} className={classes.logoWrapper}>
+					<GridItem md={12} lg={2} className={classes.logoWrapper}>
 						<img
 							alt="Logo KLHK"
 							src={logoKLHK}
 							className={classes.logo}
 						/>
 					</GridItem>
-					<GridItem md={12} lg={1} className={classes.logoWrapper}>
+					<GridItem md={12} lg={2} className={classes.logoWrapper}>
 						<img
 							alt="Logo Manggala Agni"
 							src={logoManggalaAgni}
 							className={classes.logo}
 						/>
 					</GridItem>
-					<GridItem md={12} lg={2} className={classes.logoWrapper}>
+					<GridItem md={12} lg={3} className={classes.logoWrapper}>
 						<img
 							alt="Logo LPDP"
 							src={logoLPDP}
 							className={classes.logo}
 						/>
 					</GridItem>
-					<GridItem md={12} lg={7}>
+					<GridItem md={12} lg={2} className={classes.logoWrapper}>
+						<img
+							alt="Logo ITTO"
+							src={logoITTO}
+							className={classes.logo}
+						/>
+					</GridItem>
+
+					{/* <GridItem md={12} lg={5}>
 						<Typography
 							variant="body1"
 							gutterBottom
@@ -66,7 +80,7 @@ export default function Footer(props) {
 							Dana Pendidikan, Kementerian Keuangan Republik
 							Indonesia
 						</Typography>
-					</GridItem>
+					</GridItem> */}
 				</GridContainer>
 			</div>
 		</footer>
