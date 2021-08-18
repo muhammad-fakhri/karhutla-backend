@@ -14,6 +14,10 @@ export interface UserData {
 	roleName: string
 }
 
+export interface PenugasanData {
+	id: string
+}
+
 export interface NonPatroliUserData {
 	id: number
 	accessId: number

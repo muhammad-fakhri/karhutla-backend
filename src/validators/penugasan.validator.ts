@@ -1,5 +1,6 @@
-import { ValidatorResult } from '@interface'
+import { ValidatorResult, DeletePenugasanInput } from '@interface'
 
+import { digitLength } from '@util'
 export const uploadPenugasanValidator = (
 	file: File,
 	type: string
@@ -9,5 +10,11 @@ export const uploadPenugasanValidator = (
 	else if (!type) errorMsg = 'Tolong pilih kategori penugasan'
 
 	if (errorMsg) return { pass: false, message: errorMsg }
+	return { pass: true, message: '' }
+}
+
+export const deletePenugasanValidator = (
+	inputData: DeletePenugasanInput
+): ValidatorResult => {
 	return { pass: true, message: '' }
 }
