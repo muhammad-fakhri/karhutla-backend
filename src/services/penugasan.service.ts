@@ -35,8 +35,13 @@ export const getAllPenugasan = async (): Promise<SuratTugasData[]> => {
 	return []
 }
 
-export const checkSkNumber = async (no_sk): Promise<SkNumberData[]> => {
-	const r: APIResponse<SkNumberResponse[]> = await apiV2.get(
+export const checkSkNumber = async (
+	no_sk
+): Promise<{
+	success: boolean
+	message: string | string[]
+}> => {
+	const r: APIResponse<SkNumberResponse> = await apiV2.get(
 		'simadu/cekst/?no_st=' + no_sk
 	)
 	if (r.status === 200) {
