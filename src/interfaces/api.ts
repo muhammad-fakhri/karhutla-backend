@@ -77,6 +77,11 @@ export interface KabupatenResponse {
 	nama_wilayah: string
 }
 
+export interface SkNumberResponse {
+	successData: boolean
+	message: string | string[]
+}
+
 export interface BalaiResponse {
 	id: string
 	kode: string

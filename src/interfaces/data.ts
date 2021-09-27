@@ -45,6 +45,12 @@ export interface KabupatenData {
 	nama_wilayah: string
 }
 
+export interface SkNumberData<T = any> {
+	success: boolean
+	message: string | string[]
+	data?: T
+}
+
 export interface DaopsData {
 	id: string
 	code: string
