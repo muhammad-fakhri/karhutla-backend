@@ -35,6 +35,16 @@ export interface BalaiData {
 	region: string
 }
 
+export interface ProvinsiData {
+	kode_wilayah: string
+	nama_wilayah: string
+}
+
+export interface KabupatenData {
+	kode_wilayah: string
+	nama_wilayah: string
+}
+
 export interface DaopsData {
 	id: string
 	code: string
@@ -81,6 +91,12 @@ export interface SuratTugasTeamMemberData {
 	endDate: string
 	posko: string
 	daops: string
+}
+export interface LaporanData {
+	id: string
+	id_daerah_patroli: string
+	kategori_patroli: string
+	tanggal_patroli: string
 }
 
 export interface PoskoData {

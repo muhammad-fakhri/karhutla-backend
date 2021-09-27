@@ -40,6 +40,13 @@ export interface NonPatroliUserResponse {
 	r_role: RoleResponse
 }
 
+export interface LaporanDataResponse {
+	id: string
+	id_daerah_patroli: string
+	kategori_patroli: string
+	tanggal_patroli: string
+}
+
 export interface NonLoginUserResponse {
 	id: string
 	nama: string
@@ -58,6 +65,16 @@ export interface RegionResponse {
 	nama: string
 	kode: string
 	tipe: string
+}
+
+export interface ProvinsiResponse {
+	kode_wilayah: string
+	nama_wilayah: string
+}
+
+export interface KabupatenResponse {
+	kode_wilayah: string
+	nama_wilayah: string
 }
 
 export interface BalaiResponse {
