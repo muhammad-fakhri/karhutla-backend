@@ -99,6 +99,13 @@ const AuthenticatedMenu = (props) => {
 				</Link>
 			</ListItem>
 			<ListItem className={classes.listItem}>
+				<Link href="/faq">
+					<Button color="transparent" className={classes.navLink}>
+						FAQ
+					</Button>
+				</Link>
+			</ListItem>
+			<ListItem className={classes.listItem}>
 				<CustomDropdown
 					noLiPadding
 					navDropdown

@@ -176,8 +176,20 @@ export const ProtectRoute = (
 		const router = useRouter()
 		const { isAuthenticated, loading, user } = useAuth()
 		useEffect(() => {
-			if (!isAuthenticated && !loading) router.push('/login')
-			if (isAuthRoute && isAuthenticated) router.push('/patroli')
+			if (
+				!isAuthenticated &&
+				!loading &&
+				router.pathname !== '/forgot_password' &&
+				router.pathname !== '/reset_password'
+			)
+				router.push('/login')
+			if (
+				isAuthRoute &&
+				isAuthenticated &&
+				router.pathname !== '/forgot_password' &&
+				router.pathname !== '/reset_password'
+			)
+				router.push('/patroli')
 			if (limitedAccessRight && user.email) {
 				// Insufficient user access rights
 				if (user.roleLevel > 2) {
