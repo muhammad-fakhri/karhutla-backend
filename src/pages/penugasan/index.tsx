@@ -105,32 +105,32 @@ function PenugasanPage() {
 						}}
 						editable={
 							{
-								// onRowDelete: (oldData) =>
-								// 	new Promise<void>((resolve, reject) => {
-								// 		deletePenugasan(oldData).then((result) => {
-								// 			if (result.success) {
-								// 				const dataDelete = [...penugasan]
-								// 				const userRowData: any = oldData
-								// 				const index =
-								// 					userRowData.tableData.id
-								// 				dataDelete.splice(index, 1)
-								// 				setPenugasan(dataDelete)
-								// 				setAlertType('success')
-								// 				setAlertMessage(
-								// 					'Hapus data penugasan berhasil'
-								// 				)
-								// 				setShowAlert(true)
-								// 				resolve()
-								// 			} else {
-								// 				setAlertType('error')
-								// 				setAlertMessage(
-								// 					result.message as string
-								// 				)
-								// 				setShowAlert(true)
-								// 				reject()
-								// 			}
-								// 		})
-								// 	})
+								onRowDelete: (oldData) =>
+									new Promise<void>((resolve, reject) => {
+										deletePenugasan(oldData).then((result) => {
+											if (result.success) {
+												const dataDelete = [...penugasan]
+												const userRowData: any = oldData
+												const index =
+													userRowData.tableData.id
+												dataDelete.splice(index, 1)
+												setPenugasan(dataDelete)
+												setAlertType('success')
+												setAlertMessage(
+													'Hapus data penugasan berhasil'
+												)
+												setShowAlert(true)
+												resolve()
+											} else {
+												setAlertType('error')
+												setAlertMessage(
+													result.message as string
+												)
+												setShowAlert(true)
+												reject()
+											}
+										})
+									})
 							}
 						}
 					/>
