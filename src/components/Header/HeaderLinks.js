@@ -85,7 +85,7 @@ const AuthenticatedMenu = (props) => {
 				</Link>
 			</ListItem>
 			<ListItem className={classes.listItem}>
-				<Link href="https://ipbgis.maps.arcgis.com/apps/webappviewer/index.html?id=34b0d11f424d47349bb06c8fda55913d">
+				<Link href="https://ipbgis.maps.arcgis.com/apps/webappviewer/index.html?id=cc200b3e4bff48a28573398a2ac51b24">
 					<Button color="transparent" className={classes.navLink}>
 						Analisis
 					</Button>
