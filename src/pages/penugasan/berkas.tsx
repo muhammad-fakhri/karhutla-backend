@@ -87,6 +87,10 @@ function BerkasPenugasanPage() {
 		if (event.target.files) setWorkFile(event.target.files[0])
 	}
 
+	const handleSkChange = (event: ChangeEvent<HTMLInputElement>) => {
+		setSkNumber(event.target.value)
+	}
+
 	const handleWorkTypeChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setWorkType(event.target.value)
 	}
@@ -128,20 +132,27 @@ function BerkasPenugasanPage() {
 	}
 
 	const handleClickCheck = async () => {
-		const result = await checkSkNumber(skNumber)
-		if (!result.success) setAlertSuccess(false)
-		else {
-			setAlertSuccess(true)
+		if (skNumber !== '') {
+			const result = await checkSkNumber(skNumber)
+			if (!result.success) setAlertSuccess(false)
+			else {
+				setAlertSuccess(true)
+				setWorkFile(null)
+				setWorkType('')
+				setShow(false)
+				console.log(skNumber)
+			}
+			setAlertMessage(result.message as string[])
 			setWorkFile(null)
 			setWorkType('')
 			setShow(false)
+			setShowCheck(true)
+
+			console.log(skNumber)
+		} else {
+			handleSkChange
+			console.log(skNumber)
 		}
-		setAlertMessage(result.message as string[])
-		setSkNumber('')
-		setWorkFile(null)
-		setWorkType('')
-		setShow(false)
-		setShowCheck(true)
 	}
 	console.log(alertSuccess)
 	return !isAuthenticated ? (
@@ -241,9 +252,7 @@ function BerkasPenugasanPage() {
 									required
 									fullWidth
 									name="skNumber"
-									onChange={(e) => {
-										setSkNumber(e.target.value)
-									}}
+									onChange={handleSkChange}
 									className={classes.textAlignLeft}
 									style={{
 										width: '80%'
