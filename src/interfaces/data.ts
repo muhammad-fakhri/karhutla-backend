@@ -16,6 +16,7 @@ export interface UserData {
 
 export interface PenugasanData {
 	id: string
+	number: string
 }
 
 export interface NonPatroliUserData {

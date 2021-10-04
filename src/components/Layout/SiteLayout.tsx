@@ -23,7 +23,7 @@ export default function SiteLayout(props: PropType) {
 	} else {
 		scrollChangeOption = {
 			height: 200,
-			color: 'black'
+			color: 'white'
 		}
 	}
 

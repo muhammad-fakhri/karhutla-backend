@@ -2,8 +2,10 @@ import styles from '@asset/jss/nextjs-material-kit/pages/penugasan/penugasan.pag
 import SiteLayout from '@component/Layout/SiteLayout'
 import Loader from '@component/Loader/Loader'
 import useAuth, { ProtectRoute } from '@context/auth'
+import GridItem from '@component/Grid/GridItem'
 import { SuratTugasData } from '@interface'
-import { Button, CircularProgress, Paper } from '@material-ui/core'
+import { Button, CircularProgress, Paper, Grid } from '@material-ui/core'
+import { Alert } from '@material-ui/lab'
 import { makeStyles } from '@material-ui/core/styles'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import LaunchIcon from '@material-ui/icons/Launch'
@@ -23,12 +25,29 @@ const columns = [
 	{ title: 'Tanggal Selesai', field: 'finishDate' }
 ]
 
+type AlertElemenPropType = {
+	text: string[]
+}
+
+const AlertElement = (props: AlertElemenPropType) => {
+	return (
+		<>
+			{props.text.map((str, index) => (
+				<p key={index}>{str}</p>
+			))}
+		</>
+	)
+}
+
 function PenugasanPage() {
 	const classes = useStyles()
 	const router = useRouter()
 	const { isAuthenticated, user } = useAuth()
 	const [penugasan, setPenugasan] = useState<SuratTugasData[]>([])
 	const [showAlert, setShowAlert] = useState(false)
+	const [show, setShow] = useState(false)
+	const [showCheck, setShowCheck] = useState(false)
+	const [alertSuccess, setAlertSuccess] = useState(true)
 	const [loading, setLoading] = useState(true)
 	useEffect(() => {
 		const fetchData = async () => {
@@ -55,6 +74,24 @@ function PenugasanPage() {
 				)}
 			>
 				<h2>Daftar Penugasan</h2>
+
+				<Grid container justify="center">
+					<GridItem sm={6} xs={10}>
+						{showCheck ? (
+							<Alert
+								severity={alertSuccess ? 'success' : 'error'}
+								variant="filled"
+								onClose={() => {
+									setShowCheck(false)
+								}}
+								hidden={true}
+							>
+								{alertMessage}
+							</Alert>
+						) : null}
+					</GridItem>
+				</Grid>
+
 				{user.roleLevel === 4 ? (
 					<>
 						<Link href="penugasan/berkas">
@@ -103,36 +140,35 @@ function PenugasanPage() {
 						localization={{
 							header: { actions: 'Aksi' }
 						}}
-						editable={
-							{
-								onRowDelete: (oldData) =>
-									new Promise<void>((resolve, reject) => {
-										deletePenugasan(oldData).then((result) => {
-											if (result.success) {
-												const dataDelete = [...penugasan]
-												const userRowData: any = oldData
-												const index =
-													userRowData.tableData.id
-												dataDelete.splice(index, 1)
-												setPenugasan(dataDelete)
-												setAlertType('success')
-												setAlertMessage(
-													'Hapus data penugasan berhasil'
-												)
-												setShowAlert(true)
-												resolve()
-											} else {
-												setAlertType('error')
-												setAlertMessage(
-													result.message as string
-												)
-												setShowAlert(true)
-												reject()
-											}
-										})
+						editable={{
+							onRowDelete: (oldData) =>
+								new Promise<void>((resolve, reject) => {
+									deletePenugasan(oldData).then((result) => {
+										if (result.success) {
+											const dataDelete = [...penugasan]
+											const userRowData: any = oldData
+											const index =
+												userRowData.tableData.id
+											dataDelete.splice(index, 1)
+											setPenugasan(dataDelete)
+											setAlertSuccess(true)
+											setAlertMessage(
+												'Hapus data penugasan berhasil'
+											)
+											setShowCheck(true)
+											resolve()
+										} else {
+											setAlertType('error')
+											setAlertSuccess(false)
+											setAlertMessage(
+												result.message as string
+											)
+											setShowCheck(true)
+											resolve()
+										}
 									})
-							}
-						}
+								})
+						}}
 					/>
 				)}
 			</div>

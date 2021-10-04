@@ -12,14 +12,18 @@ import {
 	KabupatenData,
 	KabupatenResponse,
 	SkNumberData,
-	SkNumberResponse
+	SkNumberResponse,
+	PenugasanData
 } from '@interface'
 import { splitAndTrim } from '@util'
 import { uploadPenugasanValidator, deletePenugasanValidator } from '@validator'
 import axios from 'axios'
 
 export const getAllPenugasan = async (): Promise<SuratTugasData[]> => {
-	const r: APIResponse<SuratTugasResponse[]> = await SimaduAPI.get('/listsk')
+	// const r: APIResponse<SuratTugasResponse[]> = await SimaduAPI.get('/listsk')
+	const r: APIResponse<SuratTugasResponse[]> = await apiV2.get(
+		'simadu/listsk'
+	)
 	if (r.status === 200) {
 		return r.data.map((work) => {
 			return {
@@ -88,9 +92,15 @@ export const deletePenugasan = async (
 		const validate = deletePenugasanValidator(data)
 		if (!validate.pass) return { success: false, message: validate.message }
 
-		const r: APIResponse<null> = await SimaduAPI.get(`/deletesk/${data.id}`)
-		if (r.status === 200) return { success: true, message: r.message }
-		return { success: false, message: r.message }
+		// const r: APIResponse<null> = await SimaduAPI.get(`/deletesk?no_st=${data.number}`)
+		const r: APIResponse<{
+			id: string
+			number: string
+			message: string
+		}> = await apiV2.get(`simadu/deletesk?no_st=${data.number}`)
+		console.log(r)
+		if (r.status === 200) return { success: true, message: r.data.message }
+		return { success: false, message: r.data.message }
 	} catch (error) {
 		return { success: false, message: error }
 	}
