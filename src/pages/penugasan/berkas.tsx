@@ -71,6 +71,7 @@ function BerkasPenugasanPage() {
 	const [show, setShow] = useState(false)
 	const [showCheck, setShowCheck] = useState(false)
 	const [alertSuccess, setAlertSuccess] = useState(true)
+	const [alertCheck, setAlertCheck] = useState(false)
 	const [loading, setLoading] = useState(false)
 	const [skNumber, setSkNumber] = useState('')
 
@@ -128,7 +129,6 @@ function BerkasPenugasanPage() {
 		}
 		setAlertMessage(result.message as string[])
 		setShow(true)
-		setShowCheck(false)
 	}
 
 	const handleClickCheck = async () => {
@@ -140,7 +140,8 @@ function BerkasPenugasanPage() {
 				setWorkFile(null)
 				setWorkType('')
 				setShow(false)
-				console.log(skNumber)
+				setAlertCheck(true)
+				console.log(alertCheck)
 			}
 			setAlertMessage(result.message as string[])
 			setWorkFile(null)
@@ -148,7 +149,7 @@ function BerkasPenugasanPage() {
 			setShow(false)
 			setShowCheck(true)
 
-			console.log(skNumber)
+			console.log(alertCheck)
 		} else {
 			handleSkChange
 			console.log(skNumber)
@@ -186,7 +187,7 @@ function BerkasPenugasanPage() {
 								</Alert>
 							) : null}
 
-							{showCheck ? (
+							{showCheck && !show ? (
 								<Alert
 									severity={
 										alertSuccess ? 'success' : 'error'
@@ -226,23 +227,6 @@ function BerkasPenugasanPage() {
 								<TextField
 									id="outlined-number"
 									margin="normal"
-									label="Berkas Excel"
-									type="file"
-									InputLabelProps={{
-										shrink: true
-									}}
-									variant="outlined"
-									required
-									fullWidth
-									name="file"
-									onChange={handleFileChange}
-									className={classes.textAlignLeft}
-								/>
-							</Grid>
-							<Grid item sm={12}>
-								<TextField
-									id="outlined-number"
-									margin="normal"
 									label="Nomor SK"
 									type="text"
 									InputLabelProps={{
@@ -274,6 +258,43 @@ function BerkasPenugasanPage() {
 									Cek
 								</Button>
 							</Grid>
+							<Grid item sm={12}>
+								{showCheck && alertCheck ? (
+									<TextField
+										id="outlined-number"
+										margin="normal"
+										label="Berkas Excel"
+										type="file"
+										InputLabelProps={{
+											shrink: true
+										}}
+										variant="outlined"
+										required
+										fullWidth
+										name="file"
+										onChange={handleFileChange}
+										className={classes.textAlignLeft}
+									/>
+								) : (
+									<TextField
+										id="outlined-number"
+										margin="normal"
+										label="Berkas Excel"
+										disabled
+										type="file"
+										InputLabelProps={{
+											shrink: true
+										}}
+										variant="outlined"
+										required
+										fullWidth
+										name="file"
+										onChange={handleFileChange}
+										className={classes.textAlignLeft}
+									/>
+								)}
+							</Grid>
+
 							<Grid item sm={2}></Grid>
 							<Grid item sm={12}>
 								<TextField
@@ -304,7 +325,7 @@ function BerkasPenugasanPage() {
 							</Grid>
 
 							<Grid item sm={12}>
-								{showCheck && alertSuccess ? (
+								{showCheck && alertCheck ? (
 									<TextField
 										id="outlined-number"
 										select
@@ -357,7 +378,7 @@ function BerkasPenugasanPage() {
 								)}
 							</Grid>
 							<Grid item sm={12}>
-								{showCheck && alertSuccess ? (
+								{showCheck && alertCheck ? (
 									<TextField
 										id="outlined-number"
 										select
