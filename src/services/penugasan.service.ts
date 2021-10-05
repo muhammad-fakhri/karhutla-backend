@@ -139,14 +139,19 @@ export const uploadPenugasan = async (
 			code: string
 			message: string
 			// }> = await axios.post(`${simaduApiUrl}/uploadtim`, formData)
-		}> = await axios.post(`${apiV2}/simadu/uploadtim`, formData)
-		if (r.status === 200) {
+		}> = await apiV2.post(`/simadu/uploadtim`, formData)
+		console.log(r)
+		if (r.code === 200) {
 			return {
 				success: true,
-				message: [r.data.message]
+				message: [r.message]
+			}
+		} else if (r.code === 400) {
+			return {
+				success: false,
+				message: [r.message]
 			}
 		}
-
 		throw new Error(
 			'Unexpected error when uploading penugasan, please contact the administrator'
 		)
