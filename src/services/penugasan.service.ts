@@ -138,8 +138,8 @@ export const uploadPenugasan = async (
 		const r: APIResponse<{
 			code: string
 			message: string
-			// }> = await axios.post(`${simaduApiUrl}/uploadtim`, formData)
-		}> = await axios.post(`${apiV2}/uploadtim`, formData)
+		}> = await axios.post(`${simaduApiUrl}/uploadtim`, formData)
+		// }> = await axios.post(`${apiV2}/uploadtim`, formData)
 		if (r.status === 200) {
 			return {
 				success: true,
