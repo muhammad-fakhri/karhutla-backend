@@ -140,12 +140,13 @@ export const uploadPenugasan = async (
 		const r: APIResponseUpload<{
 			code: string
 		}> = await apiV2.post(`/simadu/uploadtim`, formData)
-		if (r.code === '200') {
+		console.log(r)
+		if (r.code == '200') {
 			return {
 				success: true,
 				message: [r.message]
 			}
-		} else if (r.code === '400') {
+		} else if (r.code == '400') {
 			return {
 				success: false,
 				message: [r.message]

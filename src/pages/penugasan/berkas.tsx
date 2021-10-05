@@ -122,11 +122,13 @@ function BerkasPenugasanPage() {
 
 		if (!result.success) setAlertSuccess(false)
 		else {
+			console.log('masuk')
 			setAlertSuccess(true)
 			setWorkFile(null)
 			setWorkType('')
 			setShowCheck(false)
 		}
+		console.log('tidak masuk')
 		setAlertMessage(result.message as string[])
 		setShow(true)
 	}
