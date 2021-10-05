@@ -11,6 +11,7 @@ import {
 	ProvinsiResponse,
 	KabupatenData,
 	KabupatenResponse,
+	APIResponseUpload,
 	SkNumberData,
 	SkNumberResponse,
 	PenugasanData
@@ -135,18 +136,17 @@ export const uploadPenugasan = async (
 		formData.append('provinsi', province)
 		formData.append('kabupaten', kabupaten)
 
-		const r: APIResponse<{
+		// }> = await axios.post(`${simaduApiUrl}/uploadtim`, formData)
+		const r: APIResponseUpload<{
 			code: string
-			message: string
-			// }> = await axios.post(`${simaduApiUrl}/uploadtim`, formData)
 		}> = await apiV2.post(`/simadu/uploadtim`, formData)
 		console.log(r)
-		if (r.code === 200) {
+		if (r.code === '200') {
 			return {
 				success: true,
 				message: [r.message]
 			}
-		} else if (r.code === 400) {
+		} else if (r.code === '400') {
 			return {
 				success: false,
 				message: [r.message]

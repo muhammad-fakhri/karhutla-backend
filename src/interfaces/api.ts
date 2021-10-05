@@ -4,6 +4,13 @@ export interface APIResponse<T> {
 	data: T
 }
 
+export interface APIResponseUpload<T> {
+	status: number
+	message: string
+	data: T
+	code: string
+}
+
 interface UserBaseResponse {
 	no_registrasi: string
 	nama: string
