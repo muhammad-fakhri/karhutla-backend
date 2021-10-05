@@ -140,7 +140,6 @@ export const uploadPenugasan = async (
 		const r: APIResponseUpload<{
 			code: string
 		}> = await apiV2.post(`/simadu/uploadtim`, formData)
-		console.log(r)
 		if (r.code === '200') {
 			return {
 				success: true,
@@ -152,9 +151,7 @@ export const uploadPenugasan = async (
 				message: [r.message]
 			}
 		}
-		throw new Error(
-			'Unexpected error when uploading penugasan, please contact the administrator'
-		)
+		throw new Error(r.message)
 	} catch (error) {
 		if (!error.response) {
 			return {
