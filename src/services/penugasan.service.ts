@@ -170,8 +170,8 @@ export const uploadPenugasan = async (
 export const getPenugasanDetail = async (
 	noSK: string
 ): Promise<SuratTugasTeamMemberData[]> => {
-	const r: APIResponse<SuratTugasTeamMemberResponse[]> = await SimaduAPI.get(
-		`/listregu?nomor_sk=${noSK}`
+	const r: APIResponse<SuratTugasTeamMemberResponse[]> = await apiV2.get(
+		`/simadu/listregu?nomor_sk=${noSK}`
 	)
 	if (r.status === 200) {
 		return r.data.map((teamMember) => {
