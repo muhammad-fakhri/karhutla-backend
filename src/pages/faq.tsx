@@ -118,7 +118,7 @@ function FAQPage() {
 												<Typography>
 													Untuk TNI, Polri, dan MPA
 													kolom reg, email serta no HP
-													di tuliskan nama sesuai
+													dituliskan nama sesuai
 													dengan kolom nama tanpa
 													spasi .
 												</Typography>
@@ -161,8 +161,8 @@ function FAQPage() {
 											</AccordionSummary>
 											<AccordionDetails>
 												<Typography>
-													Nomor SK dari baris atas ke
-													bawah harus sama
+													Nomor SK pada semua baris
+													harus sama
 												</Typography>
 											</AccordionDetails>
 										</Accordion>
@@ -207,10 +207,11 @@ function FAQPage() {
 											<AccordionDetails>
 												<Typography>
 													Penulisan nama daerah harus
-													sesuai dengan di database
-													jika nama daerah belum ada
-													maka harus di tambahkan oleh
-													admin
+													sesuai dengan di basis data.
+													Jika nama daerah belum ada
+													dalam basis data maka nama
+													daerah harus ditambahkan
+													oleh admin
 												</Typography>
 											</AccordionDetails>
 										</Accordion>
@@ -231,7 +232,7 @@ function FAQPage() {
 											</AccordionSummary>
 											<AccordionDetails>
 												<Typography>
-													Hapus Baris kosong di bawah
+													Hapus baris kosong di bawah
 													tabel yang terisi atau copy
 													tabel ke file Excel baru
 												</Typography>
@@ -248,13 +249,13 @@ function FAQPage() {
 												}}
 											>
 												<Typography>
-													Format file yang di upload
+													Format file yang diunggah
 												</Typography>
 											</AccordionSummary>
 											<AccordionDetails>
 												<Typography>
-													Format file yang di upload
-													harus .XLSX
+													Format file yang diunggah
+													harus memiliki format .XLSX
 												</Typography>
 											</AccordionDetails>
 										</Accordion>
@@ -274,7 +275,10 @@ function FAQPage() {
 											</AccordionSummary>
 											<AccordionDetails>
 												<Typography>
-													Upload saat sinyal bagus
+													Kendala sinyal, silahkan
+													unggah kembali surat tugas
+													pada kondisi sinyal yang
+													bagus.
 												</Typography>
 											</AccordionDetails>
 										</Accordion>
