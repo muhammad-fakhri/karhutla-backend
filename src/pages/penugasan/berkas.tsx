@@ -48,6 +48,14 @@ type AlertElemenPropType = {
 	text: string[]
 }
 
+const toTitleCase = (phrase) => {
+	return phrase
+		.toLowerCase()
+		.split(' ')
+		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+		.join(' ')
+}
+
 const AlertElement = (props: AlertElemenPropType) => {
 	return (
 		<>
@@ -355,7 +363,9 @@ function BerkasPenugasanPage() {
 												key={option.kode_wilayah}
 												value={option.kode_wilayah}
 											>
-												{option.nama_wilayah}
+												{toTitleCase(
+													option.nama_wilayah
+												)}
 											</MenuItem>
 										))}
 									</TextField>
@@ -408,7 +418,9 @@ function BerkasPenugasanPage() {
 												key={option.kode_wilayah}
 												value={option.kode_wilayah}
 											>
-												{option.nama_wilayah}
+												{toTitleCase(
+													option.nama_wilayah
+												)}
 											</MenuItem>
 										))}
 									</TextField>
