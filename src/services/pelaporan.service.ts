@@ -5,7 +5,10 @@ import {
 	APIResponse,
 	ServiceResponse,
 	LaporanData,
-	LaporanDataResponse
+	LaporanDataResponse,
+	SuratTugasLaporanData,
+	SuratTugasLaporanDataResponse,
+	DeleteLaporanInput
 } from '@interface'
 
 export const downloadLaporanRentangTanggal = (
@@ -72,4 +75,41 @@ export const updateLaporan = async (data: any): Promise<ServiceResponse> => {
 	if (r.status === 200)
 		return { success: true, message: 'Ubah data Laporan berhasil' }
 	return { success: false, message: data.message }
+}
+
+export const getSKLaporanDetail = async (
+	noSK: string
+): Promise<SuratTugasLaporanData[]> => {
+	const r: APIResponse<SuratTugasLaporanDataResponse[]> = await apiV2.get(
+		`/simadu/listlaporan?nomor_sk=${noSK}`
+	)
+	console.log(r)
+	if (r.status === 200) {
+		return r.data.map((laporanDetail) => {
+			return {
+				id_laporan_header: laporanDetail.id_laporan_header,
+				tanggal_patroli: laporanDetail.tanggal_patroli,
+				nama_daerah_patroli: laporanDetail.nama_daerah_patroli,
+				nama_daops: laporanDetail.nama_daops,
+				nama_ketua: laporanDetail.nama_ketua
+			}
+		})
+	}
+	return []
+}
+
+export const deleteLaporan = async (
+	data: DeleteLaporanInput
+): Promise<ServiceResponse> => {
+	try {
+		// const r: APIResponse<null> = await SimaduAPI.get(`/deletesk?no_st=${data.number}`)
+		const r: APIResponse<{
+			message: string
+		}> = await apiV2.get(`laporan/delete/${data.id_laporan_header}`)
+		console.log(r)
+		if (r.status === 200) return { success: true, message: r.data.message }
+		return { success: false, message: r.data.message }
+	} catch (error) {
+		return { success: false, message: error }
+	}
 }

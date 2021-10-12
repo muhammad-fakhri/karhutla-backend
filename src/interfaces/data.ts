@@ -99,6 +99,15 @@ export interface SuratTugasTeamMemberData {
 	posko: string
 	daops: string
 }
+
+export interface SuratTugasLaporanData {
+	id_laporan_header: string
+	tanggal_patroli: string
+	nama_daerah_patroli: string
+	nama_daops: string
+	nama_ketua: string
+}
+
 export interface LaporanData {
 	id: string
 	id_daerah_patroli: string

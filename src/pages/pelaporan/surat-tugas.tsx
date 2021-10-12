@@ -11,6 +11,7 @@ import classNames from 'classnames'
 import MaterialTable from 'material-table'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import LaunchIcon from '@material-ui/icons/Launch'
 
 const useStyles = makeStyles(styles)
 
@@ -61,16 +62,27 @@ function PelaporanSuratTugasPage() {
 							)
 						}}
 						actions={[
+							// {
+							// 	icon: 'edit',
+							// 	tooltip: 'Ubah Data Laporan',
+							// 	onClick: (event, rowData) => {
+							// 		{
+							// 			const laporanData = rowData as SuratTugasData
+							// 			router.push(
+							// 				`/pelaporan/ubah/${laporanData.id}`
+							// 			)
+							// 		}
+							// 	}
+							// },
 							{
-								icon: 'edit',
-								tooltip: 'Ubah Data Laporan',
+								icon: LaunchIcon,
+								tooltip: 'Buka Detail Laporan',
 								onClick: (event, rowData) => {
-									{
-										const laporanData = rowData as SuratTugasData
-										router.push(
-											`/pelaporan/ubah/${laporanData.id}`
-										)
-									}
+									event.preventDefault()
+									const suratTugasRowData = rowData as SuratTugasData
+									router.push(
+										`/pelaporan/detail?noSK=${suratTugasRowData.number}`
+									)
 								}
 							},
 							{

@@ -225,6 +225,14 @@ export interface SuratTugasTeamMemberResponse {
 	daops: string
 }
 
+export interface SuratTugasLaporanDataResponse {
+	id_laporan_header: string
+	tanggal_patroli: string
+	nama_daerah_patroli: string
+	nama_daops: string
+	nama_ketua: string
+}
+
 export interface PoskoResponse {
 	id: string
 	nama: string
