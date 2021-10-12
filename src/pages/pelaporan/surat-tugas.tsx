@@ -10,6 +10,7 @@ import { getAllPenugasan } from '@service'
 import classNames from 'classnames'
 import MaterialTable from 'material-table'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 
 const useStyles = makeStyles(styles)
 
@@ -25,6 +26,7 @@ function PelaporanSuratTugasPage() {
 	const { isAuthenticated } = useAuth()
 	const [penugasan, setPenugasan] = useState<SuratTugasData[]>([])
 	const [loading, setLoading] = useState(true)
+	const router = useRouter()
 	useEffect(() => {
 		const fetchData = async () => {
 			const data = await getAllPenugasan()
@@ -59,6 +61,18 @@ function PelaporanSuratTugasPage() {
 							)
 						}}
 						actions={[
+							{
+								icon: 'edit',
+								tooltip: 'Ubah Data Laporan',
+								onClick: (event, rowData) => {
+									{
+										const laporanData = rowData as SuratTugasData
+										router.push(
+											`/pelaporan/ubah/${laporanData.id}`
+										)
+									}
+								}
+							},
 							{
 								icon: CloudDownloadIcon,
 								tooltip: 'Download Laporan',

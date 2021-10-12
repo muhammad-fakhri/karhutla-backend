@@ -24,6 +24,7 @@ export const getPatroli = async (
 		const res: APIResponse<[[PatroliResponse]]> = await SimaduAPI.get(
 			`/list?tanggal_patroli=${date}`
 		)
+		console.log(res)
 		const patroliData = res.data
 		patroliData.forEach((item) => {
 			item.forEach((patroli) => {

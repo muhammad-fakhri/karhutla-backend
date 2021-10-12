@@ -47,11 +47,10 @@ export interface NonPatroliUserResponse {
 	r_role: RoleResponse
 }
 
-export interface LaporanDataResponse {
-	id: string
-	id_daerah_patroli: string
-	kategori_patroli: string
-	tanggal_patroli: string
+export interface LaporanDataResponse<T = any> {
+	success: boolean
+	message: string | string[]
+	data?: T
 }
 
 export interface NonLoginUserResponse {
