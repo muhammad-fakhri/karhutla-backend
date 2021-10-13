@@ -26,6 +26,10 @@ import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormLabel from '@material-ui/core/FormLabel'
 import Checkbox from '@material-ui/core/Checkbox'
+import Paper from '@material-ui/core/Paper'
+import { ThemeProvider, styled } from '@material-ui/core/styles'
+import Divider from '@material-ui/core/Divider'
+import Chip from '@material-ui/core/Chip'
 
 const useStyles = makeStyles(styles)
 
@@ -70,8 +74,10 @@ function UbahLaporanPage() {
 	const [potensiKarhutlaList, setPotensiKarhutlaList] = useState([])
 	const [aktivitasMasyarakat, setAktivitas] = useState('')
 	const [aktivitasMasyarakatList, setAktivitasList] = useState([])
-	console.log(laporanId)
 	const [loading, setLoading] = useState(false)
+	const [list, setList] = useState([])
+	const [dataObservasi, setObservasi] = useState([])
+	const [observasiNull, setObservasiNull] = useState(true)
 	const [values, setValues] = useState({
 		id: '',
 		registrationNumber: '',
@@ -224,6 +230,145 @@ function UbahLaporanPage() {
 
 		return newArray
 	}
+
+	function checkObservasi(atribut, value) {
+		// console.log(typeof list['NamaPengujian'])
+
+		switch (atribut) {
+			case 'Nama Pengujian':
+				for (const key in list['NamaPengujian']) {
+					if (value.toString() === list['NamaPengujian'][key].id)
+						return list['NamaPengujian'][key].text
+				}
+				break
+			case 'Nilai Pengujian':
+				for (const key in list['NilaiPengujian']) {
+					if (value.toString() === list['NilaiPengujian'][key].id)
+						return list['NilaiPengujian'][key].text
+				}
+				break
+			case 'Hasil Pengujian':
+				for (const key in list['HasilPengujian']) {
+					if (value.toString() === list['HasilPengujian'][key].id)
+						return list['HasilPengujian'][key].text
+				}
+				break
+			case 'Pengujian Gambut':
+				for (const key in list['PengujianGambut']) {
+					if (value.toString() === list['PengujianGambut'][key].id)
+						return list['PengujianGambut'][key].text
+				}
+				break
+			case 'Kondisi Sumber Air':
+				for (const key in list['SumberAir']) {
+					if (value.toString() === list['SumberAir'][key].id)
+						return list['SumberAir'][key].text
+				}
+				break
+			case 'Vegetasi':
+				for (const key in list['Vegetasi']) {
+					if (value.toString() === list['Vegetasi'][key].id)
+						return list['Vegetasi'][key].text
+				}
+				break
+			case 'Kategori Kondisi Vegetasi':
+				for (const key in list['KondisiVegetasi']) {
+					if (value.toString() === list['KondisiVegetasi'][key].id)
+						return list['KondisiVegetasi'][key].text
+				}
+				break
+			case 'Aktivitas Masyarakat':
+				for (const key in list['AktivitasNarasumber']) {
+					if (
+						value.toString() === list['AktivitasNarasumber'][key].id
+					)
+						return list['AktivitasNarasumber'][key].text
+				}
+				break
+			case 'Pekerjaan':
+				for (const key in list['Pekerjaan']) {
+					if (value.toString() === list['Pekerjaan'][key].id)
+						return list['Pekerjaan'][key].text
+				}
+				break
+			case 'Potensi Desa':
+				for (const key in list['PotensiDesa']) {
+					if (value.toString() === list['PotensiDesa'][key].id)
+						return list['PotensiDesa'][key].text
+				}
+				break
+			case 'Media':
+				for (const key in list['Media']) {
+					if (value.toString() === list['Media'][key].id)
+						return list['Media'][key].text
+				}
+				break
+			case 'Jenis Tanah':
+				for (const key in list['Tanah']) {
+					if (value.toString() === list['Tanah'][key].id)
+						return list['Tanah'][key].text
+				}
+				break
+			case 'Kondisi Tanah':
+				for (const key in list['KondisiKarhutla']) {
+					if (value.toString() === list['KondisiKarhutla'][key].id)
+						return list['KondisiKarhutla'][key].text
+				}
+				break
+			case 'Perubahan Area Bekas Kebakaran':
+				for (const key in list['PerubahanArea']) {
+					if (value.toString() === list['PerubahanArea'][key].id)
+						return list['PerubahanArea'][key].text
+				}
+				break
+			case 'Jenis Instansi':
+				for (const key in list['JenisInstansi']) {
+					if (value.toString() === list['JenisInstansi'][key].id)
+						return list['JenisInstansi'][key].text
+				}
+				break
+			case 'Tipe Kebakaran':
+				for (const key in list['TipeKebakaran']) {
+					if (value.toString() === list['TipeKebakaran'][key].id)
+						return list['TipeKebakaran'][key].text
+				}
+				break
+			case 'Status Lahan':
+				for (const key in list['StatusLahan']) {
+					if (value.toString() === list['StatusLahan'][key].id)
+						return list['StatusLahan'][key].text
+				}
+				break
+			case 'Pemilik Lahan':
+				for (const key in list['PemilikLahan']) {
+					if (value.toString() === list['PemilikLahan'][key].id)
+						return list['PemilikLahan'][key].text
+				}
+				break
+			case 'Hasil Pemadaman':
+				for (const key in list['HasilPemadaman']) {
+					if (value.toString() === list['HasilPemadaman'][key].id)
+						return list['HasilPemadaman'][key].text
+				}
+				break
+			case 'Penyebab Karhutla':
+				for (const key in list['PenyebabKarhutla']) {
+					if (value.toString() === list['PenyebabKarhutla'][key].id)
+						return list['PenyebabKarhutla'][key].text
+				}
+				break
+			case 'Jenis Bahan Bakar':
+				for (const key in list['JenisBahanBakar']) {
+					if (value.toString() === list['JenisBahanBakar'][key].id)
+						return list['JenisBahanBakar'][key].text
+				}
+				break
+			default:
+				return value
+		}
+
+		// return newArray
+	}
 	const handleClickCheckbox = async (type: string, index: number) => {
 		const result = await changeCheck(type, index)
 		console.log(result)
@@ -243,7 +388,6 @@ function UbahLaporanPage() {
 	}
 
 	const handleFormSubmit = async () => {
-		console.log(daily_activity)
 		setLoading(true)
 		const newDaily = []
 		const newSatelite = []
@@ -354,21 +498,25 @@ function UbahLaporanPage() {
 		setLoading(false)
 	}
 
+	console.log(dataObservasi)
 	useEffect(() => {
 		const getLaporanData = async () => {
-			console.log('test')
 			if (laporanId) {
 				const detailList = await getDetailList()
 				const result = await getLaporanDetail(laporanId as string)
 				console.log(result)
 				if (result.success && detailList.success) {
-					console.log(detailList.data.KategoriPatroli)
-
+					setList(detailList.data)
 					setWorkType(result.data[0].kategori_patroli)
 					setLaporanId(result.data[0].id_laporan_header)
 					setTanggalLaporan(result.data[0].tanggal_patroli)
 					setDaerah(result.data[0].id_daerah_patroli)
 					setRegu(result.data[0].id_regu_tim_patroli)
+					if (result.data[0].observasiGroup[0]) {
+						setObservasi(result.data[0].observasiGroup)
+						setObservasiNull(false)
+					}
+
 					if (result.data[0].laporanDarat[0]) {
 						setLaporanDaratId(
 							result.data[0].laporanDarat[0].id_laporan_darat
@@ -1475,7 +1623,154 @@ function UbahLaporanPage() {
 											</Grid>
 										</Grid>
 									</TabPanel>
-									<TabPanel value="3"></TabPanel>
+									<TabPanel value="3">
+										{observasiNull ? (
+											<Grid
+												container
+												justify="center"
+												spacing={2}
+											>
+												<Grid
+													item
+													xs={12}
+													style={{
+														margin: '25px 0',
+														border:
+															'1px solid #eee',
+														padding: '20px'
+													}}
+												>
+													<Grid item xs={12}>
+														<h3>
+															Tidak ada data
+															Observasi
+														</h3>
+													</Grid>
+												</Grid>
+											</Grid>
+										) : (
+											<Grid
+												container
+												justify="center"
+												spacing={2}
+											>
+												{dataObservasi.map(
+													(option, index) => (
+														<Grid
+															item
+															xs={6}
+															style={{
+																margin: '0',
+																border:
+																	'1px solid #eee',
+																padding: '20px',
+																textAlign:
+																	'left'
+															}}
+															key={index}
+														>
+															<Grid item xs={12}>
+																<table>
+																	<tr>
+																		<td>
+																			Latitude
+																		</td>
+																		<td
+																			style={{
+																				padding:
+																					'0 10px'
+																			}}
+																		>
+																			:
+																		</td>
+																		<td>
+																			{
+																				option.latitude
+																			}
+																		</td>
+																	</tr>
+																	<tr>
+																		<td>
+																			Longitude
+																		</td>
+																		<td
+																			style={{
+																				padding:
+																					'0 10px'
+																			}}
+																		>
+																			:
+																		</td>
+																		<td>
+																			{
+																				option.longitude
+																			}
+																		</td>
+																	</tr>
+																</table>
+																<hr></hr>
+																{option.observasi.map(
+																	(
+																		option1,
+																		index1
+																	) => (
+																		<div
+																			key={
+																				index1
+																			}
+																		>
+																			<h4>
+																				<b>
+																					{
+																						option1.nama
+																					}
+																				</b>
+																			</h4>
+																			<hr></hr>
+																			<table>
+																				{option1.atribut.map(
+																					(
+																						option2,
+																						index2
+																					) => (
+																						<tr
+																							key={
+																								index2
+																							}
+																						>
+																							<td>
+																								{
+																									option2.nama_atribut
+																								}
+																							</td>
+																							<td
+																								style={{
+																									padding:
+																										'0 10px'
+																								}}
+																							>
+																								:
+																							</td>
+																							<td>
+																								{checkObservasi(
+																									option2.nama_atribut,
+																									option2.value
+																								)}
+																							</td>
+																						</tr>
+																					)
+																				)}
+																			</table>
+																		</div>
+																	)
+																)}
+															</Grid>
+														</Grid>
+													)
+												)}
+											</Grid>
+										)}
+									</TabPanel>
 								</TabContext>
 							</Box>
 						</Grid>
