@@ -236,131 +236,185 @@ function UbahLaporanPage() {
 
 		switch (atribut) {
 			case 'Nama Pengujian':
-				for (const key in list['NamaPengujian']) {
-					if (value.toString() === list['NamaPengujian'][key].id)
-						return list['NamaPengujian'][key].text
+				if (value !== null) {
+					for (const key in list['NamaPengujian']) {
+						if (value.toString() === list['NamaPengujian'][key].id)
+							return list['NamaPengujian'][key].text
+					}
 				}
 				break
 			case 'Nilai Pengujian':
-				for (const key in list['NilaiPengujian']) {
-					if (value.toString() === list['NilaiPengujian'][key].id)
-						return list['NilaiPengujian'][key].text
+				if (value !== null) {
+					for (const key in list['NilaiPengujian']) {
+						if (value.toString() === list['NilaiPengujian'][key].id)
+							return list['NilaiPengujian'][key].text
+					}
 				}
 				break
 			case 'Hasil Pengujian':
-				for (const key in list['HasilPengujian']) {
-					if (value.toString() === list['HasilPengujian'][key].id)
-						return list['HasilPengujian'][key].text
+				if (value !== null) {
+					for (const key in list['HasilPengujian']) {
+						if (value.toString() === list['HasilPengujian'][key].id)
+							return list['HasilPengujian'][key].text
+					}
 				}
 				break
 			case 'Pengujian Gambut':
-				for (const key in list['PengujianGambut']) {
-					if (value.toString() === list['PengujianGambut'][key].id)
-						return list['PengujianGambut'][key].text
+				if (value !== null) {
+					for (const key in list['PengujianGambut']) {
+						if (
+							value.toString() === list['PengujianGambut'][key].id
+						)
+							return list['PengujianGambut'][key].text
+					}
 				}
 				break
 			case 'Kondisi Sumber Air':
-				for (const key in list['SumberAir']) {
-					if (value.toString() === list['SumberAir'][key].id)
-						return list['SumberAir'][key].text
+				if (value !== null) {
+					for (const key in list['SumberAir']) {
+						if (value.toString() === list['SumberAir'][key].id)
+							return list['SumberAir'][key].text
+					}
 				}
 				break
 			case 'Vegetasi':
-				for (const key in list['Vegetasi']) {
-					if (value.toString() === list['Vegetasi'][key].id)
-						return list['Vegetasi'][key].text
+				if (value !== null) {
+					for (const key in list['Vegetasi']) {
+						if (value.toString() === list['Vegetasi'][key].id)
+							return list['Vegetasi'][key].text
+					}
 				}
 				break
 			case 'Kategori Kondisi Vegetasi':
-				for (const key in list['KondisiVegetasi']) {
-					if (value.toString() === list['KondisiVegetasi'][key].id)
-						return list['KondisiVegetasi'][key].text
+				if (value !== null) {
+					for (const key in list['KondisiVegetasi']) {
+						if (
+							value.toString() === list['KondisiVegetasi'][key].id
+						)
+							return list['KondisiVegetasi'][key].text
+					}
 				}
 				break
 			case 'Aktivitas Masyarakat':
-				for (const key in list['AktivitasNarasumber']) {
-					if (
-						value.toString() === list['AktivitasNarasumber'][key].id
-					)
-						return list['AktivitasNarasumber'][key].text
+				if (value !== null) {
+					for (const key in list['AktivitasNarasumber']) {
+						if (
+							value.toString() ===
+							list['AktivitasNarasumber'][key].id
+						)
+							return list['AktivitasNarasumber'][key].text
+					}
 				}
 				break
 			case 'Pekerjaan':
-				for (const key in list['Pekerjaan']) {
-					if (value.toString() === list['Pekerjaan'][key].id)
-						return list['Pekerjaan'][key].text
+				if (value !== null) {
+					for (const key in list['Pekerjaan']) {
+						if (value.toString() === list['Pekerjaan'][key].id)
+							return list['Pekerjaan'][key].text
+					}
 				}
 				break
 			case 'Potensi Desa':
-				for (const key in list['PotensiDesa']) {
-					if (value.toString() === list['PotensiDesa'][key].id)
-						return list['PotensiDesa'][key].text
+				if (value !== null) {
+					for (const key in list['PotensiDesa']) {
+						if (value.toString() === list['PotensiDesa'][key].id)
+							return list['PotensiDesa'][key].text
+					}
 				}
 				break
 			case 'Media':
-				for (const key in list['Media']) {
-					if (value.toString() === list['Media'][key].id)
-						return list['Media'][key].text
+				if (value !== null) {
+					for (const key in list['Media']) {
+						if (value.toString() === list['Media'][key].id)
+							return list['Media'][key].text
+					}
 				}
 				break
 			case 'Jenis Tanah':
-				for (const key in list['Tanah']) {
-					if (value.toString() === list['Tanah'][key].id)
-						return list['Tanah'][key].text
+				if (value !== null) {
+					for (const key in list['Tanah']) {
+						if (value.toString() === list['Tanah'][key].id)
+							return list['Tanah'][key].text
+					}
 				}
 				break
 			case 'Kondisi Tanah':
-				for (const key in list['KondisiKarhutla']) {
-					if (value.toString() === list['KondisiKarhutla'][key].id)
-						return list['KondisiKarhutla'][key].text
+				if (value !== null) {
+					for (const key in list['KondisiKarhutla']) {
+						if (
+							value.toString() === list['KondisiKarhutla'][key].id
+						)
+							return list['KondisiKarhutla'][key].text
+					}
 				}
 				break
 			case 'Perubahan Area Bekas Kebakaran':
-				for (const key in list['PerubahanArea']) {
-					if (value.toString() === list['PerubahanArea'][key].id)
-						return list['PerubahanArea'][key].text
+				if (value !== null) {
+					for (const key in list['PerubahanArea']) {
+						if (value.toString() === list['PerubahanArea'][key].id)
+							return list['PerubahanArea'][key].text
+					}
 				}
 				break
 			case 'Jenis Instansi':
-				for (const key in list['JenisInstansi']) {
-					if (value.toString() === list['JenisInstansi'][key].id)
-						return list['JenisInstansi'][key].text
+				if (value !== null) {
+					for (const key in list['JenisInstansi']) {
+						if (value.toString() === list['JenisInstansi'][key].id)
+							return list['JenisInstansi'][key].text
+					}
 				}
 				break
 			case 'Tipe Kebakaran':
-				for (const key in list['TipeKebakaran']) {
-					if (value.toString() === list['TipeKebakaran'][key].id)
-						return list['TipeKebakaran'][key].text
+				if (value !== null) {
+					for (const key in list['TipeKebakaran']) {
+						if (value.toString() === list['TipeKebakaran'][key].id)
+							return list['TipeKebakaran'][key].text
+					}
 				}
 				break
 			case 'Status Lahan':
-				for (const key in list['StatusLahan']) {
-					if (value.toString() === list['StatusLahan'][key].id)
-						return list['StatusLahan'][key].text
+				if (value !== null) {
+					for (const key in list['StatusLahan']) {
+						if (value.toString() === list['StatusLahan'][key].id)
+							return list['StatusLahan'][key].text
+					}
 				}
 				break
 			case 'Pemilik Lahan':
-				for (const key in list['PemilikLahan']) {
-					if (value.toString() === list['PemilikLahan'][key].id)
-						return list['PemilikLahan'][key].text
+				if (value !== null) {
+					for (const key in list['PemilikLahan']) {
+						if (value.toString() === list['PemilikLahan'][key].id)
+							return list['PemilikLahan'][key].text
+					}
 				}
 				break
 			case 'Hasil Pemadaman':
-				for (const key in list['HasilPemadaman']) {
-					if (value.toString() === list['HasilPemadaman'][key].id)
-						return list['HasilPemadaman'][key].text
+				if (value !== null) {
+					for (const key in list['HasilPemadaman']) {
+						if (value.toString() === list['HasilPemadaman'][key].id)
+							return list['HasilPemadaman'][key].text
+					}
 				}
 				break
 			case 'Penyebab Karhutla':
-				for (const key in list['PenyebabKarhutla']) {
-					if (value.toString() === list['PenyebabKarhutla'][key].id)
-						return list['PenyebabKarhutla'][key].text
+				if (value !== null) {
+					for (const key in list['PenyebabKarhutla']) {
+						if (
+							value.toString() ===
+							list['PenyebabKarhutla'][key].id
+						)
+							return list['PenyebabKarhutla'][key].text
+					}
 				}
 				break
 			case 'Jenis Bahan Bakar':
-				for (const key in list['JenisBahanBakar']) {
-					if (value.toString() === list['JenisBahanBakar'][key].id)
-						return list['JenisBahanBakar'][key].text
+				if (value !== null) {
+					for (const key in list['JenisBahanBakar']) {
+						if (
+							value.toString() === list['JenisBahanBakar'][key].id
+						)
+							return list['JenisBahanBakar'][key].text
+					}
 				}
 				break
 			default:
@@ -1651,8 +1705,9 @@ function UbahLaporanPage() {
 										) : (
 											<Grid
 												container
-												justify="center"
+												justify="flex-start"
 												spacing={2}
+												style={{ textAlign: 'left' }}
 											>
 												{dataObservasi.map(
 													(option, index) => (
@@ -1662,7 +1717,7 @@ function UbahLaporanPage() {
 															style={{
 																margin: '0',
 																border:
-																	'1px solid #eee',
+																	'2px solid #CFCFCF',
 																padding: '20px',
 																textAlign:
 																	'left'
@@ -1719,7 +1774,12 @@ function UbahLaporanPage() {
 																				index1
 																			}
 																		>
-																			<h4>
+																			<h4
+																				style={{
+																					textAlign:
+																						'center'
+																				}}
+																			>
 																				<b>
 																					{
 																						option1.nama
