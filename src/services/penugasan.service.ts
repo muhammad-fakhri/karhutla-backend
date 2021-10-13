@@ -1,4 +1,4 @@
-import { SimaduAPI, simaduApiUrl, apiV2, API } from '@api'
+import { SimaduAPI, simaduApiUrl, apiV2, apiV2URL, API } from '@api'
 import {
 	APIResponse,
 	ServiceResponse,
@@ -33,7 +33,7 @@ export const getAllPenugasan = async (): Promise<SuratTugasData[]> => {
 				type: work.jenis_surat,
 				startDate: work.tanggal_awal,
 				finishDate: work.tanggal_akhir,
-				reportLink: `${simaduApiUrl}/downloadPeriode?nomor_sk=${work.nomor}`
+				reportLink: `${apiV2URL}/simadu/downloadPeriode?nomor_sk=${work.nomor}`
 			}
 		})
 	}

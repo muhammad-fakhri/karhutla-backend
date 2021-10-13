@@ -42,16 +42,14 @@ export const getLaporanDetail = async (
 	success: boolean
 	message: string | string[]
 	data?: any
+	no_sk: any
 }> => {
-	const r: APIResponse<LaporanDataResponse[]> = await apiV2.get(
-		`laporan/fetch/${laporanId}`
-	)
+	const r: APIResponse<any> = await apiV2.get(`laporan/fetch/${laporanId}`)
 	console.log(r)
 	if (r.status === 200) {
-		console.log(r.data)
-		return { success: true, message: r.message, data: r.data }
+		return { success: true, message: r.message, no_sk: r, data: r.data }
 	}
-	return { success: false, message: r.message }
+	return { success: false, message: r.message, no_sk: null }
 }
 
 export const getDetailList = async (): Promise<{

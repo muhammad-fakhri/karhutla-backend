@@ -78,6 +78,7 @@ function UbahLaporanPage() {
 	const [list, setList] = useState([])
 	const [dataObservasi, setObservasi] = useState([])
 	const [observasiNull, setObservasiNull] = useState(true)
+	const [nomor_sk, setSK] = useState('')
 	const [values, setValues] = useState({
 		id: '',
 		registrationNumber: '',
@@ -567,6 +568,7 @@ function UbahLaporanPage() {
 				const result = await getLaporanDetail(laporanId as string)
 				console.log(result)
 				if (result.success && detailList.success) {
+					setSK(result.no_sk.no_sk)
 					setList(detailList.data)
 					setWorkType(result.data[0].kategori_patroli)
 					setLaporanId(result.data[0].id_laporan_header)
@@ -701,7 +703,7 @@ function UbahLaporanPage() {
 					classes.textCenter
 				)}
 			>
-				<h2>Ubah Data Laporan</h2>
+				<h2>Ubah Data Laporan : {nomor_sk}</h2>
 				<form noValidate autoComplete="off" style={{ margin: '60px' }}>
 					<Grid container justify="center" spacing={2}>
 						<Grid item xs={12} md={12}>
