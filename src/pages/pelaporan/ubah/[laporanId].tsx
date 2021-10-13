@@ -279,10 +279,17 @@ function UbahLaporanPage() {
 				break
 			case 'Vegetasi':
 				if (value !== null) {
-					for (const key in list['Vegetasi']) {
-						if (value.toString() === list['Vegetasi'][key].id)
-							return list['Vegetasi'][key].text
+					const vname = []
+					for (const n in value) {
+						for (const key in list['Vegetasi']) {
+							// console.log(value[n])
+							if (value[n] === list['Vegetasi'][key].id) {
+								vname.push(list['Vegetasi'][key].text)
+							}
+						}
 					}
+					// console.log(vname)
+					if (vname) return vname.join(', ')
 				}
 				break
 			case 'Kategori Kondisi Vegetasi':
@@ -1058,7 +1065,6 @@ function UbahLaporanPage() {
 															shrink: true
 														}}
 														variant="outlined"
-														required
 														fullWidth
 														name="longitude"
 														className={
@@ -1080,7 +1086,6 @@ function UbahLaporanPage() {
 															shrink: true
 														}}
 														variant="outlined"
-														required
 														fullWidth
 														name="desa"
 														className={
@@ -1099,7 +1104,6 @@ function UbahLaporanPage() {
 															shrink: true
 														}}
 														variant="outlined"
-														required
 														fullWidth
 														name="kecamatan"
 														className={
@@ -1121,7 +1125,6 @@ function UbahLaporanPage() {
 															shrink: true
 														}}
 														variant="outlined"
-														required
 														fullWidth
 														name="kabupaten"
 														className={
@@ -1143,7 +1146,6 @@ function UbahLaporanPage() {
 															shrink: true
 														}}
 														variant="outlined"
-														required
 														fullWidth
 														name="Provinsi"
 														className={
@@ -1175,7 +1177,6 @@ function UbahLaporanPage() {
 														}}
 														defaultValue=""
 														variant="outlined"
-														required
 														fullWidth
 														name="kondisi"
 														value={kondisiKarhutla}
@@ -1213,7 +1214,6 @@ function UbahLaporanPage() {
 														}}
 														defaultValue=""
 														variant="outlined"
-														required
 														fullWidth
 														name="potensi"
 														value={potensiKarhutla}
@@ -1251,7 +1251,6 @@ function UbahLaporanPage() {
 														}}
 														defaultValue=""
 														variant="outlined"
-														required
 														fullWidth
 														name="ffcm"
 														value={ffmc}
@@ -1289,7 +1288,6 @@ function UbahLaporanPage() {
 														}}
 														defaultValue=""
 														variant="outlined"
-														required
 														fullWidth
 														name="fwi"
 														value={fwi}
@@ -1327,7 +1325,6 @@ function UbahLaporanPage() {
 														}}
 														defaultValue=""
 														variant="outlined"
-														required
 														fullWidth
 														name="dc"
 														value={dc}
@@ -1365,7 +1362,6 @@ function UbahLaporanPage() {
 														}}
 														defaultValue=""
 														variant="outlined"
-														required
 														fullWidth
 														name="masyarakat"
 														value={
@@ -1423,7 +1419,6 @@ function UbahLaporanPage() {
 															shrink: true
 														}}
 														variant="outlined"
-														required
 														fullWidth
 														name="cuaca_pagi"
 														value={cuaca_pagi}
@@ -1461,7 +1456,6 @@ function UbahLaporanPage() {
 															shrink: true
 														}}
 														variant="outlined"
-														required
 														fullWidth
 														name="cuaca_siang"
 														value={cuaca_siang}
@@ -1498,7 +1492,6 @@ function UbahLaporanPage() {
 															shrink: true
 														}}
 														variant="outlined"
-														required
 														fullWidth
 														name="cuaca_sore"
 														value={cuaca_sore}
@@ -1536,7 +1529,6 @@ function UbahLaporanPage() {
 															shrink: true
 														}}
 														variant="outlined"
-														required
 														fullWidth
 														name="curah_hujan"
 														className={
@@ -1558,7 +1550,6 @@ function UbahLaporanPage() {
 															shrink: true
 														}}
 														variant="outlined"
-														required
 														fullWidth
 														name="suhu"
 														className={
@@ -1580,7 +1571,6 @@ function UbahLaporanPage() {
 															shrink: true
 														}}
 														variant="outlined"
-														required
 														fullWidth
 														name="kelembaban"
 														className={
@@ -1602,7 +1592,6 @@ function UbahLaporanPage() {
 															shrink: true
 														}}
 														variant="outlined"
-														required
 														fullWidth
 														name="angin"
 														className={
