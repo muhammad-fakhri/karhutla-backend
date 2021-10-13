@@ -1821,6 +1821,29 @@ function UbahLaporanPage() {
 																					)
 																				)}
 																			</table>
+																			{option1.dokumen.map(
+																				(
+																					optionImage,
+																					indexImage
+																				) => (
+																					<img
+																						style={{
+																							width:
+																								'100%',
+																							padding:
+																								'20px',
+																							border:
+																								'1px solid #eee',
+																							margin:
+																								'20px 0'
+																						}}
+																						key={
+																							indexImage
+																						}
+																						src={`data:image/jpeg;base64,${optionImage.value}`}
+																					/>
+																				)
+																			)}
 																		</div>
 																	)
 																)}
