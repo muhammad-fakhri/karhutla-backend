@@ -805,6 +805,10 @@ function UbahLaporanPage() {
 															(option, index) => {
 																return (
 																	<FormControlLabel
+																		style={{
+																			textAlign:
+																				'left'
+																		}}
 																		key={
 																			index
 																		}
@@ -857,6 +861,10 @@ function UbahLaporanPage() {
 															(option, index) => {
 																return (
 																	<FormControlLabel
+																		style={{
+																			textAlign:
+																				'left'
+																		}}
 																		key={
 																			index
 																		}
@@ -951,6 +959,10 @@ function UbahLaporanPage() {
 															(option, index) => {
 																return (
 																	<FormControlLabel
+																		style={{
+																			textAlign:
+																				'left'
+																		}}
 																		key={
 																			index
 																		}
