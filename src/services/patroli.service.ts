@@ -78,7 +78,7 @@ export const getPatroli = async (
 					patroliRutin.push(data2)
 			})
 		})
-
+		console.log(patroliTerpadu)
 		return {
 			patroliSpots,
 			counter,
@@ -87,6 +87,7 @@ export const getPatroli = async (
 			patroliRutin
 		}
 	} catch (error) {
+		console.log(patroliTerpadu)
 		return {
 			patroliSpots,
 			counter,
