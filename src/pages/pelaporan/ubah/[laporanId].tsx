@@ -706,9 +706,10 @@ function UbahLaporanPage() {
 				<h2>Ubah Data Laporan : {nomor_sk}</h2>
 				<form noValidate autoComplete="off" style={{ margin: '60px' }}>
 					<Grid container justify="center" spacing={2}>
-						<Grid item xs={12} md={12}>
+						<Grid item xs={6} md={6}>
 							{values.showAlert ? (
 								<Alert
+									style={{ margin: '0 0 40px 0' }}
 									severity={
 										alertSuccess ? 'success' : 'warning'
 									}
