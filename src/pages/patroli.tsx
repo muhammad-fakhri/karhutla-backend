@@ -51,7 +51,9 @@ function PatroliPage() {
 			setMandiri(patroliData.patroliMandiri)
 			setRutin(patroliData.patroliRutin)
 			setLoading(false)
+			console.log(patroliData.patroliTerpadu)
 		}
+
 		if (isAuthenticated) updatePatroli()
 	}, [date, isAuthenticated])
 

@@ -1,4 +1,4 @@
-import { SimaduAPI, simaduApiUrl, API } from '@api'
+import { SimaduAPI, simaduApiUrl, apiV2, apiV2URL, API } from '@api'
 import {
 	APIResponse,
 	ServiceResponse,
@@ -6,14 +6,25 @@ import {
 	SuratTugasResponse,
 	SuratTugasTeamMemberData,
 	SuratTugasTeamMemberResponse,
-	DeletePenugasanInput
+	DeletePenugasanInput,
+	ProvinsiData,
+	ProvinsiResponse,
+	KabupatenData,
+	KabupatenResponse,
+	APIResponseUpload,
+	SkNumberData,
+	SkNumberResponse,
+	PenugasanData
 } from '@interface'
 import { splitAndTrim } from '@util'
 import { uploadPenugasanValidator, deletePenugasanValidator } from '@validator'
 import axios from 'axios'
 
 export const getAllPenugasan = async (): Promise<SuratTugasData[]> => {
-	const r: APIResponse<SuratTugasResponse[]> = await SimaduAPI.get('/listsk')
+	// const r: APIResponse<SuratTugasResponse[]> = await SimaduAPI.get('/listsk')
+	const r: APIResponse<SuratTugasResponse[]> = await apiV2.get(
+		'simadu/listsk'
+	)
 	if (r.status === 200) {
 		return r.data.map((work) => {
 			return {
@@ -22,7 +33,53 @@ export const getAllPenugasan = async (): Promise<SuratTugasData[]> => {
 				type: work.jenis_surat,
 				startDate: work.tanggal_awal,
 				finishDate: work.tanggal_akhir,
-				reportLink: `${simaduApiUrl}/downloadPeriode?nomor_sk=${work.nomor}`
+				reportLink: `${apiV2URL}/simadu/downloadPeriode?nomor_sk=${work.nomor}`
+			}
+		})
+	}
+	return []
+}
+
+export const checkSkNumber = async (
+	no_sk
+): Promise<{
+	success: boolean
+	message: string | string[]
+}> => {
+	const r: APIResponse<SkNumberResponse> = await apiV2.get(
+		'simadu/cekst/?no_st=' + no_sk
+	)
+	if (r.status === 200) {
+		return { success: true, message: r.data.message }
+	} else {
+		return { success: false, message: r.data.message }
+	}
+}
+
+export const getAllProvinsi = async (): Promise<ProvinsiData[]> => {
+	const r: APIResponse<ProvinsiResponse[]> = await apiV2.get('/lists/wilayah')
+	if (r.status === 200) {
+		return r.data.map((provinsi) => {
+			return {
+				kode_wilayah: provinsi.kode_wilayah,
+				nama_wilayah: provinsi.nama_wilayah
+			}
+		})
+	}
+	return []
+}
+
+export const getAllKabupaten = async (
+	id_provinsi
+): Promise<KabupatenData[]> => {
+	const r: APIResponse<KabupatenResponse[]> = await apiV2.get(
+		'/lists/wilayah/' + id_provinsi
+	)
+	if (r.status === 200) {
+		return r.data.map((provinsi) => {
+			return {
+				kode_wilayah: provinsi.kode_wilayah,
+				nama_wilayah: provinsi.nama_wilayah
 			}
 		})
 	}
@@ -36,9 +93,15 @@ export const deletePenugasan = async (
 		const validate = deletePenugasanValidator(data)
 		if (!validate.pass) return { success: false, message: validate.message }
 
-		const r: APIResponse<null> = await SimaduAPI.get(`/deletesk/${data.id}`)
-		if (r.status === 200) return { success: true, message: r.message }
-		return { success: false, message: r.message }
+		// const r: APIResponse<null> = await SimaduAPI.get(`/deletesk?no_st=${data.number}`)
+		const r: APIResponse<{
+			id: string
+			number: string
+			message: string
+		}> = await apiV2.get(`simadu/deletesk?no_st=${data.number}`)
+		console.log(r)
+		if (r.status === 200) return { success: true, message: r.data.message }
+		return { success: false, message: r.data.message }
 	} catch (error) {
 		return { success: false, message: error }
 	}
@@ -46,9 +109,18 @@ export const deletePenugasan = async (
 
 export const uploadPenugasan = async (
 	file: File,
-	type: string
+	type: string,
+	sk_number: string,
+	province: string,
+	kabupaten: string
 ): Promise<ServiceResponse> => {
-	const validate = uploadPenugasanValidator(file, type)
+	const validate = uploadPenugasanValidator(
+		file,
+		type,
+		sk_number,
+		province,
+		kabupaten
+	)
 	if (!validate.pass) {
 		return {
 			success: false,
@@ -60,22 +132,27 @@ export const uploadPenugasan = async (
 		const formData = new FormData()
 		formData.append('file', file)
 		formData.append('jenis_patroli', type)
+		formData.append('sk_number', sk_number)
+		formData.append('provinsi', province)
+		formData.append('kabupaten', kabupaten)
 
-		const r: APIResponse<{
+		// }> = await axios.post(`${simaduApiUrl}/uploadtim`, formData)
+		const r: APIResponseUpload<{
 			code: string
-			message: string
-		}> = await axios.post(`${simaduApiUrl}/uploadtim`, formData)
-
-		if (r.status === 200) {
+		}> = await apiV2.post(`/simadu/uploadtim`, formData)
+		console.log(r)
+		if (r.code == '200') {
 			return {
 				success: true,
-				message: [r.data.message]
+				message: [r.message]
+			}
+		} else if (r.code == '400') {
+			return {
+				success: false,
+				message: [r.message]
 			}
 		}
-
-		throw new Error(
-			'Unexpected error when uploading penugasan, please contact the administrator'
-		)
+		throw new Error(r.message)
 	} catch (error) {
 		if (!error.response) {
 			return {
@@ -93,8 +170,8 @@ export const uploadPenugasan = async (
 export const getPenugasanDetail = async (
 	noSK: string
 ): Promise<SuratTugasTeamMemberData[]> => {
-	const r: APIResponse<SuratTugasTeamMemberResponse[]> = await SimaduAPI.get(
-		`/listregu?nomor_sk=${noSK}`
+	const r: APIResponse<SuratTugasTeamMemberResponse[]> = await apiV2.get(
+		`/simadu/listregu?nomor_sk=${noSK}`
 	)
 	if (r.status === 200) {
 		return r.data.map((teamMember) => {

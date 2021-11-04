@@ -3,11 +3,17 @@ import { ValidatorResult, DeletePenugasanInput } from '@interface'
 import { digitLength } from '@util'
 export const uploadPenugasanValidator = (
 	file: File,
-	type: string
+	type: string,
+	sk_number: string,
+	province: string,
+	kabupaten: string
 ): ValidatorResult => {
 	let errorMsg = ''
 	if (!file) errorMsg = 'Tolong pilih berkas penugasan yang ingin diunggah'
 	else if (!type) errorMsg = 'Tolong pilih kategori penugasan'
+	else if (!sk_number) errorMsg = 'Tolong dimasukkan nomor SK'
+	else if (!province) errorMsg = 'Tolong pilih Provinsi'
+	else if (!kabupaten) errorMsg = 'Tolong pilih Kabupaten'
 
 	if (errorMsg) return { pass: false, message: errorMsg }
 	return { pass: true, message: '' }

@@ -1,9 +1,11 @@
 import {
+	LaporanData,
 	NonPatroliUserData,
 	PatrolData,
 	PatrolListData,
 	PenugasanData,
-	UserData
+	UserData,
+	SuratTugasLaporanData
 } from './data'
 
 export interface ValidatorResult {
@@ -70,6 +72,8 @@ export interface UpdateUserInput extends BaseUserInput {
 export type DeleteUserInput = UserData
 
 export type DeletePenugasanInput = PenugasanData
+
+export type DeleteLaporanInput = SuratTugasLaporanData
 
 export interface AddPatroliNonLoginUserInput {
 	name: string

@@ -24,6 +24,7 @@ export const getPatroli = async (
 		const res: APIResponse<[[PatroliResponse]]> = await SimaduAPI.get(
 			`/list?tanggal_patroli=${date}`
 		)
+		console.log(res)
 		const patroliData = res.data
 		patroliData.forEach((item) => {
 			item.forEach((patroli) => {
@@ -77,7 +78,7 @@ export const getPatroli = async (
 					patroliRutin.push(data2)
 			})
 		})
-
+		console.log(patroliTerpadu)
 		return {
 			patroliSpots,
 			counter,
@@ -86,6 +87,7 @@ export const getPatroli = async (
 			patroliRutin
 		}
 	} catch (error) {
+		console.log(patroliTerpadu)
 		return {
 			patroliSpots,
 			counter,

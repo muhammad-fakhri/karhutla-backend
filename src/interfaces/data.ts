@@ -16,6 +16,7 @@ export interface UserData {
 
 export interface PenugasanData {
 	id: string
+	number: string
 }
 
 export interface NonPatroliUserData {
@@ -33,6 +34,22 @@ export interface BalaiData {
 	code: string
 	name: string
 	region: string
+}
+
+export interface ProvinsiData {
+	kode_wilayah: string
+	nama_wilayah: string
+}
+
+export interface KabupatenData {
+	kode_wilayah: string
+	nama_wilayah: string
+}
+
+export interface SkNumberData<T = any> {
+	success: boolean
+	message: string | string[]
+	data?: T
 }
 
 export interface DaopsData {
@@ -81,6 +98,21 @@ export interface SuratTugasTeamMemberData {
 	endDate: string
 	posko: string
 	daops: string
+}
+
+export interface SuratTugasLaporanData {
+	id_laporan_header: string
+	tanggal_patroli: string
+	nama_daerah_patroli: string
+	nama_daops: string
+	nama_ketua: string
+}
+
+export interface LaporanData {
+	id: string
+	id_daerah_patroli: string
+	kategori_patroli: string
+	tanggal_patroli: string
 }
 
 export interface PoskoData {

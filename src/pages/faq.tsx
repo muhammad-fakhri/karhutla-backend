@@ -13,6 +13,9 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Container from '@material-ui/core/Container'
 import { useEffect, useState } from 'react'
 import useSWR from 'swr'
+import React from 'react'
+import Icon from '@material-ui/core/Icon'
+import Box from '@material-ui/core/Box'
 
 const useStyles = makeStyles(styles)
 
@@ -20,6 +23,10 @@ function FAQPage() {
 	const classes = useStyles()
 	const { isAuthenticated } = useAuth()
 	const [date, setDate] = useState(moment())
+	const [expanded, setExpanded] = React.useState('panel1')
+	const handleChange = (panel) => (event, newExpanded) => {
+		setExpanded(newExpanded ? panel : false)
+	}
 
 	return !isAuthenticated ? (
 		<Loader />
@@ -35,43 +42,251 @@ function FAQPage() {
 				>
 					<Container maxWidth="md">
 						<h1>FAQs</h1>
-						<Accordion>
-							<AccordionSummary
-								expandIcon={<ExpandMoreIcon />}
-								aria-controls="panel1a-content"
-								id="panel1a-header"
-							>
-								<Typography className="heading">
-									Accordion 1
-								</Typography>
-							</AccordionSummary>
-							<AccordionDetails>
-								<Typography>
-									Lorem ipsum dolor sit amet, consectetur
-									adipiscing elit. Suspendisse malesuada lacus
-									ex, sit amet blandit leo lobortis eget.
-								</Typography>
-							</AccordionDetails>
-						</Accordion>
 
-						<Accordion>
-							<AccordionSummary
-								expandIcon={<ExpandMoreIcon />}
-								aria-controls="panel2a-content"
-								id="panel2a-header"
+						<div>
+							<Accordion
+								square
+								expanded={expanded === 'panel1'}
+								onChange={handleChange('panel1')}
 							>
-								<Typography className="heading">
-									Accordion 2
-								</Typography>
-							</AccordionSummary>
-							<AccordionDetails>
-								<Typography>
-									Lorem ipsum dolor sit amet, consectetur
-									adipiscing elit. Suspendisse malesuada lacus
-									ex, sit amet blandit leo lobortis eget.
-								</Typography>
-							</AccordionDetails>
-						</Accordion>
+								<AccordionSummary
+									aria-controls="panel1d-content"
+									id="panel1d-header"
+								>
+									<Icon>add_circle</Icon>
+									<Typography>
+										&nbsp;&nbsp;&nbsp;Gagal Upload Surat
+										Tugas
+									</Typography>
+								</AccordionSummary>
+								<AccordionDetails>
+									<Typography align="left">
+										<Accordion>
+											<AccordionSummary
+												expandIcon={<ExpandMoreIcon />}
+												aria-controls="panel1a-content"
+												id="panel1a-header"
+												style={{
+													backgroundColor: '#F6F6F6'
+												}}
+											>
+												<Typography>
+													Cek Penulisan Jabatan
+												</Typography>
+											</AccordionSummary>
+											<AccordionDetails>
+												<Typography>
+													<Box
+														fontWeight="fontWeightBold"
+														m={1}
+													>
+														Penulisan yang sering
+														keliru:
+													</Box>
+													- Ketua Tim <br></br>-
+													Anggota Tim <br></br>-
+													Polisi <br></br>- Tentara{' '}
+													<br></br>
+													<Box
+														fontWeight="fontWeightBold"
+														m={1}
+													>
+														Penulisan yang benar:
+													</Box>
+													- Ketua <br></br>- Anggota{' '}
+													<br></br>- Polri <br></br>-
+													TNI <br></br>- MPA <br></br>
+												</Typography>
+											</AccordionDetails>
+										</Accordion>
+
+										<Accordion>
+											<AccordionSummary
+												expandIcon={<ExpandMoreIcon />}
+												aria-controls="panel1a-content"
+												id="panel1a-header"
+												style={{
+													backgroundColor: '#F6F6F6'
+												}}
+											>
+												<Typography>
+													Cek Reg, Email dan nomor
+													Handphone
+												</Typography>
+											</AccordionSummary>
+											<AccordionDetails>
+												<Typography>
+													Untuk TNI, Polri, dan MPA
+													kolom reg, email serta no HP
+													dituliskan nama sesuai
+													dengan kolom nama tanpa
+													spasi .
+												</Typography>
+											</AccordionDetails>
+										</Accordion>
+
+										<Accordion>
+											<AccordionSummary
+												expandIcon={<ExpandMoreIcon />}
+												aria-controls="panel1a-content"
+												id="panel1a-header"
+												style={{
+													backgroundColor: '#F6F6F6'
+												}}
+											>
+												<Typography>
+													Cek Daerah Operasi
+												</Typography>
+											</AccordionSummary>
+											<AccordionDetails>
+												<Typography>
+													Daerah Operasi diisikan
+													dengan kodefikasi
+												</Typography>
+											</AccordionDetails>
+										</Accordion>
+
+										<Accordion>
+											<AccordionSummary
+												expandIcon={<ExpandMoreIcon />}
+												aria-controls="panel1a-content"
+												id="panel1a-header"
+												style={{
+													backgroundColor: '#F6F6F6'
+												}}
+											>
+												<Typography>
+													Cek Nomor SK
+												</Typography>
+											</AccordionSummary>
+											<AccordionDetails>
+												<Typography>
+													Nomor SK pada semua baris
+													harus sama
+												</Typography>
+											</AccordionDetails>
+										</Accordion>
+
+										<Accordion>
+											<AccordionSummary
+												expandIcon={<ExpandMoreIcon />}
+												aria-controls="panel1a-content"
+												id="panel1a-header"
+												style={{
+													backgroundColor: '#F6F6F6'
+												}}
+											>
+												<Typography>
+													Cek Format Tanggal pada
+													Surat Tugas
+												</Typography>
+											</AccordionSummary>
+											<AccordionDetails>
+												<Typography>
+													Format tanggal yang benar
+													adalah text
+												</Typography>
+											</AccordionDetails>
+										</Accordion>
+
+										<Accordion>
+											<AccordionSummary
+												expandIcon={<ExpandMoreIcon />}
+												aria-controls="panel1a-content"
+												id="panel1a-header"
+												style={{
+													backgroundColor: '#F6F6F6'
+												}}
+											>
+												<Typography>
+													Cek Daerah Patroli,
+													Kecamatan, Kabupaten,
+													Provinsi
+												</Typography>
+											</AccordionSummary>
+											<AccordionDetails>
+												<Typography>
+													Penulisan nama daerah harus
+													sesuai dengan di basis data.
+													Jika nama daerah belum ada
+													dalam basis data maka nama
+													daerah harus ditambahkan
+													oleh admin
+												</Typography>
+											</AccordionDetails>
+										</Accordion>
+
+										<Accordion>
+											<AccordionSummary
+												expandIcon={<ExpandMoreIcon />}
+												aria-controls="panel1a-content"
+												id="panel1a-header"
+												style={{
+													backgroundColor: '#F6F6F6'
+												}}
+											>
+												<Typography>
+													Error Baris tidak dapat
+													diproses
+												</Typography>
+											</AccordionSummary>
+											<AccordionDetails>
+												<Typography>
+													Hapus baris kosong di bawah
+													tabel yang terisi atau copy
+													tabel ke file Excel baru
+												</Typography>
+											</AccordionDetails>
+										</Accordion>
+
+										<Accordion>
+											<AccordionSummary
+												expandIcon={<ExpandMoreIcon />}
+												aria-controls="panel1a-content"
+												id="panel1a-header"
+												style={{
+													backgroundColor: '#F6F6F6'
+												}}
+											>
+												<Typography>
+													Format file yang diunggah
+												</Typography>
+											</AccordionSummary>
+											<AccordionDetails>
+												<Typography>
+													Format file yang diunggah
+													harus memiliki format .XLSX
+												</Typography>
+											</AccordionDetails>
+										</Accordion>
+
+										<Accordion>
+											<AccordionSummary
+												expandIcon={<ExpandMoreIcon />}
+												aria-controls="panel1a-content"
+												id="panel1a-header"
+												style={{
+													backgroundColor: '#F6F6F6'
+												}}
+											>
+												<Typography>
+													Network Error
+												</Typography>
+											</AccordionSummary>
+											<AccordionDetails>
+												<Typography>
+													Kendala sinyal, silahkan
+													unggah kembali surat tugas
+													pada kondisi sinyal yang
+													bagus.
+												</Typography>
+											</AccordionDetails>
+										</Accordion>
+									</Typography>
+								</AccordionDetails>
+							</Accordion>
+							<br></br>
+						</div>
 					</Container>
 				</div>
 			</div>

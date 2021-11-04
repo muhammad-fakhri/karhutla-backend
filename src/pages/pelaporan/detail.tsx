@@ -2,66 +2,55 @@ import styles from '@asset/jss/nextjs-material-kit/pages/penugasan/penugasan.pag
 import SiteLayout from '@component/Layout/SiteLayout'
 import Loader from '@component/Loader/Loader'
 import useAuth, { ProtectRoute } from '@context/auth'
-import GridItem from '@component/Grid/GridItem'
-import { SuratTugasData } from '@interface'
-import { Button, CircularProgress, Paper, Grid } from '@material-ui/core'
-import { Alert } from '@material-ui/lab'
+import { SuratTugasLaporanData } from '@interface'
+import { CircularProgress, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import AddBoxIcon from '@material-ui/icons/AddBox'
-import LaunchIcon from '@material-ui/icons/Launch'
-import { deletePenugasan, getAllPenugasan } from '@service'
+import { getSKLaporanDetail, deleteLaporan } from '@service'
 import classNames from 'classnames'
 import MaterialTable from 'material-table'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import { Grid } from '@material-ui/core'
+import GridItem from '@component/Grid/GridItem'
+import { Alert } from '@material-ui/lab'
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload'
+import { apiV2URL } from '@api'
 
 const useStyles = makeStyles(styles)
 
 const columns = [
-	{ title: 'Jenis Patroli', field: 'type' },
-	{ title: 'Nomor Surat Tugas', field: 'number' },
-	{ title: 'Tanggal Mulai', field: 'startDate' },
-	{ title: 'Tanggal Selesai', field: 'finishDate' }
+	{ title: 'Nama Daops', field: 'nama_daops' },
+	{ title: 'Daerah Patroli', field: 'nama_daerah_patroli' },
+	{ title: 'Ketua', field: 'nama_ketua' },
+	{ title: 'Tanggal Patroli', field: 'tanggal_patroli' }
 ]
 
-type AlertElemenPropType = {
-	text: string[]
-}
-
-const AlertElement = (props: AlertElemenPropType) => {
-	return (
-		<>
-			{props.text.map((str, index) => (
-				<p key={index}>{str}</p>
-			))}
-		</>
-	)
-}
-
-function PenugasanPage() {
+function DetailPelaporanPage() {
 	const classes = useStyles()
+	const { isAuthenticated } = useAuth()
 	const router = useRouter()
-	const { isAuthenticated, user } = useAuth()
-	const [penugasan, setPenugasan] = useState<SuratTugasData[]>([])
-	const [showAlert, setShowAlert] = useState(false)
-	const [show, setShow] = useState(false)
+	const { noSK } = router.query
+	const [laporan, setLaporan] = useState<SuratTugasLaporanData[]>([])
 	const [showCheck, setShowCheck] = useState(false)
 	const [alertSuccess, setAlertSuccess] = useState(true)
+	console.log(noSK)
 	const [loading, setLoading] = useState(true)
+	const [alertMessage, setAlertMessage] = useState('')
+	const [alertType, setAlertType] = useState<
+		'success' | 'info' | 'warning' | 'error'
+	>('success')
 	useEffect(() => {
 		const fetchData = async () => {
-			const data = await getAllPenugasan()
-			setPenugasan(data)
-			setLoading(false)
+			if (noSK) {
+				const data = await getSKLaporanDetail(noSK as string)
+				console.log(data)
+				setLaporan(data)
+				setLoading(false)
+			}
 		}
 		if (isAuthenticated) fetchData()
 	}, [isAuthenticated])
 
-	const [alertType, setAlertType] = useState<
-		'success' | 'info' | 'warning' | 'error'
-	>('success')
-	const [alertMessage, setAlertMessage] = useState('')
 	return !isAuthenticated ? (
 		<Loader />
 	) : (
@@ -73,8 +62,7 @@ function PenugasanPage() {
 					classes.textCenter
 				)}
 			>
-				<h2>Daftar Penugasan</h2>
-
+				<h2>Detail Laporan : {noSK}</h2>
 				<Grid container justify="center">
 					<GridItem sm={6} xs={10}>
 						{showCheck ? (
@@ -91,30 +79,13 @@ function PenugasanPage() {
 						) : null}
 					</GridItem>
 				</Grid>
-
-				{user.roleLevel === 4 ? (
-					<>
-						<Link href="penugasan/berkas">
-							<Button
-								variant="contained"
-								color="primary"
-								size="large"
-								className={classes.addButton}
-								startIcon={<AddBoxIcon />}
-							>
-								Tambah Penugasan
-							</Button>
-						</Link>
-						<br />
-					</>
-				) : null}
 				{loading ? (
 					<CircularProgress />
 				) : (
 					<MaterialTable
 						title=""
 						columns={columns}
-						data={penugasan}
+						data={laporan}
 						options={{
 							search: true,
 							actionsColumnIndex: -1
@@ -126,38 +97,49 @@ function PenugasanPage() {
 						}}
 						actions={[
 							{
-								icon: LaunchIcon,
-								tooltip: 'Buka Detail Surat Tugas',
+								icon: 'edit',
+								tooltip: 'Ubah Data Laporan',
 								onClick: (event, rowData) => {
-									event.preventDefault()
-									const suratTugasRowData = rowData as SuratTugasData
-									router.push(
-										`/penugasan/detail?noSK=${suratTugasRowData.number}`
+									{
+										const laporanData = rowData as SuratTugasLaporanData
+										router.push(
+											`/pelaporan/ubah/${laporanData.id_laporan_header}`
+										)
+									}
+								}
+							},
+							{
+								icon: CloudDownloadIcon,
+								tooltip: 'Download Laporan',
+								onClick: (event, rowData) => {
+									const laporanData = rowData as SuratTugasLaporanData
+									window.open(
+										apiV2URL +
+											`/simadu/download/${laporanData.id_laporan_header}`
 									)
 								}
 							}
 						]}
-						localization={{
-							header: { actions: 'Aksi' }
-						}}
 						editable={{
 							onRowDelete: (oldData) =>
 								new Promise<void>((resolve, reject) => {
-									deletePenugasan(oldData).then((result) => {
+									deleteLaporan(oldData).then((result) => {
 										if (result.success) {
-											const dataDelete = [...penugasan]
+											const dataDelete = [...laporan]
 											const userRowData: any = oldData
 											const index =
-												userRowData.tableData.id
+												userRowData.tableData
+													.id_laporan_header
 											dataDelete.splice(index, 1)
-											setPenugasan(dataDelete)
+											setLaporan(dataDelete)
 											setAlertSuccess(true)
 											setAlertMessage(
-												'Hapus data penugasan berhasil'
+												'Hapus data Laporan berhasil'
 											)
 											setShowCheck(true)
 											resolve()
 										} else {
+											console.log(result)
 											setAlertType('error')
 											setAlertSuccess(false)
 											setAlertMessage(
@@ -176,4 +158,4 @@ function PenugasanPage() {
 	)
 }
 
-export default ProtectRoute(PenugasanPage)
+export default ProtectRoute(DetailPelaporanPage)

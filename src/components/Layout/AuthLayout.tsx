@@ -1,4 +1,4 @@
-import image from '@asset/img/login-bg.jpg'
+import image from '@asset/img/login-bg-2.png'
 import styles from '@asset/jss/nextjs-material-kit/pages/login.page.style'
 import Header from '@component/Header/Header'
 import { makeStyles } from '@material-ui/core/styles'

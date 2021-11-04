@@ -4,6 +4,13 @@ export interface APIResponse<T> {
 	data: T
 }
 
+export interface APIResponseUpload<T> {
+	status: number
+	message: string
+	data: T
+	code: string
+}
+
 interface UserBaseResponse {
 	no_registrasi: string
 	nama: string
@@ -40,6 +47,13 @@ export interface NonPatroliUserResponse {
 	r_role: RoleResponse
 }
 
+export interface LaporanDataResponse {
+	success: boolean
+	message: string | string[]
+	no_sk: string
+	data?: any
+}
+
 export interface NonLoginUserResponse {
 	id: string
 	nama: string
@@ -58,6 +72,21 @@ export interface RegionResponse {
 	nama: string
 	kode: string
 	tipe: string
+}
+
+export interface ProvinsiResponse {
+	kode_wilayah: string
+	nama_wilayah: string
+}
+
+export interface KabupatenResponse {
+	kode_wilayah: string
+	nama_wilayah: string
+}
+
+export interface SkNumberResponse {
+	successData: boolean
+	message: string | string[]
 }
 
 export interface BalaiResponse {
@@ -195,6 +224,14 @@ export interface SuratTugasTeamMemberResponse {
 	instansi: string
 	posko: string
 	daops: string
+}
+
+export interface SuratTugasLaporanDataResponse {
+	id_laporan_header: string
+	tanggal_patroli: string
+	nama_daerah_patroli: string
+	nama_daops: string
+	nama_ketua: string
 }
 
 export interface PoskoResponse {

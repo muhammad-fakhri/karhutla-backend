@@ -1,6 +1,7 @@
 import Footer from '@component/Footer/Footer'
 import Header from '@component/Header/Header'
 import HeaderLinks from '@component/Header/HeaderLinks'
+import { Autocomplete } from '@material-ui/lab'
 import PropTypes from 'prop-types'
 
 type PropType = {
@@ -10,14 +11,20 @@ type PropType = {
 }
 
 export default function SiteLayout(props: PropType) {
-	let scrollChangeOption = null
+	let scrollChangeOption = {
+		height: 200,
+		color: 'white'
+	}
 	if (props.scrollChange) {
 		scrollChangeOption = {
 			height: 200,
 			color: 'white'
 		}
 	} else {
-		scrollChangeOption = null
+		scrollChangeOption = {
+			height: 200,
+			color: 'white'
+		}
 	}
 
 	return (

@@ -12,6 +12,8 @@ const baseAPIv2 = process.env.NEXT_PUBLIC_API_V2
 export const simaduApiUrl = `${baseAPIv1}/simadu`
 export const authApiUrl = `${baseAPIv1}/auth`
 export const hotspotApiUrl = `${baseAPIv1}/hotspot`
+// export const apiV2URL = `https://karhutla.apps.cs.ipb.ac.id/api_dev`
+export const apiV2URL = `${baseAPIv1}`
 
 const handleRequestSend = (config: AxiosRequestConfig) => {
 	// Set Auth Token
@@ -45,6 +47,11 @@ export const SimaduAPI: AxiosInstance = axios.create({
 	headers: { Accept: 'application/json' }
 })
 
+export const apiV2: AxiosInstance = axios.create({
+	baseURL: apiV2URL,
+	headers: { Accept: 'application/json' }
+})
+
 export const AuthAPI: AxiosInstance = axios.create({
 	baseURL: authApiUrl,
 	headers: { Accept: 'application/json' }
@@ -66,3 +73,6 @@ AuthAPI.interceptors.response.use(handleResponseReceive, handleResponseError)
 
 HotspotAPI.interceptors.request.use(handleRequestSend, handleRequestError)
 HotspotAPI.interceptors.response.use(handleResponseReceive, handleResponseError)
+
+apiV2.interceptors.request.use(handleRequestSend, handleRequestError)
+apiV2.interceptors.response.use(handleResponseReceive, handleResponseError)
