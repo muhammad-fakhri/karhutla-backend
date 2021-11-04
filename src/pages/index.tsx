@@ -92,6 +92,7 @@ export default function FrontPage() {
 												'Pilih tanggal patroli ...'
 										}}
 										onChange={(date) => {
+											console.log(moment(date))
 											setDate(moment(date))
 											setLoading(true)
 										}}
