@@ -1261,7 +1261,7 @@ function UbahLaporanPage() {
 															classes.textAlignLeft
 														}
 														onChange={
-															handlePotensiKarhutlaChange
+															handleFfcmChange
 														}
 													>
 														{potensiKarhutlaList.map(
@@ -1298,7 +1298,7 @@ function UbahLaporanPage() {
 															classes.textAlignLeft
 														}
 														onChange={
-															handlePotensiKarhutlaChange
+															handleFwiChange
 														}
 													>
 														{potensiKarhutlaList.map(
@@ -1335,7 +1335,7 @@ function UbahLaporanPage() {
 															classes.textAlignLeft
 														}
 														onChange={
-															handlePotensiKarhutlaChange
+															handleDcChange
 														}
 													>
 														{potensiKarhutlaList.map(
