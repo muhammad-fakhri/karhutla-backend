@@ -1,4 +1,4 @@
-import { simaduApiUrl, apiV2 } from '@api'
+import { simaduApiUrl, apiV2, apiV2URL } from '@api'
 import { formatYYYYMMDD } from '@util'
 import { downloadRentangTanggalValidator } from '@validator'
 import {
@@ -24,7 +24,7 @@ export const downloadLaporanRentangTanggal = (
 	}
 
 	// Prepare Download URL
-	const url = `${simaduApiUrl}/downloadrange?start=${formatYYYYMMDD(
+	const url = `${apiV2URL}/karhutla/downloadrange?start=${formatYYYYMMDD(
 		startDate
 	)}&end=${formatYYYYMMDD(endDate)}`
 

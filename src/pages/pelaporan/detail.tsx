@@ -115,7 +115,7 @@ function DetailPelaporanPage() {
 									const laporanData = rowData as SuratTugasLaporanData
 									window.open(
 										apiV2URL +
-											`/simadu/download/${laporanData.id_laporan_header}`
+											`/karhutla/download/${laporanData.id_laporan_header}`
 									)
 								}
 							}

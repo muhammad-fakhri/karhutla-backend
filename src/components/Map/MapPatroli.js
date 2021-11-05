@@ -1,6 +1,6 @@
 import React from 'react'
 import { GoogleApiWrapper, InfoWindow, Map, Marker } from 'google-maps-react'
-import { simaduApiUrl } from '@api'
+import { simaduApiUrl, apiV2URL } from '@api'
 
 export class MapContainer extends React.Component {
 	state = {
@@ -27,7 +27,7 @@ export class MapContainer extends React.Component {
 	}
 
 	generateInfoWindowContent = () => {
-		const reportLink = `${simaduApiUrl}/download/${this.state.selectedPlace.patroli.id_laporan_header}`
+		const reportLink = `${apiV2URL}/karhutla/download/${this.state.selectedPlace.patroli.id_laporan_header}`
 		return (
 			<div>
 				<center>

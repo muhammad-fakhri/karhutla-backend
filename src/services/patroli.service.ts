@@ -1,4 +1,4 @@
-import { SimaduAPI, simaduApiUrl } from '@api'
+import { SimaduAPI, simaduApiUrl, apiV2URL } from '@api'
 import {
 	APIResponse,
 	PatrolData,
@@ -61,7 +61,7 @@ export const getPatroli = async (
 					operationRegion: '',
 					patrolDate: ''
 				}
-				data2.reportLink = `${simaduApiUrl}/download/${patroli.id_laporan_header}`
+				data2.reportLink = `${apiV2URL}/karhutla/download/${patroli.id_laporan_header}`
 				data2.patrolRegion =
 					patroli.id_daerah_patroli.nama_daerah_patroli
 				data2.operationRegion = patroli.id_daerah_patroli.nama_daops
