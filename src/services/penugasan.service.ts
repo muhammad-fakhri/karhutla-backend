@@ -33,7 +33,7 @@ export const getAllPenugasan = async (): Promise<SuratTugasData[]> => {
 				type: work.jenis_surat,
 				startDate: work.tanggal_awal,
 				finishDate: work.tanggal_akhir,
-				reportLink: `${apiV2URL}/simadu/downloadPeriode?nomor_sk=${work.nomor}`
+				reportLink: `${apiV2URL}/karhutla/downloadPeriode?nomor_sk=${work.nomor}`
 			}
 		})
 	}
