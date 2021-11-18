@@ -139,7 +139,13 @@ function PenugasanPage() {
 							}
 						]}
 						localization={{
-							header: { actions: 'Aksi' }
+							header: { actions: 'Aksi' },
+							body: {
+								editRow: {
+									deleteText:
+										'Apakah Anda yakin ingin menghapus surat tugas ini?'
+								}
+							}
 						}}
 						editable={{
 							onRowDelete: (oldData) =>
