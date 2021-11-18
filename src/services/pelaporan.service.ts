@@ -84,9 +84,16 @@ export const getSKLaporanDetail = async (
 	console.log(r)
 	if (r.status === 200) {
 		return r.data.map((laporanDetail) => {
+			const tanggal = new Date(laporanDetail.tanggal_patroli)
+			const part_awal = laporanDetail.tanggal_patroli.split('-')
+			const bulan = tanggal.toLocaleString('default', { month: 'short' })
+
+			const tanggal_patroli =
+				part_awal[2] + ' ' + bulan + ' ' + part_awal[0]
+
 			return {
 				id_laporan_header: laporanDetail.id_laporan_header,
-				tanggal_patroli: laporanDetail.tanggal_patroli,
+				tanggal_patroli: tanggal_patroli,
 				nama_daerah_patroli: laporanDetail.nama_daerah_patroli,
 				nama_daops: laporanDetail.nama_daops,
 				nama_ketua: laporanDetail.nama_ketua
