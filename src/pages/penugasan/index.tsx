@@ -80,6 +80,7 @@ function PenugasanPage() {
 						{showCheck ? (
 							<Alert
 								severity={alertSuccess ? 'success' : 'error'}
+								style={{ margin: '0 0 40px 0' }}
 								variant="filled"
 								onClose={() => {
 									setShowCheck(false)
