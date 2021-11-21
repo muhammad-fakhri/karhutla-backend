@@ -67,7 +67,25 @@ export const getDetailList = async (): Promise<{
 }
 
 export const updateLaporan = async (data: any): Promise<ServiceResponse> => {
-	console.log(data)
+	if (data.satelit_hotspot.length === 0) {
+		return { success: false, message: 'Satelit tidak boleh kosong' }
+	}
+
+	if (data.id_inventori_patroli.length === 0) {
+		return { success: false, message: 'Inventory tidak boleh kosong' }
+	}
+
+	if (data.id_aktivitas_harian.length === 0) {
+		return {
+			success: false,
+			message: 'Aktivitas harian tidak boleh kosong'
+		}
+	}
+
+	if (data.laporanDarat[0].aksebilitas.length === 0) {
+		return { success: false, message: 'Aksebilitas tidak boleh kosong' }
+	}
+
 	const r: APIResponse<null> = await apiV2.post('/laporan/save', data)
 	console.log(r)
 	if (r.status === 200)
