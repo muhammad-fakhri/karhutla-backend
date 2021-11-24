@@ -125,7 +125,7 @@ function DetailPelaporanPage() {
 							body: {
 								editRow: {
 									deleteText:
-										'Apakah Anda yakin ingin menghapus laporan ini?'
+										'Apakah Anda yakin ingin menghapus laporan tersebut?'
 								}
 							}
 						}}

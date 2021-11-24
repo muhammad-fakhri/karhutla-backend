@@ -143,7 +143,7 @@ function PenugasanPage() {
 							body: {
 								editRow: {
 									deleteText:
-										'Apakah Anda yakin ingin menghapus surat tugas ini?'
+										'Apakah Anda yakin ingin menghapus laporan tersebut?'
 								}
 							}
 						}}
