@@ -96,13 +96,6 @@ export const AuthProvider: FC<{ children: any }> = ({ children }) => {
 				username,
 				password
 			})
-			if (status === 400) {
-				throw new Error('Parameter salah / kurang')
-			} else if (status === 401) {
-				throw new Error('Username dan password tidak sesuai')
-			} else if (status !== 200) {
-				throw new Error(message)
-			}
 
 			const user: UserData = {
 				id: parseInt(data.user.id_user, 10),
