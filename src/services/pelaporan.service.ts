@@ -67,7 +67,25 @@ export const getDetailList = async (): Promise<{
 }
 
 export const updateLaporan = async (data: any): Promise<ServiceResponse> => {
-	console.log(data)
+	if (data.satelit_hotspot.length === 0) {
+		return { success: false, message: 'Satelit tidak boleh kosong' }
+	}
+
+	if (data.id_inventori_patroli.length === 0) {
+		return { success: false, message: 'Inventory tidak boleh kosong' }
+	}
+
+	if (data.id_aktivitas_harian.length === 0) {
+		return {
+			success: false,
+			message: 'Aktivitas harian tidak boleh kosong'
+		}
+	}
+
+	if (data.laporanDarat[0].aksebilitas.length === 0) {
+		return { success: false, message: 'Aksebilitas tidak boleh kosong' }
+	}
+
 	const r: APIResponse<null> = await apiV2.post('/laporan/save', data)
 	console.log(r)
 	if (r.status === 200)
@@ -84,9 +102,16 @@ export const getSKLaporanDetail = async (
 	console.log(r)
 	if (r.status === 200) {
 		return r.data.map((laporanDetail) => {
+			const tanggal = new Date(laporanDetail.tanggal_patroli)
+			const part_awal = laporanDetail.tanggal_patroli.split('-')
+			const bulan = tanggal.toLocaleString('default', { month: 'short' })
+
+			const tanggal_patroli =
+				part_awal[2] + ' ' + bulan + ' ' + part_awal[0]
+
 			return {
 				id_laporan_header: laporanDetail.id_laporan_header,
-				tanggal_patroli: laporanDetail.tanggal_patroli,
+				tanggal_patroli: tanggal_patroli,
 				nama_daerah_patroli: laporanDetail.nama_daerah_patroli,
 				nama_daops: laporanDetail.nama_daops,
 				nama_ketua: laporanDetail.nama_ketua

@@ -237,7 +237,7 @@ function BerkasPenugasanPage() {
 								<TextField
 									id="outlined-number"
 									margin="normal"
-									label="Nomor SK"
+									label="Nomor ST"
 									type="text"
 									InputLabelProps={{
 										shrink: true

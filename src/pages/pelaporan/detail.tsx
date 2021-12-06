@@ -120,6 +120,15 @@ function DetailPelaporanPage() {
 								}
 							}
 						]}
+						localization={{
+							header: { actions: 'Aksi' },
+							body: {
+								editRow: {
+									deleteText:
+										'Apakah Anda yakin ingin menghapus laporan tersebut?'
+								}
+							}
+						}}
 						editable={{
 							onRowDelete: (oldData) =>
 								new Promise<void>((resolve, reject) => {

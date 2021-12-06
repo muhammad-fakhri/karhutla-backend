@@ -80,6 +80,7 @@ function PenugasanPage() {
 						{showCheck ? (
 							<Alert
 								severity={alertSuccess ? 'success' : 'error'}
+								style={{ margin: '0 0 40px 0' }}
 								variant="filled"
 								onClose={() => {
 									setShowCheck(false)
@@ -138,7 +139,13 @@ function PenugasanPage() {
 							}
 						]}
 						localization={{
-							header: { actions: 'Aksi' }
+							header: { actions: 'Aksi' },
+							body: {
+								editRow: {
+									deleteText:
+										'Apakah Anda yakin ingin menghapus laporan tersebut?'
+								}
+							}
 						}}
 						editable={{
 							onRowDelete: (oldData) =>

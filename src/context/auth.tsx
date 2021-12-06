@@ -96,7 +96,6 @@ export const AuthProvider: FC<{ children: any }> = ({ children }) => {
 				username,
 				password
 			})
-			if (status !== 200) throw new Error(message)
 
 			const user: UserData = {
 				id: parseInt(data.user.id_user, 10),
