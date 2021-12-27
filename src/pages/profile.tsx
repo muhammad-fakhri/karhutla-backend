@@ -1,4 +1,4 @@
-import profileBgImage from '@asset/img/profile-bg.jpg'
+import profileBgImage from '@asset/img/user-bg.jpg'
 import profile from '@asset/img/user.jpg'
 import styles from '@asset/jss/nextjs-material-kit/pages/profile.page.style'
 import GridContainer from '@component/Grid/GridContainer'
