@@ -44,7 +44,7 @@ export const getPatroli = async (
 						counter.mandiri += 1
 					}
 					if (patroli.kategori_patroli === 'Rutin') {
-						data.marker = `${baseMarkerUrl}green-dot.png`
+						data.marker = `${baseMarkerUrl}pink-dot.png`
 						counter.rutin += 1
 					}
 					if (patroli.kategori_patroli === 'Terpadu') {

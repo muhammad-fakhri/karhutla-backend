@@ -9,7 +9,7 @@ const patrolPageStyle = {
 		textDecoration: 'underline #6991fd solid'
 	},
 	pencegahanBg: {
-		textDecoration: 'underline #00e64d solid'
+		textDecoration: 'underline #E853C4 solid'
 	},
 	formChooseDate: {
 		marginTop: '8px'
