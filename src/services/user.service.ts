@@ -1,7 +1,8 @@
-import { API } from '@api'
+import { API, apiV2 } from '@api'
 import {
 	AddPatroliNonLoginUserInput,
 	AddUserInput,
+	AddUserGcInput,
 	APIResponse,
 	CreateNonPatroliUser,
 	DeleteNonPatroliUser,
@@ -16,7 +17,8 @@ import {
 	UpdatePatroliNonLoginUserInput,
 	UpdateUserInput,
 	UserData,
-	UserDetailResponse
+	UserDetailResponse,
+	UpdateGcUserInput
 } from '@interface'
 import {
 	createNonPatroliValidator,
@@ -94,6 +96,61 @@ export const addUser = async (data: AddUserInput): Promise<ServiceResponse> => {
 
 	const r: APIResponse<null> = await API.post('/user/add', formData)
 	if (r.status === 200) return { success: true, message: r.message }
+	return { success: false, message: r.message }
+}
+
+export const addUserGroundCheck = async (
+	data: AddUserGcInput
+): Promise<ServiceResponse> => {
+	// const validate = createUserValidator(data)
+	// if (!validate.pass) return { success: false, message: validate.message }
+
+	const formData = new FormData()
+	formData.append('nama', data.name)
+	formData.append('email', data.email)
+	formData.append('password', data.password as string)
+	formData.append('provinsi', data.provinsi)
+	formData.append('kabupaten', data.kabupaten)
+	formData.append('patroli', data.patroli)
+	formData.append('daops', data.daops)
+	formData.append('tanggal', data.startDate)
+	formData.append('anggota', data.anggota)
+
+	const r: APIResponse<null> = await apiV2.post(
+		'/groundcheck/addUser',
+		formData
+	)
+	if (r.status === 200) return { success: true, message: r.message }
+	return { success: false, message: r.message }
+}
+
+export const updateUserGroundCheck = async (
+	data: UpdateGcUserInput
+): Promise<ServiceResponse> => {
+	const validate = updateUserValidator(data)
+	if (!validate.pass) return { success: false, message: validate.message }
+
+	const formData = new FormData()
+	formData.append('id', data.id)
+	formData.append('nama', data.name)
+	formData.append('email', data.email)
+	formData.append('password', data.password as string)
+	formData.append('provinsi', data.provinsi)
+	formData.append('kabupaten', data.kabupaten)
+	formData.append('patroli', data.patroli)
+	formData.append('daops', data.daops)
+	formData.append('tanggal', data.startDate)
+	formData.append('anggota', data.anggota)
+
+	const r: APIResponse<null> = await apiV2.post(
+		'/groundcheck/editUser',
+		formData
+	)
+	if (r.status === 200)
+		return {
+			success: true,
+			message: 'Ubah data pengguna Ground Check berhasil'
+		}
 	return { success: false, message: r.message }
 }
 

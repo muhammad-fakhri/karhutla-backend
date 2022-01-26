@@ -19,6 +19,11 @@ export interface PenugasanData {
 	number: string
 }
 
+export interface UserGcData {
+	id: number
+	number: number
+}
+
 export interface NonPatroliUserData {
 	id: number
 	accessId: number
@@ -59,6 +64,10 @@ export interface DaopsData {
 	balaiId: string
 }
 
+export interface DaopsList {
+	nama_daops: string
+}
+
 export interface RegionData {
 	id: string
 	code: string
@@ -89,6 +98,18 @@ export interface SuratTugasData {
 	reportLink: string
 }
 
+export interface UserGroundcheckData {
+	id: string
+	nama: string
+	email: string
+	provinsi: string
+	kabupaten: string
+	patroli: string
+	daops: string
+	tanggal: string
+	anggota: string
+}
+
 export interface SuratTugasTeamMemberData {
 	id: string
 	name: string
@@ -108,6 +129,9 @@ export interface SuratTugasLaporanData {
 	nama_ketua: string
 }
 
+export interface UserGroundCheckData {
+	id: string
+}
 export interface LaporanData {
 	id: string
 	id_daerah_patroli: string

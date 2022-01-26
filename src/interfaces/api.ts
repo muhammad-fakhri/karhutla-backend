@@ -104,6 +104,10 @@ export interface DaopsResponse {
 	r_balai_id: string
 	r_balai: BalaiResponse
 }
+
+export interface DaopsListResponse {
+	nama_daops: string
+}
 export interface HotspotItemDetail {
 	tanggal: string
 	latitude: string
@@ -123,6 +127,18 @@ export interface HotspotItem {
 	satellite: string
 	tanggal: string
 	detail: HotspotItemDetail
+}
+
+export interface UserGroundcheckResponse {
+	id: string
+	nama: string
+	email: string
+	provinsi: string
+	kabupaten: string
+	patroli: string
+	daops: string
+	tanggal: string
+	anggota: string
 }
 
 interface DaerahPatroli {

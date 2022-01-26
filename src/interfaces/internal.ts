@@ -61,7 +61,22 @@ interface BaseUserInput {
 	cPassword?: string
 }
 
+interface GcUserInput {
+	name: string
+	email: string
+	password?: string
+	cPassword?: string
+	provinsi: string
+	kabupaten: string
+	patroli: string
+	daops: string
+	startDate: string
+	anggota: string
+}
+
 export type AddUserInput = BaseUserInput
+
+export type AddUserGcInput = GcUserInput
 
 export interface UpdateUserInput extends BaseUserInput {
 	id: string
