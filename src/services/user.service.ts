@@ -17,8 +17,7 @@ import {
 	UpdatePatroliNonLoginUserInput,
 	UpdateUserInput,
 	UserData,
-	UserDetailResponse,
-	UpdateGcUserInput
+	UserDetailResponse
 } from '@interface'
 import {
 	createNonPatroliValidator,
@@ -124,35 +123,35 @@ export const addUserGroundCheck = async (
 	return { success: false, message: r.message }
 }
 
-export const updateUserGroundCheck = async (
-	data: UpdateGcUserInput
-): Promise<ServiceResponse> => {
-	const validate = updateUserValidator(data)
-	if (!validate.pass) return { success: false, message: validate.message }
+// export const updateUserGroundCheck = async (
+// 	data: UpdateGcUserInput
+// ): Promise<ServiceResponse> => {
+// 	const validate = updateUserValidator(data)
+// 	if (!validate.pass) return { success: false, message: validate.message }
 
-	const formData = new FormData()
-	formData.append('id', data.id)
-	formData.append('nama', data.name)
-	formData.append('email', data.email)
-	formData.append('password', data.password as string)
-	formData.append('provinsi', data.provinsi)
-	formData.append('kabupaten', data.kabupaten)
-	formData.append('patroli', data.patroli)
-	formData.append('daops', data.daops)
-	formData.append('tanggal', data.startDate)
-	formData.append('anggota', data.anggota)
+// 	const formData = new FormData()
+// 	formData.append('id', data.id)
+// 	formData.append('nama', data.name)
+// 	formData.append('email', data.email)
+// 	formData.append('password', data.password as string)
+// 	formData.append('provinsi', data.provinsi)
+// 	formData.append('kabupaten', data.kabupaten)
+// 	formData.append('patroli', data.patroli)
+// 	formData.append('daops', data.daops)
+// 	formData.append('tanggal', data.startDate)
+// 	formData.append('anggota', data.anggota)
 
-	const r: APIResponse<null> = await apiV2.post(
-		'/groundcheck/editUser',
-		formData
-	)
-	if (r.status === 200)
-		return {
-			success: true,
-			message: 'Ubah data pengguna Ground Check berhasil'
-		}
-	return { success: false, message: r.message }
-}
+// 	const r: APIResponse<null> = await apiV2.post(
+// 		'/groundcheck/editUser',
+// 		formData
+// 	)
+// 	if (r.status === 200)
+// 		return {
+// 			success: true,
+// 			message: 'Ubah data pengguna Ground Check berhasil'
+// 		}
+// 	return { success: false, message: r.message }
+// }
 
 export const updateUser = async (
 	data: UpdateUserInput

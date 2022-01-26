@@ -102,7 +102,7 @@ export const getAllKabupaten = async (
 	return []
 }
 
-export const getAllKecamatan = async (
+export const getAllKecamatanGc = async (
 	id_kabupaten
 ): Promise<KabupatenData[]> => {
 	const r: APIResponse<KabupatenResponse[]> = await apiV2.get(

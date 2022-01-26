@@ -37,7 +37,7 @@ import {
 	addUserGroundCheck,
 	getAllProvinsi,
 	getAllKabupaten,
-	getAllKecamatan,
+	getAllKecamatanGc,
 	getDaops
 } from '@service'
 import classNames from 'classnames'
@@ -167,7 +167,7 @@ function TambahPenggunaGroundcheckPage() {
 	const handleKabutenChange = async (
 		event: ChangeEvent<HTMLInputElement>
 	) => {
-		const data = await getAllKecamatan(event.target.value)
+		const data = await getAllKecamatanGc(event.target.value)
 
 		setValues({ ...values, kabupaten: event.target.value })
 		setKecamatanList(data)
