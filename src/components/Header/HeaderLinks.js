@@ -63,11 +63,11 @@ const AuthenticatedMenu = (props) => {
 								Data Pengguna
 							</a>
 						</Link>,
-						<Link href="/groundcheck" key="data">
-							<a className={classes.dropdownLink}>
-								Data Pengguna Ground Check
-							</a>
-						</Link>,
+						// <Link href="/groundcheck" key="data">
+						// 	<a className={classes.dropdownLink}>
+						// 		Data Pengguna Ground Check
+						// 	</a>
+						// </Link>,
 						<Link href="/pengguna/hak-akses" key="access">
 							<a className={classes.dropdownLink}>Hak Akses</a>
 						</Link>,
