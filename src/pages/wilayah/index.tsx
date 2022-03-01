@@ -78,4 +78,4 @@ function WilayahPage() {
 	)
 }
 
-export default ProtectRoute(WilayahPage, false, true)
+export default ProtectRoute(WilayahPage)

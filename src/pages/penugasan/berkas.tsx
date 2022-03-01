@@ -260,7 +260,7 @@ function BerkasPenugasanPage() {
 									Untuk Penamaan Wilayah Patroli dapat dilihat
 									pada{' '}
 									<Link
-										href="/file/contoh_template.xlsx"
+										href="/wilayah"
 										className={classes.downloadButton}
 									>
 										Daftar Wilayah
