@@ -25,6 +25,7 @@ import {
 import classNames from 'classnames'
 import 'date-fns'
 import { useEffect } from 'react'
+import { withStyles } from '@material-ui/core/styles'
 import { ChangeEvent, useState } from 'react'
 
 const useStyles = makeStyles(styles)
@@ -43,6 +44,12 @@ const workTypes = [
 		label: 'Terpadu'
 	}
 ]
+
+const WhiteTextTypography = withStyles({
+	root: {
+		color: '#FFFFFF'
+	}
+})(Typography)
 
 type AlertElemenPropType = {
 	text: string[]
@@ -215,20 +222,54 @@ function BerkasPenugasanPage() {
 						</GridItem>
 					</Grid>
 					<Grid container justify="center">
-						<Grid item sm={10} xs={10}>
-							<Typography variant="body1" gutterBottom>
-								Gunakan File EXCEL dengan format yang dapat
-								diunduh{' '}
-								<Link
-									href="/file/contoh_template.xlsx"
-									className={classes.downloadButton}
-								>
-									disini
-								</Link>
-								<br></br>
-								pastikan SEMUA kolom TERISI dan format penulisan
-								telah sesuai
-							</Typography>
+						<Grid item sm={5} xs={5}>
+							<div
+								style={{
+									backgroundColor: '#0000001a',
+									borderRadius: '5px',
+									padding: '10px',
+									marginBottom: '25px'
+								}}
+							>
+								<Typography variant="body1" gutterBottom>
+									Gunakan File EXCEL dengan format yang dapat
+									diunduh{' '}
+									<Link
+										href="/file/contoh_template.xlsx"
+										className={classes.downloadButton}
+									>
+										disini
+									</Link>
+									<br></br>
+									pastikan SEMUA kolom TERISI dan format
+									penulisan telah sesuai
+								</Typography>
+							</div>
+						</Grid>
+						<Grid item sm={10} xs={10}></Grid>
+						<Grid item sm={5} xs={5}>
+							<div
+								style={{
+									backgroundColor: '#0000001a',
+									borderRadius: '5px',
+									padding: '10px',
+									marginBottom: '5px'
+								}}
+							>
+								<Typography variant="body1" gutterBottom>
+									Untuk Penamaan Wilayah Patroli dapat dilihat
+									pada{' '}
+									<Link
+										href="/file/contoh_template.xlsx"
+										className={classes.downloadButton}
+									>
+										Daftar Wilayah
+									</Link>
+									<br></br>
+									dan pastikan nama wilayah sama dengan nama
+									yang ada pada daftar wilayah tersebut.
+								</Typography>
+							</div>
 						</Grid>
 					</Grid>
 					<Grid container justify="center">

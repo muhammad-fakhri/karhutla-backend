@@ -104,7 +104,8 @@ export class MapContainer extends React.Component {
 						</td>
 					</tr>
 				</table>
-				{this.props.isLoggedin ? (
+				{this.props.isLoggedin &&
+				this.state.selectedPlace.patroli.my_daops ? (
 					<>
 						<br />
 						<center>

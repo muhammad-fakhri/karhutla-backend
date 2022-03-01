@@ -70,3 +70,20 @@ export const getDaops = async (): Promise<DaopsList[]> => {
 	}
 	return []
 }
+
+export const getDataUserGc = async (
+	userid: string
+): Promise<{
+	success: boolean
+	message: string | string[]
+	data?: any
+}> => {
+	const r: APIResponse<any> = await apiV2.get(
+		`groundcheck/detailUser?id=${userid}`
+	)
+	console.log(r)
+	if (r.status === 200) {
+		return { success: true, message: r.message, data: r.data }
+	}
+	return { success: false, message: r.message }
+}

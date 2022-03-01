@@ -12,8 +12,8 @@ const baseAPIv2 = process.env.NEXT_PUBLIC_API_V2
 export const simaduApiUrl = `${baseAPIv1}/simadu`
 export const authApiUrl = `${baseAPIv1}/auth`
 export const hotspotApiUrl = `${baseAPIv1}/hotspot`
-export const apiV2URL = `https://karhutla.apps.cs.ipb.ac.id/api`
-// export const apiV2URL = `${baseAPIv1}`
+// export const apiV2URL = `https://karhutla.apps.cs.ipb.ac.id/api`
+export const apiV2URL = `${baseAPIv1}`
 
 const handleRequestSend = (config: AxiosRequestConfig) => {
 	// Set Auth Token

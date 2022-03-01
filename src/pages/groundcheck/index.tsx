@@ -123,21 +123,19 @@ function GroundCheckPage() {
 								<Paper {...props} elevation={0} />
 							)
 						}}
-						actions={
-							[
-								// {
-								// 	icon: LaunchIcon,
-								// 	tooltip: 'Buka Detail User Ground Check',
-								// 	onClick: (event, rowData) => {
-								// 		event.preventDefault()
-								// 		const groundcheckRowData = rowData as UserGroundcheckData
-								// 		router.push(
-								// 			`/groundcheck/detail?noSK=${groundcheckRowData.id}`
-								// 		)
-								// 	}
-								// }
-							]
-						}
+						actions={[
+							{
+								icon: LaunchIcon,
+								tooltip: 'Buka Detail User Ground Check',
+								onClick: (event, rowData) => {
+									event.preventDefault()
+									const groundcheckRowData = rowData as UserGroundcheckData
+									router.push(
+										`/groundcheck/ubah/${groundcheckRowData.id}`
+									)
+								}
+							}
+						]}
 						localization={{
 							header: { actions: 'Aksi' },
 							body: {
