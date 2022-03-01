@@ -102,6 +102,24 @@ export const getAllKabupaten = async (
 	return []
 }
 
+export const getAllKecamatanGc = async (
+	id_kabupaten
+): Promise<KabupatenData[]> => {
+	const r: APIResponse<KabupatenResponse[]> = await apiV2.get(
+		'/lists/wilayah/' + id_kabupaten
+	)
+	if (r.status === 200) {
+		console.log(r)
+		return r.data.map((kecamatan) => {
+			return {
+				kode_wilayah: kecamatan.kode_wilayah,
+				nama_wilayah: kecamatan.nama_wilayah
+			}
+		})
+	}
+	return []
+}
+
 export const deletePenugasan = async (
 	data: DeletePenugasanInput
 ): Promise<ServiceResponse> => {

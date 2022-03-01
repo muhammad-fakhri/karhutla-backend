@@ -1,6 +1,7 @@
 export * from './balai.service'
 export * from './cookies.service'
 export * from './daops.service'
+export * from './groundcheck.service'
 export * from './hotspot.service'
 export * from './patroli.service'
 export * from './pelaporan.service'

@@ -5,7 +5,7 @@ import MapContainer from '@component/Map/MapPatroli'
 import Parallax from '@component/Parallax/Parallax'
 import useAuth from '@context/auth'
 import { PatrolData } from '@interface'
-import { CircularProgress, FormControl, Grid } from '@material-ui/core'
+import { CircularProgress, FormControl, Grid, Divider } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { getPatroli } from '@service'
 import classNames from 'classnames'
@@ -74,7 +74,7 @@ export default function FrontPage() {
 						spots={spots}
 						isLoggedin={isAuthenticated}
 					/>
-					<Grid container>
+					<Grid container justify="center">
 						<Grid item xs={12}>
 							<h3>
 								Tanggal: {date.format('D MMMM YYYY')}
@@ -127,6 +127,16 @@ export default function FrontPage() {
 							) : (
 								<h3>{terpadu}</h3>
 							)}
+						</Grid>
+						<Grid item xs={12} md={12}>
+							<br></br>
+							<br></br>
+							<br></br>
+							<br></br>
+							<br></br>
+							<br></br>
+							<br></br>
+							<br></br>
 						</Grid>
 					</Grid>
 				</div>
