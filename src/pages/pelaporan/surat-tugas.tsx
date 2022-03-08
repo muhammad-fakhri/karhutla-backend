@@ -99,7 +99,14 @@ function PelaporanSuratTugasPage() {
 							actionsColumnIndex: -1
 						}}
 						localization={{
-							header: { actions: 'Aksi' }
+							header: { actions: 'Aksi' },
+							pagination: {
+								labelRowsSelect: 'Baris',
+								labelDisplayedRows: '{from}-{to} dari {count}'
+							},
+							toolbar: {
+								searchPlaceholder: 'Pencarian'
+							}
 						}}
 					/>
 				)}

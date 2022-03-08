@@ -127,6 +127,13 @@ function DetailPelaporanPage() {
 									deleteText:
 										'Apakah Anda yakin ingin menghapus laporan tersebut?'
 								}
+							},
+							pagination: {
+								labelRowsSelect: 'Baris',
+								labelDisplayedRows: '{from}-{to} dari {count}'
+							},
+							toolbar: {
+								searchPlaceholder: 'Pencarian'
 							}
 						}}
 						editable={{

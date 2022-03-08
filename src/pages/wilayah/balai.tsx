@@ -122,7 +122,14 @@ function BalaiPage() {
 									deleteText: 'Yakin hapus data ini ?'
 								}
 							},
-							header: { actions: 'Aksi' }
+							header: { actions: 'Aksi' },
+							pagination: {
+								labelRowsSelect: 'Baris',
+								labelDisplayedRows: '{from}-{to} dari {count}'
+							},
+							toolbar: {
+								searchPlaceholder: 'Pencarian'
+							}
 						}}
 						editable={{
 							onRowAdd: (newData) =>

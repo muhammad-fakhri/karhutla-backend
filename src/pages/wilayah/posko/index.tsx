@@ -96,7 +96,14 @@ function PoskoPage() {
 								},
 								deleteTooltip: 'Hapus data posko'
 							},
-							header: { actions: 'Aksi' }
+							header: { actions: 'Aksi' },
+							pagination: {
+								labelRowsSelect: 'Baris',
+								labelDisplayedRows: '{from}-{to} dari {count}'
+							},
+							toolbar: {
+								searchPlaceholder: 'Pencarian'
+							}
 						}}
 						actions={[
 							{

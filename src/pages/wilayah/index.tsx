@@ -71,6 +71,15 @@ function WilayahPage() {
 						options={{
 							search: true
 						}}
+						localization={{
+							pagination: {
+								labelRowsSelect: 'Baris',
+								labelDisplayedRows: '{from}-{to} dari {count}'
+							},
+							toolbar: {
+								searchPlaceholder: 'Pencarian'
+							}
+						}}
 					/>
 				)}
 			</div>
