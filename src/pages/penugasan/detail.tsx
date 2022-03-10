@@ -69,6 +69,15 @@ function DetailPenugasanPage() {
 								<Paper {...props} elevation={0} />
 							)
 						}}
+						localization={{
+							pagination: {
+								labelRowsSelect: 'Baris',
+								labelDisplayedRows: '{from}-{to} dari {count}'
+							},
+							toolbar: {
+								searchPlaceholder: 'Pencarian'
+							}
+						}}
 					/>
 				)}
 			</div>

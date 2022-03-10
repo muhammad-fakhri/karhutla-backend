@@ -14,18 +14,7 @@ import { useEffect, useState } from 'react'
 const column = [
 	{ title: 'Wilayah', field: 'name' },
 	{ title: 'Kode Wilayah', field: 'code' },
-	{
-		title: 'Unit Wilayah',
-		field: 'type',
-		lookup: {
-			Pulau: 'Pulau',
-			Provinsi: 'Provinsi',
-			Kabupaten: 'Kabupaten',
-			Kecamatan: 'Kecamatan',
-			Kelurahan: 'Kelurahan',
-			Desa: 'Desa'
-		}
-	}
+	{ title: 'Unit Wilayah', field: 'type' }
 ]
 
 function WilayahPage() {
@@ -70,6 +59,15 @@ function WilayahPage() {
 						data={region}
 						options={{
 							search: true
+						}}
+						localization={{
+							pagination: {
+								labelRowsSelect: 'Baris',
+								labelDisplayedRows: '{from}-{to} dari {count}'
+							},
+							toolbar: {
+								searchPlaceholder: 'Pencarian'
+							}
 						}}
 					/>
 				)}

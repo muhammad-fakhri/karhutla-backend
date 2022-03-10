@@ -192,7 +192,7 @@ function HakAksesPage() {
 					editable: 'never' as const
 				},
 				{
-					title: 'Balai/Organisasi',
+					title: 'Organisasi',
 					field: 'organization',
 					lookup: balaiLookup
 				},
@@ -282,23 +282,23 @@ function HakAksesPage() {
 									centered
 									aria-label="full width tabs example"
 								>
-									<Tab
+									{/* <Tab
 										label="Personil Manggala Agni"
 										wrapped
 										{...a11yProps(0)}
-									/>
-									<Tab label="Daops" {...a11yProps(1)} />
+									/> */}
+									<Tab label="Daops" {...a11yProps(0)} />
 									<Tab
 										label="Balai/Pusat"
-										{...a11yProps(2)}
+										{...a11yProps(1)}
 									/>
-									<Tab
+									{/* <Tab
 										label="Patroli Non Login"
 										{...a11yProps(3)}
-									/>
+									/> */}
 								</Tabs>
 							</AppBar>
-							<TabPanel value={value} index={0}>
+							{/* <TabPanel value={value} index={0}>
 								<MaterialTable
 									title="Personil Manggala Agni"
 									columns={manggalaColumn}
@@ -313,8 +313,8 @@ function HakAksesPage() {
 										actionsColumnIndex: -1
 									}}
 								/>
-							</TabPanel>
-							<TabPanel value={value} index={1}>
+							</TabPanel> */}
+							<TabPanel value={value} index={0}>
 								<MaterialTable
 									title="Hak Akses Daops"
 									columns={daopsColumn}
@@ -335,7 +335,15 @@ function HakAksesPage() {
 													'Yakin hapus data ini ?'
 											}
 										},
-										header: { actions: 'Aksi' }
+										header: { actions: 'Aksi' },
+										pagination: {
+											labelRowsSelect: 'Baris',
+											labelDisplayedRows:
+												'{from}-{to} dari {count}'
+										},
+										toolbar: {
+											searchPlaceholder: 'Pencarian'
+										}
 									}}
 									editable={{
 										onRowUpdate: (newData, oldData) =>
@@ -417,7 +425,7 @@ function HakAksesPage() {
 									}}
 								/>
 							</TabPanel>
-							<TabPanel value={value} index={2}>
+							<TabPanel value={value} index={1}>
 								<MaterialTable
 									title="Hak Akses Balai/Pusat"
 									columns={balaiColumn}
@@ -438,7 +446,15 @@ function HakAksesPage() {
 													'Yakin hapus data ini ?'
 											}
 										},
-										header: { actions: 'Aksi' }
+										header: { actions: 'Aksi' },
+										pagination: {
+											labelRowsSelect: 'Baris',
+											labelDisplayedRows:
+												'{from}-{to} dari {count}'
+										},
+										toolbar: {
+											searchPlaceholder: 'Pencarian'
+										}
 									}}
 									editable={{
 										onRowUpdate: (newData, oldData) =>
@@ -520,7 +536,7 @@ function HakAksesPage() {
 									}}
 								/>
 							</TabPanel>
-							<TabPanel value={value} index={3}>
+							{/* <TabPanel value={value} index={3}>
 								<MaterialTable
 									title="Personil Patroli (Non Login)"
 									columns={patroliNonLoginColumn}
@@ -542,7 +558,14 @@ function HakAksesPage() {
 													'Yakin hapus data ini ?'
 											}
 										},
-										header: { actions: 'Aksi' }
+										header: { actions: 'Aksi' },
+										pagination: {
+											labelRowsSelect: 'Baris',
+											labelDisplayedRows: '{from}-{to} dari {count}'
+										},
+										toolbar: {
+											searchPlaceholder: 'Pencarian'
+										}
 									}}
 									editable={{
 										onRowAdd: (newData) =>
@@ -649,7 +672,7 @@ function HakAksesPage() {
 											)
 									}}
 								/>
-							</TabPanel>
+							</TabPanel> */}
 						</>
 					)}
 				</Grid>

@@ -82,7 +82,10 @@ function PatroliPage() {
 					<Grid container justify="center">
 						<Grid item xs={12}>
 							<h3>
-								Tanggal: {date.format('D MMMM YYYY')}
+								Tanggal:{' '}
+								{moment(date)
+									.locale('id')
+									.format('D MMMM YYYY')}
 								<br />
 								<FormControl
 									className={classNames(
@@ -158,7 +161,15 @@ function PatroliPage() {
 									textTransform: 'capitalize'
 								}}
 								localization={{
-									header: { actions: 'Aksi' }
+									header: { actions: 'Aksi' },
+									pagination: {
+										labelRowsSelect: 'Baris',
+										labelDisplayedRows:
+											'{from}-{to} dari {count}'
+									},
+									toolbar: {
+										searchPlaceholder: 'Pencarian'
+									}
 								}}
 								actions={[
 									{
@@ -188,7 +199,15 @@ function PatroliPage() {
 									actionsColumnIndex: -1
 								}}
 								localization={{
-									header: { actions: 'Aksi' }
+									header: { actions: 'Aksi' },
+									pagination: {
+										labelRowsSelect: 'Baris',
+										labelDisplayedRows:
+											'{from}-{to} dari {count}'
+									},
+									toolbar: {
+										searchPlaceholder: 'Pencarian'
+									}
 								}}
 								actions={[
 									{
@@ -218,7 +237,15 @@ function PatroliPage() {
 									actionsColumnIndex: -1
 								}}
 								localization={{
-									header: { actions: 'Aksi' }
+									header: { actions: 'Aksi' },
+									pagination: {
+										labelRowsSelect: 'Baris',
+										labelDisplayedRows:
+											'{from}-{to} dari {count}'
+									},
+									toolbar: {
+										searchPlaceholder: 'Pencarian'
+									}
 								}}
 								actions={[
 									{

@@ -77,7 +77,10 @@ export default function FrontPage() {
 					<Grid container justify="center">
 						<Grid item xs={12}>
 							<h3>
-								Tanggal: {date.format('D MMMM YYYY')}
+								Tanggal:{' '}
+								{moment(date)
+									.locale('id')
+									.format('D MMMM YYYY')}
 								<br />
 								<FormControl
 									className={classNames(
