@@ -70,12 +70,14 @@ export const getPatroli = async (
 				const tempDate = Moment(patroli.tanggal_patroli)
 				data2.patrolDate = tempDate.format('DD-MM-YYYY')
 
-				if (patroli.kategori_patroli === 'Terpadu')
-					patroliTerpadu.push(data2)
-				else if (patroli.kategori_patroli === 'Mandiri')
-					patroliMandiri.push(data2)
-				else if (patroli.kategori_patroli === 'Rutin')
-					patroliRutin.push(data2)
+				if (patroli.my_daops) {
+					if (patroli.kategori_patroli === 'Terpadu')
+						patroliTerpadu.push(data2)
+					else if (patroli.kategori_patroli === 'Mandiri')
+						patroliMandiri.push(data2)
+					else if (patroli.kategori_patroli === 'Rutin')
+						patroliRutin.push(data2)
+				}
 			})
 		})
 		console.log(patroliTerpadu)
