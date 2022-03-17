@@ -195,6 +195,7 @@ export interface PatroliResponse {
 			}
 		]
 	}
+	my_daops: boolean
 	laporanDarat: [
 		{
 			id_laporan_darat: string
