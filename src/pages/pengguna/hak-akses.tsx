@@ -2,7 +2,7 @@ import styles from '@asset/jss/nextjs-material-kit/pages/hak-akses.page.style'
 import SiteLayout from '@component/Layout/SiteLayout'
 import Loader from '@component/Loader/Loader'
 import useAuth, { ProtectRoute } from '@context/auth'
-import { NonPatroliUserData, UserData } from '@interface'
+import { NonPatroliUserData, UserData, KorwilData } from '@interface'
 import {
 	AppBar,
 	Box,
@@ -22,6 +22,7 @@ import {
 	getAllDaops,
 	getNonPatroliRoles,
 	getNonPatroliUsers,
+	getKorwilUsers,
 	getPatroliNonLoginRoles,
 	getPatroliNonLoginUsers,
 	updateNonPatroliUser,
@@ -79,6 +80,7 @@ type LookupItemType = {
 
 const generateRolesLookup = async () => {
 	const daopsRoles: RolesType = {}
+	const korwilRoles: RolesType = {}
 	const balaiRoles: RolesType = {}
 	const patroliNonLoginRoles: RolesType = {}
 	const nonPatrolRoles = await getNonPatroliRoles()
@@ -86,14 +88,16 @@ const generateRolesLookup = async () => {
 	nonPatrolRoles.forEach((role) => {
 		if (role.level <= 3) {
 			balaiRoles[role.id] = role.name
-		} else if (role.level <= 5) {
+		} else if (role.level == 6 || role.level == 7) {
 			daopsRoles[role.id] = role.name
+		} else if (role.level == 5 || role.level == 4) {
+			korwilRoles[role.id] = role.name
 		}
 	})
 	patrolRoles.forEach((role) => {
 		patroliNonLoginRoles[role.id] = role.name
 	})
-	return { daopsRoles, balaiRoles, patroliNonLoginRoles }
+	return { daopsRoles, korwilRoles, balaiRoles, patroliNonLoginRoles }
 }
 const generateDaopsLookup = async () => {
 	const daops = await getAllDaops()
@@ -119,12 +123,16 @@ function HakAksesPage() {
 
 	const [manggalaState, setManggalaState] = useState<NonPatroliUserData[]>([])
 	const [daopsState, setDaopsState] = useState<NonPatroliUserData[]>([])
+	const [korwilState, setKorwilState] = useState<KorwilData[]>([])
 	const [balaiState, setBalaiState] = useState<NonPatroliUserData[]>([])
 	const [patroliNonLogin, setPatroliNonLogin] = useState<UserData[]>([])
 	const [manggalaColumn, setManggalaColumn] = useState<
 		Column<NonPatroliUserData>[]
 	>([])
 	const [daopsColumn, setDaopsColumn] = useState<
+		Column<NonPatroliUserData>[]
+	>([])
+	const [korwilColumn, setKorwilColumn] = useState<
 		Column<NonPatroliUserData>[]
 	>([])
 	const [balaiColumn, setBalaiColumn] = useState<
@@ -179,6 +187,20 @@ function HakAksesPage() {
 				},
 				{ title: 'Hak Akses', field: 'role', lookup: roles.daopsRoles }
 			]
+			const korwilColumn = [
+				{ title: 'Nama', field: 'nama', editable: 'never' as const },
+				{
+					title: 'Kode',
+					field: 'kode',
+					editable: 'never' as const
+				},
+				{
+					title: 'Organisasi',
+					field: 'organization',
+					lookup: daopsLookup
+				},
+				{ title: 'Hak Akses', field: 'role', lookup: roles.korwilRoles }
+			]
 			const balaiColumn: Column<NonPatroliUserData>[] = [
 				{ title: 'Nama', field: 'name', editable: 'never' as const },
 				{
@@ -208,13 +230,19 @@ function HakAksesPage() {
 			]
 			setManggalaColumn(manggalaColumn)
 			setDaopsColumn(daopsColumn)
+			setKorwilColumn(korwilColumn)
 			setBalaiColumn(balaiColumn)
 			setPatroliNonLoginColumn(patroliNonLoginColumn)
 
 			const dataNonPatroli = await getNonPatroliUsers()
 			const dataPatroliNonLogin = await getPatroliNonLoginUsers()
+
+			const dataKorwil = await getKorwilUsers()
+			console.log(dataNonPatroli)
+
 			setManggalaState([])
 			setDaopsState(dataNonPatroli.daopsUsers)
+			setKorwilState(dataKorwil.korwilUsers)
 			setBalaiState(dataNonPatroli.balaiUsers)
 			setPatroliNonLogin(dataPatroliNonLogin)
 
@@ -288,9 +316,10 @@ function HakAksesPage() {
 										{...a11yProps(0)}
 									/> */}
 									<Tab label="Daops" {...a11yProps(0)} />
+									{/* <Tab label="Korwil" {...a11yProps(1)} /> */}
 									<Tab
 										label="Balai/Pusat"
-										{...a11yProps(1)}
+										{...a11yProps(2)}
 									/>
 									{/* <Tab
 										label="Patroli Non Login"
@@ -425,7 +454,118 @@ function HakAksesPage() {
 									}}
 								/>
 							</TabPanel>
-							<TabPanel value={value} index={1}>
+							{/* <TabPanel value={value} index={1}>
+								<MaterialTable
+									title="Hak Akses Korwil"
+									columns={korwilColumn}
+									data={korwilState}
+									components={{
+										Container: (props) => (
+											<Paper {...props} elevation={0} />
+										)
+									}}
+									options={{
+										search: true,
+										actionsColumnIndex: -1
+									}}
+									localization={{
+										body: {
+											editRow: {
+												deleteText:
+													'Yakin hapus data ini ?'
+											}
+										},
+										header: { actions: 'Aksi' },
+										pagination: {
+											labelRowsSelect: 'Baris',
+											labelDisplayedRows:
+												'{from}-{to} dari {count}'
+										},
+										toolbar: {
+											searchPlaceholder: 'Pencarian'
+										}
+									}}
+									editable={{
+										onRowUpdate: (newData, oldData) =>
+											new Promise<void>(
+												(resolve, reject) => {
+													updateNonPatroliUser(
+														newData
+													).then((result) => {
+														if (result.success) {
+															if (oldData) {
+																setDaopsState(
+																	(
+																		prevState
+																	) => {
+																		const data = [
+																			...prevState
+																		]
+																		data[
+																			data.indexOf(
+																				oldData
+																			)
+																		] = newData
+																		return data
+																	}
+																)
+															}
+															showAlert(
+																true,
+																'Update hak akses daops berhasil'
+															)
+															resolve()
+														} else {
+															showAlert(
+																false,
+																result.message as string
+															)
+															reject()
+														}
+													})
+												}
+											),
+										onRowDelete: (oldData) =>
+											new Promise<void>(
+												(resolve, reject) => {
+													deleteNonPatroliUser(
+														oldData
+													).then((result) => {
+														if (result.success) {
+															const dataDelete = [
+																...daopsState
+															]
+															const accessRightRowData: any = oldData
+															const index =
+																accessRightRowData
+																	.tableData
+																	.id
+															dataDelete.splice(
+																index,
+																1
+															)
+															setDaopsState(
+																dataDelete
+															)
+															showAlert(
+																true,
+																'Hapus hak akses daops berhasil'
+															)
+															resolve()
+														} else {
+															showAlert(
+																false,
+																result.message as string
+															)
+															reject()
+														}
+													})
+												}
+											)
+									}}
+								/>
+							</TabPanel> */}
+							<TabPanel value={value} index={2}>
 								<MaterialTable
 									title="Hak Akses Balai/Pusat"
 									columns={balaiColumn}

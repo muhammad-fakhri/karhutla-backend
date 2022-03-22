@@ -34,6 +34,13 @@ export interface NonPatroliUserData {
 	organization: string
 }
 
+export interface KorwilData {
+	id: string
+	nama: string
+	kode: string
+	m_daops_id: string
+}
+
 export interface BalaiData {
 	id: string
 	code: string

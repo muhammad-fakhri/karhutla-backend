@@ -5,12 +5,57 @@ import styles from '../../assets/jss/nextjs-material-kit/components/headerLinksS
 import useAuth from '../../context/auth'
 import Button from '../CustomButtons/Button'
 import CustomDropdown from '../CustomDropdown/CustomDropdown'
+import ReactDOMServer from 'react-dom/server'
+import React from 'react'
 
 const useStyles = makeStyles(styles)
 
 const AuthenticatedMenu = (props) => {
 	const classes = useStyles()
+	const { isAuthenticated, user } = useAuth()
+	const data_pengguna_menu = [0, 1, 2]
+	const hak_akses_menu = [0, 1, 2]
+	const penugasan_menu = [0, 1, 2, 3, 4, 5, 6, 7]
+	const wilayah_menu = [0, 1, 2, 3, 4, 5, 6, 7]
+	let pengguna_html = <></>
+	let akses_html = <></>
+	let penugasan_html = <></>
+	let wilayah_html = <></>
 
+	if (data_pengguna_menu.includes(user.roleLevel)) {
+		pengguna_html = (
+			<Link href="/pengguna" key="data">
+				<a className={classes.dropdownLink}>Data Pengguna</a>
+			</Link>
+		)
+	}
+
+	if (hak_akses_menu.includes(user.roleLevel)) {
+		akses_html = (
+			<Link href="/pengguna/hak-akses" key="access">
+				<a className={classes.dropdownLink}>Hak Akses</a>
+			</Link>
+		)
+	}
+
+	if (penugasan_menu.includes(user.roleLevel)) {
+		penugasan_html = (
+			<Link href="/penugasan" key="task">
+				<a className={classes.dropdownLink}>Penugasan</a>
+			</Link>
+		)
+	}
+
+	if (wilayah_menu.includes(user.roleLevel)) {
+		wilayah_html = (
+			<Link href="/wilayah" key="task">
+				<a className={classes.dropdownLink}>Wilayah Kerja</a>
+			</Link>
+		)
+	}
+
+	// console.log(user.roleLevel)
+	// console.log(data_pengguna.includes(9))
 	return (
 		<List className={classes.list}>
 			<ListItem className={classes.listItem}>
@@ -58,27 +103,10 @@ const AuthenticatedMenu = (props) => {
 						color: 'transparent'
 					}}
 					dropdownList={[
-						<Link href="/pengguna" key="data">
-							<a className={classes.dropdownLink}>
-								Data Pengguna
-							</a>
-						</Link>,
-						// <Link href="/groundcheck" key="data">
-						// 	<a className={classes.dropdownLink}>
-						// 		Data Pengguna Ground Check
-						// 	</a>
-						// </Link>,
-						<Link href="/pengguna/hak-akses" key="access">
-							<a className={classes.dropdownLink}>Hak Akses</a>
-						</Link>,
-						<Link href="/penugasan" key="task">
-							<a className={classes.dropdownLink}>Penugasan</a>
-						</Link>,
-						<Link href="/wilayah" key="task">
-							<a className={classes.dropdownLink}>
-								Wilayah Kerja
-							</a>
-						</Link>
+						pengguna_html,
+						akses_html,
+						penugasan_html,
+						wilayah_html
 					]}
 				/>
 			</ListItem>

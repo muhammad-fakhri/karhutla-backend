@@ -49,11 +49,17 @@ function PenugasanPage() {
 	const [showCheck, setShowCheck] = useState(false)
 	const [alertSuccess, setAlertSuccess] = useState(true)
 	const [loading, setLoading] = useState(true)
+	const [delete_condition, setdelete] = useState(false)
+	const delete_role = [0, 6]
 	useEffect(() => {
 		const fetchData = async () => {
 			const data = await getAllPenugasan()
 			setPenugasan(data)
 			setLoading(false)
+
+			if (delete_role.includes(user.roleLevel)) {
+				setdelete(true)
+			}
 		}
 		if (isAuthenticated) fetchData()
 	}, [isAuthenticated])
@@ -93,7 +99,7 @@ function PenugasanPage() {
 					</GridItem>
 				</Grid>
 
-				{user.roleLevel === 4 ? (
+				{user.roleLevel === 6 ? (
 					<>
 						<Link href="penugasan/berkas">
 							<Button
@@ -155,6 +161,7 @@ function PenugasanPage() {
 							}
 						}}
 						editable={{
+							isDeletable: (rowData) => delete_condition,
 							onRowDelete: (oldData) =>
 								new Promise<void>((resolve, reject) => {
 									deletePenugasan(oldData).then((result) => {

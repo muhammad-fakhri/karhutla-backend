@@ -35,7 +35,7 @@ const useStyles = makeStyles(styles)
 
 function UbahLaporanPage() {
 	const classes = useStyles()
-	const { isAuthenticated } = useAuth()
+	const { isAuthenticated, user } = useAuth()
 	const router = useRouter()
 	const { laporanId } = router.query
 	const [laporan_id, setLaporanId] = useState('')
@@ -79,6 +79,8 @@ function UbahLaporanPage() {
 	const [dataObservasi, setObservasi] = useState([])
 	const [observasiNull, setObservasiNull] = useState(true)
 	const [nomor_sk, setSK] = useState('')
+	const [update_condition, setupdate] = useState(false)
+	const update_role = [0, 6]
 	const [values, setValues] = useState({
 		id: '',
 		registrationNumber: '',
@@ -578,6 +580,10 @@ function UbahLaporanPage() {
 					if (result.data[0].observasiGroup[0]) {
 						setObservasi(result.data[0].observasiGroup)
 						setObservasiNull(false)
+					}
+
+					if (update_role.includes(user.roleLevel)) {
+						setupdate(true)
 					}
 
 					if (result.data[0].laporanDarat[0]) {
@@ -1863,20 +1869,26 @@ function UbahLaporanPage() {
 						</Grid>
 					</Grid>
 					<Grid container justify="center" spacing={2}>
-						<Grid item xs={10} md={4}>
-							{loading ? (
-								<CircularProgress />
-							) : (
-								<Button
-									variant="contained"
-									color="primary"
-									fullWidth
-									onClick={handleFormSubmit}
-								>
-									Ubah Data Laporan
-								</Button>
-							)}
-						</Grid>
+						{update_condition ? (
+							<>
+								<Grid item xs={10} md={4}>
+									{loading ? (
+										<CircularProgress />
+									) : (
+										<Button
+											variant="contained"
+											color="primary"
+											fullWidth
+											onClick={handleFormSubmit}
+										>
+											Ubah Data Laporan
+										</Button>
+									)}
+								</Grid>
+							</>
+						) : (
+							''
+						)}
 					</Grid>
 				</form>
 			</div>

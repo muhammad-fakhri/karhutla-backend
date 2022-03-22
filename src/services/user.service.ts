@@ -11,6 +11,8 @@ import {
 	NonLoginUserResponse,
 	NonPatroliUserData,
 	NonPatroliUserResponse,
+	KorwilData,
+	KorwilResponse,
 	RoleData,
 	RoleResponse,
 	ServiceResponse,
@@ -327,6 +329,27 @@ export const getNonPatroliUsers = async (): Promise<{
 		return { daopsUsers, balaiUsers }
 	}
 	return { daopsUsers, balaiUsers }
+}
+
+export const getKorwilUsers = async (): Promise<{
+	korwilUsers: KorwilData[]
+}> => {
+	const r: APIResponse<KorwilResponse[]> = await API.get('/korwil/list')
+	const korwilUsers: KorwilData[] = []
+	if (r.status === 200) {
+		r.data.forEach((users) => {
+			const user: KorwilData = {
+				id: users.id,
+				nama: users.nama,
+				kode: users.kode,
+				m_daops_id: users.m_daops_id
+			}
+
+			korwilUsers.push(user)
+		})
+		return { korwilUsers }
+	}
+	return { korwilUsers }
 }
 
 export const addNonPatroliUser = async (
