@@ -47,6 +47,13 @@ export interface NonPatroliUserResponse {
 	r_role: RoleResponse
 }
 
+export interface KorwilResponse {
+	id: string
+	nama: string
+	kode: string
+	m_daops_id: string
+}
+
 export interface LaporanDataResponse {
 	success: boolean
 	message: string | string[]

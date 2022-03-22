@@ -25,6 +25,12 @@ export default function NavBtnGroup(props) {
 				Balai
 			</Button>
 			<Button
+				href="/wilayah/korwil"
+				variant={page === 'korwil' ? 'contained' : 'outlined'}
+			>
+				Korwil
+			</Button>
+			<Button
 				href="/wilayah/daops"
 				variant={page === 'daops' ? 'contained' : 'outlined'}
 			>

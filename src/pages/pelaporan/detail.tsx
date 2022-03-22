@@ -27,13 +27,17 @@ const columns = [
 
 function DetailPelaporanPage() {
 	const classes = useStyles()
-	const { isAuthenticated } = useAuth()
+	const { isAuthenticated, user } = useAuth()
 	const router = useRouter()
 	const { noSK } = router.query
 	const [laporan, setLaporan] = useState<SuratTugasLaporanData[]>([])
 	const [showCheck, setShowCheck] = useState(false)
 	const [alertSuccess, setAlertSuccess] = useState(true)
+	const [delete_condition, setdelete] = useState(false)
 	console.log(noSK)
+
+	const delete_role = [0, 6]
+
 	const [loading, setLoading] = useState(true)
 	const [alertMessage, setAlertMessage] = useState('')
 	const [alertType, setAlertType] = useState<
@@ -46,6 +50,10 @@ function DetailPelaporanPage() {
 				console.log(data)
 				setLaporan(data)
 				setLoading(false)
+
+				if (delete_role.includes(user.roleLevel)) {
+					setdelete(true)
+				}
 			}
 		}
 		if (isAuthenticated) fetchData()
@@ -137,6 +145,7 @@ function DetailPelaporanPage() {
 							}
 						}}
 						editable={{
+							isDeletable: (rowData) => delete_condition,
 							onRowDelete: (oldData) =>
 								new Promise<void>((resolve, reject) => {
 									deleteLaporan(oldData).then((result) => {

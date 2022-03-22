@@ -3,6 +3,8 @@ import {
 	APIResponse,
 	BalaiData,
 	BalaiResponse,
+	KorwilData,
+	KorwilResponse,
 	ServiceResponse
 } from '@interface'
 import {
@@ -66,6 +68,67 @@ export const deleteBalai = async (
 	if (!validate.pass) return { success: false, message: validate.message }
 
 	const r: APIResponse<null> = await API.delete(`/balai/remove/${balai.id}`)
+	if (r.status === 200) return { success: true, message: r.message }
+	return { success: false, message: r.message }
+}
+
+export const getAllKorwil = async (): Promise<KorwilData[]> => {
+	const r: APIResponse<KorwilResponse[]> = await API.get('/korwil/list')
+	if (r.status === 200) {
+		const data: KorwilData[] = r.data.map((korwil) => {
+			return {
+				id: korwil.id,
+				kode: korwil.kode,
+				nama: korwil.nama,
+				m_daops_id: korwil.m_daops_id
+			}
+		})
+		return data
+	}
+	return []
+}
+
+export const addKorwil = async (
+	korwil: KorwilData
+): Promise<ServiceResponse> => {
+	// const validate = createBalaiValidator(korwil)
+	// if (!validate.pass) return { success: false, message: validate.message }
+
+	const formData = new FormData()
+	formData.append('kode', korwil.kode)
+	formData.append('nama', korwil.nama)
+	formData.append('m_daops_id', korwil.m_daops_id)
+
+	const r: APIResponse<null> = await API.post('/korwil/add', formData)
+	if (r.status === 200) return { success: true, message: r.message }
+	return { success: false, message: r.message }
+}
+
+export const updateKorwil = async (
+	newData: KorwilData,
+	oldData: KorwilData
+): Promise<ServiceResponse> => {
+	// const validate = updateBalaiValidator(newData)
+	// if (!validate.pass) return { success: false, message: validate.message }
+
+	const formData = new FormData()
+	formData.append('id', newData.id)
+	formData.append('nama', newData.nama)
+	formData.append('m_daops_id', newData.m_daops_id)
+	if (oldData.kode !== newData.kode) formData.append('kode', newData.kode)
+
+	const r: APIResponse<null> = await API.post('/korwil/save', formData)
+	if (r.status === 200) return { success: true, message: r.message }
+	return { success: false, message: r.message }
+}
+
+export const deleteKorwil = async (
+	korwil: KorwilData
+): Promise<ServiceResponse> => {
+	// const validate = deleteBalaiValidator(balai)
+	// if (!validate.pass) return { success: false, message: validate.message }
+
+	const r: APIResponse<null> = await API.delete(`/korwil/remove/${korwil.id}`)
 	if (r.status === 200) return { success: true, message: r.message }
 	return { success: false, message: r.message }
 }
