@@ -105,53 +105,53 @@ function PoskoPage() {
 								searchPlaceholder: 'Pencarian'
 							}
 						}}
-						actions={[
-							{
-								icon: AddBoxIcon,
-								tooltip: 'Tambah data posko',
-								isFreeAction: true,
-								onClick: () =>
-									router.push('/wilayah/posko/tambah')
-							},
-							{
-								icon: 'edit',
-								tooltip: 'Ubah data posko',
-								onClick: (event, rowData) => {
-									const singleRowData = rowData as PoskoData
-									router.push(
-										`/wilayah/posko/ubah/${singleRowData.id}`
-									)
-								}
-							}
-						]}
-						editable={{
-							onRowDelete: (oldData) =>
-								new Promise<void>((resolve, reject) => {
-									deletePosko(oldData).then((result) => {
-										if (result.success) {
-											const dataDelete = [...posko]
-											const oldRowData: any = oldData
-											const index =
-												oldRowData.tableData.id
-											dataDelete.splice(index, 1)
-											setPosko(dataDelete)
-											setAlertType('success')
-											setAlertMessage(
-												'Hapus data posko berhasil'
-											)
-											setShowAlert(true)
-											resolve()
-										} else {
-											setAlertType('error')
-											setAlertMessage(
-												result.message as string
-											)
-											setShowAlert(true)
-											reject()
-										}
-									})
-								})
-						}}
+						// actions={[
+						// 	{
+						// 		icon: AddBoxIcon,
+						// 		tooltip: 'Tambah data posko',
+						// 		isFreeAction: true,
+						// 		onClick: () =>
+						// 			router.push('/wilayah/posko/tambah')
+						// 	},
+						// 	{
+						// 		icon: 'edit',
+						// 		tooltip: 'Ubah data posko',
+						// 		onClick: (event, rowData) => {
+						// 			const singleRowData = rowData as PoskoData
+						// 			router.push(
+						// 				`/wilayah/posko/ubah/${singleRowData.id}`
+						// 			)
+						// 		}
+						// 	}
+						// ]}
+						// editable={{
+						// 	onRowDelete: (oldData) =>
+						// 		new Promise<void>((resolve, reject) => {
+						// 			deletePosko(oldData).then((result) => {
+						// 				if (result.success) {
+						// 					const dataDelete = [...posko]
+						// 					const oldRowData: any = oldData
+						// 					const index =
+						// 						oldRowData.tableData.id
+						// 					dataDelete.splice(index, 1)
+						// 					setPosko(dataDelete)
+						// 					setAlertType('success')
+						// 					setAlertMessage(
+						// 						'Hapus data posko berhasil'
+						// 					)
+						// 					setShowAlert(true)
+						// 					resolve()
+						// 				} else {
+						// 					setAlertType('error')
+						// 					setAlertMessage(
+						// 						result.message as string
+						// 					)
+						// 					setShowAlert(true)
+						// 					reject()
+						// 				}
+						// 			})
+						// 		})
+						// }}
 					/>
 				)}
 			</div>
