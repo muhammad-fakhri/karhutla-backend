@@ -3,7 +3,9 @@ import {
 	APIResponse,
 	DaopsData,
 	DaopsResponse,
-	ServiceResponse
+	ServiceResponse,
+	KorwilDistinctData,
+	KorwilDistinctResponse
 } from '@interface'
 import {
 	createDaopsValidator,
@@ -20,6 +22,22 @@ export const getAllDaops = async (): Promise<DaopsData[]> => {
 				code: daops.kode,
 				name: daops.nama,
 				balaiId: daops.r_balai_id
+			}
+		})
+		return data
+	}
+	return []
+}
+
+export const getAllKorwilDistinct = async (): Promise<KorwilDistinctData[]> => {
+	const r: APIResponse<KorwilDistinctResponse[]> = await API.get(
+		'/korwil/distinct'
+	)
+	if (r.status === 200) {
+		const data: KorwilDistinctData[] = r.data.map((daops) => {
+			return {
+				kode: daops.kode,
+				nama: daops.nama
 			}
 		})
 		return data

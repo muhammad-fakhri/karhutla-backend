@@ -59,6 +59,7 @@ interface BaseUserInput {
 	phoneNumber: string
 	password?: string
 	cPassword?: string
+	r_role_id: string
 }
 
 interface GcUserInput {
