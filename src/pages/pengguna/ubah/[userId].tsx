@@ -27,6 +27,7 @@ function UbahPenggunaPage() {
 		email: '',
 		oldEmail: '',
 		phoneNumber: '',
+		r_role_id: '',
 		errorMessage: '',
 		notFound: false,
 		showAlert: false,
@@ -68,7 +69,8 @@ function UbahPenggunaPage() {
 							name: user.name,
 							email: user.email,
 							oldEmail: user.email,
-							phoneNumber: user.phoneNumber
+							phoneNumber: user.phoneNumber,
+							r_role_id: user.role.toString()
 						})
 					}
 				} else {

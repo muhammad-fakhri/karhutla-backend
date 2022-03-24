@@ -23,6 +23,7 @@ import {
 	getNonPatroliRoles,
 	getNonPatroliUsers,
 	getKorwilUsers,
+	getAllKorwilDistinct,
 	getPatroliNonLoginRoles,
 	getPatroliNonLoginUsers,
 	updateNonPatroliUser,
@@ -107,6 +108,15 @@ const generateDaopsLookup = async () => {
 	})
 	return data
 }
+
+const generateKorwilLookup = async () => {
+	const korwils = await getAllKorwilDistinct()
+	const data: LookupItemType = {}
+	korwils.forEach((item) => {
+		data[item.kode] = item.nama
+	})
+	return data
+}
 const generateBalaiLookup = async () => {
 	const balai = await getAllBalai()
 	const data: LookupItemType = {}
@@ -123,7 +133,7 @@ function HakAksesPage() {
 
 	const [manggalaState, setManggalaState] = useState<NonPatroliUserData[]>([])
 	const [daopsState, setDaopsState] = useState<NonPatroliUserData[]>([])
-	const [korwilState, setKorwilState] = useState<KorwilData[]>([])
+	const [korwilState, setKorwilState] = useState<NonPatroliUserData[]>([])
 	const [balaiState, setBalaiState] = useState<NonPatroliUserData[]>([])
 	const [patroliNonLogin, setPatroliNonLogin] = useState<UserData[]>([])
 	const [manggalaColumn, setManggalaColumn] = useState<
@@ -154,6 +164,7 @@ function HakAksesPage() {
 			const roles = await generateRolesLookup()
 			const daopsLookup = await generateDaopsLookup()
 			const balaiLookup = await generateBalaiLookup()
+			const korwilLookup = await generateKorwilLookup()
 			const manggalaColumn = [
 				{ title: 'Nama', field: 'name', editable: 'never' as const },
 				{
@@ -188,16 +199,21 @@ function HakAksesPage() {
 				{ title: 'Hak Akses', field: 'role', lookup: roles.daopsRoles }
 			]
 			const korwilColumn = [
-				{ title: 'Nama', field: 'nama', editable: 'never' as const },
+				{ title: 'Nama', field: 'name', editable: 'never' as const },
 				{
-					title: 'Kode',
-					field: 'kode',
+					title: 'No Registrasi/NIP',
+					field: 'registrationNumber',
+					editable: 'never' as const
+				},
+				{
+					title: 'Email',
+					field: 'email',
 					editable: 'never' as const
 				},
 				{
 					title: 'Organisasi',
 					field: 'organization',
-					lookup: daopsLookup
+					lookup: korwilLookup
 				},
 				{ title: 'Hak Akses', field: 'role', lookup: roles.korwilRoles }
 			]
@@ -237,16 +253,18 @@ function HakAksesPage() {
 			const dataNonPatroli = await getNonPatroliUsers()
 			const dataPatroliNonLogin = await getPatroliNonLoginUsers()
 
-			const dataKorwil = await getKorwilUsers()
-			console.log(dataNonPatroli)
+			// const dataKorwil = await getKorwilUsers()
+			// console.log(dataNonPatroli)
 
 			setManggalaState([])
 			setDaopsState(dataNonPatroli.daopsUsers)
-			setKorwilState(dataKorwil.korwilUsers)
+			setKorwilState(dataNonPatroli.korwilUsers)
 			setBalaiState(dataNonPatroli.balaiUsers)
 			setPatroliNonLogin(dataPatroliNonLogin)
 
 			setLoading(false)
+
+			console.log(dataNonPatroli.korwilUsers)
 		}
 		if (isAuthenticated) fetchData()
 	}, [isAuthenticated])
@@ -316,7 +334,7 @@ function HakAksesPage() {
 										{...a11yProps(0)}
 									/> */}
 									<Tab label="Daops" {...a11yProps(0)} />
-									{/* <Tab label="Korwil" {...a11yProps(1)} /> */}
+									<Tab label="Korwil" {...a11yProps(1)} />
 									<Tab
 										label="Balai/Pusat"
 										{...a11yProps(2)}
@@ -454,7 +472,7 @@ function HakAksesPage() {
 									}}
 								/>
 							</TabPanel>
-							{/* <TabPanel value={value} index={1}>
+							<TabPanel value={value} index={1}>
 								<MaterialTable
 									title="Hak Akses Korwil"
 									columns={korwilColumn}
@@ -494,7 +512,7 @@ function HakAksesPage() {
 													).then((result) => {
 														if (result.success) {
 															if (oldData) {
-																setDaopsState(
+																setKorwilState(
 																	(
 																		prevState
 																	) => {
@@ -512,7 +530,7 @@ function HakAksesPage() {
 															}
 															showAlert(
 																true,
-																'Update hak akses daops berhasil'
+																'Update hak akses korwil berhasil'
 															)
 															resolve()
 														} else {
@@ -533,7 +551,7 @@ function HakAksesPage() {
 													).then((result) => {
 														if (result.success) {
 															const dataDelete = [
-																...daopsState
+																...korwilState
 															]
 															const accessRightRowData: any = oldData
 															const index =
@@ -544,12 +562,12 @@ function HakAksesPage() {
 																index,
 																1
 															)
-															setDaopsState(
+															setKorwilState(
 																dataDelete
 															)
 															showAlert(
 																true,
-																'Hapus hak akses daops berhasil'
+																'Hapus hak akses korwil berhasil'
 															)
 															resolve()
 														} else {
@@ -564,7 +582,7 @@ function HakAksesPage() {
 											)
 									}}
 								/>
-							</TabPanel> */}
+							</TabPanel>
 							<TabPanel value={value} index={2}>
 								<MaterialTable
 									title="Hak Akses Balai/Pusat"

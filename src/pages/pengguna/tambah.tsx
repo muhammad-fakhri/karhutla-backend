@@ -2,6 +2,7 @@ import styles from '@asset/jss/nextjs-material-kit/pages/create-pengguna.page.st
 import SiteLayout from '@component/Layout/SiteLayout'
 import Loader from '@component/Loader/Loader'
 import useAuth, { ProtectRoute } from '@context/auth'
+import { RoleData } from '@interface'
 import {
 	Box,
 	Button,
@@ -11,7 +12,8 @@ import {
 	IconButton,
 	InputAdornment,
 	TextField,
-	Typography
+	Typography,
+	MenuItem
 } from '@material-ui/core'
 import MuiDialogContent from '@material-ui/core/DialogContent'
 import MuiDialogTitle from '@material-ui/core/DialogTitle'
@@ -19,10 +21,10 @@ import { makeStyles } from '@material-ui/core/styles'
 import CloseIcon from '@material-ui/icons/Close'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
-import { addUser } from '@service'
+import { addUser, getNonPatroliRoles } from '@service'
 import classNames from 'classnames'
 import { useRouter } from 'next/router'
-import { ChangeEvent, MouseEvent, useState, ReactNode } from 'react'
+import { ChangeEvent, MouseEvent, useState, useEffect, ReactNode } from 'react'
 
 const useStyles = makeStyles(styles)
 
@@ -59,6 +61,8 @@ function TambahPenggunaPage() {
 	const { isAuthenticated } = useAuth()
 	const router = useRouter()
 	const [loading, setLoading] = useState(false)
+	const [roles, setRoles] = useState<RoleData[]>([])
+	const [roleType, setRoleType] = useState('')
 	const [values, setValues] = useState({
 		registrationNumber: '',
 		name: '',
@@ -66,6 +70,7 @@ function TambahPenggunaPage() {
 		phoneNumber: '',
 		password: '',
 		cPassword: '',
+		r_role_id: '',
 		errorMessage: '',
 		showDialog: false,
 		showPassword: false,
@@ -75,9 +80,16 @@ function TambahPenggunaPage() {
 		event: ChangeEvent<HTMLInputElement>
 	) => {
 		setValues({ ...values, [prop]: event.target.value })
+		if (prop == 'r_role_id') {
+			setRoleType(event.target.value)
+		}
 	}
+	// const handleHakAksesChange = (event: ChangeEvent<HTMLInputElement>) => {
+	// 	setValues({ ...values, [prop]: event.target.value })
+	// }
 	const handleFormSubmit = async () => {
 		setLoading(true)
+		console.log(values)
 		const result = await addUser(values)
 		if (result.success)
 			setValues({ ...values, successDialog: true, showDialog: true })
@@ -100,6 +112,7 @@ function TambahPenggunaPage() {
 			phoneNumber: '',
 			password: '',
 			cPassword: '',
+			r_role_id: '',
 			errorMessage: '',
 			showDialog: false,
 			showPassword: false,
@@ -114,6 +127,16 @@ function TambahPenggunaPage() {
 		setValues({ ...values, showPassword: !values.showPassword })
 	const handleMouseDownPassword = (event: MouseEvent) =>
 		event.preventDefault()
+
+	useEffect(() => {
+		const fetchData = async () => {
+			const roles2 = await getNonPatroliRoles()
+			setRoles(roles2)
+			console.log(roles2)
+		}
+
+		if (isAuthenticated) fetchData()
+	}, [isAuthenticated])
 
 	return !isAuthenticated ? (
 		<Loader />
@@ -258,6 +281,32 @@ function TambahPenggunaPage() {
 								}}
 							/>
 						</Grid>
+					</Grid>
+					<Grid container justify="center" spacing={2}>
+						<Grid item xs={10} md={4}>
+							<TextField
+								id="outlined-number"
+								select
+								margin="normal"
+								label="Hak Akses"
+								InputLabelProps={{
+									shrink: true
+								}}
+								variant="outlined"
+								required
+								fullWidth
+								className={classes.textAlignLeft}
+								onChange={handleChange('r_role_id')}
+								value={roleType}
+							>
+								{roles.map((role) => (
+									<MenuItem key={role.level} value={role.id}>
+										{role.name}
+									</MenuItem>
+								))}
+							</TextField>
+						</Grid>
+						<Grid item xs={10} md={4}></Grid>
 					</Grid>
 					<Grid container justify="center" spacing={2}>
 						<Grid item xs={10} md={4}>

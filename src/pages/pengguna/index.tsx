@@ -136,6 +136,8 @@ function PenggunaPage() {
 			setDaops(daops)
 			setBalai(balai)
 
+			console.log(roles)
+
 			const data = await getAllUsers()
 			setUsers(data)
 			setLoading(false)

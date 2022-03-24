@@ -48,6 +48,7 @@ function ProfilePage() {
 		organization: '',
 		password: '',
 		cPassword: '',
+		r_role_id: '',
 		errorMessage: '',
 		showPassword: false,
 		showAlert: false,

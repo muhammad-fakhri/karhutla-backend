@@ -112,6 +112,11 @@ export interface DaopsResponse {
 	r_balai: BalaiResponse
 }
 
+export interface KorwilDistinctResponse {
+	kode: string
+	nama: string
+}
+
 export interface DaopsListResponse {
 	nama_daops: string
 }

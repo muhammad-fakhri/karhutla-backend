@@ -63,6 +63,7 @@ export const getUserDetail = async (
 	const r: APIResponse<UserDetailResponse> = await API.get(
 		`/user/single/${userId}`
 	)
+	console.log(r)
 	if (r.status === 200) {
 		const user: UserData = {
 			id: parseInt(r.data.id),
@@ -71,7 +72,7 @@ export const getUserDetail = async (
 			email: r.data.email,
 			phoneNumber: r.data.no_telepon,
 			accessId: 0,
-			role: 0,
+			role: r.data.roles.length > 0 ? parseInt(r.data.roles[0].id) : 0,
 			organization: r.data.instansi,
 			photo: r.data.foto,
 			roleLevel:
@@ -93,6 +94,7 @@ export const addUser = async (data: AddUserInput): Promise<ServiceResponse> => {
 	formData.append('email', data.email)
 	formData.append('password', data.password as string)
 	formData.append('no_telepon', data.phoneNumber)
+	formData.append('r_role_id', data.r_role_id)
 	formData.append('instansi', '-')
 	formData.append('aktif', 't')
 
@@ -267,7 +269,7 @@ export const getNonPatroliRoles = async (): Promise<RoleData[]> => {
 	if (r.status === 200) {
 		const data: RoleData[] = []
 		r.data.forEach((role) => {
-			if (parseInt(role.level, 10) <= 5) {
+			if (parseInt(role.level, 10) <= 7) {
 				data.push({
 					id: parseInt(role.id, 10),
 					name: role.nama,
@@ -303,12 +305,14 @@ export const getPatroliNonLoginRoles = async (): Promise<RoleData[]> => {
 export const getNonPatroliUsers = async (): Promise<{
 	daopsUsers: NonPatroliUserData[]
 	balaiUsers: NonPatroliUserData[]
+	korwilUsers: NonPatroliUserData[]
 }> => {
 	const r: APIResponse<NonPatroliUserResponse[]> = await API.get(
 		'/non_patroli/list'
 	)
 	const daopsUsers: NonPatroliUserData[] = []
 	const balaiUsers: NonPatroliUserData[] = []
+	const korwilUsers: NonPatroliUserData[] = []
 	if (r.status === 200) {
 		r.data.forEach((userAccess) => {
 			const user: NonPatroliUserData = {
@@ -322,13 +326,18 @@ export const getNonPatroliUsers = async (): Promise<{
 			}
 			if (parseInt(userAccess.r_role.level, 10) <= 3) {
 				balaiUsers.push(user)
+			} else if (
+				parseInt(userAccess.r_role.level, 10) == 4 ||
+				parseInt(userAccess.r_role.level, 10) == 5
+			) {
+				korwilUsers.push(user)
 			} else {
 				daopsUsers.push(user)
 			}
 		})
-		return { daopsUsers, balaiUsers }
+		return { daopsUsers, balaiUsers, korwilUsers }
 	}
-	return { daopsUsers, balaiUsers }
+	return { daopsUsers, balaiUsers, korwilUsers }
 }
 
 export const getKorwilUsers = async (): Promise<{
@@ -375,10 +384,11 @@ export const updateNonPatroliUser = async (
 	if (!validate.pass) return { success: false, message: validate.message }
 
 	const formData = new FormData()
-	formData.append('id', data.accessId.toString())
+	formData.append('id', data.id.toString())
+	formData.append('instansi', data.organization.toString())
 	formData.append('r_role_id', data.role.toString())
 
-	const r: APIResponse<null> = await API.post('non_patroli/save', formData)
+	const r: APIResponse<null> = await API.post('/user/save', formData)
 	// TODO: update daops/balai organization in user access
 	if (r.status === 200) return { success: true, message: r.message }
 	return { success: false, message: r.message }

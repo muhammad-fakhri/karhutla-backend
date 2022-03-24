@@ -71,6 +71,11 @@ export interface DaopsData {
 	balaiId: string
 }
 
+export interface KorwilDistinctData {
+	kode: string
+	nama: string
+}
+
 export interface DaopsList {
 	nama_daops: string
 }
