@@ -22,7 +22,7 @@ export const createUserValidator = (
 	else if (inputData.registrationNumber.length < 1)
 		errorMsg = 'Tolong masukan nomor registrasi/NIP'
 	else if (!isPhoneNumber(inputData.phoneNumber))
-		errorMsg = 'Tolong masukan nomor hape yang valid'
+		errorMsg = 'Silahkan memasukan nomor Handphone yang valid'
 	else if (!inputData.password) {
 		errorMsg = 'Tolong masukkan kata sandi'
 	} else if (!inputData.cPassword) {
@@ -52,7 +52,7 @@ export const updateUserValidator = (
 	else if (inputData.registrationNumber.length < 1)
 		errorMsg = 'Tolong masukan nomor registrasi/NIP'
 	else if (!isPhoneNumber(inputData.phoneNumber))
-		errorMsg = 'Tolong masukan nomor hape yang valid'
+		errorMsg = 'Silahkan memasukan nomor Handphone yang valid'
 	else if (inputData.password) {
 		if (inputData.password.length < 8)
 			errorMsg = 'Password minimal 8 karakter'
