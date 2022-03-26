@@ -34,12 +34,14 @@ const generateWilayahLookup = async () => {
 // TODO: Show organization at balai/pusat useraccess
 
 function BalaiPage() {
-	const { isAuthenticated } = useAuth()
+	const { isAuthenticated, user } = useAuth()
 	const useStyles = makeStyles(styles)
 	const classes = useStyles()
 	const [show, setShow] = useState(false)
 	const [column, setColumn] = useState<Column<BalaiData>[]>([])
 	const [loading, setLoading] = useState(true)
+	const [delete_condition, setdelete] = useState(false)
+	const delete_role = [0, 1, 2]
 	const [values, setValues] = useState<{
 		balai: BalaiData[]
 		alertMessage: string
@@ -69,6 +71,9 @@ function BalaiPage() {
 				}
 			]
 			setColumn(column)
+			if (delete_role.includes(user.roleLevel)) {
+				setdelete(true)
+			}
 
 			const data = await getAllBalai()
 			setValues({ ...values, balai: data })
@@ -132,6 +137,8 @@ function BalaiPage() {
 							}
 						}}
 						editable={{
+							isDeletable: (rowData) => delete_condition,
+							isEditable: (rowData) => delete_condition,
 							onRowAdd: (newData) =>
 								new Promise<void>((resolve, reject) => {
 									addBalai(newData).then(async (result) => {

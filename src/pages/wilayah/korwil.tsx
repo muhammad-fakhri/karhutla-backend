@@ -34,12 +34,14 @@ const generateDaopsLookup = async () => {
 // TODO: Show organization at balai/pusat useraccess
 
 function KOrwilPage() {
-	const { isAuthenticated } = useAuth()
+	const { isAuthenticated, user } = useAuth()
 	const useStyles = makeStyles(styles)
 	const classes = useStyles()
 	const [show, setShow] = useState(false)
 	const [column, setColumn] = useState<Column<KorwilData>[]>([])
 	const [loading, setLoading] = useState(true)
+	const [delete_condition, setdelete] = useState(false)
+	const delete_role = [0, 1, 2]
 	const [values, setValues] = useState<{
 		korwil: KorwilData[]
 		alertMessage: string
@@ -69,6 +71,9 @@ function KOrwilPage() {
 				}
 			]
 			setColumn(column)
+			if (delete_role.includes(user.roleLevel)) {
+				setdelete(true)
+			}
 
 			const data = await getAllKorwil()
 			setValues({ ...values, korwil: data })
@@ -132,6 +137,8 @@ function KOrwilPage() {
 							}
 						}}
 						editable={{
+							isDeletable: (rowData) => delete_condition,
+							isEditable: (rowData) => delete_condition,
 							onRowAdd: (newData) =>
 								new Promise<void>((resolve, reject) => {
 									addKorwil(newData).then(async (result) => {
