@@ -191,7 +191,7 @@ export const ProtectRoute = (
 				router.push('/patroli')
 			if (limitedAccessRight && user.email) {
 				// Insufficient user access rights
-				if (user.roleLevel > 2) {
+				if (user.roleLevel > 5) {
 					alert(
 						'Hak akses anda tidak mencukupi untuk mengakses halaman ini'
 					)

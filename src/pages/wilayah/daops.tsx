@@ -34,12 +34,14 @@ const generateBalaiLookup = async () => {
 // TODO: Show organization at daops useraccess
 
 function DaopsPage() {
-	const { isAuthenticated } = useAuth()
+	const { isAuthenticated, user } = useAuth()
 	const useStyles = makeStyles(styles)
 	const classes = useStyles()
 	const [show, setShow] = useState(false)
 	const [column, setColumn] = useState<Column<DaopsData>[]>([])
 	const [loading, setLoading] = useState(true)
+	const [delete_condition, setdelete] = useState(false)
+	const delete_role = [0, 1, 2]
 	const [values, setValues] = useState<{
 		daops: DaopsData[]
 		alertMessage: string
@@ -69,6 +71,9 @@ function DaopsPage() {
 				}
 			]
 			setColumn(column)
+			if (delete_role.includes(user.roleLevel)) {
+				setdelete(true)
+			}
 		}
 		if (isAuthenticated) setLookup()
 	}, [isAuthenticated])
@@ -136,6 +141,8 @@ function DaopsPage() {
 							}
 						}}
 						editable={{
+							isDeletable: (rowData) => delete_condition,
+							isEditable: (rowData) => delete_condition,
 							onRowAdd: (newData) =>
 								new Promise<void>((resolve, reject) => {
 									addDaops(newData).then(async (result) => {
