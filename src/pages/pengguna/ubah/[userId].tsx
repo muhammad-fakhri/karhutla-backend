@@ -171,15 +171,31 @@ function UbahPenggunaPage() {
 							{loading ? (
 								<CircularProgress />
 							) : (
+								<Grid item xs={10} md={12}>
+									<Button
+										variant="contained"
+										color="primary"
+										onClick={handleFormSubmit}
+										fullWidth
+									>
+										Ubah Data Pengguna
+									</Button>
+								</Grid>
+							)}
+							<br></br>
+							<Grid item xs={10} md={12}>
 								<Button
 									variant="contained"
 									color="primary"
-									onClick={handleFormSubmit}
 									fullWidth
+									onClick={(event) => {
+										event.preventDefault()
+										router.push('/pengguna')
+									}}
 								>
-									Ubah Data Pengguna
+									Batal
 								</Button>
-							)}
+							</Grid>
 						</Grid>
 					</Grid>
 				</form>
