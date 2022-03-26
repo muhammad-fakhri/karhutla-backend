@@ -20,9 +20,10 @@ const useStyles = makeStyles(styles)
 
 function PelaporanRentangTanggalPage() {
 	const classes = useStyles()
-	const { isAuthenticated } = useAuth()
+	const { isAuthenticated, user } = useAuth()
 	const [startDate, setStartDate] = useState(new Date())
 	const [endDate, setEndDate] = useState(new Date())
+	const [organization, setOrganization] = useState('')
 	const [show, setShow] = useState(false)
 	const [alertMessage, setAlertMessage] = useState('')
 	const handleStartDateChange = (date: Date | null) => {
@@ -34,10 +35,22 @@ function PelaporanRentangTanggalPage() {
 	}
 
 	const handleClick = () => {
-		const result = downloadLaporanRentangTanggal(startDate, endDate)
-		if (!result.success) {
-			setAlertMessage(result.message as string)
-			setShow(true)
+		if (user.organization) {
+			const result = downloadLaporanRentangTanggal(
+				startDate,
+				endDate,
+				btoa(user.organization)
+			)
+			if (!result.success) {
+				setAlertMessage(result.message as string)
+				setShow(true)
+			}
+		} else {
+			const result = downloadLaporanRentangTanggal(startDate, endDate, '')
+			if (!result.success) {
+				setAlertMessage(result.message as string)
+				setShow(true)
+			}
 		}
 		setStartDate(new Date())
 		setEndDate(new Date())

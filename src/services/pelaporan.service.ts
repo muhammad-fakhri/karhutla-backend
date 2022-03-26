@@ -13,7 +13,8 @@ import {
 
 export const downloadLaporanRentangTanggal = (
 	startDate: Date,
-	endDate: Date
+	endDate: Date,
+	organization: string
 ): ServiceResponse => {
 	const validate = downloadRentangTanggalValidator(startDate, endDate)
 	if (!validate.pass) {
@@ -22,14 +23,22 @@ export const downloadLaporanRentangTanggal = (
 			message: validate.message
 		}
 	}
+	// console.log(organization)
 
 	// Prepare Download URL
-	const url = `${apiV2URL}/karhutla/downloadrange?start=${formatYYYYMMDD(
-		startDate
-	)}&end=${formatYYYYMMDD(endDate)}`
+	if (organization) {
+		const url = `${apiV2URL}/karhutla/downloadrange?start=${formatYYYYMMDD(
+			startDate
+		)}&end=${formatYYYYMMDD(endDate)}&org=${organization}`
+		window.open(url)
+	} else {
+		const url = `${apiV2URL}/karhutla/downloadrange?start=${formatYYYYMMDD(
+			startDate
+		)}&end=${formatYYYYMMDD(endDate)}`
+		window.open(url)
+	}
 
-	// Open URL in new tab
-	window.open(url)
+	// // Open URL in new tab
 	return {
 		success: true,
 		message: ''
