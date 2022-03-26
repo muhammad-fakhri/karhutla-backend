@@ -149,7 +149,7 @@ function PenugasanPage() {
 							body: {
 								editRow: {
 									deleteText:
-										'Apakah Anda yakin ingin menghapus laporan tersebut?'
+										'Apakah Anda yakin ingin menghapus daftar tersebut?'
 								}
 							},
 							pagination: {
