@@ -87,8 +87,8 @@ function AboutPage() {
 									align="justify"
 									paragraph
 								>
-									SIPP Karhutla dibangun oleh oleh Departemen
-									Ilmu Komputer, Fakultas Matematika dan Ilmu
+									SIPP Karhutla dibangun oleh Departemen Ilmu
+									Komputer, Fakultas Matematika dan Ilmu
 									Pengetahuan Alam, Institut Pertanian Bogor
 									(IPB) bekerja sama dengan Balai Pengendalian
 									Perubahan Iklim dan Kebakaran Hutan dan
