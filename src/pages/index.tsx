@@ -142,6 +142,18 @@ export default function FrontPage() {
 							<br></br>
 						</Grid>
 					</Grid>
+					<Grid container justify="center">
+						<Grid item xs={12} md={12}>
+							<br></br>
+							<br></br>
+							<br></br>
+							<br></br>
+							<br></br>
+							<br></br>
+							<br></br>
+							<br></br>
+						</Grid>
+					</Grid>
 				</div>
 			</div>
 		</SiteLayout>

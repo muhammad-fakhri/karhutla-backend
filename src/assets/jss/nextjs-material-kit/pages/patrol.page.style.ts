@@ -3,7 +3,7 @@ import basePage from './base.page.style'
 const patrolPageStyle = {
 	...basePage,
 	terpaduBg: {
-		textDecoration: 'underline #fdf569 solid'
+		textDecoration: 'underline #04F512 solid'
 	},
 	mandiriBg: {
 		textDecoration: 'underline #6991fd solid'

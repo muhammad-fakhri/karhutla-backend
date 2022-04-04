@@ -39,7 +39,7 @@ const frontPageStyle = {
 		marginTop: '8px'
 	},
 	terpaduBg: {
-		textDecoration: 'underline #fdf569 solid'
+		textDecoration: 'underline #04F512 solid'
 	},
 	mandiriBg: {
 		textDecoration: 'underline #6991fd solid'

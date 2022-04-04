@@ -48,7 +48,7 @@ export const getPatroli = async (
 						counter.rutin += 1
 					}
 					if (patroli.kategori_patroli === 'Terpadu') {
-						data.marker = `${baseMarkerUrl}yellow-dot.png`
+						data.marker = `${baseMarkerUrl}green-dot.png`
 						counter.terpadu += 1
 					}
 					data.patroli = patroli
