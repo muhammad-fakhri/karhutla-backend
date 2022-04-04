@@ -323,6 +323,21 @@ function TambahPenggunaPage() {
 									Tambah Pengguna
 								</Button>
 							)}
+							<br></br>
+							<br></br>
+							<Grid item xs={10} md={12}>
+								<Button
+									variant="contained"
+									color="primary"
+									fullWidth
+									onClick={(event) => {
+										event.preventDefault()
+										router.push('/pengguna')
+									}}
+								>
+									Batal
+								</Button>
+							</Grid>
 						</Grid>
 					</Grid>
 				</form>
