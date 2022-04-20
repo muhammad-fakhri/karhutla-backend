@@ -13,39 +13,70 @@ import {
 	CircularProgress,
 	IconButton,
 	InputAdornment,
-	TextField
+	TextField,
+	Grid
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import Visibility from '@material-ui/icons/Visibility'
-import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import Alert from '@material-ui/lab/Alert'
-import { loginValidator } from '@validator'
 import { ChangeEvent, MouseEvent, useState } from 'react'
+import { sendEmail } from '@service'
+import { sendEmailValidator } from '@validator'
+import { useRouter } from 'next/router'
 
 const useStyles = makeStyles(styles)
 
 function ForgotPage() {
+	const router = useRouter()
+	const [alertSuccess, setAlertSuccess] = useState(true)
 	const [loading, setLoading] = useState(false)
 	const [values, setValues] = useState({
 		email: '',
-		password: '',
 		alertMessage: '',
 		emailError: false,
 		passwordError: false,
 		showAlert: false,
 		showPassword: false
 	})
-	const handleClickShowPassword = () =>
-		setValues({ ...values, showPassword: !values.showPassword })
-	const handleMouseDownPassword = (event: MouseEvent) =>
-		event.preventDefault()
+
 	const handleChange = (prop: string) => (
 		event: ChangeEvent<HTMLInputElement>
 	) => {
 		setValues({ ...values, [prop]: event.target.value })
 	}
 	const handleSubmit = async () => {
-		const validate = loginValidator(values)
+		const validate = sendEmailValidator(values)
+		if (validate.pass) {
+			setLoading(true)
+			const result = await sendEmail(values)
+			console.log(result)
+
+			if (result.success) {
+				setValues({
+					...values,
+					showAlert: true,
+					alertMessage: result.message as string
+				})
+				setAlertSuccess(true)
+				setLoading(false)
+			} else {
+				setValues({
+					...values,
+					showAlert: true,
+					alertMessage: result.message as string
+				})
+				setAlertSuccess(false)
+				setLoading(false)
+			}
+		} else {
+			setValues({
+				...values,
+				emailError: validate.emailError,
+				passwordError: validate.passwordError,
+				alertMessage: validate.message,
+				showAlert: true
+			})
+			setAlertSuccess(false)
+		}
 	}
 
 	const [cardAnimaton, setCardAnimation] = useState('cardHidden' as const)
@@ -67,12 +98,30 @@ function ForgotPage() {
 								>
 									<h4>Lupa Kata Sandi</h4>
 								</CardHeader>
+								<Grid container justify="center" spacing={2}>
+									<Grid item xs={6} md={11}>
+										{values.showAlert ? (
+											<Alert
+												style={{ margin: '0 0 40px 0' }}
+												severity={
+													alertSuccess
+														? 'success'
+														: 'warning'
+												}
+												onClose={() => {
+													setValues({
+														...values,
+														alertMessage: '',
+														showAlert: false
+													})
+												}}
+											>
+												{values.alertMessage}
+											</Alert>
+										) : null}
+									</Grid>
+								</Grid>
 								<CardBody className={''}>
-									{values.showAlert ? (
-										<Alert severity="error">
-											{values.alertMessage}
-										</Alert>
-									) : null}
 									<TextField
 										id="email"
 										error={values.emailError}
@@ -84,19 +133,38 @@ function ForgotPage() {
 									/>
 								</CardBody>
 								<CardFooter className={classes.cardFooter}>
-									{loading ? (
-										<CircularProgress />
-									) : (
-										<Button
-											variant="contained"
-											color="primary"
-											size="large"
-											onClick={handleSubmit}
-											fullWidth
-										>
-											Kirim Email
-										</Button>
-									)}
+									<Grid
+										container
+										justify="center"
+										spacing={2}
+									>
+										<Grid item xs={10} md={12}>
+											{loading ? (
+												<CircularProgress />
+											) : (
+												<Button
+													variant="contained"
+													color="primary"
+													size="large"
+													onClick={handleSubmit}
+													fullWidth
+												>
+													Kirim Email
+												</Button>
+											)}
+										</Grid>
+										<Grid item xs={10} md={12}>
+											<Button
+												fullWidth
+												onClick={(event) => {
+													event.preventDefault()
+													router.push('/login')
+												}}
+											>
+												Kembali
+											</Button>
+										</Grid>
+									</Grid>
 								</CardFooter>
 							</form>
 						</Card>

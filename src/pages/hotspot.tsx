@@ -20,7 +20,7 @@ function HotspotPage() {
 	const [hotspot, setHotspot] = useState<HotspotItem[]>([])
 	const [date, setDate] = useState(moment())
 	const { data, isValidating } = useSWR(
-		isAuthenticated ? `?conf=high&date=${date.format('YYYY-MM-DD')}` : null,
+		isAuthenticated ? `?date=${date.format('YYYY-MM-DD')}` : null,
 		getHotspot
 	)
 	useEffect(() => {
@@ -54,7 +54,7 @@ function HotspotPage() {
 								Pukul: {date.format('HH:mm')}
 							</h3>
 						</Grid>
-						<Grid item xs={12} md={4}>
+						<Grid item xs={12} md={6}>
 							<h2>Titik Panas</h2>
 							{isValidating ? (
 								<CircularProgress />
@@ -62,14 +62,14 @@ function HotspotPage() {
 								<h3>{hotspot.length}</h3>
 							)}
 						</Grid>
-						<Grid item xs={12} md={4}>
+						<Grid item xs={12} md={6}>
 							<h2>Rentang Data</h2>
 							<h3>24h</h3>
 						</Grid>
-						<Grid item xs={12} md={4}>
+						{/* <Grid item xs={12} md={4}>
 							<h2>Confidence Level</h2>
 							<h3>80%</h3>
-						</Grid>
+						</Grid> */}
 					</Grid>
 					<Map
 						center={{
