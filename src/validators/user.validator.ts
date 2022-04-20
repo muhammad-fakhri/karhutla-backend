@@ -6,6 +6,7 @@ import {
 	DeletePatroliNonLoginUserInput,
 	DeleteUserInput,
 	NonPatroliUserData,
+	ResetInput,
 	UpdatePatroliNonLoginUserInput,
 	UpdateUserInput,
 	ValidatorResult
@@ -138,5 +139,22 @@ export const deleteNonPatroliValidator = (
 ): ValidatorResult => {
 	if (digitLength(inputData.accessId) < 1)
 		return { pass: false, message: 'ID Akses Pengguna tidak ada' }
+	return { pass: true, message: '' }
+}
+
+export const ResetValidator = (inputData: ResetInput): ValidatorResult => {
+	let errorMsg = ''
+	if (inputData.password && inputData.retype_password) {
+		if (inputData.password.length < 8)
+			errorMsg = 'Password minimal 8 karakter'
+		else if (
+			inputData.password !== inputData.retype_password &&
+			inputData.password.length > 7
+		) {
+			errorMsg = 'Konfirmasi password tidak sama'
+		}
+	}
+
+	if (errorMsg) return { pass: false, message: errorMsg }
 	return { pass: true, message: '' }
 }

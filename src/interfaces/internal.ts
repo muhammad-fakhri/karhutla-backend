@@ -43,6 +43,15 @@ export interface LoginInput {
 	password: string
 }
 
+export interface ResetInput {
+	password: string
+	retype_password: string
+}
+
+export interface SendInput {
+	email: string
+}
+
 export interface AddPoskoInput {
 	name: string
 	daops: string
@@ -123,6 +132,16 @@ export interface CreateNonPatroliUser {
 	email: string
 	role: string
 	organization: string
+}
+
+export interface SendEmailForgot {
+	email: string
+}
+
+export interface resetPassword {
+	signature: string
+	password: string
+	retype_password: string
 }
 
 export type DeleteNonPatroliUser = NonPatroliUserData

@@ -13,7 +13,8 @@ import {
 	CircularProgress,
 	IconButton,
 	InputAdornment,
-	TextField
+	TextField,
+	Grid
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import Visibility from '@material-ui/icons/Visibility'
@@ -21,10 +22,13 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import Alert from '@material-ui/lab/Alert'
 import { loginValidator } from '@validator'
 import { ChangeEvent, MouseEvent, useState } from 'react'
+import { useRouter } from 'next/router'
+import { resetUser } from '@service'
 
 const useStyles = makeStyles(styles)
 
 function LoginPage() {
+	const router = useRouter()
 	const { login, isAuthenticated } = useAuth()
 	const [loading, setLoading] = useState(false)
 	const [values, setValues] = useState({
@@ -146,19 +150,40 @@ function LoginPage() {
 									/>
 								</CardBody>
 								<CardFooter className={classes.cardFooter}>
-									{loading ? (
-										<CircularProgress />
-									) : (
-										<Button
-											variant="contained"
-											color="primary"
-											size="large"
-											onClick={handleSubmit}
-											fullWidth
-										>
-											Login
-										</Button>
-									)}
+									<Grid
+										container
+										justify="center"
+										spacing={2}
+									>
+										<Grid item xs={10} md={12}>
+											{loading ? (
+												<CircularProgress />
+											) : (
+												<Button
+													variant="contained"
+													color="primary"
+													size="large"
+													onClick={handleSubmit}
+													fullWidth
+												>
+													Login
+												</Button>
+											)}
+										</Grid>
+										<Grid item xs={10} md={12}>
+											<Button
+												fullWidth
+												onClick={(event) => {
+													event.preventDefault()
+													router.push(
+														'/forgot_password'
+													)
+												}}
+											>
+												Lupa kata sandi?
+											</Button>
+										</Grid>
+									</Grid>
 								</CardFooter>
 							</form>
 						</Card>

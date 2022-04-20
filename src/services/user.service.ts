@@ -20,7 +20,9 @@ import {
 	UpdateUserInput,
 	UserData,
 	UserDetailResponse,
-	updateGcUserInput
+	updateGcUserInput,
+	SendEmailForgot,
+	resetPassword
 } from '@interface'
 import {
 	createNonPatroliValidator,
@@ -31,7 +33,8 @@ import {
 	deleteUserValidator,
 	updateNonPatroliValidator,
 	updatePatroliNonLoginValidator,
-	updateUserValidator
+	updateUserValidator,
+	ResetValidator
 } from '@validator'
 
 export const getAllUsers = async (): Promise<UserData[]> => {
@@ -374,6 +377,48 @@ export const addNonPatroliUser = async (
 
 	const r: APIResponse<null> = await API.post('/non_patroli/add', formData)
 	if (r.status === 200) return { success: true, message: r.message }
+	return { success: false, message: r.message }
+}
+
+export const sendEmail = async (
+	data: SendEmailForgot
+): Promise<ServiceResponse> => {
+	const formData = new FormData()
+	formData.append('email', data.email.toString())
+
+	const r: APIResponse<null> = await API.post('/auth/forgot', formData)
+	console.log(r)
+	if (r.status === 200)
+		return {
+			success: true,
+			message: 'Email perubahan password Berhasil dikirim.'
+		}
+	return { success: false, message: r.message }
+}
+
+export const resetUser = async (
+	data: resetPassword
+): Promise<ServiceResponse> => {
+	const validate = ResetValidator(data)
+	if (!validate.pass) return { success: false, message: validate.message }
+
+	const formData = new FormData()
+	formData.append('signature', data.signature.toString())
+	formData.append('password', data.password.toString())
+	formData.append('retype_password', data.retype_password.toString())
+	console.log(formData)
+	const r: APIResponse<null> = await API.post('/auth/reset', formData)
+	// console.log(r)
+	if (r.status === 200)
+		return {
+			success: true,
+			message: 'Password Berhasil diganti. Silahkan Login'
+		}
+	if (r.status === 417)
+		return {
+			success: false,
+			message: 'Token tidak sesuai, silahkan request lagi'
+		}
 	return { success: false, message: r.message }
 }
 

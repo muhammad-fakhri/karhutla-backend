@@ -17,9 +17,26 @@ function createMapOptions(maps) {
 function Map(props) {
 	const handleApiLoaded = (map, maps, hotspots) => {
 		const markers = []
-		const defaultMarker =
+		const yellowMarker =
+			'https://maps.google.com/mapfiles/ms/icons/yellow-dot.png'
+		const greenMarker =
+			'https://maps.google.com/mapfiles/ms/icons/green-dot.png'
+		const redMarker =
 			'https://maps.google.com/mapfiles/ms/icons/red-dot.png'
+		let marker = ''
+
+		console.log(hotspots)
+
 		hotspots.forEach((hotspot) => {
+			if (hotspot.conf == 'low') {
+				marker =
+					'https://maps.google.com/mapfiles/ms/icons/green-dot.png'
+			} else if (hotspot.conf == 'medium') {
+				marker =
+					'https://maps.google.com/mapfiles/ms/icons/yellow-dot.png'
+			} else {
+				marker = 'https://maps.google.com/mapfiles/ms/icons/red-dot.png'
+			}
 			markers.push(
 				new maps.Marker({
 					position: {
@@ -27,7 +44,7 @@ function Map(props) {
 						lng: parseFloat(hotspot.lon)
 					},
 					map,
-					icon: hotspot.marker ? hotspot.marker : defaultMarker
+					icon: marker
 				})
 			)
 		})

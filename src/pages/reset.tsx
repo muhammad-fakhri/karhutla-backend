@@ -13,22 +13,29 @@ import {
 	CircularProgress,
 	IconButton,
 	InputAdornment,
-	TextField
+	TextField,
+	Grid
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import Alert from '@material-ui/lab/Alert'
-import { loginValidator } from '@validator'
-import { ChangeEvent, MouseEvent, useState } from 'react'
+import { loginValidator, ResetValidator } from '@validator'
+import { ChangeEvent, MouseEvent, useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { resetUser } from '@service'
 
 const useStyles = makeStyles(styles)
 
 function ResetPage() {
+	const router = useRouter()
+	const [alertSuccess, setAlertSuccess] = useState(true)
 	const [loading, setLoading] = useState(false)
+	const [token, setToken] = useState('')
 	const [values, setValues] = useState({
-		email: '',
+		signature: '',
 		password: '',
+		retype_password: '',
 		alertMessage: '',
 		emailError: false,
 		passwordError: false,
@@ -45,8 +52,56 @@ function ResetPage() {
 		setValues({ ...values, [prop]: event.target.value })
 	}
 	const handleSubmit = async () => {
-		const validate = loginValidator(values)
+		const validate = ResetValidator(values)
+		// console.log(router.query.token)
+		if (router.query.token) {
+			// setValues({ ...values, signature: router.query.token.toString() })
+			if (validate.pass) {
+				console.log(values)
+				setLoading(true)
+				const result = await resetUser(values)
+				if (result.success) {
+					setValues({
+						...values,
+						showAlert: true,
+						alertMessage: result.message as string
+					})
+					setLoading(false)
+					setAlertSuccess(true)
+				} else {
+					setValues({
+						...values,
+						showAlert: true,
+						alertMessage: result.message as string
+					})
+					setLoading(false)
+					setAlertSuccess(false)
+				}
+			} else {
+				setValues({
+					...values,
+					alertMessage: validate.message,
+					showAlert: true
+				})
+				setAlertSuccess(false)
+				setLoading(false)
+			}
+		} else {
+			setValues({
+				...values,
+				alertMessage: 'Token tidak ditemukan.',
+				showAlert: true
+			})
+			setAlertSuccess(false)
+			setLoading(false)
+		}
 	}
+
+	useEffect(() => {
+		if (!router.isReady) return
+		setToken(router.query.token.toString())
+		setValues({ ...values, signature: router.query.token.toString() })
+	}, [router.isReady])
 
 	const [cardAnimaton, setCardAnimation] = useState('cardHidden' as const)
 	setTimeout(function () {
@@ -67,17 +122,34 @@ function ResetPage() {
 								>
 									<h4>Ubah Kata Sandi</h4>
 								</CardHeader>
+								<Grid container justify="center" spacing={2}>
+									<Grid item xs={6} md={11}>
+										{values.showAlert ? (
+											<Alert
+												style={{ margin: '0 0 40px 0' }}
+												severity={
+													alertSuccess
+														? 'success'
+														: 'warning'
+												}
+												onClose={() => {
+													setValues({
+														...values,
+														alertMessage: '',
+														showAlert: false
+													})
+												}}
+											>
+												{values.alertMessage}
+											</Alert>
+										) : null}
+									</Grid>
+								</Grid>
 								<CardBody className={''}>
-									{values.showAlert ? (
-										<Alert severity="error">
-											{values.alertMessage}
-										</Alert>
-									) : null}
-
 									<TextField
 										id="password"
-										label="New Password"
-										error={values.passwordError}
+										label="Password"
+										variant="outlined"
 										value={values.password}
 										type={
 											values.showPassword
@@ -86,6 +158,7 @@ function ResetPage() {
 										}
 										fullWidth
 										margin="normal"
+										required
 										onChange={handleChange('password')}
 										InputProps={{
 											endAdornment: (
@@ -112,10 +185,10 @@ function ResetPage() {
 									/>
 
 									<TextField
-										id="password"
-										label="Re-enter New Password"
-										error={values.passwordError}
-										value={values.password}
+										id="confirmation-password"
+										label="Konfirmasi Password"
+										variant="outlined"
+										value={values.retype_password}
 										type={
 											values.showPassword
 												? 'text'
@@ -123,7 +196,10 @@ function ResetPage() {
 										}
 										fullWidth
 										margin="normal"
-										onChange={handleChange('password')}
+										required
+										onChange={handleChange(
+											'retype_password'
+										)}
 										InputProps={{
 											endAdornment: (
 												<InputAdornment position="end">
@@ -149,19 +225,39 @@ function ResetPage() {
 									/>
 								</CardBody>
 								<CardFooter className={classes.cardFooter}>
-									{loading ? (
-										<CircularProgress />
-									) : (
-										<Button
-											variant="contained"
-											color="primary"
-											size="large"
-											onClick={handleSubmit}
-											fullWidth
-										>
-											Ubah
-										</Button>
-									)}
+									<Grid
+										container
+										justify="center"
+										spacing={2}
+									>
+										<Grid item xs={10} md={12}>
+											{loading ? (
+												<CircularProgress />
+											) : (
+												<Button
+													variant="contained"
+													color="primary"
+													size="large"
+													onClick={handleSubmit}
+													fullWidth
+												>
+													Ubah
+												</Button>
+											)}
+										</Grid>
+										<Grid item xs={10} md={12}>
+											<Button
+												color="primary"
+												fullWidth
+												onClick={(event) => {
+													event.preventDefault()
+													router.push('/login')
+												}}
+											>
+												Login
+											</Button>
+										</Grid>
+									</Grid>
 								</CardFooter>
 							</form>
 						</Card>

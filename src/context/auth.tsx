@@ -179,14 +179,14 @@ export const ProtectRoute = (
 				!isAuthenticated &&
 				!loading &&
 				router.pathname !== '/forgot_password' &&
-				router.pathname !== '/reset_password'
+				router.pathname !== '/reset'
 			)
 				router.push('/login')
 			if (
 				isAuthRoute &&
 				isAuthenticated &&
 				router.pathname !== '/forgot_password' &&
-				router.pathname !== '/reset_password'
+				router.pathname !== '/reset'
 			)
 				router.push('/patroli')
 			if (limitedAccessRight && user.email) {

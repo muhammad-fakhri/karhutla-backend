@@ -242,7 +242,19 @@ function BerkasPenugasanPage() {
 									</Link>
 									<br></br>
 									pastikan SEMUA kolom TERISI dan format
-									penulisan telah sesuai
+									penulisan telah sesuai.
+									<br></br>
+									<br></br>
+									Ketentuan Pengisian Template File Excel
+									Surat Tugas Aplikasi Patroli Karhutla dapat
+									diunduh{' '}
+									<Link
+										href="/file/Ketentuan Pengisian Template File Excel Surat Tugas Aplikasi Patroli Karhutla-update 9April22.pdf"
+										className={classes.downloadButton}
+									>
+										disini
+									</Link>
+									<br></br>
 								</Typography>
 							</div>
 						</Grid>

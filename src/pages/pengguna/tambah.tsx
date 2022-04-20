@@ -58,7 +58,7 @@ const DialogTitle = (props: DialogTitlePropType) => {
 
 function TambahPenggunaPage() {
 	const classes = useStyles()
-	const { isAuthenticated } = useAuth()
+	const { isAuthenticated, user } = useAuth()
 	const router = useRouter()
 	const [loading, setLoading] = useState(false)
 	const [roles, setRoles] = useState<RoleData[]>([])
@@ -299,11 +299,18 @@ function TambahPenggunaPage() {
 								onChange={handleChange('r_role_id')}
 								value={roleType}
 							>
-								{roles.map((role) => (
-									<MenuItem key={role.level} value={role.id}>
-										{role.name}
-									</MenuItem>
-								))}
+								{roles.map((role) => {
+									return (
+										role.level > user.roleLevel && (
+											<MenuItem
+												key={role.level}
+												value={role.id}
+											>
+												{role.name}
+											</MenuItem>
+										)
+									)
+								})}
 							</TextField>
 						</Grid>
 						<Grid item xs={10} md={4}></Grid>
