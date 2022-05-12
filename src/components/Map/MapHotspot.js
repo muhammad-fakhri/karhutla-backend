@@ -25,7 +25,7 @@ function Map(props) {
 			'https://maps.google.com/mapfiles/ms/icons/red-dot.png'
 		let marker = ''
 
-		console.log(hotspots)
+		// console.log(hotspots)
 
 		hotspots.forEach((hotspot) => {
 			if (hotspot.conf == 'low') {

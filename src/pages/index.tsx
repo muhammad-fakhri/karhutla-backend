@@ -12,6 +12,11 @@ import classNames from 'classnames'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
 import Datetime from 'react-datetime'
+import {
+	KeyboardDatePicker,
+	MuiPickersUtilsProvider
+} from '@material-ui/pickers'
+import DateFnsUtils from '@date-io/date-fns'
 
 const useStyles = makeStyles(styles)
 
@@ -24,6 +29,7 @@ export default function FrontPage() {
 	const [rutin, setRutin] = useState(0)
 	const [terpadu, setTerpadu] = useState(0)
 	const [spots, setSpots] = useState<PatrolData[]>([])
+	const [open, setPickerStatus] = useState(false)
 
 	useEffect(() => {
 		const updatePatroli = async () => {
@@ -88,7 +94,7 @@ export default function FrontPage() {
 										classes.textCenter
 									)}
 								>
-									<Datetime
+									{/* <Datetime
 										timeFormat={false}
 										inputProps={{
 											placeholder:
@@ -101,7 +107,36 @@ export default function FrontPage() {
 										}}
 										closeOnSelect={true}
 										locale="id"
-									/>
+									/> */}
+
+									<MuiPickersUtilsProvider
+										utils={DateFnsUtils}
+									>
+										<KeyboardDatePicker
+											id="start-date-picker"
+											margin="normal"
+											format="dd/MM/yyyy"
+											inputVariant="standard"
+											onClick={() =>
+												setPickerStatus(true)
+											}
+											onClose={() =>
+												setPickerStatus(false)
+											}
+											open={open}
+											value={date}
+											required
+											onChange={(date) => {
+												console.log(moment(date))
+												setDate(moment(date))
+												setLoading(true)
+											}}
+											fullWidth
+											KeyboardButtonProps={{
+												'aria-label': 'change date'
+											}}
+										/>
+									</MuiPickersUtilsProvider>
 								</FormControl>
 							</h3>
 						</Grid>
