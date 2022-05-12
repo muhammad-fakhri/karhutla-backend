@@ -19,6 +19,11 @@ import MaterialTable from 'material-table'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
 import Datetime from 'react-datetime'
+import {
+	KeyboardDatePicker,
+	MuiPickersUtilsProvider
+} from '@material-ui/pickers'
+import DateFnsUtils from '@date-io/date-fns'
 
 const useStyles = makeStyles(styles)
 
@@ -40,6 +45,7 @@ function PatroliPage() {
 	const [mandiri, setMandiri] = useState<PatrolListData[]>([])
 	const [rutin, setRutin] = useState<PatrolListData[]>([])
 	const [spots, setSpots] = useState<PatrolData[]>([])
+	const [open, setPickerStatus] = useState(false)
 	useEffect(() => {
 		const updatePatroli = async () => {
 			const patroliData = await getPatroli(date.format('D-M-YYYY'))
@@ -93,19 +99,33 @@ function PatroliPage() {
 										classes.textCenter
 									)}
 								>
-									<Datetime
-										timeFormat={false}
-										inputProps={{
-											placeholder:
-												'Pilih tanggal patroli ...'
-										}}
-										onChange={(date) => {
-											setDate(moment(date))
-											setLoading(true)
-										}}
-										closeOnSelect={true}
-										locale="id"
-									/>
+									<MuiPickersUtilsProvider
+										utils={DateFnsUtils}
+									>
+										<KeyboardDatePicker
+											id="start-date-picker"
+											margin="normal"
+											format="dd/MM/yyyy"
+											inputVariant="standard"
+											onClick={() =>
+												setPickerStatus(true)
+											}
+											onClose={() =>
+												setPickerStatus(false)
+											}
+											open={open}
+											value={date}
+											required
+											onChange={(date) => {
+												setDate(moment(date))
+												setLoading(true)
+											}}
+											fullWidth
+											KeyboardButtonProps={{
+												'aria-label': 'change date'
+											}}
+										/>
+									</MuiPickersUtilsProvider>
 								</FormControl>
 							</h3>
 						</Grid>

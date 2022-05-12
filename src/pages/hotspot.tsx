@@ -19,16 +19,28 @@ function HotspotPage() {
 	const { isAuthenticated } = useAuth()
 	const [hotspot, setHotspot] = useState<HotspotItem[]>([])
 	const [date, setDate] = useState(moment())
-	const { data, isValidating } = useSWR(
-		isAuthenticated ? `?date=${date.format('YYYY-MM-DD')}` : null,
-		getHotspot
-	)
+	const [isValidating, setValidating] = useState(true)
+	// useEffect(() => {
+	// 	console.log(data)
+	// 	console.log(hotspot)
+	// 	if (data) {
+	// 		data.length > 0 ? setHotspot(data) : setHotspot([])
+	// 		setDate(moment())
+	// 	}
+	// }, [data])
+
 	useEffect(() => {
-		if (data) {
-			data.length > 0 ? setHotspot(data) : setHotspot([])
-			setDate(moment())
+		const fetchData = async () => {
+			const data = await getHotspot('/forward')
+			const new_data = data.filter((val) => {
+				return val?.sat?.includes('LPN')
+			})
+			console.log(new_data)
+			setHotspot(new_data)
+			setValidating(false)
 		}
-	}, [data])
+		if (isAuthenticated) fetchData()
+	}, [isAuthenticated])
 
 	return !isAuthenticated ? (
 		<Loader />
@@ -71,14 +83,18 @@ function HotspotPage() {
 							<h3>80%</h3>
 						</Grid> */}
 					</Grid>
-					<Map
-						center={{
-							lat: -1.5,
-							lng: 117.384
-						}}
-						zoom={5.1}
-						hotspots={hotspot}
-					/>
+					{isValidating ? (
+						<CircularProgress />
+					) : (
+						<Map
+							center={{
+								lat: -1.5,
+								lng: 117.384
+							}}
+							zoom={5.1}
+							hotspots={hotspot}
+						/>
+					)}
 				</div>
 			</div>
 		</SiteLayout>

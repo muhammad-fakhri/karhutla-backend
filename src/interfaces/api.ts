@@ -136,7 +136,7 @@ export interface HotspotItem {
 	lat: string
 	lon: string
 	conf: string
-	satellite: string
+	sat: string
 	tanggal: string
 	detail: HotspotItemDetail
 }
