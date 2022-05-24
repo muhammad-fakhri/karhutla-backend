@@ -38,7 +38,6 @@ function HotspotPage() {
 	// }, [data])
 
 	useEffect(() => {
-		console.log(sateliteType)
 		setValidating(true)
 		const fetchData = async () => {
 			const data = await getHotspot('/forward')
@@ -49,7 +48,6 @@ function HotspotPage() {
 					return val
 				}
 			})
-			console.log(new_data)
 			setHotspot(new_data)
 			setValidating(false)
 		}
@@ -58,7 +56,6 @@ function HotspotPage() {
 	}, [isAuthenticated, sateliteType])
 
 	const handleSateliteTypeChange = (event: ChangeEvent<HTMLInputElement>) => {
-		console.log(event)
 		setSateliteType(event.target.value)
 	}
 
@@ -99,12 +96,11 @@ function HotspotPage() {
 								id="outlined-number"
 								select
 								margin="normal"
-								label="Kategori Penugasan"
+								label="Satelit"
 								InputLabelProps={{
 									shrink: true
 								}}
 								variant="outlined"
-								required
 								fullWidth
 								name="type"
 								onChange={handleSateliteTypeChange}
