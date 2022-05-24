@@ -4,12 +4,19 @@ import Loader from '@component/Loader/Loader'
 import Map from '@component/Map/MapHotspot'
 import useAuth, { ProtectRoute } from '@context/auth'
 import { HotspotItem } from '@interface'
-import { CircularProgress, Grid, Icon } from '@material-ui/core'
+import {
+	CircularProgress,
+	Grid,
+	Icon,
+	TextField,
+	MenuItem
+} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { getHotspot } from '@service'
 import classNames from 'classnames'
 import moment from 'moment'
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useState } from 'react'
+import { useEffect } from 'react'
 import useSWR from 'swr'
 
 const useStyles = makeStyles(styles)
@@ -20,6 +27,7 @@ function HotspotPage() {
 	const [hotspot, setHotspot] = useState<HotspotItem[]>([])
 	const [date, setDate] = useState(moment())
 	const [isValidating, setValidating] = useState(true)
+	const [sateliteType, setSateliteType] = useState('NASA')
 	// useEffect(() => {
 	// 	console.log(data)
 	// 	console.log(hotspot)
@@ -30,17 +38,29 @@ function HotspotPage() {
 	// }, [data])
 
 	useEffect(() => {
+		console.log(sateliteType)
+		setValidating(true)
 		const fetchData = async () => {
 			const data = await getHotspot('/forward')
 			const new_data = data.filter((val) => {
-				return val?.sat?.includes('LPN')
+				if (sateliteType != 'SEMUA') {
+					return val?.sat?.includes(sateliteType)
+				} else {
+					return val
+				}
 			})
 			console.log(new_data)
 			setHotspot(new_data)
 			setValidating(false)
 		}
+
 		if (isAuthenticated) fetchData()
-	}, [isAuthenticated])
+	}, [isAuthenticated, sateliteType])
+
+	const handleSateliteTypeChange = (event: ChangeEvent<HTMLInputElement>) => {
+		console.log(event)
+		setSateliteType(event.target.value)
+	}
 
 	return !isAuthenticated ? (
 		<Loader />
@@ -66,7 +86,7 @@ function HotspotPage() {
 								Pukul: {date.format('HH:mm')}
 							</h3>
 						</Grid>
-						<Grid item xs={12} md={6}>
+						<Grid item xs={12} md={4}>
 							<h2>Titik Panas</h2>
 							{isValidating ? (
 								<CircularProgress />
@@ -74,7 +94,34 @@ function HotspotPage() {
 								<h3>{hotspot.length}</h3>
 							)}
 						</Grid>
-						<Grid item xs={12} md={6}>
+						<Grid item sm={12} md={4}>
+							<TextField
+								id="outlined-number"
+								select
+								margin="normal"
+								label="Kategori Penugasan"
+								InputLabelProps={{
+									shrink: true
+								}}
+								variant="outlined"
+								required
+								fullWidth
+								name="type"
+								onChange={handleSateliteTypeChange}
+								value={sateliteType}
+							>
+								<MenuItem key="SEMUA" value="SEMUA">
+									SEMUA SATELIT
+								</MenuItem>
+								<MenuItem key="NASA" value="NASA">
+									NASA
+								</MenuItem>
+								<MenuItem key="LAPAN" value="LAPAN">
+									LAPAN
+								</MenuItem>
+							</TextField>
+						</Grid>
+						<Grid item xs={12} md={4}>
 							<h2>Rentang Data</h2>
 							<h3>24h</h3>
 						</Grid>
