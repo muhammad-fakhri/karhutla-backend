@@ -1,6 +1,9 @@
 import { simaduApiUrl, apiV2, apiV2URL } from '@api'
 import { formatYYYYMMDD } from '@util'
-import { downloadRentangTanggalValidator } from '@validator'
+import {
+	downloadRentangTanggalValidator,
+	downloadRentangTanggalRingkasanValidator
+} from '@validator'
 import {
 	APIResponse,
 	ServiceResponse,
@@ -33,6 +36,43 @@ export const downloadLaporanRentangTanggal = (
 		window.open(url)
 	} else {
 		const url = `${apiV2URL}/karhutla/downloadrange?start=${formatYYYYMMDD(
+			startDate
+		)}&end=${formatYYYYMMDD(endDate)}`
+		window.open(url)
+	}
+
+	// // Open URL in new tab
+	return {
+		success: true,
+		message: ''
+	}
+}
+
+export const downloadLaporanRingkasan = (
+	startDate: Date,
+	endDate: Date,
+	organization: string
+): ServiceResponse => {
+	const validate = downloadRentangTanggalRingkasanValidator(
+		startDate,
+		endDate
+	)
+	if (!validate.pass) {
+		return {
+			success: false,
+			message: validate.message
+		}
+	}
+	// console.log(organization)
+
+	// Prepare Download URL
+	if (organization) {
+		const url = `${apiV2URL}/simadu/downloadRingkasan?start=${formatYYYYMMDD(
+			startDate
+		)}&end=${formatYYYYMMDD(endDate)}&org=${organization}`
+		window.open(url)
+	} else {
+		const url = `${apiV2URL}/simadu/downloadRingkasan?start=${formatYYYYMMDD(
 			startDate
 		)}&end=${formatYYYYMMDD(endDate)}`
 		window.open(url)

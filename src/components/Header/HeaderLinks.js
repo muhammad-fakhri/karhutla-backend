@@ -89,6 +89,11 @@ const AuthenticatedMenu = (props) => {
 							<a className={classes.dropdownLink}>
 								Rentang Tanggal
 							</a>
+						</Link>,
+						<Link href="/pelaporan/laporan-ringkasan" key="access">
+							<a className={classes.dropdownLink}>
+								Laporan Ringkasan
+							</a>
 						</Link>
 					]}
 				/>
