@@ -67,7 +67,7 @@ function PelaporanRingkasanPage() {
 					classes.textCenter
 				)}
 			>
-				<h2>Rekapitulasi Laporan Ringkasan Per Rentang Tanggal</h2>
+				<h2>Laporan Ringkasan Patroli</h2>
 				<form noValidate autoComplete="off">
 					<Grid container justify="center">
 						<Grid item xs={10} sm={6}>
