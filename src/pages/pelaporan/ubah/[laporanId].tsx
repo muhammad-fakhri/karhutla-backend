@@ -314,6 +314,13 @@ function UbahLaporanPage() {
 						)
 							return list['AktivitasNarasumber'][key].text
 					}
+					for (const key in list['AktivitasMasyarakat2']) {
+						if (
+							value.toString() ===
+							list['AktivitasMasyarakat2'][key].id
+						)
+							return list['AktivitasMasyarakat2'][key].text
+					}
 				}
 				break
 			case 'Pekerjaan':
@@ -424,6 +431,27 @@ function UbahLaporanPage() {
 							value.toString() === list['JenisBahanBakar'][key].id
 						)
 							return list['JenisBahanBakar'][key].text
+					}
+				}
+				break
+
+			case 'Aktivitas Penanggung Jawab':
+				if (value !== null) {
+					for (const key in list['AktivitasNarasumber']) {
+						if (
+							value.toString() ===
+							list['AktivitasNarasumber'][key].id
+						)
+							return list['AktivitasNarasumber'][key].text
+					}
+				}
+				break
+
+			case 'Perubahan Area Pasca Terbakar':
+				if (value !== null) {
+					for (const key in list['PerubahanArea']) {
+						if (value.toString() === list['PerubahanArea'][key].id)
+							return list['PerubahanArea'][key].text
 					}
 				}
 				break

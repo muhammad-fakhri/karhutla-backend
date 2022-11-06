@@ -82,13 +82,18 @@ const AuthenticatedMenu = (props) => {
 						color: 'transparent'
 					}}
 					dropdownList={[
-						<Link href="/pelaporan/surat-tugas" key="data">
-							<a className={classes.dropdownLink}>Surat Tugas</a>
+						<Link href="/pelaporan/laporan-ringkasan" key="access">
+							<a className={classes.dropdownLink}>
+								Laporan Ringkasan
+							</a>
 						</Link>,
 						<Link href="/pelaporan/rentang-tanggal" key="access">
 							<a className={classes.dropdownLink}>
 								Rentang Tanggal
 							</a>
+						</Link>,
+						<Link href="/pelaporan/surat-tugas" key="data">
+							<a className={classes.dropdownLink}>Surat Tugas</a>
 						</Link>
 					]}
 				/>
